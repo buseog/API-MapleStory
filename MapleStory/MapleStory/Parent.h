@@ -3,10 +3,11 @@
 
 class CParent
 {
-private:
+protected:
 	INFO	m_tInfo;
 	STAT	m_tStat;
-
+	float	m_fScrollX;
+	float	m_fScrollY;
 public:
 	INFO	GetInfo(void);
 	STAT	GetStat(void);

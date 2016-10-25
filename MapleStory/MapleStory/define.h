@@ -7,11 +7,11 @@ extern HWND g_hWnd;
 const int WINCX = 800;
 const int WINCY = 600;
 
-const int TILEX = 30;
-const int TILEY = 20;
+const int TILEX = 44;
+const int TILEY = 36;
 
-const int TILECX = 64;
-const int TILECY = 64;
+const int TILECX = 40;
+const int TILECY = 40;
 
 template<typename T>
 static void Safe_Delete(T& Temp)
@@ -77,3 +77,9 @@ static POINT GetMouse(void)
 
 	return pt;
 }
+
+enum MapEdit
+{
+	MAP_BACK,
+	MAP_TILE
+};

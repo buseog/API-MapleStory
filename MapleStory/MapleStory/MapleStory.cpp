@@ -23,8 +23,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
                      LPTSTR    lpCmdLine,
                      int       nCmdShow)
 {
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
 
  	// TODO: 여기에 코드를 입력합니다.
 	MSG msg;
@@ -58,10 +56,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		{
 			if(dwTime + 30 < GetTickCount())
 			{
-				dwTime = GetTickCount();
-
 				MainGame.Progress();
 				MainGame.Render();
+
+				dwTime = GetTickCount();
 			}
 		}
 	}
@@ -122,6 +120,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+
    hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, 
 	  rc.right - rc.left, rc.bottom - rc.top, 
@@ -131,6 +131,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
+
+   g_hWnd = hWnd;
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);

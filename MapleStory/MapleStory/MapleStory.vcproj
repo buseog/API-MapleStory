@@ -200,6 +200,30 @@
 				RelativePath=".\Parent.h"
 				>
 			</File>
+			<Filter
+				Name="00. Player"
+				>
+				<File
+					RelativePath=".\Player.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Player.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="99. MapEdit"
+				>
+				<File
+					RelativePath=".\MapEdit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MapEdit.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="99. Default"
@@ -289,6 +313,14 @@
 			<Filter
 				Name="02. BigBmp"
 				>
+				<File
+					RelativePath=".\BitBmp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\BitBmp.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

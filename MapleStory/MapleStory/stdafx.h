@@ -27,13 +27,14 @@
 #include <algorithm>
 #include <functional>
 #include <ctime>
+#include <crtdbg.h>
 
-#pragma comment(lib, "msimg32.lib")
+
 
 #ifdef _DEBUG
 #define new new(_CLIENT_BLOCK, __FILE__, __LINE__)
 #endif
 
-#include <crtdbg.h>
+#pragma comment(lib, "msimg32.lib")
 
 using namespace std;

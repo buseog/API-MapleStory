@@ -2,6 +2,8 @@
 #include "Parent.h"
 
 CParent::CParent(void)
+:m_fScrollX(0),
+m_fScrollY(0)
 {
 }
 

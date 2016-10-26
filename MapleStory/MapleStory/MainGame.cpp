@@ -20,13 +20,13 @@ CMainGame::~CMainGame(void)
 void CMainGame::Initialize(void)
 {
 	m_hdc = GetDC(g_hWnd);
-	m_pSceneMgr->SetScene(SC_STAGE1);
 	m_pPlayer = CFactory<CPlayer>::CreateParent();
+	m_pSceneMgr->SetScene(SC_STAGE1);
+	m_pSceneMgr->SetPlayer(m_pPlayer);
 }
 
 void CMainGame::Progress(void)
 {
-
 	m_pSceneMgr->Progress();
 	m_pPlayer->Progress();
 }
@@ -34,7 +34,6 @@ void CMainGame::Progress(void)
 void CMainGame::Render(void)
 {
 	m_pSceneMgr->Render(m_hdc);
-	m_pPlayer->Render(m_hdc);
 }
 
 void CMainGame::Release(void)

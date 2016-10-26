@@ -2,7 +2,7 @@
 #include "SceneMgr.h"
 #include "Stage1.h"
 #include "Stage2.h"
-
+#include "Parent.h"
 
 CSceneMgr* CSceneMgr::m_pInstance = NULL;
 
@@ -53,3 +53,7 @@ void CSceneMgr::Release(void)
 	::Safe_Delete(m_pScene);
 }
 
+void CSceneMgr::SetPlayer(CParent*	_pPlayer)
+{
+	m_pScene->SetPlayer(_pPlayer);
+}

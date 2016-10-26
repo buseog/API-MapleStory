@@ -367,10 +367,6 @@
 				</File>
 			</Filter>
 		</Filter>
-		<Filter
-			Name="03. Scene"
-			>
-		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>

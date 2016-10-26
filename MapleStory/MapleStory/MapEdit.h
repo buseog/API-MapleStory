@@ -19,9 +19,7 @@ private:
 	void	Scroll(void);
 
 public:
-	vector<TILE*>	GetTile(void);
 	void			SetStage(int _iStage);
-
 public:
 	virtual void Initialize(void);
 	virtual void Progress(void);

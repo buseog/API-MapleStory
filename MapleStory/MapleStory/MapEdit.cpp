@@ -85,7 +85,8 @@ void CMapEdit::Render(HDC hdc)
 					TILECY,
 					RGB(0, 255, 0));
 
-				wsprintf(szBuf, L"%d", iIndex);
+				//wsprintf(szBuf, L"%d", iIndex);
+				wsprintf(szBuf, L"%d", (int)m_vecTile[iIndex]->fX);
 				SetBkMode(m_vecBmp[0]->GetMemdc(),TRANSPARENT);
 				TextOut(m_vecBmp[0]->GetMemdc(), 
 					int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),

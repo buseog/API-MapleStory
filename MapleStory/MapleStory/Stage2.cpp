@@ -5,7 +5,6 @@
 #include "MapEdit.h"
 
 CStage2::CStage2(void)
-:m_pEdit(NULL)
 {
 }
 

@@ -5,7 +5,6 @@
 #include "MapEdit.h"
 
 CStage1::CStage1(void)
-:m_pEdit(NULL)
 {
 }
 
@@ -37,6 +36,7 @@ void CStage1::Progress(void)
 void CStage1::Render(HDC hdc)
 {
 	m_pEdit->Render(hdc);
+	m_pPlayer->Render(hdc);
 }
 
 void CStage1::Release(void)

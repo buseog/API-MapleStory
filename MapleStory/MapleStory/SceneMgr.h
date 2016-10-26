@@ -2,7 +2,7 @@
 #include "define.h"
 
 class CScene;
-
+class CParent;
 class CSceneMgr
 {
 private:
@@ -10,6 +10,7 @@ private:
 
 public:
 	void		SetScene(SCENEID	eScene);
+	void		SetPlayer(CParent*	_pPlayer);
 	void		Progress(void);
 	void		Render(HDC hdc);
 	void		Release(void);

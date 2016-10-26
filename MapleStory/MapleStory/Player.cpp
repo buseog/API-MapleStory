@@ -12,16 +12,14 @@ CPlayer::~CPlayer(void)
 
 void CPlayer::Initialize(void)
 {
-
-
-
-	m_tInfo  = INFO(WINCX / 2.f, WINCY / 2.f, 100.f, 100.f);
-	m_tStat.fSpeed = 10.f;
+	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 100.f, 100.f);
+	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
 }
 
 void CPlayer::Progress(void)
 {
-	KeyInput();	
+	KeyInput();
+	Gravity();
 }
 
 void CPlayer::Render(HDC hdc)
@@ -46,12 +44,16 @@ void CPlayer::KeyInput(void)
 		m_tInfo.fX += m_tStat.fSpeed;
 
 	if(GetAsyncKeyState(VK_UP))
-		//m_tInfo.fY -= m_tStat.fSpeed;
+	{
+	}
 
-	if(GetAsyncKeyState(VK_DOWN))
-		m_tInfo.fY += m_tStat.fSpeed;
+	/*if(GetAsyncKeyState(VK_DOWN))
+		m_tInfo.fY += m_tStat.fSpeed;*/
 
-	if(GetAsyncKeyState(VK_MENU))
-		return;
-
+	if(GetAsyncKeyState(VK_SPACE))
+	{
+		m_fJpower = -10.f;
+		m_bLand = false;
+	}
 }
+

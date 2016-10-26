@@ -1,14 +1,9 @@
 #pragma once
 #include "Scene.h"
 
-class CParent;
-
 class CStage1	:
 	public CScene
 {
-private:
-	CParent*	m_pEdit;
-
 public:
 	virtual void Initialize(void);
 	virtual void Progress(void);

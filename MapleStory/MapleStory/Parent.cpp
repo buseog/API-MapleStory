@@ -36,16 +36,14 @@ void CParent::Gravity(void)
 	}
 	else
 	{
-		if (m_tInfo.fY >= WINCY)
+		if (m_tInfo.fY >= WINCY + m_fScrollY)
 		{
-			m_tInfo.fY = WINCY - 50;
+			m_tInfo.fY = WINCY + m_fScrollY - 50;
 			m_fJpower = 0;
 			m_bLand = true;
 		}
 
-		m_fJpower += 0.3f;
-		m_tInfo.fY += m_fJpower;
-
-
+		m_fJpower += 0.5f;
+		m_tInfo.fY += m_fJpower + m_fScrollY;
 	}
 }

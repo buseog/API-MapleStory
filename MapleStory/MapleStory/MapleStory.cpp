@@ -72,6 +72,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 			}
 		}
 	}
+
 	GdiplusShutdown(gdiplusToken);
 	return (int) msg.wParam;
 }

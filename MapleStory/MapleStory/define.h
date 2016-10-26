@@ -7,11 +7,11 @@ extern HWND g_hWnd;
 const int WINCX = 800;
 const int WINCY = 600;
 
-const int TILEX = 44;
-const int TILEY = 36;
+const int TILEX = 59;
+const int TILEY = 48;
 
-const int TILECX = 40;
-const int TILECY = 40;
+const int TILECX = 30;
+const int TILECY = 30;
 
 template<typename T>
 static void Safe_Delete(T& Temp)
@@ -82,4 +82,11 @@ enum MapEdit
 {
 	MAP_BACK,
 	MAP_TILE
+};
+
+enum SCENEID
+{
+	SC_STAGE1,
+	SC_STAGE2,
+	SC_END
 };

@@ -8,6 +8,7 @@ class CMapEdit	:
 private:
 	vector<TILE*>			m_vecTile;
 	vector<CBitBmp*>		m_vecBmp;
+	int						m_iStage;
 	bool					m_bType;
 
 private:
@@ -17,6 +18,9 @@ private:
 	void	KeyCheck(void);
 	void	Scroll(void);
 
+public:
+	vector<TILE*>	GetTile(void);
+	void			SetStage(int _iStage);
 
 public:
 	virtual void Initialize(void);

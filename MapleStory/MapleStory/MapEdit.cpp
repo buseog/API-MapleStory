@@ -4,6 +4,7 @@
 
 CMapEdit::CMapEdit(void)
 :m_bType(true)
+,m_iStage(SC_STAGE1)
 {
 	m_fScrollX = 0.f;
 	m_fScrollY = 0.f;
@@ -28,9 +29,17 @@ void CMapEdit::Initialize(void)
 		}
 	}
 
-	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Back.bmp"));
-	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp"));
-	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field2.bmp"));
+	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Back.bmp")); // 0
+	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp")); // 1
+	switch (m_iStage)
+	{
+	case SC_STAGE1:
+		m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field1.bmp")); // 2
+		break;
+	case SC_STAGE2:
+		m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field2.bmp")); // 2
+		break;
+	}
 
 	m_tStat.fSpeed = 10.f;
 }
@@ -45,7 +54,16 @@ void CMapEdit::Render(HDC hdc)
 {
 	TCHAR szBuf[128] = L"";
 
-	BitBlt(m_vecBmp[0]->GetMemdc(), 0 + m_fScrollX, 0 + m_fScrollY, 1773, 1464, m_vecBmp[2]->GetMemdc(), 0, 0, SRCCOPY);
+	switch (m_iStage)
+	{
+	case SC_STAGE1:
+		BitBlt(m_vecBmp[0]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1773, 1464, m_vecBmp[2]->GetMemdc(), 0, 0, SRCCOPY); // 2
+		break;
+	case SC_STAGE2:
+		BitBlt(m_vecBmp[0]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1890, 941, m_vecBmp[2]->GetMemdc(), 0, 0, SRCCOPY); // 2
+		break;
+	}
+	
 
 	if (m_bType)
 	{
@@ -67,17 +85,8 @@ void CMapEdit::Render(HDC hdc)
 					TILECY,
 					RGB(0, 255, 0));
 
-				//BitBlt(m_vecBmp[0]->GetMemdc(), 
-				//	int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
-				//	int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
-				//	TILECX, 
-				//	TILECY,
-				//	m_vecBmp[1]->GetMemdc(),
-				//	m_vecTile[iIndex]->iDrawID * TILECX, 
-				//	0, SRCCOPY);
-
 				wsprintf(szBuf, L"%d", iIndex);
-
+				SetBkMode(m_vecBmp[0]->GetMemdc(),TRANSPARENT);
 				TextOut(m_vecBmp[0]->GetMemdc(), 
 					int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
 					int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
@@ -123,8 +132,8 @@ TILE* CMapEdit::CreateTile(float _fX, float _fY)
 
 void CMapEdit::PickingOn(void)
 {
-	int	iX = (GetMouse().x -(int)m_fScrollX) / TILECX;
-	int	iY = (GetMouse().y -(int)m_fScrollY) / TILECY;
+	int	iX = (GetMouse().x - (int)m_fScrollX) / TILECX;
+	int	iY = (GetMouse().y - (int)m_fScrollY) / TILECY;
 
 	int	iIndex = iY * TILEX + iX;
 
@@ -137,8 +146,8 @@ void CMapEdit::PickingOn(void)
 
 void CMapEdit::PickingOff(void)
 {
-	int	iX = (GetMouse().x -(int)m_fScrollX) / TILECX;
-	int	iY = (GetMouse().y -(int)m_fScrollY) / TILECY;
+	int	iX = (GetMouse().x - (int)m_fScrollX) / TILECX;
+	int	iY = (GetMouse().y - (int)m_fScrollY) / TILECY;
 
 	int	iIndex = iY * TILEX + iX;
 
@@ -154,16 +163,14 @@ void CMapEdit::KeyCheck(void)
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		PickingOn();
-		return;
 	}
 
 	if (GetAsyncKeyState(VK_RBUTTON))
 	{
 		PickingOff();
-		return;
 	}
 
-	if (GetAsyncKeyState(VK_F5))
+	if ((GetAsyncKeyState(VK_F5) & 0x8001) == 0x8001)
 	{
 		if (m_bType)
 		{
@@ -201,4 +208,9 @@ void CMapEdit::Scroll(void)
 
 	if(m_fScrollY < WINCY - (TILECY * TILEY))
 		m_fScrollY = WINCY - (TILECY * TILEY);
+}
+
+void CMapEdit::SetStage(int _iStage)
+{
+	m_iStage = _iStage;
 }

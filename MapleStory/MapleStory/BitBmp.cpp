@@ -26,7 +26,6 @@ CBitBmp* CBitBmp::LoadBmp(TCHAR* _pFileName)
 		MessageBox(g_hWnd, _pFileName, L"LOAD_ERROR", MB_OK);
 
 	m_oldmap = (HBITMAP)SelectObject(m_Memdc, m_bitmap);
-
 	return this;
 }
 

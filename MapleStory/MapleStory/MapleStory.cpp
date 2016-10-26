@@ -25,6 +25,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 {
 
  	// TODO: 여기에 코드를 입력합니다.
+	ULONG_PTR gdiplusToken;
+	GdiplusStartupInput gdiplusStartupInput;
+	if( GdiplusStartup(&gdiplusToken,&gdiplusStartupInput,NULL) != Ok)
+		{
+		MessageBox(NULL,TEXT("GDI+라이브러리를 초기화하기 못했습니다."),
+		TEXT("알림"),MB_OK);
+		return 0;
+	}
+
 	MSG msg;
 	msg.message = WM_NULL;
 
@@ -63,7 +72,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 			}
 		}
 	}
-
+	GdiplusShutdown(gdiplusToken);
 	return (int) msg.wParam;
 }
 

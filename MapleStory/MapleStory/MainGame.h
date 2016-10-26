@@ -3,12 +3,14 @@
 #include "MapEdit.h"
 
 class CParent;
+class CSceneMgr;
 
 class CMainGame
 {
 private:
 	HDC		m_hdc;
-	CParent*	m_pMapEdit;
+	CSceneMgr*	m_pSceneMgr;
+	CParent*	m_pPlayer;
 
 public:
 	void Initialize(void);

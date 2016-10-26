@@ -12,6 +12,9 @@ CPlayer::~CPlayer(void)
 
 void CPlayer::Initialize(void)
 {
+
+
+
 	m_tInfo  = INFO(WINCX / 2.f, WINCY / 2.f, 100.f, 100.f);
 	m_tStat.fSpeed = 10.f;
 }
@@ -23,6 +26,10 @@ void CPlayer::Progress(void)
 
 void CPlayer::Render(HDC hdc)
 {
+	Graphics graphics(hdc);
+	Image       image(L"../Texture/alert_0.png");
+	graphics.DrawImage(&image, m_tInfo.fX + m_fScrollX, m_tInfo.fY + m_fScrollY);
+
 }
 
 void CPlayer::Release(void)
@@ -39,8 +46,12 @@ void CPlayer::KeyInput(void)
 		m_tInfo.fX += m_tStat.fSpeed;
 
 	if(GetAsyncKeyState(VK_UP))
-		m_tInfo.fY -= m_tStat.fSpeed;
+		//m_tInfo.fY -= m_tStat.fSpeed;
 
 	if(GetAsyncKeyState(VK_DOWN))
 		m_tInfo.fY += m_tStat.fSpeed;
+
+	if(GetAsyncKeyState(VK_MENU))
+		return;
+
 }

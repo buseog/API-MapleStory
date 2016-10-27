@@ -37,11 +37,11 @@ void CMapEdit::Initialize(void)
 		}
 	}
 
-	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Back.bmp")); // 0
-	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp")); // 1
+	m_BmpMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp"); // 0
+	m_BmpMap["Tile"] = (new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp"); // 1
 
-	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field1.bmp")); // 2
-	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field2.bmp")); // 3
+	m_BmpMap["Stage1"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage1.bmp"); // 2
+	m_BmpMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp"); // 3
 
 
 	m_tStat.fSpeed = 10.f;
@@ -60,10 +60,10 @@ void CMapEdit::Render(HDC hdc)
 	switch (m_iStage)
 	{
 	case SC_STAGE1:
-		BitBlt(m_vecBmp[0]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1773, 1464, m_vecBmp[2]->GetMemdc(), 0, 0, SRCCOPY); // 2
+		BitBlt(m_BmpMap["Back"]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1773, 1464, m_BmpMap["Stage1"]->GetMemdc(), 0, 0, SRCCOPY); // 2
 		break;
 	case SC_STAGE2:
-		BitBlt(m_vecBmp[0]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1890, 941, m_vecBmp[3]->GetMemdc(), 0, 0, SRCCOPY); // 2
+		BitBlt(m_BmpMap["Back"]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1890, 941,  m_BmpMap["Stage2"]->GetMemdc(), 0, 0, SRCCOPY); // 2
 		break;
 	}
 	
@@ -76,12 +76,12 @@ void CMapEdit::Render(HDC hdc)
 			{
 				int iIndex = i * TILEX + j;
 
-				TransparentBlt(m_vecBmp[0]->GetMemdc(),
+				TransparentBlt(m_BmpMap["Back"]->GetMemdc(),
 					int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
 					int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
 					TILECX,
 					TILECY,
-					m_vecBmp[1]->GetMemdc(),
+					m_BmpMap["Tile"]->GetMemdc(),
 					m_vecTile[iIndex]->iDrawID * TILECX,
 					0,
 					TILECX,
@@ -90,8 +90,8 @@ void CMapEdit::Render(HDC hdc)
 
 				//wsprintf(szBuf, L"%d", iIndex);
 				wsprintf(szBuf, L"%d", (int)m_vecTile[iIndex]->fX);
-				SetBkMode(m_vecBmp[0]->GetMemdc(),TRANSPARENT);
-				TextOut(m_vecBmp[0]->GetMemdc(), 
+				SetBkMode(m_BmpMap["Back"]->GetMemdc(),TRANSPARENT);
+				TextOut(m_BmpMap["Back"]->GetMemdc(), 
 					int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
 					int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
 					szBuf, lstrlen(szBuf));
@@ -99,17 +99,16 @@ void CMapEdit::Render(HDC hdc)
 		}
 	}
 
-	BitBlt(hdc, 0, 0, WINCX, WINCY, m_vecBmp[0]->GetMemdc(), 0, 0, SRCCOPY);
+	BitBlt(hdc, 0, 0, WINCX, WINCY, m_BmpMap["Back"]->GetMemdc(), 0, 0, SRCCOPY);
 }
 
 void CMapEdit::Release(void)
 {
-	for(size_t i = 0; i < m_vecBmp.size(); ++i)
+	for(map<string, CBitBmp*>::iterator iter = m_BmpMap.begin(); iter != m_BmpMap.end(); ++iter)
 	{
-		::Safe_Delete(m_vecBmp[i]);
+		::Safe_Delete(iter->second);
 	}
-	m_vecBmp.clear();
-	vector<CBitBmp*>().swap(m_vecBmp);
+	m_BmpMap.clear();
 
 	for(size_t i = 0; i < m_vecTile.size(); ++i)
 	{

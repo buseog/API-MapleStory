@@ -7,7 +7,7 @@ class CMapEdit	:
 {
 private:
 	vector<TILE*>			m_vecTile;
-	vector<CBitBmp*>		m_vecBmp;
+	map<string, CBitBmp*>	m_BmpMap;
 	int						m_iStage;
 	bool					m_bType;
 

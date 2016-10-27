@@ -26,7 +26,7 @@ void CStage1::Progress(void)
 
 	m_pEdit->Progress();
 
-	if(GetAsyncKeyState('2'))
+	if ((GetAsyncKeyState('2') & 0x8001) == 0x8001)
 	{
 		CSceneMgr::GetInstance()->SetScene(SC_STAGE2);
 		return;
@@ -36,7 +36,6 @@ void CStage1::Progress(void)
 void CStage1::Render(HDC hdc)
 {
 	m_pEdit->Render(hdc);
-	m_pPlayer->Render(hdc);
 }
 
 void CStage1::Release(void)

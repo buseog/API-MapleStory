@@ -34,6 +34,7 @@ void CMainGame::Progress(void)
 void CMainGame::Render(void)
 {
 	m_pSceneMgr->Render(m_hdc);
+	m_pPlayer->Render(m_hdc);
 }
 
 void CMainGame::Release(void)

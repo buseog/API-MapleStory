@@ -19,7 +19,9 @@ private:
 	void	Scroll(void);
 
 public:
-	void			SetStage(int _iStage);
+	void	SetStage(int _iStage);
+	void	SaveMap(void);
+	void	LoadMap(void);
 public:
 	virtual void Initialize(void);
 	virtual void Progress(void);

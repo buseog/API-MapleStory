@@ -22,10 +22,9 @@ void CStage2::Initialize(void)
 
 void CStage2::Progress(void)
 {
-
 	m_pEdit->Progress();
 
-	if(GetAsyncKeyState('1'))
+	if ((GetAsyncKeyState('1') & 0x8001) == 0x8001)
 	{
 		CSceneMgr::GetInstance()->SetScene(SC_STAGE1);
 		return;

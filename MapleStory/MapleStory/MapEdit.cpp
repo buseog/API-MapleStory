@@ -3,7 +3,7 @@
 #include "BitBmp.h"
 
 CMapEdit::CMapEdit(void)
-:m_bType(true)
+:m_bType(false)
 ,m_iStage(SC_STAGE1)
 {
 	m_fScrollX = 0.f;
@@ -18,19 +18,30 @@ CMapEdit::~CMapEdit(void)
 
 void CMapEdit::Initialize(void)
 {
-	for(int i = 0; i < TILEY; ++i)
+	if (m_vecTile.size() == 0)
 	{
-		for(int j = 0; j < TILEX; ++j)
-		{
-			float fX = float((TILECX * j) + (TILECX / 2));
-			float fY = float((TILECY * i) + (TILECY / 2));
+		LoadMap();
 
-			m_vecTile.push_back(CreateTile(fX, fY));
+		if (m_vecTile.size() == 0)
+		{
+			for(int i = 0; i < TILEY; ++i)
+			{
+				for(int j = 0; j < TILEX; ++j)
+				{
+					float fX = float((TILECX * j) + (TILECX / 2));
+					float fY = float((TILECY * i) + (TILECY / 2));
+
+					m_vecTile.push_back(CreateTile(fX, fY));
+				}
+			}
 		}
 	}
 
+	
+		
 	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Back.bmp")); // 0
 	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp")); // 1
+
 	switch (m_iStage)
 	{
 	case SC_STAGE1:
@@ -161,12 +172,12 @@ void CMapEdit::PickingOff(void)
 
 void CMapEdit::KeyCheck(void)
 {
-	if (GetAsyncKeyState(VK_LBUTTON))
+	if (GetAsyncKeyState(VK_LBUTTON) && m_bType)
 	{
 		PickingOn();
 	}
 
-	if (GetAsyncKeyState(VK_RBUTTON))
+	if (GetAsyncKeyState(VK_RBUTTON) && m_bType)
 	{
 		PickingOff();
 	}
@@ -181,6 +192,12 @@ void CMapEdit::KeyCheck(void)
 		{
 			m_bType = true;
 		}
+	}
+
+	if ((GetAsyncKeyState(VK_F8) & 0x8001) == 0x8001)
+	{
+		SaveMap();
+		return;
 	}
 
 	if(GetAsyncKeyState(VK_LEFT))
@@ -214,4 +231,88 @@ void CMapEdit::Scroll(void)
 void CMapEdit::SetStage(int _iStage)
 {
 	m_iStage = _iStage;
+}
+
+void CMapEdit::SaveMap(void)
+{
+	HANDLE hFile = NULL;
+	DWORD dwByte = 0;
+	
+	switch (m_iStage)
+	{
+	case SC_STAGE1:
+		hFile = CreateFile(L"../Data/Map.dat",
+							GENERIC_WRITE,
+							0,
+							NULL,
+							CREATE_ALWAYS,
+							FILE_ATTRIBUTE_NORMAL,
+							NULL);
+		break;
+
+	case SC_STAGE2:
+		hFile = CreateFile(L"../Data/Map2.dat",
+					GENERIC_WRITE,
+					0,
+					NULL,
+					CREATE_ALWAYS,
+					FILE_ATTRIBUTE_NORMAL,
+					NULL);
+		break;
+	}
+	for (size_t i = 0; i < m_vecTile.size(); ++i)
+	{
+		WriteFile(hFile, m_vecTile[i], sizeof(TILE), &dwByte, NULL);
+	}
+
+	CloseHandle(hFile);
+
+	MessageBox(g_hWnd,L"저장됨.", L"메세지", MB_OK);
+}
+void CMapEdit::LoadMap(void)
+{
+	HANDLE		hFile = NULL;
+	DWORD		dwByte = 0;
+
+	switch (m_iStage)
+	{
+	case SC_STAGE1:
+		hFile = CreateFile(L"../Data/Map.dat", 
+			GENERIC_READ, 
+			0, 
+			NULL, 
+			OPEN_EXISTING, 
+			FILE_ATTRIBUTE_NORMAL, 
+			NULL);
+		break;
+
+	case SC_STAGE2:
+		hFile = CreateFile(L"../Data/Map2.dat", 
+			GENERIC_READ, 
+			0, 
+			NULL, 
+			OPEN_EXISTING, 
+			FILE_ATTRIBUTE_NORMAL, 
+			NULL);
+		break;
+	}
+
+	while(true)
+	{
+		TILE*		pTile = new TILE;
+
+		ReadFile(hFile, pTile, sizeof(TILE), &dwByte, NULL);
+
+		if(dwByte == 0)
+		{
+			::Safe_Delete(pTile);
+			break;
+		}
+
+		m_vecTile.push_back(pTile);
+	}
+
+	CloseHandle(hFile);
+
+	//MessageBox(g_hWnd,L"로드됨.", L"메세지", MB_OK);
 }

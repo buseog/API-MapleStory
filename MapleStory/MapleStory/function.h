@@ -12,7 +12,6 @@ static void Safe_Delete(T& Temp)
 	}
 }
 
-
 static POINT GetMouse(void)
 {
 	POINT pt;

@@ -37,20 +37,12 @@ void CMapEdit::Initialize(void)
 		}
 	}
 
-	
-		
 	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Back.bmp")); // 0
 	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp")); // 1
 
-	switch (m_iStage)
-	{
-	case SC_STAGE1:
-		m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field1.bmp")); // 2
-		break;
-	case SC_STAGE2:
-		m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field2.bmp")); // 2
-		break;
-	}
+	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field1.bmp")); // 2
+	m_vecBmp.push_back((new CBitBmp)->LoadBmp(L"../Texture/Field2.bmp")); // 3
+
 
 	m_tStat.fSpeed = 10.f;
 }
@@ -71,7 +63,7 @@ void CMapEdit::Render(HDC hdc)
 		BitBlt(m_vecBmp[0]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1773, 1464, m_vecBmp[2]->GetMemdc(), 0, 0, SRCCOPY); // 2
 		break;
 	case SC_STAGE2:
-		BitBlt(m_vecBmp[0]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1890, 941, m_vecBmp[2]->GetMemdc(), 0, 0, SRCCOPY); // 2
+		BitBlt(m_vecBmp[0]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1890, 941, m_vecBmp[3]->GetMemdc(), 0, 0, SRCCOPY); // 2
 		break;
 	}
 	
@@ -103,7 +95,6 @@ void CMapEdit::Render(HDC hdc)
 					int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
 					int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
 					szBuf, lstrlen(szBuf));
-
 			}
 		}
 	}
@@ -197,6 +188,20 @@ void CMapEdit::KeyCheck(void)
 	if ((GetAsyncKeyState(VK_F8) & 0x8001) == 0x8001)
 	{
 		SaveMap();
+		return;
+	}
+
+	if ((GetAsyncKeyState('1') & 0x8001) == 0x8001)
+	{
+		m_iStage = SC_STAGE1;
+		LoadMap();
+		return;
+	}
+
+	if ((GetAsyncKeyState('2') & 0x8001) == 0x8001)
+	{
+		m_iStage = SC_STAGE2;
+		LoadMap();
 		return;
 	}
 

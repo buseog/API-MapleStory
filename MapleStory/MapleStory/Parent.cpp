@@ -31,6 +31,11 @@ void CParent::SetPos(float _fX, float _fY)
 	m_tInfo.fY = _fY;
 }
 
+void CParent::SetBitMap(map<string, CBitBmp*>* _pBitMap)
+{
+	m_pBitMap = _pBitMap;
+}
+
 void CParent::SetBmpKey(string _BmpKey)
 {
 	m_BmpKey = _BmpKey;

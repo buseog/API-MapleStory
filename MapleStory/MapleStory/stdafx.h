@@ -29,6 +29,7 @@
 #include <ctime>
 #include <crtdbg.h>
 #include <gdiplus.h>
+#include "BitBmp.h"
 
 #ifdef _DEBUG
 #define new new(_CLIENT_BLOCK, __FILE__, __LINE__)

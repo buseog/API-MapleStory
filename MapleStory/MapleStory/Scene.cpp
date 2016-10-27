@@ -3,8 +3,7 @@
 #include "MapEdit.h"
 
 CScene::CScene(void)
-:m_pEdit(NULL)
-,m_pPlayer(NULL)
+:m_pPlayer(NULL)
 {
 	
 }

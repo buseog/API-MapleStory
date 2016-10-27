@@ -30,13 +30,13 @@ void CMyButton::Progress(void)
 		if(GetAsyncKeyState(VK_LBUTTON))
 		{
 			if(m_BmpKey == "Start")
-				m_iButton = BT_START;
+				m_iButton = SC_VILLAGE;
 
 			else if(m_BmpKey == "Edit")
-				m_iButton = BT_EDIT;
+				m_iButton = SC_MAPEDIT;
 
 			else if(m_BmpKey == "Exit")
-				m_iButton = BT_EXIT;
+				m_iButton = SC_END;
 		}
 	}
 	else
@@ -51,10 +51,11 @@ void CMyButton::Render(HDC hdc)
 		int(m_tInfo.fCX), 
 		int(m_tInfo.fCY),
 		(*m_pBitMap)[m_BmpKey]->GetMemdc(),
-		int(m_tInfo.fCX * m_iDrawID), 0, 
+		0, 
+		int(m_tInfo.fCY * m_iDrawID), 
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
-		RGB(255, 255, 255));
+		RGB(255, 0, 255));
 }
 
 void CMyButton::Release(void)

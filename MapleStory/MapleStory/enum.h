@@ -18,10 +18,3 @@ enum SCENEID
 	SC_MAPEDIT,
 	SC_END
 };
-
-enum BUTTONID
-{
-	BT_START,
-	BT_EDIT,
-	BT_EXIT
-};

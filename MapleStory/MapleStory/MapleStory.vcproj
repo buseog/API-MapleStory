@@ -439,8 +439,16 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="07. MapEdit"
+				Name="07. MapEditor"
 				>
+				<File
+					RelativePath=".\MapEditor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MapEditor.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

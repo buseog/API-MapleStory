@@ -1,7 +1,13 @@
 #include "StdAfx.h"
 #include "SceneMgr.h"
+#include "Loading.h"
+#include "Login.h"
+#include "Create.h"
+#include "Village.h"
 #include "Stage1.h"
 #include "Stage2.h"
+#include "BossField.h"
+#include "MapEditor.h"
 #include "Parent.h"
 
 CSceneMgr* CSceneMgr::m_pInstance = NULL;
@@ -24,12 +30,36 @@ void CSceneMgr::SetScene(SCENEID eScene)
 
 	switch(eScene)
 	{
+	case SC_LOADING:
+		m_pScene = new CLoading;
+		break;
+
+	case SC_LOGIN:
+		m_pScene = new CLogin;
+		break;
+
+	case SC_CREATE:
+		m_pScene = new CCreate;
+		break;
+
+	case SC_VILLAGE:
+		m_pScene = new CVillage;
+		break;
+
 	case SC_STAGE1:
 		m_pScene = new CStage1;
-		break;
+		break; 
 
 	case SC_STAGE2:
 		m_pScene = new CStage2;
+		break;
+
+	case SC_BOSS:
+		m_pScene = new CBossField;
+		break;
+
+	case SC_MAPEDIT:
+		m_pScene = new CMapEditor;
 		break;
 	}
 

@@ -5,11 +5,12 @@
 class CScene
 {
 protected:
-	CParent*	m_pEdit;
+	map<string, CBitBmp*>	m_BitMap;
 	CParent*	m_pPlayer;
 
 public:
 	void	SetPlayer(CParent*	_pPlayer);
+
 public:
 	virtual void Initialize(void)	PURE;
 	virtual void Progress(void)		PURE;

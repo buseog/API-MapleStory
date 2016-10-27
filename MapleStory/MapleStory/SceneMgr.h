@@ -3,6 +3,7 @@
 
 class CScene;
 class CParent;
+
 class CSceneMgr
 {
 private:

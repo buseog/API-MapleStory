@@ -15,15 +15,10 @@ CStage2::~CStage2(void)
 
 void CStage2::Initialize(void)
 {
-	m_pEdit = new CMapEdit;
-	((CMapEdit*)m_pEdit)->SetStage(SC_STAGE2);
-	m_pEdit->Initialize();
 }
 
 void CStage2::Progress(void)
 {
-	m_pEdit->Progress();
-
 	if ((GetAsyncKeyState('1') & 0x8001) == 0x8001)
 	{
 		CSceneMgr::GetInstance()->SetScene(SC_STAGE1);
@@ -33,11 +28,9 @@ void CStage2::Progress(void)
 
 void CStage2::Render(HDC hdc)
 {
-	m_pEdit->Render(hdc);
 }
 
 void CStage2::Release(void)
-{
-	::Safe_Delete(m_pEdit);	
+{	
 }
 

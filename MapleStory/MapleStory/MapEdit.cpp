@@ -70,31 +70,37 @@ void CMapEdit::Render(HDC hdc)
 
 	if (m_bType)
 	{
-		for(int i = 0; i < TILEY; ++i)
+		for (int i = 0; i < TILEY; ++i)
 		{
-			for(int j = 0; j < TILEX; ++j)
+			for (int j = 0; j < TILEX; ++j)
 			{
 				int iIndex = i * TILEX + j;
+					
+				if (int(m_vecTile[iIndex]->fX + m_fScrollX) < 0 &&
+					int(m_vecTile[iIndex]->fX + m_fScrollX) > WINCX &&
+					int(m_vecTile[iIndex]->fY + m_fScrollY) < 0 &&
+					int(m_vecTile[iIndex]->fY + m_fScrollY) > WINCY)
+				{
+					TransparentBlt(m_BmpMap["Back"]->GetMemdc(),
+						int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
+						int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
+						TILECX,
+						TILECY,
+						m_BmpMap["Tile"]->GetMemdc(),
+						m_vecTile[iIndex]->iDrawID * TILECX,
+						0,
+						TILECX,
+						TILECY,
+						RGB(0, 255, 0));
 
-				TransparentBlt(m_BmpMap["Back"]->GetMemdc(),
-					int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
-					int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
-					TILECX,
-					TILECY,
-					m_BmpMap["Tile"]->GetMemdc(),
-					m_vecTile[iIndex]->iDrawID * TILECX,
-					0,
-					TILECX,
-					TILECY,
-					RGB(0, 255, 0));
-
-				//wsprintf(szBuf, L"%d", iIndex);
-				wsprintf(szBuf, L"%d", (int)m_vecTile[iIndex]->fX);
-				SetBkMode(m_BmpMap["Back"]->GetMemdc(),TRANSPARENT);
-				TextOut(m_BmpMap["Back"]->GetMemdc(), 
-					int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
-					int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
-					szBuf, lstrlen(szBuf));
+					//wsprintf(szBuf, L"%d", iIndex);
+					wsprintf(szBuf, L"%d", (int)m_vecTile[iIndex]->fX);
+					SetBkMode(m_BmpMap["Back"]->GetMemdc(),TRANSPARENT);
+					TextOut(m_BmpMap["Back"]->GetMemdc(), 
+						int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
+						int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
+						szBuf, lstrlen(szBuf));
+				}
 			}
 		}
 	}

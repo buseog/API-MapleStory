@@ -10,6 +10,7 @@ private:
 
 public:
 	int		GetSelect(void);
+
 public:
 	virtual void Initialize(void);
 	virtual void Progress(void);

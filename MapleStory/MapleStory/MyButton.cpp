@@ -13,7 +13,6 @@ CMyButton::~CMyButton(void)
 	Release();
 }
 
-
 void CMyButton::Initialize(void)
 {
 	m_tInfo.fCX = 150.f;

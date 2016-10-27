@@ -166,18 +166,6 @@
 	</References>
 	<Files>
 		<Filter
-			Name="98. Headers"
-			>
-			<File
-				RelativePath=".\define.h"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="00. MainGame"
 			>
 			<File
@@ -190,7 +178,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="01. Parent"
+			Name="02. Parent"
 			>
 			<File
 				RelativePath=".\Parent.cpp"
@@ -201,7 +189,7 @@
 				>
 			</File>
 			<Filter
-				Name="00. Player"
+				Name="02. Player"
 				>
 				<File
 					RelativePath=".\Player.cpp"
@@ -224,9 +212,33 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="00. Button"
+				>
+				<File
+					RelativePath=".\MyButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyButton.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="01. UI"
+				>
+				<File
+					RelativePath=".\UI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UI.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
-			Name="99. Default"
+			Name="99. ETC"
 			>
 			<Filter
 				Name="리소스 파일"
@@ -319,7 +331,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="02. BigBmp"
+				Name="02. BitBmp"
 				>
 				<File
 					RelativePath=".\BitBmp.cpp"
@@ -332,7 +344,7 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="02. Scene"
+			Name="01. Scene"
 			>
 			<File
 				RelativePath=".\Scene.cpp"
@@ -343,7 +355,7 @@
 				>
 			</File>
 			<Filter
-				Name="00. Stage1"
+				Name="04. Stage1"
 				>
 				<File
 					RelativePath=".\Stage1.cpp"
@@ -355,7 +367,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="01. Stage2"
+				Name="05. Stage2"
 				>
 				<File
 					RelativePath=".\Stage2.cpp"
@@ -366,6 +378,102 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="00. Loading"
+				>
+				<File
+					RelativePath=".\Loading.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Loading.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="01. Login"
+				>
+				<File
+					RelativePath=".\Login.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Login.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="02. Create"
+				>
+				<File
+					RelativePath=".\Create.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Create.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="03. Village"
+				>
+				<File
+					RelativePath=".\Village.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Village.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="06. BossField"
+				>
+				<File
+					RelativePath=".\BossField.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\BossField.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="07. MapEdit"
+				>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="98. Headers"
+			>
+			<File
+				RelativePath=".\bigheader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\define.h"
+				>
+			</File>
+			<File
+				RelativePath=".\enum.h"
+				>
+			</File>
+			<File
+				RelativePath=".\function.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\struct.h"
+				>
+			</File>
+			<File
+				RelativePath=".\value.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

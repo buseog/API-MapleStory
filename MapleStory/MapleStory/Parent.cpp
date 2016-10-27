@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "Parent.h"
 
+map<string, CBitBmp*>*		CParent::m_pBitMap = NULL;
+
 CParent::CParent(void)
 :m_fScrollX(0)
 ,m_fScrollY(0)
@@ -29,6 +31,11 @@ void CParent::SetPos(float _fX, float _fY)
 	m_tInfo.fY = _fY;
 }
 
+void CParent::SetBmpKey(string _BmpKey)
+{
+	m_BmpKey = _BmpKey;
+}
+
 void CParent::Gravity(void)
 {
 	if (m_bLand == true)
@@ -46,4 +53,17 @@ void CParent::Gravity(void)
 		m_fJpower += 0.5f;
 		m_tInfo.fY += m_fJpower + m_fScrollY;
 	}
+}
+
+RECT CParent::GetRect(void)
+{
+	RECT	rc = {
+
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f),
+		int(m_tInfo.fX + m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY + m_tInfo.fCY / 2.f)
+	};
+
+	return rc;
 }

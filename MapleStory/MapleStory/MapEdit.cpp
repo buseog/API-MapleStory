@@ -314,5 +314,5 @@ void CMapEdit::LoadMap(void)
 
 	CloseHandle(hFile);
 
-	//MessageBox(g_hWnd,L"로드됨.", L"메세지", MB_OK);
+	MessageBox(g_hWnd,L"로드됨.", L"메세지", MB_OK);
 }

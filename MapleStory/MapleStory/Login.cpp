@@ -41,7 +41,7 @@ void CLogin::Progress(void)
 		switch (iSelect)
 		{
 		case SC_VILLAGE:
-			CSceneMgr::GetInstance()->SetScene(SC_STAGE1);
+			CSceneMgr::GetInstance()->SetScene(SC_VILLAGE);
 			return;
 
 		case SC_MAPEDIT:

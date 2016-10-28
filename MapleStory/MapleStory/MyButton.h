@@ -5,7 +5,6 @@ class CMyButton	:
 	public CParent
 {
 private:
-	int		m_iDrawID;
 	int		m_iButton;
 
 public:

@@ -7,6 +7,7 @@ CParent::CParent(void)
 :m_fScrollX(0)
 ,m_fScrollY(0)
 ,m_fJpower(0)
+,m_iDrawID(0)
 ,m_bLand(true)
 {
 }

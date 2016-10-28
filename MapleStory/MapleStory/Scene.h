@@ -6,6 +6,7 @@ class CScene
 {
 protected:
 	map<string, CBitBmp*>	m_BitMap;
+	map<string, Image*>		m_PngMap;
 	CParent*	m_pPlayer;
 
 public:

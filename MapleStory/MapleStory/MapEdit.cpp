@@ -76,10 +76,10 @@ void CMapEdit::Render(HDC hdc)
 			{
 				int iIndex = i * TILEX + j;
 					
-				if (int(m_vecTile[iIndex]->fX + m_fScrollX) < 0 &&
-					int(m_vecTile[iIndex]->fX + m_fScrollX) > WINCX &&
-					int(m_vecTile[iIndex]->fY + m_fScrollY) < 0 &&
-					int(m_vecTile[iIndex]->fY + m_fScrollY) > WINCY)
+				if (int(m_vecTile[iIndex]->fX + m_fScrollX) >= 0 &&
+					int(m_vecTile[iIndex]->fX + m_fScrollX) <= WINCX &&
+					int(m_vecTile[iIndex]->fY + m_fScrollY) >= 0 &&
+					int(m_vecTile[iIndex]->fY + m_fScrollY) <= WINCY)
 				{
 					TransparentBlt(m_BmpMap["Back"]->GetMemdc(),
 						int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
@@ -196,7 +196,7 @@ void CMapEdit::KeyCheck(void)
 		return;
 	}
 
-	if ((GetAsyncKeyState('1') & 0x8001) == 0x8001)
+	if ((GetAsyncKeyState('1') & 0x8000) == 0x8001)
 	{
 		m_iStage = SC_STAGE1;
 		LoadMap();
@@ -281,6 +281,14 @@ void CMapEdit::SaveMap(void)
 }
 void CMapEdit::LoadMap(void)
 {
+	for(size_t i = 0; i < m_vecTile.size(); ++i)
+	{
+		::Safe_Delete(m_vecTile[i]);
+	}
+	m_vecTile.clear();
+	vector<TILE*>().swap(m_vecTile);
+
+
 	HANDLE		hFile = NULL;
 	DWORD		dwByte = 0;
 

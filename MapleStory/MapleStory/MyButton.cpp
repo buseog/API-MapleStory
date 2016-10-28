@@ -3,8 +3,7 @@
 #include "BitBmp.h"
 
 CMyButton::CMyButton(void)
-:m_iDrawID(0)
-,m_iButton(0)
+:m_iButton(0)
 {
 }
 

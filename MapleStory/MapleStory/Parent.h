@@ -10,8 +10,9 @@ protected:
 	STAT	m_tStat;
 	float	m_fScrollX;
 	float	m_fScrollY;
-	bool	m_bLand;
 	float	m_fJpower;
+	bool	m_bLand;
+	int		m_iDrawID;
 
 	string	m_BmpKey;
 	static	map<string, CBitBmp*>*	m_pBitMap;

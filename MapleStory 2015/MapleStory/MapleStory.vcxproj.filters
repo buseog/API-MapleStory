@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="00. MainGame">
+      <UniqueIdentifier>{cd735c26-000a-46c6-b5bc-08aba5659513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Parent">
+      <UniqueIdentifier>{c0da9301-9658-4f64-907a-8d730c4e159a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Parent\02. Player">
+      <UniqueIdentifier>{ba7d582c-141b-4841-a27d-9ad9688816d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Parent\99. MapEdit">
+      <UniqueIdentifier>{845447f8-cd63-4d8e-9726-f3c82300165e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Parent\00. Button">
+      <UniqueIdentifier>{343dfa5b-f690-4216-b76d-7a73161d7595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Parent\01. UI">
+      <UniqueIdentifier>{d3fa44d0-d9b4-4030-a879-d28ff2ca6281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. ETC">
+      <UniqueIdentifier>{371caac8-b250-4929-a088-67bebabcb20a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. ETC\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="99. ETC\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="99. ETC\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="97. Design">
+      <UniqueIdentifier>{d382846a-b2a9-4496-978d-5d28f1bf3cfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. Design\00. Factory">
+      <UniqueIdentifier>{45472c87-19a6-4912-a1f8-b5258e4d61e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene">
+      <UniqueIdentifier>{63efc0eb-5744-4ac8-b232-1da48ae498f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\04. Stage1">
+      <UniqueIdentifier>{b38ee1a1-34f1-4c8c-8621-355d4aac383e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\05. Stage2">
+      <UniqueIdentifier>{23c0abc0-bf3f-429c-97f0-0ab899741e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\00. Loading">
+      <UniqueIdentifier>{0ea3bf51-7fc1-4680-a1a9-bc27ce1ea02d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\01. Login">
+      <UniqueIdentifier>{885fe7ef-555d-4c2d-a8cc-d044ff022308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. Create">
+      <UniqueIdentifier>{60663182-1360-48ec-9bfc-353d83db7135}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\03. Village">
+      <UniqueIdentifier>{5a08da76-27c2-4b41-9e36-c281744f231c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\06. BossField">
+      <UniqueIdentifier>{ff148cc5-4876-4ae5-87af-055d8d745680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\07. MapEditor">
+      <UniqueIdentifier>{260ce7f0-2b84-45dd-adbb-e9ca0ea6da4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Headers">
+      <UniqueIdentifier>{a65a097b-7179-456f-8c0f-539f54884941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Mgr">
+      <UniqueIdentifier>{929c26d0-9fca-4047-9154-70ccacd88edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Mgr\01. SceneMgr">
+      <UniqueIdentifier>{6540edc9-696c-4088-bb41-d53a104fd527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Mgr\02. ObjMgr">
+      <UniqueIdentifier>{c628acdc-cf7f-4476-ace1-e9aa047a6c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. Mgr\03. KeyMgr">
+      <UniqueIdentifier>{b245a674-84b7-4de4-9072-93f4ef41842d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Parent\03. Skill">
+      <UniqueIdentifier>{dfd8a7e0-9194-4841-8c6c-3842d0695faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="95. Timer">
+      <UniqueIdentifier>{769ffbff-36d7-40ba-9401-f49ea646527c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>00. MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Parent.cpp">
+      <Filter>02. Parent</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>02. Parent\02. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEdit.cpp">
+      <Filter>02. Parent\99. MapEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="MyButton.cpp">
+      <Filter>02. Parent\00. Button</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>02. Parent\01. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BitBmp.cpp">
+      <Filter>99. ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="MapleStory.cpp">
+      <Filter>99. ETC\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>99. ETC\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>01. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>01. Scene\04. Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>01. Scene\05. Stage2</Filter>
+    </ClCompile>
+    <ClCompile Include="Loading.cpp">
+      <Filter>01. Scene\00. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>01. Scene\01. Login</Filter>
+    </ClCompile>
+    <ClCompile Include="Create.cpp">
+      <Filter>01. Scene\02. Create</Filter>
+    </ClCompile>
+    <ClCompile Include="Village.cpp">
+      <Filter>01. Scene\03. Village</Filter>
+    </ClCompile>
+    <ClCompile Include="BossField.cpp">
+      <Filter>01. Scene\06. BossField</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditor.cpp">
+      <Filter>01. Scene\07. MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>96. Mgr\01. SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMgr.cpp">
+      <Filter>96. Mgr\02. ObjMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMgr.cpp">
+      <Filter>96. Mgr\03. KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>02. Parent\03. Skill</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainGame.h">
+      <Filter>00. MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Parent.h">
+      <Filter>02. Parent</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>02. Parent\02. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEdit.h">
+      <Filter>02. Parent\99. MapEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="MyButton.h">
+      <Filter>02. Parent\00. Button</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>02. Parent\01. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BitBmp.h">
+      <Filter>99. ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="MapleStory.h">
+      <Filter>99. ETC\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99. ETC\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>99. ETC\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>97. Design\00. Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>01. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>01. Scene\04. Stage1</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>01. Scene\05. Stage2</Filter>
+    </ClInclude>
+    <ClInclude Include="Loading.h">
+      <Filter>01. Scene\00. Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="Login.h">
+      <Filter>01. Scene\01. Login</Filter>
+    </ClInclude>
+    <ClInclude Include="Create.h">
+      <Filter>01. Scene\02. Create</Filter>
+    </ClInclude>
+    <ClInclude Include="Village.h">
+      <Filter>01. Scene\03. Village</Filter>
+    </ClInclude>
+    <ClInclude Include="BossField.h">
+      <Filter>01. Scene\06. BossField</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditor.h">
+      <Filter>01. Scene\07. MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="bigheader.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="function.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="value.h">
+      <Filter>98. Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>96. Mgr\01. SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjMgr.h">
+      <Filter>96. Mgr\02. ObjMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMgr.h">
+      <Filter>96. Mgr\03. KeyMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>02. Parent\03. Skill</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="MapleStory.ico">
+      <Filter>99. ETC\리소스 파일</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>99. ETC\리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MapleStory.rc">
+      <Filter>99. ETC\리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

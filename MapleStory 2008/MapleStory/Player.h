@@ -1,0 +1,29 @@
+#pragma once
+#include "Parent.h"
+
+class CPlayer:
+	public CParent
+{
+private:
+	vector<CParent*>*	m_pSkill;
+
+private:
+	void	KeyInput(void);
+	void	Rotation(void);
+	void	SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);
+	void	Scroll(void);
+
+public:
+	CParent*	CreateSkill(float _fX, float _fY, string _strKey);
+	void		SetSkill(vector<CParent*>* _pSkill);
+
+public:
+	virtual void Initialize(void);
+	virtual void Progress(void);
+	virtual void Render(HDC hdc);
+	virtual void Release(void);
+
+public:
+	CPlayer(void);
+	~CPlayer(void);
+};

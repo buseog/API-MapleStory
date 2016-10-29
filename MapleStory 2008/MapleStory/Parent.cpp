@@ -2,11 +2,10 @@
 #include "Parent.h"
 
 map<string, CBitBmp*>*		CParent::m_pBitMap = NULL;
+POINT CParent::m_ptScroll = {};
 
 CParent::CParent(void)
-:m_fScrollX(0)
-,m_fScrollY(0)
-,m_fJpower(0)
+:m_fJpower(0)
 ,m_bLand(true)
 ,m_iDrawID(0)
 ,m_dwTime(0)
@@ -57,15 +56,15 @@ void CParent::Gravity(void)
 	}
 	else
 	{
-		if (m_tInfo.fY >= WINCY + m_fScrollY)
+		if (m_tInfo.fY >= WINCY)
 		{
-			m_tInfo.fY = WINCY + m_fScrollY - 50;
+			m_tInfo.fY = WINCY - 50;
 			m_fJpower = 0;
 			m_bLand = true;
 		}
 
 		m_fJpower += 0.5f;
-		m_tInfo.fY += m_fJpower + m_fScrollY;
+		m_tInfo.fY += m_fJpower;
 	}
 }
 
@@ -80,4 +79,9 @@ RECT CParent::GetRect(void)
 	};
 
 	return rc;
+}
+
+POINT CParent::GetScroll(void)
+{
+	return m_ptScroll;
 }

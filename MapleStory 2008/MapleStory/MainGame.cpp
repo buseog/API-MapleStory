@@ -25,6 +25,7 @@ void CMainGame::Initialize(void)
 void CMainGame::Progress(void)
 {
 	CKeyMgr::GetInstance()->KeyCheck();
+
 	m_pSceneMgr->Progress();
 }
 
@@ -38,4 +39,6 @@ void CMainGame::Release(void)
 	ReleaseDC(g_hWnd, m_hdc);
 	m_pSceneMgr->DestroyInstance();
 	CKeyMgr::GetInstance()->DestroyInst();
+
+
 }

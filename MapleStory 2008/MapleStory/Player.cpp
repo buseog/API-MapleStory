@@ -3,6 +3,7 @@
 #include "KeyMgr.h"
 #include "Factory.h"
 #include "Skill.h"
+#include "UI.h"
 
 CPlayer::CPlayer(void)
 :m_pSkill(NULL)
@@ -19,11 +20,22 @@ void CPlayer::Initialize(void)
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 100.f, 100.f);
 	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
 	m_tSprite = SPRITE(0, 5, 0, 80);
+	m_pUI[UI_INVENTORY] = CFactory<CUI>::CreateParent(600.f, 300.f, "Inventory");
+	m_pUI[UI_EQUIPMENT] = CFactory<CUI>::CreateParent(500.f, 300.f, "Equipment");
+	m_pUI[UI_SKILL] = CFactory<CUI>::CreateParent(600.f, 400.f, "Skill");
+	
+	for (int i = 0; i < UI_END; ++i)
+	{
+		m_bUIOnOff[i] = false;
+	}
 
 	m_dwTime = GetTickCount();
 	m_strKey = "Player_LEFT";
 	m_dwKey = 0;
 	m_iDrawID = 0;
+
+	m_ptOffset.x = WINCX / 2;
+	m_ptOffset.y = WINCY / 2;
 }
 
 void CPlayer::Progress(void)
@@ -31,6 +43,7 @@ void CPlayer::Progress(void)
 	KeyInput();
 	Rotation();
 	Gravity();
+	Scroll();
 
 	if (m_dwTime + m_tSprite.dwTime < GetTickCount())
 	{
@@ -51,8 +64,8 @@ void CPlayer::Progress(void)
 void CPlayer::Render(HDC hdc)
 {
 		TransparentBlt(hdc, 
-		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_fScrollX),
-		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_fScrollY),
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_ptScroll.x),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_ptScroll.y),
 		int(m_tInfo.fCX), 
 		int(m_tInfo.fCY), 
 		(*m_pBitMap)[m_strKey]->GetMemdc(),
@@ -61,6 +74,14 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(71, 0, 60));
+
+		for (int i = 0; i < UI_END; ++i)
+		{
+			if (m_bUIOnOff[i] == true)
+			{
+				m_pUI[i]->Render(hdc);
+			}
+		}
 }
 
 void CPlayer::Release(void)
@@ -79,10 +100,14 @@ void CPlayer::KeyInput(void)
 		m_tInfo.fX += m_tStat.fSpeed;
 
 	if (m_dwKey & KEY_UP)
-		//m_tInfo.fY -= m_tStat.fSpeed;
+	{
+
+	}
 
 	if (m_dwKey & KEY_DOWN)
-		//m_tInfo.fY += m_tStat.fSpeed;
+	{
+
+	}
 
 	if (m_dwKey & KEY_CONTROL)
 	{
@@ -99,6 +124,33 @@ void CPlayer::KeyInput(void)
 			m_fJpower = -10.f;
 			m_bLand = false;
 		}
+	}
+
+	if (m_dwKey & KEY_I)	// 인벤토리
+	{
+		if (m_bUIOnOff[UI_INVENTORY])
+			m_bUIOnOff[UI_INVENTORY] = false;
+		
+		else
+			m_bUIOnOff[UI_INVENTORY] = true;
+	}
+
+	if (m_dwKey & KEY_U)	// 장비창
+	{
+		if (m_bUIOnOff[UI_EQUIPMENT])
+			m_bUIOnOff[UI_EQUIPMENT] = false;
+		
+		else
+			m_bUIOnOff[UI_EQUIPMENT] = true;
+	}
+
+	if (m_dwKey & KEY_K)	// 스킬창
+	{
+		if (m_bUIOnOff[UI_SKILL])
+			m_bUIOnOff[UI_SKILL] = false;
+		
+		else
+			m_bUIOnOff[UI_SKILL] = true;
 	}
 
 	if (m_dwKey & KEY_Q)
@@ -181,7 +233,65 @@ void CPlayer::SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime)
 
 void CPlayer::Scroll(void)
 {
+// 좌측 끝
+	if(m_tInfo.fX < m_ptOffset.x)
+	{
+		if(m_ptScroll.x > 0 - m_tStat.fSpeed)
+		{
+			if(m_tInfo.fX < 0)
+				m_tInfo.fX = 0.f;
 
+			return;
+		}
+
+		m_ptScroll.x += (long)m_tStat.fSpeed;
+		m_ptOffset.x -= (long)m_tStat.fSpeed;
+	}
+
+	// 우측 끝
+	if(m_tInfo.fX > m_ptOffset.x)
+	{
+		if(m_ptScroll.x < WINCX - 3840.f + m_tStat.fSpeed)
+		{
+			if(m_tInfo.fX > 3840.f)
+				m_tInfo.fX = 3840.f;
+
+			return;
+		}
+
+		m_ptScroll.x -= (long)m_tStat.fSpeed;
+		m_ptOffset.x += (long)m_tStat.fSpeed;
+	}
+
+	// 상단 끝
+	if(m_tInfo.fY < m_ptOffset.y)
+	{
+		if(m_ptScroll.y > 0 - m_tStat.fSpeed)
+		{
+			if(m_tInfo.fY < 0)
+				m_tInfo.fY = 0.f;
+
+			return;
+		}
+
+		m_ptScroll.y += (long)m_tStat.fSpeed;
+		m_ptOffset.y -= (long)m_tStat.fSpeed;
+	}
+
+	// 하단 끝
+	if(m_tInfo.fY > m_ptOffset.y)
+	{
+		if(m_ptScroll.y < WINCY - 680.f + m_tStat.fSpeed)
+		{
+			if(m_tInfo.fY > 680.f)
+				m_tInfo.fY = 680.f;
+
+			return;
+		}
+
+		m_ptScroll.y -= (long)m_tStat.fSpeed;
+		m_ptOffset.y += (long)m_tStat.fSpeed;
+	}
 }
 
 CParent* CPlayer::CreateSkill(float _fX, float _fY, string _strKey)

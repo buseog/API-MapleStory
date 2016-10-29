@@ -4,10 +4,10 @@
 
 CMapEdit::CMapEdit(void)
 :m_bType(false)
-,m_iStage(SC_STAGE1)
+,m_iStage(SC_VILLAGE)
 {
-	m_fScrollX = 0.f;
-	m_fScrollY = 0.f;
+	m_ptScroll.x = 0;
+	m_ptScroll.y = 0;
 }
 
 CMapEdit::~CMapEdit(void)
@@ -18,15 +18,30 @@ CMapEdit::~CMapEdit(void)
 
 void CMapEdit::Initialize(void)
 {
+	m_strKey = "Village";
+
+	if (m_strKey == "Village")
+		m_tInfo = INFO(0, 0, 3840, 680);
+
+	if (m_strKey == "Stage1")
+		m_tInfo = INFO(0, 0, 1773, 1464);
+		
+	if (m_strKey == "Stage2")
+		m_tInfo = INFO(0, 0, 1890, 941);
+
+	m_iTILEX = int(m_tInfo.fCX / TILECX + 1);
+	m_iTILEY = int(m_tInfo.fCY / TILECY + 1);
+
+
 	if (m_vecTile.size() == 0)
 	{
-		LoadMap();
+		//LoadMap();
 
 		if (m_vecTile.size() == 0)
 		{
-			for(int i = 0; i < TILEY; ++i)
+			for(int i = 0; i < m_iTILEY; ++i)
 			{
-				for(int j = 0; j < TILEX; ++j)
+				for(int j = 0; j < m_iTILEX; ++j)
 				{
 					float fX = float((TILECX * j) + (TILECX / 2));
 					float fY = float((TILECY * i) + (TILECY / 2));
@@ -36,13 +51,6 @@ void CMapEdit::Initialize(void)
 			}
 		}
 	}
-
-	m_BmpMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp"); // 0
-	m_BmpMap["Tile"] = (new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp"); // 1
-
-	m_BmpMap["Stage1"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage1.bmp"); // 2
-	m_BmpMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp"); // 3
-
 
 	m_tStat.fSpeed = 10.f;
 }
@@ -57,36 +65,44 @@ void CMapEdit::Render(HDC hdc)
 {
 	TCHAR szBuf[128] = L"";
 
-	switch (m_iStage)
-	{
-	case SC_STAGE1:
-		BitBlt(m_BmpMap["Back"]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1773, 1464, m_BmpMap["Stage1"]->GetMemdc(), 0, 0, SRCCOPY); // 2
-		break;
-	case SC_STAGE2:
-		BitBlt(m_BmpMap["Back"]->GetMemdc(), int(0 + m_fScrollX), int(0 + m_fScrollY), 1890, 941,  m_BmpMap["Stage2"]->GetMemdc(), 0, 0, SRCCOPY); // 2
-		break;
-	}
+	BitBlt((*m_pBitMap)["Back"]->GetMemdc(), 
+		int(m_tInfo.fX + m_ptScroll.x), 
+		int(m_tInfo.fY + m_ptScroll.y), 
+		(int)m_tInfo.fCX, 
+		(int)m_tInfo.fCY, 
+		(*m_pBitMap)[m_strKey]->GetMemdc(), 
+		0, 
+		0, 
+		SRCCOPY);
+	//switch (m_iStage)
+	//{
+	//case SC_VILLAGE:
+	//	BitBlt(m_BmpMap["Back"]->GetMemdc(), int(0 + m_ptScroll.x), int(0 + m_ptScroll.y), 3840, 680, m_BmpMap["Village"]->GetMemdc(), 0, 0, SRCCOPY); // 2
+	//	break;
+	//case SC_STAGE1:
+	//	BitBlt(m_BmpMap["Back"]->GetMemdc(), int(0 + m_ptScroll.x), int(0 + m_ptScroll.y), 1773, 1464, m_BmpMap["Stage1"]->GetMemdc(), 0, 0, SRCCOPY); // 2
+	//	break;
+	//case SC_STAGE2:
+	//	BitBlt(m_BmpMap["Back"]->GetMemdc(), int(0 + m_ptScroll.x), int(0 + m_ptScroll.y), 1890, 941,  m_BmpMap["Stage2"]->GetMemdc(), 0, 0, SRCCOPY); // 2
+	//	break;
+	//}
 	
 
 	if (m_bType)
 	{
-		for (int i = 0; i < TILEY; ++i)
+		for (int i = 0; i < m_iTILEY; ++i)
 		{
-			for (int j = 0; j < TILEX; ++j)
+			for (int j = 0; j < m_iTILEX; ++j)
 			{
-				int iIndex = i * TILEX + j;
+				int iIndex = i * m_iTILEX + j;
 					
-				if (int(m_vecTile[iIndex]->fX + m_fScrollX) >= 0 &&
-					int(m_vecTile[iIndex]->fX + m_fScrollX) <= WINCX &&
-					int(m_vecTile[iIndex]->fY + m_fScrollY) >= 0 &&
-					int(m_vecTile[iIndex]->fY + m_fScrollY) <= WINCY)
 				{
 					TransparentBlt(m_BmpMap["Back"]->GetMemdc(),
-						int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
-						int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
+						int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_ptScroll.x),
+						int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_ptScroll.y),
 						TILECX,
 						TILECY,
-						m_BmpMap["Tile"]->GetMemdc(),
+						(*m_pBitMap)["Tile"]->GetMemdc(),
 						m_vecTile[iIndex]->iDrawID * TILECX,
 						0,
 						TILECX,
@@ -95,17 +111,17 @@ void CMapEdit::Render(HDC hdc)
 
 					//wsprintf(szBuf, L"%d", iIndex);
 					wsprintf(szBuf, L"%d", (int)m_vecTile[iIndex]->fX);
-					SetBkMode(m_BmpMap["Back"]->GetMemdc(),TRANSPARENT);
-					TextOut(m_BmpMap["Back"]->GetMemdc(), 
-						int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_fScrollX),
-						int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_fScrollY),
+					SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);
+					TextOut((*m_pBitMap)["Back"]->GetMemdc(), 
+						int((m_vecTile[iIndex]->fX - TILECX / 2.f) + m_ptScroll.x),
+						int((m_vecTile[iIndex]->fY - TILECY / 2.f) + m_ptScroll.y),
 						szBuf, lstrlen(szBuf));
 				}
 			}
 		}
 	}
 
-	BitBlt(hdc, 0, 0, WINCX, WINCY, m_BmpMap["Back"]->GetMemdc(), 0, 0, SRCCOPY);
+	BitBlt(hdc, 0, 0, WINCX, WINCY, (*m_pBitMap)["Back"]->GetMemdc(), 0, 0, SRCCOPY);
 }
 
 void CMapEdit::Release(void)
@@ -140,12 +156,12 @@ TILE* CMapEdit::CreateTile(float _fX, float _fY)
 
 void CMapEdit::PickingOn(void)
 {
-	int	iX = (GetMouse().x - (int)m_fScrollX) / TILECX;
-	int	iY = (GetMouse().y - (int)m_fScrollY) / TILECY;
+	int	iX = (GetMouse().x - (int)m_ptScroll.x) / TILECX;
+	int	iY = (GetMouse().y - (int)m_ptScroll.y) / TILECY;
 
-	int	iIndex = iY * TILEX + iX;
+	int	iIndex = iY * m_iTILEX + iX;
 
-	if(iIndex < 0 || iIndex >= TILEX * TILEY)
+	if(iIndex < 0 || iIndex >= m_iTILEX * m_iTILEY)
 		return;
 
 	m_vecTile[iIndex]->iOption = 1;
@@ -154,12 +170,12 @@ void CMapEdit::PickingOn(void)
 
 void CMapEdit::PickingOff(void)
 {
-	int	iX = (GetMouse().x - (int)m_fScrollX) / TILECX;
-	int	iY = (GetMouse().y - (int)m_fScrollY) / TILECY;
+	int	iX = (GetMouse().x - (int)m_ptScroll.x) / TILECX;
+	int	iY = (GetMouse().y - (int)m_ptScroll.y) / TILECY;
 
-	int	iIndex = iY * TILEX + iX;
+	int	iIndex = iY * m_iTILEX + iX;
 
-	if(iIndex < 0 || iIndex >= TILEX * TILEY)
+	if(iIndex < 0 || iIndex >= m_iTILEX * m_iTILEY)
 		return;
 
 	m_vecTile[iIndex]->iOption = 0;
@@ -211,31 +227,31 @@ void CMapEdit::KeyCheck(void)
 	}
 
 	if(GetAsyncKeyState(VK_LEFT))
-		m_fScrollX += m_tStat.fSpeed;
+		m_ptScroll.x += (long)m_tStat.fSpeed;
 
 	if(GetAsyncKeyState(VK_RIGHT))
-		m_fScrollX -= m_tStat.fSpeed;
+		m_ptScroll.x -= (long)m_tStat.fSpeed;
 
 	if(GetAsyncKeyState(VK_UP))
-		m_fScrollY += m_tStat.fSpeed;
+		m_ptScroll.y += (long)m_tStat.fSpeed;
 
 	if(GetAsyncKeyState(VK_DOWN))
-		m_fScrollY -= m_tStat.fSpeed;
+		m_ptScroll.y -= (long)m_tStat.fSpeed;
 }
 
 void CMapEdit::Scroll(void)
 {
-	if(m_fScrollX > 0)
-		m_fScrollX = 0.f;
+	if(m_ptScroll.x > 0)
+		m_ptScroll.x = 0;
 
-	if(m_fScrollY > 0)
-		m_fScrollY = 0.f;
+	if(m_ptScroll.y > 0)
+		m_ptScroll.y = 0;
 
-	if(m_fScrollX < WINCX - (TILECX * TILEX))
-		m_fScrollX = WINCX - (TILECX * TILEX);
+	if(m_ptScroll.x < WINCX - (TILECX * m_iTILEX))
+		m_ptScroll.x = WINCX - (TILECX * m_iTILEX);
 
-	if(m_fScrollY < WINCY - (TILECY * TILEY))
-		m_fScrollY = WINCY - (TILECY * TILEY);
+	if(m_ptScroll.y < WINCY - (TILECY * m_iTILEY))
+		m_ptScroll.y = WINCY - (TILECY * m_iTILEY);
 }
 
 void CMapEdit::SetStage(int _iStage)
@@ -251,7 +267,7 @@ void CMapEdit::SaveMap(void)
 	switch (m_iStage)
 	{
 	case SC_STAGE1:
-		hFile = CreateFile(L"../Data/Map.dat",
+		hFile = CreateFile(L"../Data/Stage1.dat",
 							GENERIC_WRITE,
 							0,
 							NULL,
@@ -261,7 +277,7 @@ void CMapEdit::SaveMap(void)
 		break;
 
 	case SC_STAGE2:
-		hFile = CreateFile(L"../Data/Map2.dat",
+		hFile = CreateFile(L"../Data/Stage2.dat",
 					GENERIC_WRITE,
 					0,
 					NULL,
@@ -295,7 +311,7 @@ void CMapEdit::LoadMap(void)
 	switch (m_iStage)
 	{
 	case SC_STAGE1:
-		hFile = CreateFile(L"../Data/Map.dat", 
+		hFile = CreateFile(L"../Data/Stage1.dat", 
 			GENERIC_READ, 
 			0, 
 			NULL, 
@@ -305,7 +321,7 @@ void CMapEdit::LoadMap(void)
 		break;
 
 	case SC_STAGE2:
-		hFile = CreateFile(L"../Data/Map2.dat", 
+		hFile = CreateFile(L"../Data/Stage2.dat", 
 			GENERIC_READ, 
 			0, 
 			NULL, 

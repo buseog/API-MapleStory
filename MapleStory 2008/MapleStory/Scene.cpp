@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "MapEdit.h"
 
-vector<CParent*>	CScene::m_vecParent[OBJ_END] = {};
+vector<CParent*>	CScene::m_vecParent[OBJ_END];
 
 CScene::CScene(void)
 {

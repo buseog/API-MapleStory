@@ -8,6 +8,9 @@ class CMapEdit	:
 private:
 	vector<TILE*>			m_vecTile;
 	map<string, CBitBmp*>	m_BmpMap;
+
+	int						m_iTILEX;
+	int						m_iTILEY;
 	int						m_iStage;
 	bool					m_bType;
 

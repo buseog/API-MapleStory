@@ -6,6 +6,9 @@ class CPlayer:
 {
 private:
 	vector<CParent*>*	m_pSkill;
+	POINT				m_ptOffset;
+	CParent*			m_pUI[UI_END];
+	bool				m_bUIOnOff[UI_END];
 
 private:
 	void	KeyInput(void);

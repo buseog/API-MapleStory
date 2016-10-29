@@ -9,6 +9,14 @@ enum OBJID
 	OBJ_END
 };
 
+enum UIID
+{
+	UI_INVENTORY,
+	UI_EQUIPMENT,
+	UI_SKILL,
+	UI_END
+
+};
 enum MAPID
 {
 	MAP_BACK,

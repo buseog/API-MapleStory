@@ -3,9 +3,6 @@
 const int WINCX = 800;
 const int WINCY = 600;
 
-const int TILEX = 59;
-const int TILEY = 48;
-
 const int TILECX = 30;
 const int TILECY = 30;
 
@@ -21,6 +18,10 @@ const	DWORD		KEY_Q		= 0x00000040;
 const	DWORD		KEY_W		= 0x00000080;
 const	DWORD		KEY_E		= 0x00000100;
 const	DWORD		KEY_R		= 0x00000200;
+const	DWORD		KEY_I		= 0x00000400;
+const	DWORD		KEY_U		= 0x00000800;
+const	DWORD		KEY_K		= 0x00001000;
+const	DWORD		KEY_F5		= 0x00100000;
 
 
 

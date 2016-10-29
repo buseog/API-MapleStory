@@ -9,8 +9,6 @@ protected:
 	INFO	m_tInfo;
 	STAT	m_tStat;
 	SPRITE	m_tSprite;
-	float	m_fScrollX;
-	float	m_fScrollY;
 	float	m_fJpower;
 	bool	m_bLand;
 	int		m_iDrawID;
@@ -19,6 +17,7 @@ protected:
 	DWORD	m_dwState;
 	DWORD	m_dwKey;
 	string	m_strKey;
+	static  POINT m_ptScroll;
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
@@ -26,6 +25,7 @@ public:
 	STAT	GetStat(void);
 	SPRITE	GetSprite(void);
 	RECT	GetRect(void);
+	POINT	GetScroll(void);
 	
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);

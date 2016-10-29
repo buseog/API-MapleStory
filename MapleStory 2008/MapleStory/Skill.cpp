@@ -52,8 +52,8 @@ void CSkill::Progress(void)
 void CSkill::Render(HDC hdc)
 {
 	TransparentBlt(hdc,
-		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_fScrollX),
-		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_fScrollY),
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_ptScroll.x),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_ptScroll.y),
 		int(m_tInfo.fCX),
 		int(m_tInfo.fCY),
 		(*m_pBitMap)[m_strKey]->GetMemdc(),

@@ -17,8 +17,12 @@ CVillage::~CVillage(void)
 void CVillage::Initialize(void)
 {
 	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
+	m_BitMap["Tile"] = (new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp");
 	m_BitMap["Village"] = (new CBitBmp)->LoadBmp(L"../Texture/Village.bmp");
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/UI.bmp");
+	m_BitMap["Inventory"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inventory.bmp");
+	m_BitMap["Equipment"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equipment.bmp");
+	m_BitMap["Skill"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Skill.bmp");
 
 
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_LEFT.bmp");
@@ -62,8 +66,9 @@ void CVillage::Progress(void)
 void CVillage::Render(HDC hdc)
 {
 	BitBlt(m_BitMap["Back"]->GetMemdc(), 
-			0, 0, 
-			WINCX, WINCY, 
+		0 + m_vecParent[OBJ_PLAYER].back()->GetScroll().x,
+		0 + m_vecParent[OBJ_PLAYER].back()->GetScroll().y, 
+			3840, 680, 
 			m_BitMap["Village"]->GetMemdc(),
 			0, 0, SRCCOPY);
 

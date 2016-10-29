@@ -1,4 +1,4 @@
-﻿int(m_vecTile[iIndex]->fX + m_fScrollX) < 0 &&	// 메이플 브금 사이트
+﻿int(m_vecTile[iIndex]->fX + m_ptScroll.x) < 0 &&	// 메이플 브금 사이트
 
 
 /// 스테이지별로 TILEX, TILEY 구해주기

@@ -18,6 +18,10 @@ const	DWORD		KEY_DOWN	= 0x00000008;
 const	DWORD		KEY_CONTROL	= 0x00000010;
 const	DWORD		KEY_SPACE	= 0x00000020;
 const	DWORD		KEY_Q		= 0x00000040;
+const	DWORD		KEY_W		= 0x00000080;
+const	DWORD		KEY_E		= 0x00000100;
+const	DWORD		KEY_R		= 0x00000200;
+
 
 
 // state °ª

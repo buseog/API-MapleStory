@@ -41,7 +41,7 @@ void CPlayer::Progress(void)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
-		if (m_dwState != ST_STAND)
+		if (m_dwState != ST_STAND && m_dwState != ST_PROSTRATE)
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
@@ -79,10 +79,10 @@ void CPlayer::KeyInput(void)
 		m_tInfo.fX += m_tStat.fSpeed;
 
 	if (m_dwKey & KEY_UP)
-		m_tInfo.fY -= m_tStat.fSpeed;
+		//m_tInfo.fY -= m_tStat.fSpeed;
 
 	if (m_dwKey & KEY_DOWN)
-		m_tInfo.fY += m_tStat.fSpeed;
+		//m_tInfo.fY += m_tStat.fSpeed;
 
 	if (m_dwKey & KEY_CONTROL)
 	{
@@ -103,7 +103,34 @@ void CPlayer::KeyInput(void)
 
 	if (m_dwKey & KEY_Q)
 	{
-		m_pSkill->push_back(CreateSkill(m_tInfo.fX,m_tInfo.fY,"Annihilation_LEFT"));
+		if (m_strKey == "Player_LEFT") 
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Annihilation_LEFT"));
+
+		else if (m_strKey == "Player_RIGHT")
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Annihilation_RIGHT"));
+
+		return;
+	}
+
+	if (m_dwKey & KEY_W)
+	{
+		if (m_strKey == "Player_LEFT") 
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Typhoon_LEFT"));
+
+		else if (m_strKey == "Player_RIGHT")
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Typhoon_RIGHT"));
+
+		return;
+	}
+
+	if (m_dwKey & KEY_E)
+	{
+		if (m_strKey == "Player_LEFT") 
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range_LEFT"));
+
+		else if (m_strKey == "Player_RIGHT")
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range_LEFT"));
+
 		return;
 	}
 }
@@ -117,7 +144,7 @@ void CPlayer::Rotation(void)
 		SetState(ST_STAND, 5, 0, 80);
 		m_dwState = ST_STAND;
 	}
-	if (m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_JUMP))
+	if (m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_JUMP) && (m_dwState != ST_PROSTRATE))
 	{
 		SetState(ST_WALK, 3, 1, 100);
 		m_dwState = ST_WALK;
@@ -131,6 +158,12 @@ void CPlayer::Rotation(void)
 
 	/*if (m_dwKey & KEY_UP)
 		m_strKey = "Player_UP";*/
+
+	if (m_dwKey & KEY_DOWN)
+	{
+		SetState(ST_PROSTRATE, 1, 5, 100);
+		m_dwState = ST_PROSTRATE;
+	}
 }
 
 void CPlayer::SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime)
@@ -154,9 +187,7 @@ void CPlayer::Scroll(void)
 CParent* CPlayer::CreateSkill(float _fX, float _fY, string _strKey)
 {
 
-	CParent* pSkill = CFactory<CSkill>::CreateParent(_fX, _fY);
-
-	pSkill->SetStrKey(_strKey);
+	CParent* pSkill = CFactory<CSkill>::CreateParent(_fX, _fY, _strKey);
 
 	return pSkill;
 }

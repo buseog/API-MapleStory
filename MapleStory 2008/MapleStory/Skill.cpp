@@ -13,11 +13,27 @@ CSkill::~CSkill()
 
 void CSkill::Initialize(void)
 {
-	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 630.f, 230.f);
-	m_tSprite = SPRITE(0, 13, 0, 80);
+	if (m_strKey == "Annihilation_LEFT" || m_strKey == "Annihilation_RIGHT")
+	{
+		m_tInfo = INFO(0, 0, 630.f, 230.f);
+		m_tSprite = SPRITE(0, 13, 0, 80);
+	}
+
+	if (m_strKey == "Typhoon_LEFT" || m_strKey == "Typhoon_RIGHT")
+	{
+		m_tInfo = INFO(0, 0, 788.f, 450.f);
+		m_tSprite = SPRITE(0, 21, 0, 80);
+	}
+
+	if (m_strKey == "Range_LEFT" || m_strKey == "Range_LEFT")
+	{
+		m_tInfo = INFO(0, 0, 699.f, 370.f);
+		m_tSprite = SPRITE(0, 10, 0, 80);
+	}
+	
+
 
 	m_dwTime = GetTickCount();
-	m_strKey = "Annihilation_LEFT";
 	m_dwKey = 0;
 	m_iDrawID = 0;
 }

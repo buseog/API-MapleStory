@@ -25,6 +25,16 @@ public:
 		return pParent;
 	}
 
+	static CParent* CreateParent(float _fX, float _fY, string _strKey)
+	{
+		CParent* pParent = new T;
+		pParent->SetStrKey(_strKey);
+		pParent->Initialize();
+		pParent->SetPos(_fX, _fY);
+
+		return pParent;
+	}
+
 public:
 	CFactory(void){}
 	~CFactory(void){}

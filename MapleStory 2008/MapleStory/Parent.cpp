@@ -33,6 +33,11 @@ SPRITE	CParent::GetSprite(void)
 	return m_tSprite;
 }
 
+void	CParent::SetLand(bool YN)
+{
+	m_bLand = YN;
+}
+
 void CParent::SetPos(float _fX, float _fY)
 {
 	m_tInfo.fX = _fX;
@@ -53,19 +58,15 @@ void CParent::Gravity(void)
 {
 	if (m_bLand == true)
 	{
+		m_fJpower = m_tStat.fSpeed;
 	}
+
 	else
 	{
-		if (m_tInfo.fY >= WINCY)
-		{
-			m_tInfo.fY = WINCY - 50;
-			m_fJpower = 0;
-			m_bLand = true;
-		}
-
 		m_fJpower += 0.5f;
-		m_tInfo.fY += m_fJpower;
 	}
+	
+	m_tInfo.fY += m_fJpower;
 }
 
 RECT CParent::GetRect(void)

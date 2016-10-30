@@ -36,4 +36,3 @@ void CStage1::Release(void)
 {
 	
 }
-

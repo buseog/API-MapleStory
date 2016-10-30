@@ -21,6 +21,7 @@ protected:
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
+	void	SetLand(bool YN);
 	INFO	GetInfo(void);
 	STAT	GetStat(void);
 	SPRITE	GetSprite(void);

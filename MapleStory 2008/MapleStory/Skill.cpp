@@ -30,9 +30,13 @@ void CSkill::Initialize(void)
 		m_tInfo = INFO(0, 0, 699.f, 370.f);
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
+
+	if (m_strKey == "Beyond_LEFT" || m_strKey == "Beyond_RIGHT")
+	{
+		m_tInfo = INFO(0, 0, 400.f, 400.f);
+		m_tSprite = SPRITE(0, 14, 0, 80);
+	}
 	
-
-
 	m_dwTime = GetTickCount();
 	m_dwKey = 0;
 	m_iDrawID = 0;

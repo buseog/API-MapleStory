@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MapEditor.h"
 #include "MapEdit.h"
+#include "Factory.h"
 
 CMapEditor::CMapEditor(void)
 :m_pEdit(NULL)
@@ -14,8 +15,16 @@ CMapEditor::~CMapEditor(void)
 
 void CMapEditor::Initialize(void)
 {
-	m_pEdit = new CMapEdit;
-	m_pEdit->Initialize();
+	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
+	m_BitMap["Tile"] = (new CBitBmp)->LoadBmp(L"../Texture/Tile.bmp");
+
+	m_BitMap["Village"] = (new CBitBmp)->LoadBmp(L"../Texture/Village.bmp");
+	m_BitMap["Stage1"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage1.bmp");
+	m_BitMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp");
+
+
+	m_pEdit = CFactory<CMapEdit>::CreateParent();
+	m_pEdit->SetBitMap(&m_BitMap);
 }
 
 void CMapEditor::Progress(void)

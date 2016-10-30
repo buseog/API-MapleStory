@@ -33,4 +33,3 @@ void CStage2::Render(HDC hdc)
 void CStage2::Release(void)
 {	
 }
-

@@ -248,6 +248,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="04. Monster"
+				>
+				<File
+					RelativePath=".\Monster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Monster.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="99. ETC"
@@ -495,7 +507,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="02. KeyMgr"
+				Name="01. KeyMgr"
 				>
 				<File
 					RelativePath=".\KeyMgr.cpp"
@@ -507,7 +519,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="01. ObjMgr"
+				Name="99. ObjMgr"
 				>
 				<File
 					RelativePath=".\ObjMgr.cpp"
@@ -515,6 +527,18 @@
 				</File>
 				<File
 					RelativePath=".\ObjMgr.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="02. CollisionMgr"
+				>
+				<File
+					RelativePath=".\CollisionMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CollisionMgr.h"
 					>
 				</File>
 			</Filter>

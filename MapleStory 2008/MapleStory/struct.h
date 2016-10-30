@@ -41,6 +41,13 @@ typedef	 struct tagTile
 	int		iOption;
 	int		iDrawID;
 
+	RECT	GetRect(void)
+	{
+		RECT rc = {fX - fCX / 2.f, fY - fCY / 2.f, fX + fCX / 2.f, fY + fCY / 2.f};
+
+		return rc;
+	}
+
 
 }TILE;
 

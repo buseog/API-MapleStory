@@ -5,8 +5,12 @@
 class CScene
 {
 protected:
-	map<string, CBitBmp*>	m_BitMap;
+	map<string, CBitBmp*>		m_BitMap;
 	static	vector<CParent*>	m_vecParent[OBJ_END];
+	vector<TILE*>				m_vecTile;
+	string						m_strKey;
+protected:
+	void	LoadMap(void);
 
 public:
 	virtual void Initialize(void)	PURE;

@@ -54,7 +54,7 @@ void CPlayer::Progress(void)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
-		if (m_dwState != ST_STAND && m_dwState != ST_PROSTRATE)
+ 		if (m_dwState != ST_STAND && m_dwState != ST_PROSTRATE && m_dwState != ST_JUMP)
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
@@ -92,6 +92,17 @@ void CPlayer::KeyInput(void)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
+	if (!m_dwKey && (m_dwState != ST_ATTACK) && m_bLand == true)
+	{
+		SetState(ST_STAND, 5, 0, 80);
+   		m_dwState = ST_STAND;
+	}
+
+	if (m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE) && m_bLand == true)
+	{
+		SetState(ST_WALK, 3, 1, 100);
+		m_dwState = ST_WALK;
+	}
 
 	if (m_dwKey & KEY_LEFT)
 		m_tInfo.fX -= m_tStat.fSpeed;
@@ -117,11 +128,12 @@ void CPlayer::KeyInput(void)
 
 	if (m_dwKey & KEY_SPACE)
 	{
+		SetState(ST_JUMP, 1, 6, 100);
+		m_dwState = ST_JUMP;
+
 		if (m_bLand == true)
 		{
-			SetState(ST_JUMP, 1, 6, 100);
-			m_dwState = ST_JUMP;
-			m_fJpower = -10.f;
+			m_fJpower = -13.f;
 			m_bLand = false;
 		}
 	}
@@ -185,22 +197,22 @@ void CPlayer::KeyInput(void)
 
 		return;
 	}
+
+	if (m_dwKey & KEY_R)
+	{
+		if (m_strKey == "Player_LEFT") 
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_LEFT"));
+
+		else if (m_strKey == "Player_RIGHT")
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_RIGHT"));
+
+		return;
+	}
 }
 
 void CPlayer::Rotation(void)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
-
-	if (!m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_JUMP))
-	{
-		SetState(ST_STAND, 5, 0, 80);
-		m_dwState = ST_STAND;
-	}
-	if (m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_JUMP) && (m_dwState != ST_PROSTRATE))
-	{
-		SetState(ST_WALK, 3, 1, 100);
-		m_dwState = ST_WALK;
-	}
 
 	if (m_dwKey & KEY_LEFT)
 		m_strKey = "Player_LEFT";
@@ -253,8 +265,8 @@ void CPlayer::Scroll(void)
 	{
 		if(m_ptScroll.x < WINCX - 3840.f + m_tStat.fSpeed)
 		{
-			if(m_tInfo.fX > 3840.f)
-				m_tInfo.fX = 3840.f;
+			if(m_tInfo.fX > 1920.f)
+				m_tInfo.fX = 1920.f;
 
 			return;
 		}

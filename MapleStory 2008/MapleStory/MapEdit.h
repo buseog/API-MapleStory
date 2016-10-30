@@ -7,11 +7,9 @@ class CMapEdit	:
 {
 private:
 	vector<TILE*>			m_vecTile;
-	map<string, CBitBmp*>	m_BmpMap;
 
 	int						m_iTILEX;
 	int						m_iTILEY;
-	int						m_iStage;
 	bool					m_bType;
 
 private:
@@ -21,10 +19,10 @@ private:
 	void	KeyCheck(void);
 	void	Scroll(void);
 
-public:
-	void	SetStage(int _iStage);
+private:
 	void	SaveMap(void);
 	void	LoadMap(void);
+
 public:
 	virtual void Initialize(void);
 	virtual void Progress(void);

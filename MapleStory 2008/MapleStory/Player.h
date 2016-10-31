@@ -1,14 +1,16 @@
 #pragma once
 #include "Parent.h"
 
-class CPlayer:
+class CUI;
+
+class CPlayer	:
 	public CParent
 {
 private:
 	vector<CParent*>*	m_pSkill;
 	POINT				m_ptOffset;
 	int					m_iBeyond;
-	CParent*			m_pUI[UI_END];
+	CUI*			m_pUI[UI_END];
 	bool				m_bUIOnOff[UI_END];
 
 private:

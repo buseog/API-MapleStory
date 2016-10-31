@@ -43,7 +43,7 @@ typedef	 struct tagTile
 
 	RECT	GetRect(void)
 	{
-		RECT rc = {fX - fCX / 2.f, fY - fCY / 2.f, fX + fCX / 2.f, fY + fCY / 2.f};
+		RECT rc = {long(fX - fCX / 2), long(fY - fCY / 2), long(fX + fCX / 2), long(fY + fCY / 2)};
 
 		return rc;
 	}

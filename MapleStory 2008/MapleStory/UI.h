@@ -1,9 +1,21 @@
 #pragma once
-#include "Parent.h"
+#include "bigheader.h"
+#include "Scene.h"
 
-class CUI	:
-	public CParent
+class CUI
 {
+protected:
+	INFO	m_tInfo;
+	SPRITE	m_tSprite;
+	int		m_iDrawID;
+	string	m_strKey;
+	static	map<string, CBitBmp*>*	m_pBitMap;
+
+public:
+	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
+	void	SetPos(float _fX, float _fY);
+	RECT	GetRect(void);
+
 public:
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);
@@ -12,5 +24,6 @@ public:
 
 public:
 	CUI(void);
+	CUI(string _strKey);
 	~CUI(void);
 };

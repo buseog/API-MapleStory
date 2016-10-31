@@ -1,8 +1,16 @@
 #include "StdAfx.h"
 #include "UI.h"
 
+map<string, CBitBmp*>*		CUI::m_pBitMap = NULL;
+
 CUI::CUI(void)
 {
+}
+
+CUI::CUI(string _strKey)
+:m_strKey(_strKey)
+{
+
 }
 
 CUI::~CUI(void)
@@ -75,4 +83,29 @@ void CUI::Render(HDC hdc)
 void CUI::Release(void)
 {
 	
+}
+
+void	CUI::SetPos(float _fX, float _fY)
+{
+	m_tInfo.fX = _fX;
+	m_tInfo.fY = _fY;
+}
+
+
+RECT CUI::GetRect(void)
+{
+	RECT	rc = {
+
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f),
+		int(m_tInfo.fX + m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY + m_tInfo.fCY / 2.f)
+	};
+
+	return rc;
+}
+
+void CUI::SetBitMap(map<string, CBitBmp*>* _pBitMap)
+{
+	m_pBitMap = _pBitMap;
 }

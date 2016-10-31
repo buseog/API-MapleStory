@@ -3,7 +3,13 @@
 #include "BitBmp.h"
 
 CMyButton::CMyButton(void)
+
+{
+}
+
+CMyButton::CMyButton(string _strKey)
 :m_iButton(0)
+,CUI(_strKey)
 {
 }
 

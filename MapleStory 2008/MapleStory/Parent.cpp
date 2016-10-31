@@ -9,7 +9,6 @@ CParent::CParent(void)
 ,m_fGravity(7.f)
 ,m_bLand(true)
 ,m_bDestroy(false)
-,m_iDrawID(0)
 ,m_dwTime(0)
 ,m_dwKey(0)
 ,m_dwState(0)
@@ -34,6 +33,11 @@ SPRITE	CParent::GetSprite(void)
 {
 	return m_tSprite;
 }
+
+string	CParent::GetStrKey(void)
+{
+	return m_strKey;
+}	
 
 void	CParent::SetLand(bool YN)
 {

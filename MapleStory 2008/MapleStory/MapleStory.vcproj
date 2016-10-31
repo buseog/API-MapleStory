@@ -189,7 +189,7 @@
 				>
 			</File>
 			<Filter
-				Name="02. Player"
+				Name="00. Player"
 				>
 				<File
 					RelativePath=".\Player.cpp"
@@ -201,31 +201,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="00. Button"
-				>
-				<File
-					RelativePath=".\MyButton.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MyButton.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="01. UI"
-				>
-				<File
-					RelativePath=".\UI.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\UI.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="03. Skill"
+				Name="01. Skill"
 				>
 				<File
 					RelativePath=".\Skill.cpp"
@@ -237,7 +213,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="04. Monster"
+				Name="02. Monster"
 				>
 				<File
 					RelativePath=".\Monster.cpp"
@@ -249,7 +225,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="05. Effect"
+				Name="03. Effect"
 				>
 				<File
 					RelativePath=".\Effect.cpp"
@@ -259,6 +235,10 @@
 					RelativePath=".\Effect.h"
 					>
 				</File>
+				<Filter
+					Name="00. DamageEffect"
+					>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="99. MapEdit"
@@ -440,10 +420,24 @@
 				<File
 					RelativePath=".\Village.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Village.h"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -464,10 +458,24 @@
 				<File
 					RelativePath=".\MapEditor.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\MapEditor.h"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
@@ -563,6 +571,30 @@
 				</File>
 				<File
 					RelativePath=".\Timer.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="04. UI"
+			>
+			<File
+				RelativePath=".\UI.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UI.h"
+				>
+			</File>
+			<Filter
+				Name="00. Button"
+				>
+				<File
+					RelativePath=".\MyButton.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyButton.h"
 					>
 				</File>
 			</Filter>

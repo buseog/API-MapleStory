@@ -10,7 +10,6 @@ protected:
 	STAT	m_tStat;
 	SPRITE	m_tSprite;
 	CTimer	m_cTimer;
-	int		m_iDrawID;
 	float	m_fJpower;
 	float	m_fGravity;
 	bool	m_bLand;
@@ -30,6 +29,7 @@ public:
 	RECT	GetRect(void);
 	POINT	GetScroll(void);
 	bool	GetDestroy(void);
+	string	GetStrKey(void);
 	void	SetLand(bool YN);
 	void	SetDestroy(bool _YN);
 	void	SetDamage(float _fDamage);

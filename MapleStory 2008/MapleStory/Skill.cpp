@@ -15,32 +15,32 @@ void CSkill::Initialize(void)
 {
 	if (m_strKey == "Annihilation_LEFT" || m_strKey == "Annihilation_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 630.f, 230.f);
+		m_tInfo = INFO(0, 0, 315.f, 115.f);
 		m_tSprite = SPRITE(0, 13, 0, 80);
 	}
 
 	if (m_strKey == "Ascend_LEFT" || m_strKey == "Ascend_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 360.f, 360.f);
+		m_tInfo = INFO(0, 0, 250.f, 250.f);
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
 
 
 	if (m_strKey == "Typhoon_LEFT" || m_strKey == "Typhoon_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 788.f, 450.f);
-		m_tSprite = SPRITE(0, 21, 0, 80);
+		m_tInfo = INFO(0, 0, 300.f, 171.f);
+		m_tSprite = SPRITE(0, 17, 0, 80);
 	}
 
 	if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 730.f, 427.f);
+		m_tInfo = INFO(0, 0, 243.f, 142.f);
 		m_tSprite = SPRITE(0, 15, 0, 80);
 	}
 
 	if (m_strKey == "Range")
 	{
-		m_tInfo = INFO(0, 0, 699.f, 370.f);
+		m_tInfo = INFO(0, 0, 233.f, 123.f);
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
 
@@ -64,7 +64,6 @@ void CSkill::Initialize(void)
 
 	m_dwTime = GetTickCount();
 	m_dwKey = 0;
-	m_iDrawID = 0;
 }
 void CSkill::Progress(DWORD _delta)
 {

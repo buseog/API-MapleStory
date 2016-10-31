@@ -23,11 +23,11 @@ void CVillage::Initialize(void)
 	LoadBmp();
 
 	m_vecParent[OBJ_PLAYER].push_back(CFactory<CPlayer>::CreateParent(300.f, 300.f));
-	m_vecParent[OBJ_UI].push_back(CFactory<CUI>::CreateParent(WINCX / 2.f, WINCY / 2.f, "UI"));
+	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 
 	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetSkill(&m_vecParent[OBJ_SKILL]);
 
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
 		m_vecParent[OBJ_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1000, rand() % 600, "PurpleMushRoom_LEFT"));
 	}
@@ -52,6 +52,11 @@ void CVillage::Progress(DWORD _delta)
 			else
 				++iter;
 		}
+	}
+	
+	for (size_t i = 0; i < m_vecUI.size(); ++i)
+	{
+		m_vecUI[i]->Progress(_delta);
 	}
 
 	CCollisionMgr::CollisionTile(&m_vecParent[OBJ_PLAYER], &m_vecTile);
@@ -80,6 +85,11 @@ void CVillage::Render(HDC hdc)
 			else
 				++iter;
 		}
+	}
+
+	for (size_t i = 0; i < m_vecUI.size(); ++i)
+	{
+		m_vecUI[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 	
 

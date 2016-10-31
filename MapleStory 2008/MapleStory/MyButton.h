@@ -1,8 +1,8 @@
 #pragma once
-#include "Parent.h"
+#include "UI.h"
 
 class CMyButton	:
-	public CParent
+	public CUI
 {
 private:
 	int		m_iButton;
@@ -18,5 +18,6 @@ public:
 
 public:
 	CMyButton(void);
+	CMyButton(string _strKey);
 	~CMyButton(void);
 };

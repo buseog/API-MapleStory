@@ -1,16 +1,13 @@
 #pragma once
 #include "Scene.h"
 
-class CParent;
+class CUI;
 
 class CLogin	:
 	public CScene
 {
 private:
-	vector<CParent*>	m_vecButton;
-
-private:
-	CParent* CreateButton(float _fX, float _fY, string _StrKey);
+	CUI* CreateButton(float _fX, float _fY, string _StrKey);
 
 public:
 	virtual void Initialize(void);

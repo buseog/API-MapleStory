@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Parent.h"
+#include "UI.h"
 
 template<typename T>
 class CFactory
@@ -33,6 +34,15 @@ public:
 		pParent->SetPos(_fX, _fY);
 
 		return pParent;
+	}
+
+	static CUI* CreateUI(float _fX, float _fY, string _strKey)
+	{
+		CUI* pUI = new T(_strKey);
+		pUI->Initialize();
+		pUI->SetPos(_fX, _fY);
+
+		return pUI;
 	}
 
 public:

@@ -44,7 +44,6 @@ void CMonster::Initialize(void)
 
 	m_dwTime = GetTickCount();
 	m_dwKey = 0;
-	m_iDrawID = 0;
 }
 void CMonster::Progress(DWORD _delta)
 {

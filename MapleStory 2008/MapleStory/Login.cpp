@@ -3,6 +3,7 @@
 #include "SceneMgr.h"
 #include "MyButton.h"
 #include "Factory.h"
+#include "UI.h"
 
 
 CLogin::CLogin(void)
@@ -22,21 +23,22 @@ void CLogin::Initialize(void)
 	m_BitMap["Edit"] = (new CBitBmp)->LoadBmp(L"../Texture/Edit.bmp");
 	m_BitMap["Exit"] = (new CBitBmp)->LoadBmp(L"../Texture/Exit.bmp");
 
-	m_vecButton.push_back(CreateButton(200.f, 400.f, "Start"));
-	m_vecButton.push_back(CreateButton(400.f, 400.f, "Edit"));
-	m_vecButton.push_back(CreateButton(600.f, 400.f, "Exit"));
+	m_vecUI.push_back(CreateButton(200.f, 400.f, "Start"));
+	m_vecUI.push_back(CreateButton(400.f, 400.f, "Edit"));
+	m_vecUI.push_back(CreateButton(600.f, 400.f, "Exit"));
 
 	CParent::SetBitMap(&m_BitMap);
+	CUI::SetBitMap(&m_BitMap);
 }
 
 void CLogin::Progress(DWORD _delta)
 {
 	int iSelect = 0;
 
-	for (size_t i = 0; i < m_vecButton.size(); ++i)
+	for (size_t i = 0; i < m_vecUI.size(); ++i)
 	{
-		m_vecButton[i]->Progress(_delta);
-		iSelect = ((CMyButton*)m_vecButton[i])->GetSelect();
+		m_vecUI[i]->Progress(_delta);
+		iSelect = ((CMyButton*)m_vecUI[i])->GetSelect();
 
 		switch (iSelect)
 		{
@@ -63,9 +65,9 @@ void CLogin::Render(HDC hdc)
 		m_BitMap["Menu"]->GetMemdc(), 
 		0, 0, SRCCOPY);
 
-	for (size_t i = 0; i < m_vecButton.size(); ++i)
+	for (size_t i = 0; i < m_vecUI.size(); ++i)
 	{
-		m_vecButton[i]->Render(m_BitMap["Back"]->GetMemdc());
+		m_vecUI[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 	BitBlt(hdc, 
@@ -76,19 +78,16 @@ void CLogin::Render(HDC hdc)
 }
 void CLogin::Release(void)
 {
-	for (size_t i = 0; i < m_vecButton.size(); ++i)
+	for (size_t i = 0; i < m_vecUI.size(); ++i)
 	{
-		::Safe_Delete(m_vecButton[i]);
+		::Safe_Delete(m_vecUI[i]);
 	}
-	m_vecButton.clear();
+	m_vecUI.clear();
 }
 
-CParent* CLogin::CreateButton(float _fX, float _fY, string _strKey)
+CUI* CLogin::CreateButton(float _fX, float _fY, string _strKey)
 {
-
-	CParent* pButton = CFactory<CMyButton>::CreateParent(_fX, _fY);
-
-	pButton->SetStrKey(_strKey);
+	CUI* pButton = CFactory<CMyButton>::CreateUI(_fX, _fY, _strKey);
 
 	return pButton;
 }

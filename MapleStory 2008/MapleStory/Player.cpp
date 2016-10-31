@@ -22,9 +22,9 @@ void CPlayer::Initialize(void)
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 100.f, 100.f);
 	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
 	m_tSprite = SPRITE(0, 5, 0, 80);
-	m_pUI[UI_INVENTORY] = CFactory<CUI>::CreateParent(600.f, 300.f, "Inventory");
-	m_pUI[UI_EQUIPMENT] = CFactory<CUI>::CreateParent(500.f, 300.f, "Equipment");
-	m_pUI[UI_SKILL] = CFactory<CUI>::CreateParent(600.f, 400.f, "Skill");
+	m_pUI[UI_INVENTORY] = CFactory<CUI>::CreateUI(600.f, 300.f, "Inventory");
+	m_pUI[UI_EQUIPMENT] = CFactory<CUI>::CreateUI(500.f, 300.f, "Equipment");
+	m_pUI[UI_SKILL] = CFactory<CUI>::CreateUI(600.f, 400.f, "Skill");
 	
 	for (int i = 0; i < UI_END; ++i)
 	{
@@ -34,7 +34,6 @@ void CPlayer::Initialize(void)
 	m_dwTime = GetTickCount();
 	m_strKey = "Player_LEFT";
 	m_dwKey = 0;
-	m_iDrawID = 0;
 
 	m_ptOffset.x = WINCX / 2;
 	m_ptOffset.y = WINCY / 2;
@@ -170,10 +169,10 @@ void CPlayer::KeyInput(void)
 	if (m_dwKey & KEY_Q)
 	{
 		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 200, m_tInfo.fY,"Annihilation_LEFT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 15,"Annihilation_LEFT"));
 
 		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 200, m_tInfo.fY,"Annihilation_RIGHT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 15,"Annihilation_RIGHT"));
 
 		return;
 	}
@@ -181,10 +180,10 @@ void CPlayer::KeyInput(void)
 	if (m_dwKey & KEY_W)
 	{
 		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 300, m_tInfo.fY - 180,"Typhoon_LEFT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_LEFT"));
 
 		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 300, m_tInfo.fY - 180,"Typhoon_RIGHT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_RIGHT"));
 
 		return;
 	}
@@ -192,10 +191,10 @@ void CPlayer::KeyInput(void)
 	if (m_dwKey & KEY_E)
 	{
 		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 80,"Range"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 45,"Typhoon_LEFT"));
 
 		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 80,"Range"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 45,"Typhoon_RIGHT"));
 
 		return;
 	}

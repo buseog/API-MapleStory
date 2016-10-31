@@ -13,7 +13,7 @@ private:
 public:
 	void		SetScene(SCENEID	eScene);
 
-	void		Progress(void);
+	void		Progress(DWORD _delta);
 	void		Render(HDC hdc);
 	void		Release(void);
 

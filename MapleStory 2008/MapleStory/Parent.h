@@ -1,7 +1,7 @@
 #pragma once
 #include "Bigheader.h"
+#include "Timer.h"
 
-class CBitBmp;
 
 class CParent
 {
@@ -9,7 +9,9 @@ protected:
 	INFO	m_tInfo;
 	STAT	m_tStat;
 	SPRITE	m_tSprite;
+	CTimer	m_cTimer;
 	float	m_fJpower;
+	float	m_fGravity;
 	bool	m_bLand;
 	int		m_iDrawID;
 
@@ -36,7 +38,7 @@ public:
 
 public:
 	virtual void Initialize(void)	PURE;
-	virtual void Progress(void)		PURE;
+	virtual void Progress(DWORD _delta)		PURE;
 	virtual void Render(HDC hdc)	PURE;
 	virtual void Release(void)		PURE;
 

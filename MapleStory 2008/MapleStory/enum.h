@@ -6,6 +6,7 @@ enum OBJID
 	OBJ_UI,
 	OBJ_PLAYER,
 	OBJ_SKILL,
+	OBJ_MONSTER,
 	OBJ_END
 };
 

@@ -36,7 +36,7 @@ void CUI::Initialize(void)
 	}
 }
 
-void CUI::Progress(void)
+void CUI::Progress(DWORD _delta)
 {
 
 }

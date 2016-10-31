@@ -7,6 +7,7 @@
 
 CPlayer::CPlayer(void)
 :m_pSkill(NULL)
+,m_Beyond(0)
 {
 }
 
@@ -17,6 +18,7 @@ CPlayer::~CPlayer(void)
 
 void CPlayer::Initialize(void)
 {
+	m_cTimer.TimeSetting();
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 100.f, 100.f);
 	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
 	m_tSprite = SPRITE(0, 5, 0, 80);
@@ -38,7 +40,7 @@ void CPlayer::Initialize(void)
 	m_ptOffset.y = WINCY / 2;
 }
 
-void CPlayer::Progress(void)
+void CPlayer::Progress(DWORD _delta)
 {
 	KeyInput();
 	Rotation();
@@ -54,7 +56,7 @@ void CPlayer::Progress(void)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
- 		if (m_dwState != ST_STAND && m_dwState != ST_PROSTRATE && m_dwState != ST_JUMP)
+ 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP))
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
@@ -92,13 +94,13 @@ void CPlayer::KeyInput(void)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
-	if (!m_dwKey && (m_dwState != ST_ATTACK) && m_bLand == true)
+	if (!m_dwKey && (m_dwState != ST_ATTACK) && (m_bLand == true))
 	{
 		SetState(ST_STAND, 5, 0, 80);
    		m_dwState = ST_STAND;
 	}
 
-	if (m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE) && m_bLand == true)
+	if (m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE) && (m_bLand == true))
 	{
 		SetState(ST_WALK, 3, 1, 100);
 		m_dwState = ST_WALK;
@@ -190,10 +192,10 @@ void CPlayer::KeyInput(void)
 	if (m_dwKey & KEY_E)
 	{
 		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range_LEFT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
 
 		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range_LEFT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
 
 		return;
 	}

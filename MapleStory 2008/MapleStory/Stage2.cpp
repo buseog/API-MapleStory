@@ -6,6 +6,7 @@
 
 CStage2::CStage2(void)
 {
+	m_strKey = "Stage2";
 }
 
 CStage2::~CStage2(void)
@@ -15,15 +16,13 @@ CStage2::~CStage2(void)
 
 void CStage2::Initialize(void)
 {
+	LoadMap();
+	LoadBmp();
 }
 
-void CStage2::Progress(void)
+void CStage2::Progress(DWORD _delta)
 {
-	if ((GetAsyncKeyState('1') & 0x8001) == 0x8001)
-	{
-		CSceneMgr::GetInstance()->SetScene(SC_STAGE1);
-		return;
-	}
+
 }
 
 void CStage2::Render(HDC hdc)

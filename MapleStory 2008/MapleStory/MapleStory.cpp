@@ -65,7 +65,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		{
 			if(dwTime + 30 < GetTickCount())
 			{
-				MainGame.Progress();
+				MainGame.Progress(GetTickCount() - dwTime);
 				MainGame.Render();
 
 				dwTime = GetTickCount();

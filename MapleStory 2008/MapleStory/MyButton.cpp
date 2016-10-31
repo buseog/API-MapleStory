@@ -19,7 +19,7 @@ void CMyButton::Initialize(void)
 	m_iDrawID   = 0;
 }
 
-void CMyButton::Progress(void)
+void CMyButton::Progress(DWORD _delta)
 {
 	if(PtInRect(&GetRect(), GetMouse()))
 	{

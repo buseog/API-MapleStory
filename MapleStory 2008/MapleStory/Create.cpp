@@ -14,7 +14,7 @@ void CCreate::Initialize(void)
 
 }
 
-void CCreate::Progress(void)
+void CCreate::Progress(DWORD _delta)
 {
 
 }

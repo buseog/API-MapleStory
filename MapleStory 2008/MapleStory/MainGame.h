@@ -13,7 +13,7 @@ private:
 
 public:
 	void Initialize(void);
-	void Progress(void);
+	void Progress(DWORD _delta);
 	void Render(void);
 	void Release(void);
 public:

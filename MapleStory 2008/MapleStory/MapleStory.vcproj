@@ -542,6 +542,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="03. Timer"
+				>
+				<File
+					RelativePath=".\Timer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Timer.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

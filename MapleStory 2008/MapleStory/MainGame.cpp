@@ -22,11 +22,11 @@ void CMainGame::Initialize(void)
 	m_pSceneMgr->SetScene(SC_LOADING);
 }
 
-void CMainGame::Progress(void)
+void CMainGame::Progress(DWORD _delta)
 {
 	CKeyMgr::GetInstance()->KeyCheck();
 
-	m_pSceneMgr->Progress();
+	m_pSceneMgr->Progress(_delta);
 }
 
 void CMainGame::Render(void)

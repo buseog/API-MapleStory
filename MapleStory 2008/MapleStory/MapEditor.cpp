@@ -27,9 +27,9 @@ void CMapEditor::Initialize(void)
 	m_pEdit->SetBitMap(&m_BitMap);
 }
 
-void CMapEditor::Progress(void)
+void CMapEditor::Progress(DWORD _delta)
 {
-	m_pEdit->Progress();
+	m_pEdit->Progress(_delta);
 }
 
 void CMapEditor::Render(HDC hdc)

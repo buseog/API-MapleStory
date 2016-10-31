@@ -27,8 +27,8 @@ void CMapEdit::Initialize(void)
 	if (m_strKey == "Stage2")
 		m_tInfo = INFO(0, 0, 1890, 941);
 
-	m_iTILEX = int(m_tInfo.fCX / TILECX );
-	m_iTILEY = int(m_tInfo.fCY / TILECY );
+	m_iTILEX = int(m_tInfo.fCX / TILECX);
+	m_iTILEY = int(m_tInfo.fCY / TILECY);
 
 	LoadMap();
 
@@ -49,7 +49,7 @@ void CMapEdit::Initialize(void)
 	m_tStat.fSpeed = 10.f;
 }
 
-void CMapEdit::Progress(void)
+void CMapEdit::Progress(DWORD _delta)
 {
 	KeyCheck();	
 	Scroll();

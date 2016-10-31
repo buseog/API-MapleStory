@@ -25,7 +25,7 @@ void CLoading::Initialize(void)
 	MCIWndPlay(m_hVideo);
 }
 
-void CLoading::Progress(void)
+void CLoading::Progress(DWORD _delta)
 {
 	if(GetAsyncKeyState(VK_RETURN))
 	{

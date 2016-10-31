@@ -6,6 +6,7 @@ POINT CParent::m_ptScroll = {};
 
 CParent::CParent(void)
 :m_fJpower(0)
+,m_fGravity(7.f)
 ,m_bLand(true)
 ,m_iDrawID(0)
 ,m_dwTime(0)
@@ -58,7 +59,7 @@ void CParent::Gravity(void)
 {
 	if (m_bLand == true)
 	{
-		m_fJpower = m_tStat.fSpeed;
+		m_fJpower = m_fGravity;
 	}
 
 	else

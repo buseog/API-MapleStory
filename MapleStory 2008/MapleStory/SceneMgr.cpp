@@ -66,10 +66,10 @@ void CSceneMgr::SetScene(SCENEID eScene)
 	m_pScene->Initialize();
 }
 
-void CSceneMgr::Progress(void)
+void CSceneMgr::Progress(DWORD _delta)
 {
 	if(m_pScene)
-		m_pScene->Progress();
+		m_pScene->Progress(_delta);
 }
 
 void CSceneMgr::Render(HDC hdc)

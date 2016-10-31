@@ -11,10 +11,11 @@ protected:
 	string						m_strKey;
 protected:
 	void	LoadMap(void);
+	void	LoadBmp(void);
 
 public:
 	virtual void Initialize(void)	PURE;
-	virtual void Progress(void)		PURE;
+	virtual void Progress(DWORD _delta)		PURE;
 	virtual void Render(HDC hdc)	PURE;
 	virtual void Release(void)		PURE;
 

@@ -3,18 +3,22 @@
 
 CBossField::CBossField(void)
 {
+	m_strKey = "BossField";
 }
 
 CBossField::~CBossField(void)
 {
+	Release();
 }
 
 void CBossField::Initialize(void)
 {
+	LoadMap();
+	LoadBmp();
 
 }
 
-void CBossField::Progress(void)
+void CBossField::Progress(DWORD _delta)
 {
 
 }

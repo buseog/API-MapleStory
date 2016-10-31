@@ -29,13 +29,13 @@ void CLogin::Initialize(void)
 	CParent::SetBitMap(&m_BitMap);
 }
 
-void CLogin::Progress(void)
+void CLogin::Progress(DWORD _delta)
 {
 	int iSelect = 0;
 
 	for (size_t i = 0; i < m_vecButton.size(); ++i)
 	{
-		m_vecButton[i]->Progress();
+		m_vecButton[i]->Progress(_delta);
 		iSelect = ((CMyButton*)m_vecButton[i])->GetSelect();
 
 		switch (iSelect)

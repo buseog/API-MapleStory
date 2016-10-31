@@ -55,7 +55,13 @@ void CSkill::Initialize(void)
 		m_tInfo = INFO(0, 0, 649.f, 300.f);
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
-	
+
+	if (m_strKey == "Beyond3_LEFT" || m_strKey == "Beyond3_RIGHT")
+	{
+		m_tInfo = INFO(0, 0, 400.f, 300.f);
+		m_tSprite = SPRITE(0, 13, 0, 80);
+	}
+
 	m_dwTime = GetTickCount();
 	m_dwKey = 0;
 	m_iDrawID = 0;
@@ -70,7 +76,10 @@ void CSkill::Progress(DWORD _delta)
 	}
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
+	{
+		SetDestroy(true);
 		return;
+	}
 }
 void CSkill::Render(HDC hdc)
 {

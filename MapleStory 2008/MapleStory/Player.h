@@ -7,7 +7,7 @@ class CPlayer:
 private:
 	vector<CParent*>*	m_pSkill;
 	POINT				m_ptOffset;
-	int					m_Beyond;
+	int					m_iBeyond;
 	CParent*			m_pUI[UI_END];
 	bool				m_bUIOnOff[UI_END];
 

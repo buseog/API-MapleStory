@@ -122,6 +122,9 @@ void CScene::LoadBmp(void)
 	m_BitMap["Beyond2_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond2_LEFT.bmp");
 	m_BitMap["Beyond2_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond2_RIGHT.bmp");
 
+	m_BitMap["Beyond3_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_LEFT.bmp");
+	m_BitMap["Beyond3_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_RIGHT.bmp");
+
 	//몬스터 추가
 	m_BitMap["GreenMushRoom_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/GreenMushRoom_LEFT.bmp");
 	m_BitMap["GreenMushRoom_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/GreenMushRoom_RIGHT.bmp");

@@ -16,6 +16,7 @@ CMapEdit::~CMapEdit(void)
 }
 
 
+
 void CMapEdit::Initialize(void)
 {
 	if (m_strKey == "Village")

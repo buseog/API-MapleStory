@@ -201,18 +201,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="99. MapEdit"
-				>
-				<File
-					RelativePath=".\MapEdit.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MapEdit.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="00. Button"
 				>
 				<File
@@ -257,6 +245,30 @@
 				</File>
 				<File
 					RelativePath=".\Monster.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="05. Effect"
+				>
+				<File
+					RelativePath=".\Effect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Effect.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="99. MapEdit"
+				>
+				<File
+					RelativePath=".\MapEdit.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MapEdit.h"
 					>
 				</File>
 			</Filter>

@@ -10,10 +10,11 @@ protected:
 	STAT	m_tStat;
 	SPRITE	m_tSprite;
 	CTimer	m_cTimer;
+	int		m_iDrawID;
 	float	m_fJpower;
 	float	m_fGravity;
 	bool	m_bLand;
-	int		m_iDrawID;
+	bool	m_bDestroy;
 
 	DWORD	m_dwTime;
 	DWORD	m_dwState;
@@ -23,12 +24,15 @@ protected:
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
-	void	SetLand(bool YN);
 	INFO	GetInfo(void);
 	STAT	GetStat(void);
 	SPRITE	GetSprite(void);
 	RECT	GetRect(void);
 	POINT	GetScroll(void);
+	bool	GetDestroy(void);
+	void	SetLand(bool YN);
+	void	SetDestroy(bool _YN);
+	void	SetDamage(float _fDamage);
 	
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);

@@ -8,6 +8,7 @@ CParent::CParent(void)
 :m_fJpower(0)
 ,m_fGravity(7.f)
 ,m_bLand(true)
+,m_bDestroy(false)
 ,m_iDrawID(0)
 ,m_dwTime(0)
 ,m_dwKey(0)
@@ -86,4 +87,19 @@ RECT CParent::GetRect(void)
 POINT CParent::GetScroll(void)
 {
 	return m_ptScroll;
+}
+
+bool CParent::GetDestroy(void)
+{
+	return m_bDestroy;
+}
+
+void	CParent::SetDestroy(bool _YN)
+{
+	m_bDestroy = _YN;
+}
+
+void	CParent::SetDamage(float _fDamage)
+{
+	m_tStat.fHp -= _fDamage;
 }

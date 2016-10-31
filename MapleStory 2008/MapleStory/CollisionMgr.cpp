@@ -37,3 +37,30 @@ void CCollisionMgr::CollisionTile(vector<CParent*>* _pParent, vector<TILE*>* _pT
 		}
 	}
 }
+
+void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* _pMonster)
+{
+	RECT rc;
+
+	for (size_t i = 0; i < _pSkill->size(); ++i)
+	{
+		for (size_t j = 0; j < _pMonster->size(); ++j)
+		{
+			IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect());
+
+			LONG fLength = rc.right - rc.left;
+			LONG fHeight = rc.bottom - rc.top;
+
+			if (fLength > fHeight || fLength < fHeight)
+			{
+				(*_pMonster)[j]->SetDamage(3.f);
+
+				if ((*_pMonster)[j]->GetStat().fHp <= 0)
+				{
+					((*_pMonster)[j]->SetDestroy(true));
+				}
+			}
+		}
+
+	}
+}

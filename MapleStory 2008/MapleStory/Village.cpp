@@ -41,7 +41,7 @@ void CVillage::Progress(DWORD _delta)
 		{
 			(*iter)->Progress(_delta);
 
-			if ((*iter)->GetSprite().iStart > (*iter)->GetSprite().iLast)
+			if ((*iter)->GetDestroy())
 			{
 				::Safe_Delete(*iter);
 				iter = m_vecParent[i].erase(iter);
@@ -56,6 +56,7 @@ void CVillage::Progress(DWORD _delta)
 
 	CCollisionMgr::CollisionTile(&m_vecParent[OBJ_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionTile(&m_vecParent[OBJ_MONSTER], &m_vecTile);
+	CCollisionMgr::CollisionSKill(&m_vecParent[OBJ_SKILL], &m_vecParent[OBJ_MONSTER]);
 }
 
 void CVillage::Render(HDC hdc)

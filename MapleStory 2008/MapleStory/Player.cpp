@@ -7,7 +7,7 @@
 
 CPlayer::CPlayer(void)
 :m_pSkill(NULL)
-,m_Beyond(0)
+,m_iBeyond(0)
 {
 }
 
@@ -170,10 +170,10 @@ void CPlayer::KeyInput(void)
 	if (m_dwKey & KEY_Q)
 	{
 		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Annihilation_LEFT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 200, m_tInfo.fY,"Annihilation_LEFT"));
 
 		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Annihilation_RIGHT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 200, m_tInfo.fY,"Annihilation_RIGHT"));
 
 		return;
 	}
@@ -181,10 +181,10 @@ void CPlayer::KeyInput(void)
 	if (m_dwKey & KEY_W)
 	{
 		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Typhoon_LEFT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 300, m_tInfo.fY - 180,"Typhoon_LEFT"));
 
 		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Typhoon_RIGHT"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 300, m_tInfo.fY - 180,"Typhoon_RIGHT"));
 
 		return;
 	}
@@ -192,23 +192,47 @@ void CPlayer::KeyInput(void)
 	if (m_dwKey & KEY_E)
 	{
 		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 80,"Range"));
 
 		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 80,"Range"));
 
 		return;
 	}
 
 	if (m_dwKey & KEY_R)
 	{
-		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_LEFT"));
+		switch (m_iBeyond)
+		{
+		case 0:
+			if (m_strKey == "Player_LEFT") 
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond_LEFT"));
 
-		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_RIGHT"));
+			else if (m_strKey == "Player_RIGHT")
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond_RIGHT"));
+		
+			++m_iBeyond;
+			break;
+		case 1:
+			if (m_strKey == "Player_LEFT") 
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond2_LEFT"));
 
-		return;
+			else if (m_strKey == "Player_RIGHT")
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond2_RIGHT"));
+			
+			++m_iBeyond;
+			break;
+		case 2:
+			if (m_strKey == "Player_LEFT") 
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond3_LEFT"));
+
+			else if (m_strKey == "Player_RIGHT")
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond3_RIGHT"));
+			
+			m_iBeyond = 0;
+			break;
+
+		}
 	}
 }
 

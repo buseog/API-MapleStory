@@ -229,13 +229,6 @@
 					<File
 						RelativePath=".\DamageEffect.cpp"
 						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\DamageEffect.h"
@@ -300,84 +293,6 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="99. ETC"
-			>
-			<File
-				RelativePath=".\BitBmp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\BitBmp.h"
-				>
-			</File>
-			<Filter
-				Name="리소스 파일"
-				Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-				UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-				>
-				<File
-					RelativePath=".\MapleStory.ico"
-					>
-				</File>
-				<File
-					RelativePath=".\MapleStory.rc"
-					>
-				</File>
-				<File
-					RelativePath=".\small.ico"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="소스 파일"
-				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-				>
-				<File
-					RelativePath=".\MapleStory.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\stdafx.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="1"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="1"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="헤더 파일"
-				Filter="h;hpp;hxx;hm;inl;inc;xsd"
-				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-				>
-				<File
-					RelativePath=".\MapleStory.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Resource.h"
-					>
-				</File>
-				<File
-					RelativePath=".\targetver.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
 			Name="97. Design"
 			>
 			<Filter
@@ -425,14 +340,14 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="00. Loading"
+				Name="00. Start"
 				>
 				<File
-					RelativePath=".\Loading.cpp"
+					RelativePath=".\Start.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Loading.h"
+					RelativePath=".\Start.h"
 					>
 				</File>
 			</Filter>
@@ -627,6 +542,144 @@
 				</File>
 				<File
 					RelativePath=".\MyButton.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="01. Inventory"
+				>
+				<File
+					RelativePath=".\Inventory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Inventory.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="99. ETC"
+			>
+			<File
+				RelativePath=".\BitBmp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BitBmp.h"
+				>
+			</File>
+			<Filter
+				Name="리소스 파일"
+				Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+				UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+				>
+				<File
+					RelativePath=".\MapleStory.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\MapleStory.rc"
+					>
+				</File>
+				<File
+					RelativePath=".\small.ico"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="소스 파일"
+				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+				>
+				<File
+					RelativePath=".\MapleStory.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\stdafx.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="1"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="헤더 파일"
+				Filter="h;hpp;hxx;hm;inl;inc;xsd"
+				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+				>
+				<File
+					RelativePath=".\MapleStory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Resource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\targetver.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="04. Item"
+			>
+			<File
+				RelativePath=".\Item.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Item.h"
+				>
+			</File>
+			<Filter
+				Name="00. Weapon"
+				>
+				<File
+					RelativePath=".\Weapon.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Weapon.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="01. Armor"
+				>
+				<File
+					RelativePath=".\Armor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Armor.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="02. Potion"
+				>
+				<File
+					RelativePath=".\Potion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Potion.h"
 					>
 				</File>
 			</Filter>

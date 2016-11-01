@@ -110,8 +110,8 @@ void	CParent::SetDamage(float _fDamage)
 
 void	CParent::SetScroll(void)
 {
-	m_ptScroll.x = 0.f;
-	m_ptScroll.y = 0.f;
+	m_ptScroll.x = 0;
+	m_ptScroll.y = 0;
 }
 
 float	CParent::GetJumpPower(void)

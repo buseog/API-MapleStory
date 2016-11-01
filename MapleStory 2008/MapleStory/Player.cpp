@@ -119,7 +119,20 @@ void CPlayer::KeyInput(void)
 
 	if (m_dwKey & KEY_DOWN)
 	{
+		if (m_dwKey & KEY_SPACE)
+		{
+			SetState(ST_JUMP, 1, 6, 100);
+			m_dwState = ST_JUMP;
+			m_tInfo.fY += 25.f;
 
+			if (m_bLand == true)
+			{
+				m_fJpower = 5.f;
+				m_bLand = false;
+			}
+		}
+
+		return;
 	}
 
 	if (m_dwKey & KEY_CONTROL)
@@ -292,7 +305,7 @@ void CPlayer::ScrollX(void)
 		if(m_ptScroll.x < WINCX - m_ptMapSize.x + m_tStat.fSpeed)
 		{
 			if(m_tInfo.fX > m_ptMapSize.x)
-				m_tInfo.fX = m_ptMapSize.x;
+				m_tInfo.fX = (float)m_ptMapSize.x;
 
 			return;
 		}
@@ -326,7 +339,7 @@ void CPlayer::ScrollY(void)
 		if(m_ptScroll.y < WINCY - m_ptMapSize.y + m_tStat.fSpeed)
 		{
 			if(m_tInfo.fY > m_ptMapSize.y)
-				m_tInfo.fY = m_ptMapSize.y;
+				m_tInfo.fY = (float)m_ptMapSize.y;
 
 			return;
 		}
@@ -351,6 +364,6 @@ void CPlayer::SetSkill(vector<CParent*>* _pSkill)
 
 void CPlayer::SetMapSize(float _fX, float _fY)
 {
-	m_ptMapSize.x = _fX;
-	m_ptMapSize.y = _fY;
+	m_ptMapSize.x = (long)_fX;
+	m_ptMapSize.y = (long)_fY;
 }

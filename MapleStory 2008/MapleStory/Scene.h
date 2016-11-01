@@ -12,7 +12,7 @@ protected:
 	vector<TILE*>				m_vecTile;
 	vector<CUI*>				m_vecUI;
 	string						m_strKey;
-	
+	vector<CParent*>			m_vecPortal;
 	static	vector<CParent*>	m_vecParent[OBJ_END];
 
 protected:

@@ -11,6 +11,9 @@
 CVillage::CVillage(void)
 {
 	m_strKey = "Village";
+	LoadMap();
+	LoadBmp();
+	m_vecParent[OBJ_PLAYER].push_back(CFactory<CPlayer>::CreateParent(.0f, 0.f));
 }
 
 CVillage::~CVillage(void)
@@ -20,14 +23,10 @@ CVillage::~CVillage(void)
 
 void CVillage::Initialize(void)
 {
-	LoadMap();
-	LoadBmp();
-
-	m_vecParent[OBJ_PLAYER].push_back(CFactory<CPlayer>::CreateParent(300.f, 300.f));
 	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 
-	m_vecParent[OBJ_PORTAL].push_back(CFactory<CPortal>::CreateParent(1800.f, 540.f, "Portal"));
-	((CPortal*)m_vecParent[OBJ_PORTAL].back())->SetPortal(2);
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
+	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
 	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetSkill(&m_vecParent[OBJ_SKILL]);
 	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetMapSize(1920.f, 680.f);
@@ -37,7 +36,8 @@ void CVillage::Initialize(void)
 		m_vecParent[OBJ_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
 	}
 
-	
+	CParent::SetBitMap(&m_BitMap);
+	CUI::SetBitMap(&m_BitMap);
 }
 
 void CVillage::Progress(DWORD _delta)
@@ -66,8 +66,14 @@ void CVillage::Progress(DWORD _delta)
 		m_vecUI[i]->Progress(_delta);
 	}
 
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Progress(_delta);
+	}
+	
+
 	if (GetAsyncKeyState(VK_UP) & 0x8001)
-		CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecParent[OBJ_PORTAL]);
+		CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionTile(&m_vecParent[OBJ_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionTile(&m_vecParent[OBJ_MONSTER], &m_vecTile);
@@ -94,6 +100,11 @@ void CVillage::Render(HDC hdc)
 	for (size_t i = 0; i < m_vecUI.size(); ++i)
 	{
 		m_vecUI[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 	
 

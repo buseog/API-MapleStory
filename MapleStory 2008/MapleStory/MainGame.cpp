@@ -19,7 +19,7 @@ CMainGame::~CMainGame(void)
 void CMainGame::Initialize(void)
 {
 	m_hdc = GetDC(g_hWnd);
-	m_pSceneMgr->SetScene(SC_LOADING);
+	m_pSceneMgr->SetScene(SC_Start);
 }
 
 void CMainGame::Progress(DWORD _delta)

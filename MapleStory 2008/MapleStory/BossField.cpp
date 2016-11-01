@@ -25,8 +25,13 @@ void CBossField::Initialize(void)
 	m_vecParent[OBJ_PLAYER].back()->SetPos(100.f, 100.f);
 	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(100.f, 900.f, "Portal"));
+	((CPortal*)m_vecPortal.back())->SetPortal(1);
+
 	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetMapSize(1372, 1200);
 
+	CParent::SetBitMap(&m_BitMap);
+	CUI::SetBitMap(&m_BitMap);
 }
 
 void CBossField::Progress(DWORD _delta)
@@ -55,8 +60,13 @@ void CBossField::Progress(DWORD _delta)
 			m_vecUI[i]->Progress(_delta);
 		}
 
+		for (size_t i = 0; i < m_vecPortal.size(); ++i)
+		{
+			m_vecPortal[i]->Progress(_delta);
+		}
+
 		if (GetAsyncKeyState(VK_UP) & 0x8001)
-			CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecParent[OBJ_PORTAL]);
+			CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecPortal);
 
 		CCollisionMgr::CollisionTile(&m_vecParent[OBJ_PLAYER], &m_vecTile);
 		CCollisionMgr::CollisionTile(&m_vecParent[OBJ_MONSTER], &m_vecTile);
@@ -91,6 +101,11 @@ void CBossField::Render(HDC hdc)
 		m_vecUI[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 	
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
 
 	BitBlt(hdc, 
 			0, 0, 

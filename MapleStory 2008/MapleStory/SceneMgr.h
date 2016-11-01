@@ -9,6 +9,7 @@ class CSceneMgr
 private:
 	static	CSceneMgr*	m_pInstance;
 	CScene*				m_pScene;
+	CScene*				m_pSaveScene[SC_END];
 
 public:
 	void		SetScene(SCENEID	eScene);

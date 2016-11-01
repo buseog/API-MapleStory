@@ -18,8 +18,8 @@ void CPortal::Initialize(void)
 {
 	if (m_strKey == "Portal")
 	{
-		m_tInfo = INFO(0, 0, 89.f, 137.f);
-		m_tSprite = SPRITE(0, 8, 0, 60);
+		m_tInfo = INFO(0, 0, 80.f, 120.f);
+		m_tSprite = SPRITE(0, 8, 0, 120);
 	}
 }
 
@@ -40,17 +40,18 @@ void CPortal::Progress(DWORD _delta)
 
 void CPortal::Render(HDC hdc)
 {
-	TransparentBlt(hdc,
-		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_ptScroll.x),
-		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_ptScroll.y),
+	Graphics graphics(hdc);
+	Image	image(L"../Texture/Portal.png");
+	graphics.DrawImage(&image, 
+		Rect(int(m_tInfo.fX + m_ptScroll.x), 
+		int(m_tInfo.fY + m_ptScroll.y),
 		int(m_tInfo.fCX),
-		int(m_tInfo.fCY),
-		(*m_pBitMap)[m_strKey]->GetMemdc(),
+		int(m_tInfo.fCY)),
 		int(m_tInfo.fCX * m_tSprite.iStart),
 		int(m_tInfo.fCY * m_tSprite.iMotion),
-		(int)m_tInfo.fCX,
-		(int)m_tInfo.fCY,
-		RGB(255, 255, 250));
+		int(m_tInfo.fCX),
+		int(m_tInfo.fCY),
+		UnitPixel);
 }
 
 void CPortal::Release(void)

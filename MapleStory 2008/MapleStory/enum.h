@@ -6,7 +6,6 @@ enum OBJID
 	OBJ_SKILL,
 	OBJ_MONSTER,
 	OBJ_EFFECT,
-	OBJ_PORTAL,
 	OBJ_END
 };
 
@@ -21,7 +20,7 @@ enum UIID
 
 enum SCENEID
 {
-	SC_LOADING,
+	SC_Start,
 	SC_LOGIN,
 	SC_CREATE,
 	SC_VILLAGE,
@@ -30,4 +29,12 @@ enum SCENEID
 	SC_BOSS,
 	SC_MAPEDIT,
 	SC_END
+};
+
+enum ITEMID
+{
+	IT_WEAPON,
+	IT_ARMOR,
+	IT_POTION,
+	IT_END
 };

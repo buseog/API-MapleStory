@@ -67,3 +67,19 @@ typedef struct tagSprite
 	}
 
 }SPRITE;
+
+typedef struct tagItem
+{
+	int m_iAttack;
+	int m_iDeffense;
+	int m_iCount;
+	int m_iPrice;
+	int m_iType;
+
+	tagItem(){}
+	tagItem(int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType)
+		:m_iAttack(_iAttack), m_iDeffense(_iDeffense), m_iCount(_iCount), m_iPrice(_iPrice), m_iType(_iType)
+	{
+	}
+
+}ITEM;

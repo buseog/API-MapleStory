@@ -60,6 +60,17 @@ void CScene::LoadMap(void)
 							NULL);
 	}
 
+	if (m_strKey == "BossField")
+	{
+		hFile = CreateFile(L"../Data/BossField.dat", 
+							GENERIC_READ, 
+							0, 
+							NULL, 
+							OPEN_EXISTING, 
+							FILE_ATTRIBUTE_NORMAL, 
+							NULL);
+	}
+
 	while(true)
 	{
 		TILE*		pTile = new TILE;
@@ -76,8 +87,6 @@ void CScene::LoadMap(void)
 	}
 
 	CloseHandle(hFile);
-
-	MessageBox(g_hWnd,L"로드됨.", L"메세지", MB_OK);
 }
 
 void CScene::LoadBmp(void)
@@ -90,6 +99,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp");
 	m_BitMap["BossField"] = (new CBitBmp)->LoadBmp(L"../Texture/BossField.bmp");
 
+	//m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
 	m_BitMap["DamageEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageEffect.bmp");
 	m_BitMap["CriticalEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/CriticalEffect.bmp");
 
@@ -99,7 +109,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["Inventory"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inventory.bmp");
 	m_BitMap["Equipment"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equipment.bmp");
 	m_BitMap["Skill"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Skill.bmp");
-	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Portal.bmp");
+	
 
 
 	//플레이어 추가

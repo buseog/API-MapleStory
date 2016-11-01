@@ -287,6 +287,17 @@ void CMapEdit::SaveMap(void)
 							NULL);
 	}
 
+	if (m_strKey == "BossField")
+	{
+		hFile = CreateFile(L"../Data/BossField.dat",
+							GENERIC_WRITE,
+							0,
+							NULL,
+							CREATE_ALWAYS,
+							FILE_ATTRIBUTE_NORMAL,
+							NULL);
+	}
+
 	for (size_t i = 0; i < m_vecTile.size(); ++i)
 	{
 		WriteFile(hFile, m_vecTile[i], sizeof(TILE), &dwByte, NULL);
@@ -336,6 +347,17 @@ void CMapEdit::LoadMap(void)
 	if (m_strKey == "Stage2")
 	{
 		hFile = CreateFile(L"../Data/Stage2.dat", 
+							GENERIC_READ, 
+							0, 
+							NULL, 
+							OPEN_EXISTING, 
+							FILE_ATTRIBUTE_NORMAL, 
+							NULL);
+	}
+
+	if (m_strKey == "BossField")
+	{
+		hFile = CreateFile(L"../Data/BossField.dat", 
 							GENERIC_READ, 
 							0, 
 							NULL, 

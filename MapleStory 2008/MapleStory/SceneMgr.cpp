@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "SceneMgr.h"
-#include "Loading.h"
+#include "Start.h"
 #include "Login.h"
 #include "Create.h"
 #include "Village.h"
@@ -15,6 +15,10 @@ CSceneMgr* CSceneMgr::m_pInstance = NULL;
 CSceneMgr::CSceneMgr(void)
 : m_pScene(NULL)
 {
+	for (int i = 0; i < SC_END; ++i)
+	{
+		m_pSaveScene[i] = NULL;
+	}
 }
 
 CSceneMgr::~CSceneMgr(void)
@@ -25,13 +29,16 @@ CSceneMgr::~CSceneMgr(void)
 void CSceneMgr::SetScene(SCENEID eScene)
 {
 	if(m_pScene != NULL)
-		Release();
+	{
+		if (eScene == SC_Start || eScene == SC_LOGIN || eScene == SC_MAPEDIT)
+			Release();
+	}
 
 
 	switch(eScene)
 	{
-	case SC_LOADING:
-		m_pScene = new CLoading;
+	case SC_Start:
+		m_pScene = new CStart;
 		break;
 
 	case SC_LOGIN:
@@ -43,19 +50,44 @@ void CSceneMgr::SetScene(SCENEID eScene)
 		break;
 
 	case SC_VILLAGE:
-		m_pScene = new CVillage;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CVillage;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+			m_pScene = m_pSaveScene[SC_VILLAGE];
+
 		break;
 
 	case SC_STAGE1:
-		m_pScene = new CStage1;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CStage1;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+			m_pScene = m_pSaveScene[SC_STAGE1];
 		break; 
 
 	case SC_STAGE2:
-		m_pScene = new CStage2;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CStage2;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+			m_pScene = m_pSaveScene[SC_STAGE2];
 		break;
 
 	case SC_BOSS:
-		m_pScene = new CBossField;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CBossField;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+			m_pScene = m_pSaveScene[SC_BOSS];
 		break;
 
 	case SC_MAPEDIT:

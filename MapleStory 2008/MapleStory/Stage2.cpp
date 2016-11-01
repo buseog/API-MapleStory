@@ -25,13 +25,16 @@ void CStage2::Initialize(void)
 	m_vecParent[OBJ_PLAYER].back()->SetPos(100.f, 100.f);
 	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 
-	m_vecParent[OBJ_PORTAL].push_back(CFactory<CPortal>::CreateParent(100.f, 650.f, "Portal"));
-	((CPortal*)m_vecParent[OBJ_PORTAL].back())->SetPortal(2);
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(100.f, 570.f, "Portal"));
+	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
-	m_vecParent[OBJ_PORTAL].push_back(CFactory<CPortal>::CreateParent(1700.f, 650.f, "Portal"));
-	((CPortal*)m_vecParent[OBJ_PORTAL].back())->SetPortal(4);
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1700.f, 630.f, "Portal"));
+	((CPortal*)m_vecPortal.back())->SetPortal(4);
 	
 	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetMapSize(1890, 941);
+
+	CParent::SetBitMap(&m_BitMap);
+	CUI::SetBitMap(&m_BitMap);
 }
 
 void CStage2::Progress(DWORD _delta)
@@ -60,8 +63,13 @@ void CStage2::Progress(DWORD _delta)
 			m_vecUI[i]->Progress(_delta);
 		}
 
+		for (size_t i = 0; i < m_vecPortal.size(); ++i)
+		{
+			m_vecPortal[i]->Progress(_delta);
+		}
+
 		if (GetAsyncKeyState(VK_UP) & 0x8001)
-			CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecParent[OBJ_PORTAL]);
+			CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecPortal);
 
 		CCollisionMgr::CollisionTile(&m_vecParent[OBJ_PLAYER], &m_vecTile);
 		CCollisionMgr::CollisionTile(&m_vecParent[OBJ_MONSTER], &m_vecTile);
@@ -96,6 +104,10 @@ void CStage2::Render(HDC hdc)
 		m_vecUI[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 	
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
 
 	BitBlt(hdc, 
 			0, 0, 

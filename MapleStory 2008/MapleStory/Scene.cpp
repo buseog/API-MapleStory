@@ -143,6 +143,11 @@ void CScene::LoadBmp(void)
 	m_BitMap["Typhoon_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Typhoon_EFFECT.bmp");
 	m_BitMap["Annihilation_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Annihilation_EFFECT.bmp");
 	m_BitMap["Ascend_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Ascend_EFFECT.bmp");
+	m_BitMap["Beyond1_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond1_EFFECT.bmp");
+	m_BitMap["Beyond2_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond2_EFFECT.bmp");
+	m_BitMap["Beyond3_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_EFFECT.bmp");
+
+
 
 
 

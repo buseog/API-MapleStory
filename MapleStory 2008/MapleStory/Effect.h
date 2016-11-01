@@ -5,10 +5,10 @@ class CEffect :
 	public CParent
 {
 public:
-	virtual void Initialize(void);
-	virtual void Progress(DWORD _delta);
-	virtual void Render(HDC hdc);
-	virtual void Release(void);
+	virtual void Initialize(void)		PURE;
+	virtual void Progress(DWORD _delta)	PURE;
+	virtual void Render(HDC hdc)		PURE;
+	virtual void Release(void)			PURE;
 
 public:
 	CEffect(void);

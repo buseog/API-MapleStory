@@ -2,6 +2,8 @@
 #include "CollisionMgr.h"
 #include "Parent.h"
 #include "Effect.h"
+#include "DamageEffect.h"
+#include "SkillEffect.h"
 #include "Factory.h"
 
 CCollisionMgr::CCollisionMgr(void)
@@ -56,22 +58,7 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 			if (fLength > fHeight)
 			{
 				(*_pMonster)[j]->SetDamage(3.f);
-				if ((*_pSkill)[i]->GetStrKey() == "Annihilation_LEFT" || (*_pSkill)[i]->GetStrKey() == "Annihilation_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Annihilation_EFFECT"));
-				}
-				else if ((*_pSkill)[i]->GetStrKey() == "Ascend_LEFT" || (*_pSkill)[i]->GetStrKey() == "Ascend_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Ascend_EFFECT"));
-				}
-				else if ((*_pSkill)[i]->GetStrKey() == "Typhoon_LEFT" || (*_pSkill)[i]->GetStrKey() == "Typhoon_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Typhoon_EFFECT"));
-				}
-				else if ((*_pSkill)[i]->GetStrKey() == "Bolt_LEFT" || (*_pSkill)[i]->GetStrKey() == "Bolt_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Bolt_EFFECT"));
-				}
+				AddEffect((*_pSkill)[i], (*_pMonster)[j]);
 
 				if ((*_pMonster)[j]->GetStat().fHp <= 0)
 				{
@@ -81,22 +68,7 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 			else if (fHeight > fLength)
 			{
 				(*_pMonster)[j]->SetDamage(3.f);
-				if ((*_pSkill)[i]->GetStrKey() == "Annihilation_LEFT" || (*_pSkill)[i]->GetStrKey() == "Annihilation_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Annihilation_EFFECT"));
-				}
-				else if ((*_pSkill)[i]->GetStrKey() == "Ascend_LEFT" || (*_pSkill)[i]->GetStrKey() == "Ascend_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Ascend_EFFECT"));
-				}
-				else if ((*_pSkill)[i]->GetStrKey() == "Typhoon_LEFT" || (*_pSkill)[i]->GetStrKey() == "Typhoon_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Typhoon_EFFECT"));
-				}
-				else if ((*_pSkill)[i]->GetStrKey() == "Bolt_LEFT" || (*_pSkill)[i]->GetStrKey() == "Bolt_RIGHT")
-				{
-					CScene::SetSkill(CFactory<CEffect>::CreateParent((*_pMonster)[j]->GetInfo().fX, (*_pMonster)[j]->GetInfo().fY, "Bolt_EFFECT"));
-				}
+				AddEffect((*_pSkill)[i], (*_pMonster)[j]);
 
 				if ((*_pMonster)[j]->GetStat().fHp <= 0)
 				{
@@ -104,5 +76,43 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 				}
 			}
 		}
+	}
+}
+
+void	CCollisionMgr::AddEffect(CParent* _pSkill, CParent* _pMonster)
+{
+	if (_pSkill->GetStrKey() == "Annihilation_LEFT" || _pSkill->GetStrKey() == "Annihilation_RIGHT")
+	{
+		CScene::SetSkill(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Annihilation_EFFECT"));
+	}
+
+	if (_pSkill->GetStrKey() == "Ascend_LEFT" || _pSkill->GetStrKey() == "Ascend_RIGHT")
+	{
+		CScene::SetSkill(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Ascend_EFFECT"));
+	}
+
+	if (_pSkill->GetStrKey() == "Typhoon_LEFT" ||_pSkill->GetStrKey() == "Typhoon_RIGHT")
+	{
+		CScene::SetSkill(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Typhoon_EFFECT"));
+	}
+
+	if (_pSkill->GetStrKey() == "Bolt_LEFT" || _pSkill->GetStrKey() == "Bolt_RIGHT")
+	{
+		CScene::SetSkill(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Bolt_EFFECT"));
+	}
+
+	if (_pSkill->GetStrKey() == "Beyond_LEFT" || _pSkill->GetStrKey() == "Beyond_RIGHT")
+	{
+		CScene::SetSkill(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond1_EFFECT"));
+	}
+
+	if (_pSkill->GetStrKey() == "Beyond2_LEFT" || _pSkill->GetStrKey() == "Beyond2_RIGHT")
+	{
+		CScene::SetSkill(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond2_EFFECT"));
+	}
+
+	if (_pSkill->GetStrKey() == "Beyond3_LEFT" || _pSkill->GetStrKey() == "Beyond3_RIGHT")
+	{
+		CScene::SetSkill(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond3_EFFECT"));
 	}
 }

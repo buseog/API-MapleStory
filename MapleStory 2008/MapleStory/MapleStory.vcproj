@@ -238,6 +238,26 @@
 				<Filter
 					Name="00. DamageEffect"
 					>
+					<File
+						RelativePath=".\DamageEffect.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\DamageEffect.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="01. SkillEffect"
+					>
+					<File
+						RelativePath=".\SkillEffect.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SkillEffect.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -420,13 +440,6 @@
 				<File
 					RelativePath=".\Village.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Village.h"
@@ -458,13 +471,6 @@
 				<File
 					RelativePath=".\MapEditor.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\MapEditor.h"
@@ -595,6 +601,18 @@
 				</File>
 				<File
 					RelativePath=".\MyButton.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="01. Portal"
+				>
+				<File
+					RelativePath=".\Portal.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Portal.h"
 					>
 				</File>
 			</Filter>

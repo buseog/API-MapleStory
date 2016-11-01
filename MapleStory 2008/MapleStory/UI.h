@@ -25,5 +25,5 @@ public:
 public:
 	CUI(void);
 	CUI(string _strKey);
-	~CUI(void);
+	virtual ~CUI(void);
 };

@@ -19,7 +19,7 @@ CPlayer::~CPlayer(void)
 void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
-	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 100.f, 100.f);
+	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
 	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
 	m_tSprite = SPRITE(0, 5, 0, 80);
 	m_pUI[UI_INVENTORY] = CFactory<CUI>::CreateUI(600.f, 300.f, "Inventory");
@@ -44,7 +44,8 @@ void CPlayer::Progress(DWORD _delta)
 	KeyInput();
 	Rotation();
 	Gravity();
-	Scroll();
+	ScrollX();
+	ScrollY();
 
 	if (m_dwTime + m_tSprite.dwTime < GetTickCount())
 	{
@@ -74,7 +75,7 @@ void CPlayer::Render(HDC hdc)
 		int(m_tInfo.fCY * m_tSprite.iMotion),
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
-		RGB(71, 0, 60));
+		RGB(255, 255, 250));
 
 		for (int i = 0; i < UI_END; ++i)
 		{
@@ -134,7 +135,7 @@ void CPlayer::KeyInput(void)
 
 		if (m_bLand == true)
 		{
-			m_fJpower = -13.f;
+			m_fJpower = -10.f;
 			m_bLand = false;
 		}
 	}
@@ -268,10 +269,10 @@ void CPlayer::SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime)
 	}
 }
 
-void CPlayer::Scroll(void)
+void CPlayer::ScrollX(void)
 {
 // 좌측 끝
-	if(m_tInfo.fX < m_ptOffset.x)
+	if(m_tInfo.fX < m_ptOffset.x - 100.f)
 	{
 		if(m_ptScroll.x > 0 - m_tStat.fSpeed)
 		{
@@ -286,12 +287,12 @@ void CPlayer::Scroll(void)
 	}
 
 	// 우측 끝
-	if(m_tInfo.fX > m_ptOffset.x)
+	if(m_tInfo.fX > m_ptOffset.x + 100.f)
 	{
-		if(m_ptScroll.x < WINCX - 3840.f + m_tStat.fSpeed)
+		if(m_ptScroll.x < WINCX - m_ptMapSize.x + m_tStat.fSpeed)
 		{
-			if(m_tInfo.fX > 1920.f)
-				m_tInfo.fX = 1920.f;
+			if(m_tInfo.fX > m_ptMapSize.x)
+				m_tInfo.fX = m_ptMapSize.x;
 
 			return;
 		}
@@ -299,7 +300,11 @@ void CPlayer::Scroll(void)
 		m_ptScroll.x -= (long)m_tStat.fSpeed;
 		m_ptOffset.x += (long)m_tStat.fSpeed;
 	}
+}
 
+
+void CPlayer::ScrollY(void)
+{
 	// 상단 끝
 	if(m_tInfo.fY < m_ptOffset.y)
 	{
@@ -316,12 +321,12 @@ void CPlayer::Scroll(void)
 	}
 
 	// 하단 끝
-	if(m_tInfo.fY > m_ptOffset.y)
+	if(GetRect().bottom > m_ptOffset.y)
 	{
-		if(m_ptScroll.y < WINCY - 680.f + m_tStat.fSpeed)
+		if(m_ptScroll.y < WINCY - m_ptMapSize.y + m_tStat.fSpeed)
 		{
-			if(m_tInfo.fY > 680.f)
-				m_tInfo.fY = 680.f;
+			if(m_tInfo.fY > m_ptMapSize.y)
+				m_tInfo.fY = m_ptMapSize.y;
 
 			return;
 		}
@@ -342,4 +347,10 @@ CParent* CPlayer::CreateSkill(float _fX, float _fY, string _strKey)
 void CPlayer::SetSkill(vector<CParent*>* _pSkill)
 {
 	m_pSkill = _pSkill;
+}
+
+void CPlayer::SetMapSize(float _fX, float _fY)
+{
+	m_ptMapSize.x = _fX;
+	m_ptMapSize.y = _fY;
 }

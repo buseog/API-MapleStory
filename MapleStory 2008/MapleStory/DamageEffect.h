@@ -4,6 +4,9 @@
 class CDamageEffect :
 	public CEffect
 {
+private:
+	int		m_iNumber;
+
 public:
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

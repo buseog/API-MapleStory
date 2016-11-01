@@ -20,7 +20,7 @@ protected:
 	void	LoadBmp(void);
 
 public:
-	static void SetSkill(CParent* _Effect);
+	static void SetEffect(CParent* _Effect);
 
 public:
 	virtual void Initialize(void)	PURE;

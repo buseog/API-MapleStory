@@ -28,6 +28,9 @@ void CMapEdit::Initialize(void)
 	if (m_strKey == "Stage2")
 		m_tInfo = INFO(0, 0, 1890, 941);
 
+	if (m_strKey == "BossField")
+		m_tInfo = INFO(0, 0, 1372, 1200);
+
 	m_iTILEX = int(m_tInfo.fCX / TILECX);
 	m_iTILEY = int(m_tInfo.fCY / TILECY);
 
@@ -206,6 +209,13 @@ void CMapEdit::KeyCheck(void)
 	if ((GetAsyncKeyState('3') & 0x8001) == 0x8001)
 	{
 		m_strKey = "Stage2";
+		Initialize();
+		return;
+	}
+
+	if ((GetAsyncKeyState('4') & 0x8001) == 0x8001)
+	{
+		m_strKey = "BossField";
 		Initialize();
 		return;
 	}

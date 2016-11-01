@@ -6,7 +6,7 @@ POINT CParent::m_ptScroll = {};
 
 CParent::CParent(void)
 :m_fJpower(0)
-,m_fGravity(7.f)
+,m_fGravity(10.f)
 ,m_bLand(true)
 ,m_bDestroy(false)
 ,m_dwTime(0)
@@ -69,7 +69,7 @@ void CParent::Gravity(void)
 
 	else
 	{
-		m_fJpower += 0.5f;
+		m_fJpower += 0.7f;
 	}
 	
 	m_tInfo.fY += m_fJpower;
@@ -106,4 +106,15 @@ void	CParent::SetDestroy(bool _YN)
 void	CParent::SetDamage(float _fDamage)
 {
 	m_tStat.fHp -= _fDamage;
+}
+
+void	CParent::SetScroll(void)
+{
+	m_ptScroll.x = 0.f;
+	m_ptScroll.y = 0.f;
+}
+
+float	CParent::GetJumpPower(void)
+{
+	return m_fJpower;
 }

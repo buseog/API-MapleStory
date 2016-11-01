@@ -189,18 +189,6 @@
 				>
 			</File>
 			<Filter
-				Name="00. Player"
-				>
-				<File
-					RelativePath=".\Player.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Player.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="01. Skill"
 				>
 				<File
@@ -241,10 +229,24 @@
 					<File
 						RelativePath=".\DamageEffect.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\DamageEffect.h"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 				<Filter
@@ -269,6 +271,30 @@
 				</File>
 				<File
 					RelativePath=".\MapEdit.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="00. Player"
+				>
+				<File
+					RelativePath=".\Player.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Player.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="04. Portal"
+				>
+				<File
+					RelativePath=".\Portal.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Portal.h"
 					>
 				</File>
 			</Filter>
@@ -582,7 +608,7 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="04. UI"
+			Name="03. UI"
 			>
 			<File
 				RelativePath=".\UI.cpp"
@@ -601,18 +627,6 @@
 				</File>
 				<File
 					RelativePath=".\MyButton.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="01. Portal"
-				>
-				<File
-					RelativePath=".\Portal.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Portal.h"
 					>
 				</File>
 			</Filter>

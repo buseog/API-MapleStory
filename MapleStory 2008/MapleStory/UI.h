@@ -8,6 +8,8 @@ protected:
 	INFO	m_tInfo;
 	SPRITE	m_tSprite;
 	int		m_iDrawID;
+	DWORD	m_dwTime;
+
 	string	m_strKey;
 	static	map<string, CBitBmp*>*	m_pBitMap;
 

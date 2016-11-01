@@ -88,18 +88,23 @@ void CScene::LoadBmp(void)
 	m_BitMap["Village"] = (new CBitBmp)->LoadBmp(L"../Texture/Village.bmp");
 	m_BitMap["Stage1"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage1.bmp");
 	m_BitMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp");
+	m_BitMap["BossField"] = (new CBitBmp)->LoadBmp(L"../Texture/BossField.bmp");
+
+	m_BitMap["DamageEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageEffect.bmp");
+	m_BitMap["CriticalEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/CriticalEffect.bmp");
+
 
 	//UI 추가
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/UI.bmp");
 	m_BitMap["Inventory"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inventory.bmp");
 	m_BitMap["Equipment"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equipment.bmp");
 	m_BitMap["Skill"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Skill.bmp");
+	m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Portal.bmp");
 
 
 	//플레이어 추가
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_LEFT.bmp");
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_RIGHT.bmp");
-	m_BitMap["Player_UP"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_UP.bmp");
 	
 	//스킬 추가
 	m_BitMap["Annihilation_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Annihilation_LEFT.bmp");
@@ -153,7 +158,7 @@ void CScene::LoadBmp(void)
 
 }
 
-void CScene::SetSkill(CParent*	_Effect)
+void CScene::SetEffect(CParent*	_Effect)
 {
 	m_vecParent[OBJ_EFFECT].push_back(_Effect);
 }

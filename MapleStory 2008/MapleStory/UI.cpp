@@ -9,6 +9,8 @@ CUI::CUI(void)
 
 CUI::CUI(string _strKey)
 :m_strKey(_strKey)
+,m_iDrawID(0)
+,m_dwTime(0)
 {
 
 }

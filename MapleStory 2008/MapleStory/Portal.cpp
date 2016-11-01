@@ -6,8 +6,7 @@ CPortal::CPortal(void)
 }
 
 CPortal::CPortal(string _strKey)
-:m_iButton(0)
-,CUI(_strKey)
+:m_iPortal(0)
 {
 }
 
@@ -15,51 +14,43 @@ CPortal::~CPortal(void)
 {
 }
 
-
-
-
 void CPortal::Initialize(void)
 {
-	m_tInfo.fCX = 150.f;
-	m_tInfo.fCY = 60.f;
-	m_iDrawID   = 0;
+	if (m_strKey == "Portal")
+	{
+		m_tInfo = INFO(0, 0, 89.f, 137.f);
+		m_tSprite = SPRITE(0, 8, 0, 60);
+	}
 }
 
 void CPortal::Progress(DWORD _delta)
 {
-	if(PtInRect(&GetRect(), GetMouse()))
+	if (m_dwTime + m_tSprite.dwTime < GetTickCount())
 	{
-		m_iDrawID = 1;
+		m_dwTime = GetTickCount();
 
-		if(GetAsyncKeyState(VK_LBUTTON))
-		{
-			if(m_strKey == "Start")
-				m_iButton = SC_VILLAGE;
-
-			else if(m_strKey == "Edit")
-				m_iButton = SC_MAPEDIT;
-
-			else if(m_strKey == "Exit")
-				m_iButton = SC_END;
-		}
+		++m_tSprite.iStart;
 	}
-	else
-		m_iDrawID = 0;
+
+	if (m_tSprite.iStart >= m_tSprite.iLast)
+	{
+		m_tSprite.iStart = 0;
+	}
 }
 
 void CPortal::Render(HDC hdc)
 {
-	TransparentBlt(hdc, 
-		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
-		int(m_tInfo.fY - m_tInfo.fCY / 2.f),
-		int(m_tInfo.fCX), 
+	TransparentBlt(hdc,
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_ptScroll.x),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_ptScroll.y),
+		int(m_tInfo.fCX),
 		int(m_tInfo.fCY),
 		(*m_pBitMap)[m_strKey]->GetMemdc(),
-		0, 
-		int(m_tInfo.fCY * m_iDrawID), 
-		(int)m_tInfo.fCX, 
-		(int)m_tInfo.fCY, 
-		RGB(255, 0, 255));
+		int(m_tInfo.fCX * m_tSprite.iStart),
+		int(m_tInfo.fCY * m_tSprite.iMotion),
+		(int)m_tInfo.fCX,
+		(int)m_tInfo.fCY,
+		RGB(255, 255, 250));
 }
 
 void CPortal::Release(void)
@@ -67,7 +58,33 @@ void CPortal::Release(void)
 	
 }
 
-int CPortal::GetSelect(void)
+SCENEID CPortal::GetPortal(void)
 {
-	return m_iButton;
+	SCENEID eStage;
+
+	switch (m_iPortal)
+	{
+	case 1:
+		eStage = SC_VILLAGE;
+		break;
+
+	case 2:
+		eStage = SC_STAGE1;
+		break;
+
+	case 3:
+		eStage = SC_STAGE2;
+		break;
+
+	case 4:
+		eStage = SC_BOSS;
+		break;
+	}
+
+	return eStage;
+}
+
+void CPortal::SetPortal(int _iPortal)
+{
+	m_iPortal = _iPortal;
 }

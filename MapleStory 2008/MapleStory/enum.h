@@ -6,6 +6,7 @@ enum OBJID
 	OBJ_SKILL,
 	OBJ_MONSTER,
 	OBJ_EFFECT,
+	OBJ_PORTAL,
 	OBJ_END
 };
 
@@ -16,11 +17,6 @@ enum UIID
 	UI_SKILL,
 	UI_END
 
-};
-enum MAPID
-{
-	MAP_BACK,
-	MAP_TILE
 };
 
 enum SCENEID

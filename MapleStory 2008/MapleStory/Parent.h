@@ -30,12 +30,14 @@ public:
 	POINT	GetScroll(void);
 	bool	GetDestroy(void);
 	string	GetStrKey(void);
+	float	GetJumpPower(void);
 	void	SetLand(bool YN);
 	void	SetDestroy(bool _YN);
 	void	SetDamage(float _fDamage);
 	
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
+	void	SetScroll(void);
 	void	SetStrKey(string _strKey);
 	void	Gravity(void);
 	void	SetPos(float _fX, float _fY);

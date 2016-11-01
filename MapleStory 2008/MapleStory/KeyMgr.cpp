@@ -43,7 +43,7 @@ void CKeyMgr::KeyCheck(void)
 	if (GetAsyncKeyState('E') & 0x8000)
 		m_dwKey |= KEY_E;
 
-	if (GetAsyncKeyState('R') & 0x8000)
+	if (GetAsyncKeyState('R') & 0x8001)
 		m_dwKey |= KEY_R;
 
 	if (GetAsyncKeyState('I') & 0x8000)

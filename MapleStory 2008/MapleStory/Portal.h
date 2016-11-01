@@ -1,14 +1,15 @@
 #pragma once
-#include "Ui.h"
+#include "Parent.h"
 
 class CPortal	:
-	public CUI
+	public CParent
 {
 private:
-	int		m_iButton;
+	int		m_iPortal;
 
 public:
-	int		GetSelect(void);
+	void	SetPortal(int _iPortal);
+	SCENEID		GetPortal(void);
 
 public:
 	virtual void Initialize(void);

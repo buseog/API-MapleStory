@@ -27,11 +27,11 @@ void CUI::Initialize(void)
 		m_tSprite = SPRITE(0, 0, 0, 0);
 	}
 
-	if (m_strKey == "Inventory")
-	{
-		m_tInfo = INFO(0, 0, 172.f, 335.f);
-		m_tSprite = SPRITE(0, 0, 0, 0);
-	}
+	//if (m_strKey == "Inventory")
+	//{
+	//	m_tInfo = INFO(0, 0, 172.f, 335.f);
+	//	m_tSprite = SPRITE(0, 0, 0, 0);
+	//}
 
 	if (m_strKey == "Equipment")
 	{

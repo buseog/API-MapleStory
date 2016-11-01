@@ -162,10 +162,8 @@ void CScene::LoadBmp(void)
 	m_BitMap["Beyond2_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond2_EFFECT.bmp");
 	m_BitMap["Beyond3_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_EFFECT.bmp");
 
-
-
-
-
+	//아이템 추가
+	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");
 }
 
 void CScene::SetEffect(CParent*	_Effect)

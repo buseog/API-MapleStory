@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+using namespace std;
 
 typedef struct tagInfo
 {
@@ -70,6 +72,7 @@ typedef struct tagSprite
 
 typedef struct tagItem
 {
+	string m_strName;
 	int m_iAttack;
 	int m_iDeffense;
 	int m_iCount;
@@ -77,8 +80,8 @@ typedef struct tagItem
 	int m_iType;
 
 	tagItem(){}
-	tagItem(int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType)
-		:m_iAttack(_iAttack), m_iDeffense(_iDeffense), m_iCount(_iCount), m_iPrice(_iPrice), m_iType(_iType)
+	tagItem(string	_strName, int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType)
+		:m_strName(_strName), m_iAttack(_iAttack), m_iDeffense(_iDeffense), m_iCount(_iCount), m_iPrice(_iPrice), m_iType(_iType)
 	{
 	}
 

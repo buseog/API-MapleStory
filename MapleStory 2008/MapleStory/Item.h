@@ -4,7 +4,16 @@
 class CItem
 {
 protected:
-	ITEM	m_tItem;
+	INFO						m_tInfo;
+	ITEM						m_tItem;
+
+	static	map<string, CBitBmp*>*		m_pBitMap;
+
+public:
+	INFO	GetInfo(void);
+	ITEM	GetItem(void);
+	void	SetPos(float _fX, float _fY);
+	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
 
 public:
 	virtual void Initialize(void)	PURE;
@@ -14,6 +23,6 @@ public:
 
 public:
 	CItem(void);
-	CItem(int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType);
+	CItem(string _strName, int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType);
 	virtual ~CItem(void);
 };

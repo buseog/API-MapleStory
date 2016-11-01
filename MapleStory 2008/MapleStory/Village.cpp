@@ -6,6 +6,7 @@
 #include "UI.h"
 #include "Portal.h"
 #include "CollisionMgr.h"
+#include "Item.h"
 
 
 CVillage::CVillage(void)
@@ -38,6 +39,7 @@ void CVillage::Initialize(void)
 
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
+	CItem::SetBitMap(&m_BitMap);
 }
 
 void CVillage::Progress(DWORD _delta)

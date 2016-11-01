@@ -31,12 +31,14 @@
 #include <gdiplus.h>
 #include "BitBmp.h"
 
+
+using namespace std;
+using namespace Gdiplus;
+
+
 #ifdef _DEBUG
 #define new new(_CLIENT_BLOCK, __FILE__, __LINE__)
 #endif
 
 #pragma comment(lib, "msimg32.lib")
 #pragma comment(lib, "gdiplus")
-
-using namespace Gdiplus;
-using namespace std;

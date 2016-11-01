@@ -9,3 +9,7 @@ x = (FCX / 2) + (x * TILEFCX);
 
 y = INDEX / TILEX;
 y = (FCY / 2) + (y * TILEFCY);
+
+
+/// 인벤토리칸 사이즈.
+0번칸 = fX - 60; , fY - 100;

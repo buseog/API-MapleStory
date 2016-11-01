@@ -7,6 +7,11 @@ class CInventory	:
 {
 private:
 	vector<CItem*>	m_vecItem;
+	bool			m_bMouse;
+	POINT			m_prevPT;
+
+public:
+	void AddItem(CItem*	_pItem);
 
 public:
 	virtual void Initialize(void);

@@ -4,6 +4,9 @@
 #include "Factory.h"
 #include "Skill.h"
 #include "UI.h"
+#include "Inventory.h"
+#include "Item.h"
+#include "Weapon.h"
 
 CPlayer::CPlayer(void)
 :m_pSkill(NULL)
@@ -22,9 +25,26 @@ void CPlayer::Initialize(void)
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
 	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
 	m_tSprite = SPRITE(0, 5, 0, 80);
-	m_pUI[UI_INVENTORY] = CFactory<CUI>::CreateUI(600.f, 300.f, "Inventory");
+	m_pUI[UI_INVENTORY] = CFactory<CInventory>::CreateUI(600.f, 300.f);
 	m_pUI[UI_EQUIPMENT] = CFactory<CUI>::CreateUI(500.f, 300.f, "Equipment");
 	m_pUI[UI_SKILL] = CFactory<CUI>::CreateUI(600.f, 400.f, "Skill");
+
+	CItem*	pWeapon = new CWeapon("Weapon", 10, 0, 0, 0, 100);
+	pWeapon->Initialize();
+
+	CItem*	pWeapon2 = new CWeapon("Weapon2", 10, 0, 0, 0, 100);
+	pWeapon2->Initialize();
+
+	CItem*	pWeapon3 = new CWeapon("Weapon3", 10, 0, 0, 0, 100);
+	pWeapon3->Initialize();
+
+	CItem*	pWeapon4 = new CWeapon("Weapon4", 10, 0, 0, 0, 100);
+	pWeapon4->Initialize();
+
+	((CInventory*)m_pUI[UI_INVENTORY])->AddItem(pWeapon);
+	((CInventory*)m_pUI[UI_INVENTORY])->AddItem(pWeapon2);
+	((CInventory*)m_pUI[UI_INVENTORY])->AddItem(pWeapon3);
+	((CInventory*)m_pUI[UI_INVENTORY])->AddItem(pWeapon4);
 	
 	for (int i = 0; i < UI_END; ++i)
 	{
@@ -60,6 +80,14 @@ void CPlayer::Progress(DWORD _delta)
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
+	}
+
+	for (int i = 0; i < UI_END; ++i)
+	{
+		if (m_bUIOnOff[i] == true)
+		{
+			m_pUI[i]->Progress(_delta);
+		}
 	}
 }
 

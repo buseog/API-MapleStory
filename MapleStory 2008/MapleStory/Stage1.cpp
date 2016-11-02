@@ -73,8 +73,8 @@ void CStage1::Progress(DWORD _delta)
 		if (GetAsyncKeyState(VK_UP) & 0x8001)
 			CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
-		CCollisionMgr::CollisionTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-		CCollisionMgr::CollisionTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
+		CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
+		CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
 		CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]);
 }
 

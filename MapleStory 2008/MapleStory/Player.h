@@ -15,14 +15,15 @@ private:
 	bool				m_bUIOnOff[UI_END];
 
 private:
+	void	SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);
 	void	KeyInput(DWORD _delta);
 	void	Rotation(void);
-	void	SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);
 	void	ScrollX(void);
 	void	ScrollY(void);
 
 public:
 	CParent*	CreateSkill(float _fX, float _fY, string _strKey);
+	void		SetdwState(DWORD _dwState);
 	void		SetSkill(vector<CParent*>* _pSkill);
 	void		SetMapSize(float _fX, float _fY);
 

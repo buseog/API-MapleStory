@@ -4,6 +4,7 @@
 
 CMapEdit::CMapEdit(void)
 :m_bType(false)
+,m_iTileOption(0)
 {
 	m_strKey = "Village";
 	m_ptScroll.x = 0;
@@ -92,7 +93,7 @@ void CMapEdit::Render(HDC hdc)
 						0,
 						TILECX,
 						TILECY,
-						RGB(0, 255, 0));
+						RGB(255, 255, 250));
 
 					//wsprintf(szBuf, L"%d", iIndex);
 
@@ -144,8 +145,8 @@ void CMapEdit::PickingOn(void)
 	if(iIndex < 0 || iIndex >= m_iTILEX * m_iTILEY)
 		return;
 
-	m_vecTile[iIndex]->iOption = 1;
-	m_vecTile[iIndex]->iDrawID = 1;
+	m_vecTile[iIndex]->iOption = m_iTileOption;
+	m_vecTile[iIndex]->iDrawID = m_iTileOption;
 }
 
 void CMapEdit::PickingOff(void)
@@ -192,32 +193,52 @@ void CMapEdit::KeyCheck(void)
 		return;
 	}
 
-	if ((GetAsyncKeyState('1') & 0x8001) == 0x8001)
+	if ((GetAsyncKeyState(VK_F1) & 0x8001) == 0x8001)
 	{
 		m_strKey = "Village";
 		Initialize();
 		return;
 	}
 
-	if ((GetAsyncKeyState('2') & 0x8001) == 0x8001)
+	if ((GetAsyncKeyState(VK_F2) & 0x8001) == 0x8001)
 	{
 		m_strKey = "Stage1";
 		Initialize();
 		return;
 	}
 
-	if ((GetAsyncKeyState('3') & 0x8001) == 0x8001)
+	if ((GetAsyncKeyState(VK_F3) & 0x8001) == 0x8001)
 	{
 		m_strKey = "Stage2";
 		Initialize();
 		return;
 	}
 
-	if ((GetAsyncKeyState('4') & 0x8001) == 0x8001)
+	if ((GetAsyncKeyState(VK_F4) & 0x8001) == 0x8001)
 	{
 		m_strKey = "BossField";
 		Initialize();
 		return;
+	}
+
+	if (GetAsyncKeyState('1'))
+	{
+		m_iTileOption = 0;
+	}
+
+	if (GetAsyncKeyState('2'))
+	{
+		m_iTileOption = 1;
+	}
+
+	if (GetAsyncKeyState('3'))
+	{
+		m_iTileOption = 2;
+	}
+
+	if (GetAsyncKeyState('4'))
+	{
+		m_iTileOption = 3;
 	}
 
 	if(GetAsyncKeyState(VK_LEFT))

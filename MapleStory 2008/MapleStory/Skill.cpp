@@ -2,6 +2,7 @@
 #include "Skill.h"
 
 CSkill::CSkill()
+:m_bHit(false)
 {
 }
 
@@ -97,4 +98,13 @@ void CSkill::Render(HDC hdc)
 void CSkill::Release(void)
 {
 
+}
+
+void	CSkill::SetHit(bool _YN)
+{
+	m_bHit = _YN;
+}
+bool	CSkill::GetHit(void)
+{
+	return m_bHit;
 }

@@ -12,6 +12,6 @@ public:
 
 public:
 	CWeapon(void);
-	CWeapon(string _strName, int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType);
+	CWeapon(string _strName, int _iOption, int _iCount, int _iPrice, int _iType);
 	~CWeapon(void);
 };

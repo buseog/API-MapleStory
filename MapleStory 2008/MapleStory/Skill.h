@@ -4,6 +4,13 @@
 class CSkill	:
 	public CParent
 {
+private:
+	bool	m_bHit;
+
+public:
+	void	SetHit(bool _YN);
+	bool	GetHit(void);
+
 public:
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

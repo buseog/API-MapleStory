@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "CollisionMgr.h"
 #include "Parent.h"
+#include "Player.h"
+#include "Skill.h"
 #include "Effect.h"
 #include "DamageEffect.h"
 #include "SkillEffect.h"
@@ -16,27 +18,98 @@ CCollisionMgr::~CCollisionMgr(void)
 {
 }
 
-void CCollisionMgr::CollisionTile(vector<CParent*>* _pParent, vector<TILE*>* _pTile)
+void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _pTile)
 {
 	RECT rc;
 
-	for (size_t i = 0; i < _pParent->size(); ++i)
+	for (size_t j = 0; j < _pTile->size(); ++j)
 	{
-		for (size_t j = 0; j < _pTile->size(); ++j)
+		if (!(*_pTile)[j]->iOption == 0)
 		{
-			IntersectRect(&rc, &(*_pParent)[i]->GetRect(), &(*_pTile)[j]->GetRect());
- 
-			if ((*_pTile)[j]->iOption == 1)
+
+			if (IntersectRect(&rc, &_pPlayer->back()->GetRect(), &(*_pTile)[j]->GetRect()))
 			{
 				LONG fLength = rc.right - rc.left;
 				LONG fHeight = rc.bottom - rc.top;
 
 				if (fLength > fHeight)			//상하충돌
 				{
-					if ((rc.top <= (*_pTile)[j]->GetRect().top) && ((*_pParent)[i]->GetJumpPower() >= 0))	//플레이어가 위
+					switch ((*_pTile)[j]->iOption)
 					{
-						(*_pParent)[i]->SetLand(true);
-						(*_pParent)[i]->SetPos((*_pParent)[i]->GetInfo().fX, (*_pParent)[i]->GetInfo().fY - fHeight);
+					case 1:
+						if ((rc.top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
+						{
+							_pPlayer->back()->SetLand(true);
+							_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+						}
+						break;
+
+					case 2:
+						if ((rc.top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
+						{
+							_pPlayer->back()->SetLand(true);
+							_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+						}
+						break;
+
+					case 3:
+						if (GetAsyncKeyState(VK_UP))
+						{
+							_pPlayer->back()->SetLand(true);
+							((CPlayer*)_pPlayer->back())->SetdwState(ST_UP);
+							_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY);
+						}
+						if (GetAsyncKeyState(VK_DOWN))
+						{
+							_pPlayer->back()->SetLand(true);
+							((CPlayer*)_pPlayer->back())->SetdwState(ST_UP);
+							_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 10);
+						}
+
+						break;
+
+					}
+				}
+			}
+		}
+	}
+}
+
+void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _pTile)
+{
+	RECT rc;
+
+	for (size_t i = 0; i < _pMonster->size(); ++i)
+	{
+		for (size_t j = 0; j < _pTile->size(); ++j)
+		{
+			if (!(*_pTile)[j]->iOption == 0)
+			{
+				if (IntersectRect(&rc, &(*_pMonster)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
+				{
+					LONG fLength = rc.right - rc.left;
+					LONG fHeight = rc.bottom - rc.top;
+
+					if (fLength > fHeight)			//상하충돌
+					{
+						switch ((*_pTile)[j]->iOption)
+						{
+						case 1:
+							if ((rc.top <= (*_pTile)[j]->GetRect().top) && ((*_pMonster)[i]->GetJumpPower() >= 0))	//플레이어가 위
+							{
+								(*_pMonster)[i]->SetLand(true);
+								(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - fHeight);
+							}
+							break;
+
+						case 2:
+							if ((rc.top <= (*_pTile)[j]->GetRect().top) && ((*_pMonster)[i]->GetJumpPower() >= 0))	//플레이어가 위
+							{
+								(*_pMonster)[i]->SetLand(true);
+								(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - fHeight);
+							}
+							break;
+						}
 					}
 				}
 			}
@@ -54,7 +127,7 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 		{
 			int Critical = rand() % 100;
 			
-			if (!(*_pMonster)[j]->GetUnbeatable())
+			if (!((CSkill*)(*_pSkill)[i])->GetHit())
 			{
 				if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
 				{
@@ -88,6 +161,7 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 				}
 			}
 		}
+		((CSkill*)(*_pSkill)[i])->SetHit(true);
 	}
 }
 

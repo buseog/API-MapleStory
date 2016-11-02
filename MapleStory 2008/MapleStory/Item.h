@@ -23,6 +23,6 @@ public:
 
 public:
 	CItem(void);
-	CItem(string _strName, int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType);
+	CItem(string _strName, int _iOption, int _iCount, int _iPrice, int _iType);
 	virtual ~CItem(void);
 };

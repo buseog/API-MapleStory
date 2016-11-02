@@ -7,8 +7,8 @@ CItem::CItem(void)
 {
 }
 
-CItem::CItem(string _strName, int _iAttack, int _iDeffense, int _iCount, int _iPrice, int _iType)
-:m_tItem(_strName, _iAttack, _iDeffense, _iCount, _iPrice, _iType)
+CItem::CItem(string _strName, int _iOption, int _iCount, int _iPrice, int _iType)
+:m_tItem(_strName, _iOption, _iCount, _iPrice, _iType)
 {
 
 }

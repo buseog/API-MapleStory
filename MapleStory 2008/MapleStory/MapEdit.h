@@ -7,7 +7,7 @@ class CMapEdit	:
 {
 private:
 	vector<TILE*>			m_vecTile;
-
+	int						m_iTileOption;
 	int						m_iTILEX;
 	int						m_iTILEY;
 	bool					m_bType;

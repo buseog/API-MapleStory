@@ -34,16 +34,16 @@ void CPlayer::Initialize(void)
 	m_pUI[UI_QUICKSLOT] = CFactory<CQuickSlot>::CreateUI(730.f, 480.f);
 	
 
-	CItem*	pWeapon = new CWeapon("Weapon", 10, 0, 0, 0, 100);
+	CItem*	pWeapon = new CWeapon("Weapon", 10, 1, 0, 100);
 	pWeapon->Initialize();
 
-	CItem*	pWeapon2 = new CWeapon("Weapon2", 10, 0, 0, 0, 100);
+	CItem*	pWeapon2 = new CWeapon("Weapon2", 10, 1, 0, 100);
 	pWeapon2->Initialize();
 
-	CItem*	pWeapon3 = new CWeapon("Weapon3", 10, 0, 0, 0, 100);
+	CItem*	pWeapon3 = new CWeapon("Weapon3", 10, 2, 0, 100);
 	pWeapon3->Initialize();
 
-	CItem*	pWeapon4 = new CWeapon("Weapon4", 10, 0, 0, 0, 100);
+	CItem*	pWeapon4 = new CWeapon("Weapon4", 10, 3, 0, 100);
 	pWeapon4->Initialize();
 
 	((CInventory*)m_pUI[UI_INVENTORY])->AddItem(pWeapon);
@@ -82,7 +82,7 @@ void CPlayer::Progress(DWORD _delta)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
- 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP))
+ 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP))
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
@@ -95,6 +95,13 @@ void CPlayer::Progress(DWORD _delta)
 			m_pUI[i]->Progress(_delta);
 		}
 	}
+
+	SetState(ST_STAND, 5, 0, 80);
+	SetState(ST_WALK, 3, 1, 100);
+	SetState(ST_JUMP, 1, 6, 100);
+	SetState(ST_ATTACK, 3, 2, 150);
+	SetState(ST_UP, 1, 8, 100);
+	SetState(ST_PROSTRATE, 1, 5, 100);
 }
 
 void CPlayer::Render(HDC hdc)
@@ -128,19 +135,17 @@ void CPlayer::KeyInput(DWORD _delta)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
-	if (!m_dwKey && (m_dwState != ST_ATTACK) && (m_bLand == true))
+	if (!m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_UP) && (m_bLand == true))
 	{
-		SetState(ST_STAND, 5, 0, 80);
    		m_dwState = ST_STAND;
 	}
 
-	if (m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE) && (m_bLand == true))
+	if (m_dwKey && (m_dwKey != KEY_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_UP) && (m_bLand == true))
 	{
-		SetState(ST_WALK, 3, 1, 100);
 		m_dwState = ST_WALK;
 	}
 
-	if (m_dwKey & KEY_LEFT)
+	if (m_dwKey & KEY_LEFT && (m_dwState != ST_UP) && (m_dwState != ST_PROSTRATE))
 	{
 		if (m_bLand && m_dwState == ST_ATTACK)
 			return;
@@ -148,7 +153,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		m_tInfo.fX -= m_tStat.fSpeed;
 	}
 
-	if (m_dwKey & KEY_RIGHT)
+	if (m_dwKey & KEY_RIGHT && (m_dwState != ST_UP) && (m_dwState != ST_PROSTRATE))
 	{
 		if (m_bLand && m_dwState == ST_ATTACK)
 			return;
@@ -156,16 +161,20 @@ void CPlayer::KeyInput(DWORD _delta)
 		m_tInfo.fX += m_tStat.fSpeed;
 	}
 
-	if (m_dwKey & KEY_UP)
+	if ((m_dwKey & KEY_UP) && (m_dwState & ST_UP))
 	{
-
+		m_tInfo.fY -= m_tStat.fSpeed;
 	}
 
 	if (m_dwKey & KEY_DOWN)
 	{
+		if (m_dwState & ST_UP)
+		{
+			m_tInfo.fY += m_tStat.fSpeed;
+		}
+
 		if (m_dwKey & KEY_SPACE)
 		{
-			SetState(ST_JUMP, 1, 6, 100);
 			m_dwState = ST_JUMP;
 			m_tInfo.fY += 25.f;
 
@@ -175,18 +184,15 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_bLand = false;
 			}
 		}
-		return;
 	}
 
 	if (m_dwKey & KEY_CONTROL)
 	{
-		SetState(ST_ATTACK, 3, 2, 150);
 		m_dwState = ST_ATTACK;
 	}
 
 	if (m_dwKey & KEY_SPACE)
 	{
-		SetState(ST_JUMP, 1, 6, 100);
 		m_dwState = ST_JUMP;
 
 		if (m_bLand == true)
@@ -298,18 +304,18 @@ void CPlayer::Rotation(void)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
-	if ((m_dwKey & KEY_LEFT) && (m_dwState != ST_ATTACK))
+	if ((m_dwKey & KEY_LEFT) && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE))
 		m_strKey = "Player_LEFT";
 
-	if ((m_dwKey & KEY_RIGHT) && (m_dwState != ST_ATTACK))
+	if ((m_dwKey & KEY_RIGHT) && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE))
 		m_strKey = "Player_RIGHT";
 
-	/*if (m_dwKey & KEY_UP)
-		m_strKey = "Player_UP";*/
-
-	if ((m_dwKey & KEY_DOWN) && (m_dwState != ST_JUMP))
+	if (m_dwKey & KEY_UP)
 	{
-		SetState(ST_PROSTRATE, 1, 5, 100);
+	}
+
+	if ((m_dwKey & KEY_DOWN) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP))
+	{
 		m_dwState = ST_PROSTRATE;
 	}
 }
@@ -411,4 +417,9 @@ void CPlayer::SetMapSize(float _fX, float _fY)
 {
 	m_ptMapSize.x = (long)_fX;
 	m_ptMapSize.y = (long)_fY;
+}
+
+void CPlayer::SetdwState(DWORD _dwState)
+{
+	m_dwState = _dwState;
 }

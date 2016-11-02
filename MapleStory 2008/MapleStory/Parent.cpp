@@ -73,7 +73,8 @@ void CParent::Gravity(void)
 		m_fJpower += 0.7f;
 	}
 	
-	m_tInfo.fY += m_fJpower;
+	if (m_dwState != ST_UP)
+		m_tInfo.fY += m_fJpower;
 }
 
 RECT CParent::GetRect(void)

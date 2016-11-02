@@ -2,10 +2,18 @@
 #include "Scene.h"
 #include "MapEdit.h"
 #include "Parent.h"
+#include "KeyMgr.h"
+
 
 vector<CParent*>	CScene::m_vecParent[PAR_END];
+vector<CUI*>	CScene::m_vecUI[UI_END];
+bool			CScene::m_bUIView[UI_END];
+bool			CScene::m_bMouse;
+POINT			CScene::m_prevPT;
+CUI*			CScene::m_pUI;
 
 CScene::CScene(void)
+:m_dwKey(0)
 {
 	
 }
@@ -13,6 +21,76 @@ CScene::CScene(void)
 CScene::~CScene(void)
 {
 
+}
+
+void CScene::KeyInput(void)
+{
+	m_dwKey = CKeyMgr::GetInstance()->GetKey();
+	if (m_dwKey & KEY_F5)	// 인벤토리
+	{
+		CItem*	pWeapon = new CArmor("Armor", 10, 1, 0, 100);
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
+	}
+
+	if (m_dwKey & KEY_I)	// 인벤토리
+	{
+		if (m_bUIView[UI_INVENTORY])
+			m_bUIView[UI_INVENTORY] = false;
+		
+		else
+			m_bUIView[UI_INVENTORY] = true;
+	}
+
+	if (m_dwKey & KEY_U)	// 장비창
+	{
+		if (m_bUIView[UI_EQUIPMENT])
+			m_bUIView[UI_EQUIPMENT] = false;
+		
+		else
+			m_bUIView[UI_EQUIPMENT] = true;
+	}
+
+	if (m_dwKey & KEY_K)	// 스킬창
+	{
+		if (m_bUIView[UI_SKILLPANEL])
+			m_bUIView[UI_SKILLPANEL] = false;
+		
+		else
+			m_bUIView[UI_SKILLPANEL] = true;
+	}
+}
+
+void CScene::UIDrag(void)
+{
+	float fX = float(GetMouse().x - m_prevPT.x);
+	float fY = float(GetMouse().y - m_prevPT.y);
+	
+	if(m_bMouse && m_pUI)
+	{
+		m_pUI->SetPos(m_pUI->GetInfo().fX + fX, m_pUI->GetInfo().fY + fY);
+	}
+
+	for (int i = 1; i < UI_END; ++i)
+	{
+		if(PtInRect(&m_vecUI[i].back()->GetRect(), GetMouse()))
+		{
+			if(GetAsyncKeyState(VK_LBUTTON))
+			{
+				if (m_bUIView[i])
+				{
+					m_prevPT = GetMouse();
+					m_bMouse = true;
+					m_pUI = m_vecUI[i].back();
+				}
+			}
+
+			else
+			{
+				m_bMouse = false;
+				m_pUI = NULL;
+			}
+		}
+	}
 }
 
 void CScene::LoadMap(void)
@@ -166,6 +244,8 @@ void CScene::LoadBmp(void)
 
 	//아이템 추가
 	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");
+	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor.bmp");
+
 }
 
 void CScene::SetEffect(CParent*	_Effect)

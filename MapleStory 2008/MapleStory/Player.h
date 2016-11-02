@@ -11,8 +11,6 @@ private:
 	POINT				m_ptOffset;
 	POINT				m_ptMapSize;
 	int					m_iBeyond;
-	CUI*				m_pUI[UI_END];
-	bool				m_bUIOnOff[UI_END];
 
 private:
 	void	SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);

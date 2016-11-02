@@ -71,3 +71,16 @@ int CMyButton::GetSelect(void)
 {
 	return m_iButton;
 }
+
+RECT CMyButton::GetRect(void)
+{
+	RECT	rc = {
+
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f),
+		int(m_tInfo.fX + m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY + m_tInfo.fCY / 2.f)
+	};
+
+	return rc;
+}

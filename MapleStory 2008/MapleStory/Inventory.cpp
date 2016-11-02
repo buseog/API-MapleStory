@@ -15,44 +15,44 @@ CInventory::~CInventory(void)
 
 void CInventory::Initialize(void)
 {
-	m_bMouse = false;
+	m_iSwap = 100;
 	m_strKey = "Inventory";
 	m_tInfo = INFO(0, 0, 172.f, 335.f);
+	m_vecItem.reserve(24);
 }
 
 void CInventory::Progress(DWORD _delta)
 {
-	float fX = float(GetMouse().x - m_prevPT.x);
-	float fY = float(GetMouse().y - m_prevPT.y);
-	
-	if(m_bMouse)
+	for(size_t i = 0; i < m_vecItem.size(); ++i)
 	{
-		m_tInfo.fX += fX;
-		m_tInfo.fY += fY;
+		m_vecItem[i]->Progress(_delta);
 
-		float fItemX = m_tInfo.fX - 60;
-		float fItemY = m_tInfo.fY - 100;
-
-		for (size_t i = 0; i < m_vecItem.size(); i += 4;)
+		if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
 		{
-			m_vecItem[i]->SetPos(m_vecItem[i]->GetInfo().fX + fX, m_vecItem[i]->GetInfo().fY + fY);
+			if (GetAsyncKeyState(VK_LBUTTON))
+			{
+				if (m_iSwap == 100)
+				{
+					m_iSwap = i;
+					return;
+				}
+
+				else
+				{
+					swap(m_vecItem[m_iSwap], m_vecItem[i]);
+					m_iSwap = 100;
+					return;
+				}
+			}
+			if (GetAsyncKeyState(VK_RBUTTON))
+			{
+				m_vecItem.erase(m_vecItem.begin() + i);
+				return;
+			}
 		}
 	}
 
-	if(PtInRect(&GetRect(), GetMouse()))
-	{
-		if(GetAsyncKeyState(VK_LBUTTON))
-		{
-			m_prevPT = GetMouse();
-			m_bMouse = true;
-		}
-		else
-			m_bMouse = false;
-	}
-	else
-		m_bMouse = false;
-
-	
+	ItemPos();
 }
 
 void CInventory::Render(HDC hdc)
@@ -71,8 +71,6 @@ void CInventory::Render(HDC hdc)
 	{
 		m_vecItem[i]->Render(hdc);
 	}
-
-	
 }
 
 void CInventory::Release(void)
@@ -82,9 +80,45 @@ void CInventory::Release(void)
 
 void CInventory::AddItem(CItem*	_pItem)
 {
-	if (m_vecItem.size() < 23)
+	if (m_vecItem.size() < 24)
+	{	
 		m_vecItem.push_back(_pItem);
-
+	}
+	
 	else
 		return;
+}
+
+void CInventory::ItemPos(void)
+{
+	float fItemX = m_tInfo.fX - 60;
+	float fItemY = m_tInfo.fY - 100;
+
+	int iCount = 0;
+
+	for (vector<CItem*>::iterator iter = m_vecItem.begin(); iter != m_vecItem.end(); ++iter)
+	{
+		int iX = iCount / 4;
+		int iY = iCount - (iX * 4);
+
+		if (*iter != NULL)
+		{
+			(*iter)->SetPos(fItemX + (35 * iY), fItemY + (35 * iX));
+		}
+
+		++iCount;
+	}
+}
+
+RECT CInventory::GetRect(void)
+{
+	RECT	rc = {
+
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f),
+		int(m_tInfo.fX + m_tInfo.fCX / 2.f),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f + 20)
+	};
+
+	return rc;
 }

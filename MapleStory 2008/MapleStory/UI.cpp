@@ -99,3 +99,8 @@ void CUI::SetBitMap(map<string, CBitBmp*>* _pBitMap)
 {
 	m_pBitMap = _pBitMap;
 }
+
+INFO CUI::GetInfo(void)
+{
+	return m_tInfo;
+}

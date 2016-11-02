@@ -23,7 +23,6 @@ void CBossField::Initialize(void)
 	LoadBmp();
 
 	m_vecParent[PAR_PLAYER].back()->SetPos(100.f, 100.f);
-	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(100.f, 900.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(1);
@@ -36,6 +35,9 @@ void CBossField::Initialize(void)
 
 void CBossField::Progress(DWORD _delta)
 {
+	KeyInput();
+	UIDrag();
+
 	for (size_t i = 0; i < PAR_END; ++i)
 		{
 			for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
@@ -55,22 +57,25 @@ void CBossField::Progress(DWORD _delta)
 			}
 		}
 		
-		for (size_t i = 0; i < m_vecUI.size(); ++i)
+	for (size_t i = 0; i < UI_END; ++i)
+	{
+		if (m_bUIView[i])
 		{
-			m_vecUI[i]->Progress(_delta);
+			m_vecUI[i].back()->Progress(_delta);
 		}
+	}
 
-		for (size_t i = 0; i < m_vecPortal.size(); ++i)
-		{
-			m_vecPortal[i]->Progress(_delta);
-		}
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Progress(_delta);
+	}
 
-		if (GetAsyncKeyState(VK_UP) & 0x8001)
-			CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
+	if (GetAsyncKeyState(VK_UP) & 0x8001)
+		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
-		CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-		CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
-		CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]);
+	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
+	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
+	CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]);
 }
 
 void CBossField::Render(HDC hdc)
@@ -96,9 +101,12 @@ void CBossField::Render(HDC hdc)
 		}
 	}
 
-	for (size_t i = 0; i < m_vecUI.size(); ++i)
+	for (size_t i = 0; i < UI_END; ++i)
 	{
-		m_vecUI[i]->Render(m_BitMap["Back"]->GetMemdc());
+		if (m_bUIView[i])
+		{
+			m_vecUI[i].back()->Render(m_BitMap["Back"]->GetMemdc());
+		}
 	}
 	
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)

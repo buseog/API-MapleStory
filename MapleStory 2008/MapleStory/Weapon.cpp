@@ -8,7 +8,7 @@ CWeapon::CWeapon(void)
 CWeapon::CWeapon(string _strName, int _iOption, int _iCount, int _iPrice, int _iType)
 :CItem(_strName, _iOption, _iCount, _iPrice, _iType)
 {
-
+	Initialize();
 }
 
 CWeapon::~CWeapon(void)
@@ -17,26 +17,11 @@ CWeapon::~CWeapon(void)
 
 void CWeapon::Initialize(void)
 {
-	if (m_tItem.m_strName == "Weapon")
-	{
-		m_tInfo = INFO(540.f, 200.f, 30.f, 30.f);
-	}
-	if (m_tItem.m_strName == "Weapon2")
-	{
-		m_tInfo = INFO(575.f, 200.f, 30.f, 30.f);
-	}
-	if (m_tItem.m_strName == "Weapon3")
-	{
-		m_tInfo = INFO(610.f, 200.f, 30.f, 30.f);
-	}
-	if (m_tItem.m_strName == "Weapon4")
-	{
-		m_tInfo = INFO(645.f, 200.f, 30.f, 30.f);
-	}
+	m_tInfo = INFO(0, 0, 30.f, 30.f);
 }
 void CWeapon::Progress(DWORD _delta)
 {
-
+	
 }
 void CWeapon::Render(HDC hdc)
 {

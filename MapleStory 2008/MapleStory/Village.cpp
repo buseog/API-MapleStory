@@ -3,11 +3,9 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Factory.h"
-#include "UI.h"
 #include "Portal.h"
 #include "CollisionMgr.h"
 #include "Item.h"
-
 
 CVillage::CVillage(void)
 {
@@ -25,7 +23,19 @@ CVillage::~CVillage(void)
 void CVillage::Initialize(void)
 {
 	ParentClear();
-	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
+	
+	m_vecUI[UI_UI].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
+	m_vecUI[UI_INVENTORY].push_back(CFactory<CInventory>::CreateUI(600.f, 300.f));
+	m_vecUI[UI_EQUIPMENT].push_back(CFactory<CEquipment>::CreateUI(500.f, 300.f));
+	m_vecUI[UI_SKILLPANEL].push_back(CFactory<CSkillPanel>::CreateUI(600.f, 400.f));
+	m_vecUI[UI_QUICKSLOT].push_back(CFactory<CQuickSlot>::CreateUI(730.f, 480.f));
+	
+	for (int i = 0; i < 8; ++i)
+	{
+		CItem*	pWeapon = new CWeapon("Weapon", 10, 1, 0, 100);
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
+	}
+
 
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
@@ -45,6 +55,9 @@ void CVillage::Initialize(void)
 
 void CVillage::Progress(DWORD _delta)
 {
+	KeyInput();
+	UIDrag();
+
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
@@ -64,9 +77,12 @@ void CVillage::Progress(DWORD _delta)
 		}
 	}
 	
-	for (size_t i = 0; i < m_vecUI.size(); ++i)
+	for (size_t i = 0; i < UI_END; ++i)
 	{
-		m_vecUI[i]->Progress(_delta);
+		if (m_bUIView[i])
+		{
+			m_vecUI[i].back()->Progress(_delta);
+		}
 	}
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
@@ -100,9 +116,12 @@ void CVillage::Render(HDC hdc)
 		}
 	}
 
-	for (size_t i = 0; i < m_vecUI.size(); ++i)
+	for (size_t i = 0; i < UI_END; ++i)
 	{
-		m_vecUI[i]->Render(m_BitMap["Back"]->GetMemdc());
+		if (m_bUIView[i])
+		{
+			m_vecUI[i].back()->Render(m_BitMap["Back"]->GetMemdc());
+		}
 	}
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)

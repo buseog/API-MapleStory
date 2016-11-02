@@ -1,6 +1,13 @@
 #pragma once
 #include "bigheader.h"
 #include "UI.h"
+#include "Inventory.h"
+#include "Equipment.h"
+#include "SkillPanel.h"
+#include "QuickSlot.h"
+#include "Item.h"
+#include "Weapon.h"
+#include "Armor.h"
 
 class CUI;
 class CParent;
@@ -8,14 +15,23 @@ class CParent;
 class CScene
 {
 protected:
+	DWORD						m_dwKey;
 	map<string, CBitBmp*>		m_BitMap;
 	vector<TILE*>				m_vecTile;
-	vector<CUI*>				m_vecUI;
 	string						m_strKey;
 	vector<CParent*>			m_vecPortal;
+
+protected:
+	static	CUI*				m_pUI;
+	static	bool				m_bMouse;
+	static	POINT				m_prevPT;
+	static	bool				m_bUIView[UI_END];
+	static	vector<CUI*>		m_vecUI[UI_END];
 	static	vector<CParent*>	m_vecParent[PAR_END];
 
 protected:
+	void	UIDrag(void);
+	void	KeyInput(void);
 	void	ParentClear(void);
 	void	LoadMap(void);
 	void	LoadBmp(void);

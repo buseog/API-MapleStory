@@ -7,12 +7,11 @@ class CEquipment	:
 {
 private:
 	CItem*			m_pEquipItem[EQ_END];
-	bool			m_bMouse;
-	POINT			m_prevPT;
 
 public:
-	void AddItem(CItem*	_pItem);
+	void EquipItem(CItem*	_pItem);
 public:
+	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);
 	virtual void Render(HDC hdc);

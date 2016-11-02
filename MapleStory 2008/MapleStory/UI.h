@@ -1,6 +1,5 @@
 #pragma once
 #include "bigheader.h"
-#include "Scene.h"
 
 class CUI
 {
@@ -16,9 +15,10 @@ protected:
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
 	void	SetPos(float _fX, float _fY);
-	RECT	GetRect(void);
+	INFO	GetInfo(void);
 
 public:
+	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);
 	virtual void Render(HDC hdc);

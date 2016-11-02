@@ -7,13 +7,16 @@ class CInventory	:
 {
 private:
 	vector<CItem*>	m_vecItem;
-	bool			m_bMouse;
-	POINT			m_prevPT;
+	int				m_iSwap;
+
+private:
+	void ItemPos(void);
 
 public:
 	void AddItem(CItem*	_pItem);
 
 public:
+	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);
 	virtual void Render(HDC hdc);

@@ -12,6 +12,7 @@ protected:
 public:
 	INFO	GetInfo(void);
 	ITEM	GetItem(void);
+	RECT	GetRect(void);
 	void	SetPos(float _fX, float _fY);
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
 

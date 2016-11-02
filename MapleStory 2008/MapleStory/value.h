@@ -21,6 +21,7 @@ const	DWORD		KEY_R		= 0x00000200;
 const	DWORD		KEY_I		= 0x00000400;
 const	DWORD		KEY_U		= 0x00000800;
 const	DWORD		KEY_K		= 0x00001000;
+const	DWORD		KEY_F5		= 0x00002000;
 
 
 

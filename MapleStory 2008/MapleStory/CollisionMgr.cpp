@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Factory.h"
 #include "SceneMgr.h"
+#include "Scene.h"
 
 CCollisionMgr::CCollisionMgr(void)
 {
@@ -26,54 +27,63 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 	{
 		if (!(*_pTile)[j]->iOption == 0)
 		{
-
 			if (IntersectRect(&rc, &_pPlayer->back()->GetRect(), &(*_pTile)[j]->GetRect()))
 			{
-				LONG fLength = rc.right - rc.left;
-				LONG fHeight = rc.bottom - rc.top;
-
-				if (fLength > fHeight)			//상하충돌
+				if ((_pPlayer->back()->GetInfo().fX >= (*_pTile)[j]->GetRect().left) && (_pPlayer->back()->GetInfo().fX <= (*_pTile)[j]->GetRect().right))
 				{
-					switch ((*_pTile)[j]->iOption)
+					LONG fLength = rc.right - rc.left;
+					LONG fHeight = rc.bottom - rc.top;
+
+					if (fLength > fHeight)			//상하충돌
 					{
-					case 1:
-						if ((rc.top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
+						switch ((*_pTile)[j]->iOption)
 						{
-							if (_pPlayer->back()->GetState() == ST_UP)
-								_pPlayer->back()->SetState(ST_STAND);
-
-							_pPlayer->back()->SetLand(true);
-							_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
-						}
-						break;
-
-					case 2:
-						if ((rc.top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
-						{
-							if (_pPlayer->back()->GetState() == ST_UP)
-								_pPlayer->back()->SetState(ST_STAND);
-											
-							_pPlayer->back()->SetLand(true);
-							_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
-						}
-						break;
-
-					case 3:
-						if (_pPlayer->back()->GetState() != ST_UP)
-						{
-							if (GetAsyncKeyState(VK_UP))
+						case 1:
+							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
 							{
-								_pPlayer->back()->SetState(ST_UP);
-								_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY - 10.f);
+								if (_pPlayer->back()->GetState() == ST_UP)
+									_pPlayer->back()->SetState(ST_STAND);
+
+								_pPlayer->back()->SetLand(true);
+								_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+							}
+							break;
+
+						case 2:
+							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
+							{
+								if (_pPlayer->back()->GetState() == ST_UP)
+									_pPlayer->back()->SetState(ST_STAND);
+												
+								_pPlayer->back()->SetLand(true);
+								_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+							}
+							break;
+
+						case 3:
+							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetState() != ST_UP) && (_pPlayer->back()->GetState() != ST_JUMP))
+							{
+								_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
 							}
 
-							if (GetAsyncKeyState(VK_DOWN))
+							if (_pPlayer->back()->GetState() != ST_UP)
 							{
-								_pPlayer->back()->SetState(ST_UP);
-								_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 10.f);
+								if (GetAsyncKeyState(VK_UP))
+								{
+									_pPlayer->back()->SetLand(true);
+									_pPlayer->back()->SetState(ST_UP);
+									_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY - 10.f);
+								}
+
+								if (GetAsyncKeyState(VK_DOWN))
+								{
+									_pPlayer->back()->SetLand(true);
+									_pPlayer->back()->SetState(ST_UP);
+									_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 20.f);
+								}
 							}
+							break;
 						}
-						break;
 
 					}
 				}

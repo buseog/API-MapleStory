@@ -30,6 +30,7 @@
 #include <crtdbg.h>
 #include <gdiplus.h>
 #include "BitBmp.h"
+#include <algorithm>
 
 
 using namespace std;

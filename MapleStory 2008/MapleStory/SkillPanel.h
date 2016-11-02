@@ -4,11 +4,8 @@
 class CSkillPanel	:
 	public CUI
 {
-private:
-	bool			m_bMouse;
-	POINT			m_prevPT;
-
 public:
+	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);
 	virtual void Render(HDC hdc);

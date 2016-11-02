@@ -719,6 +719,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="03. Gold"
+				>
+				<File
+					RelativePath=".\Gold.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Gold.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

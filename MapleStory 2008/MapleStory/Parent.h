@@ -32,11 +32,13 @@ public:
 	bool	GetDestroy(void);
 	string	GetStrKey(void);
 	float	GetJumpPower(void);
+	DWORD	GetState(void);
 	bool	GetUnbeatable(void);
 	void	SetLand(bool YN);
 	void	SetDestroy(bool _YN);
 	void	SetUnbeatable(bool _YN);
 	void	SetDamage(float _fDamage);
+	void	SetState(DWORD _dwState);
 
 	
 public:

@@ -23,7 +23,6 @@ private:
 
 public:
 	CParent*	CreateSkill(float _fX, float _fY, string _strKey);
-	void		SetdwState(DWORD _dwState);
 	void		SetSkill(vector<CParent*>* _pSkill);
 	void		SetMapSize(float _fX, float _fY);
 

@@ -105,6 +105,11 @@ bool CParent::GetUnbeatable(void)
 	return m_bUnbeatable;
 }
 
+DWORD CParent::GetState(void)
+{
+	return m_dwState;
+}
+
 void	CParent::SetDestroy(bool _YN)
 {
 	m_bDestroy = _YN;
@@ -129,4 +134,10 @@ void	CParent::SetScroll(void)
 float	CParent::GetJumpPower(void)
 {
 	return m_fJpower;
+}
+
+
+void CParent::SetState(DWORD _dwState)
+{
+	m_dwState = _dwState;
 }

@@ -39,6 +39,9 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 					case 1:
 						if ((rc.top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
 						{
+							if (_pPlayer->back()->GetState() == ST_UP)
+								_pPlayer->back()->SetState(ST_STAND);
+
 							_pPlayer->back()->SetLand(true);
 							_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
 						}
@@ -47,25 +50,29 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 					case 2:
 						if ((rc.top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
 						{
+							if (_pPlayer->back()->GetState() == ST_UP)
+								_pPlayer->back()->SetState(ST_STAND);
+											
 							_pPlayer->back()->SetLand(true);
 							_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
 						}
 						break;
 
 					case 3:
-						if (GetAsyncKeyState(VK_UP))
+						if (_pPlayer->back()->GetState() != ST_UP)
 						{
-							_pPlayer->back()->SetLand(true);
-							((CPlayer*)_pPlayer->back())->SetdwState(ST_UP);
-							_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY);
-						}
-						if (GetAsyncKeyState(VK_DOWN))
-						{
-							_pPlayer->back()->SetLand(true);
-							((CPlayer*)_pPlayer->back())->SetdwState(ST_UP);
-							_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 10);
-						}
+							if (GetAsyncKeyState(VK_UP))
+							{
+								_pPlayer->back()->SetState(ST_UP);
+								_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY - 10.f);
+							}
 
+							if (GetAsyncKeyState(VK_DOWN))
+							{
+								_pPlayer->back()->SetState(ST_UP);
+								_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 10.f);
+							}
+						}
 						break;
 
 					}

@@ -30,7 +30,10 @@ void CInventory::Progress(DWORD _delta)
 		m_tInfo.fX += fX;
 		m_tInfo.fY += fY;
 
-		for (size_t i = 0; i < m_vecItem.size(); ++i)
+		float fItemX = m_tInfo.fX - 60;
+		float fItemY = m_tInfo.fY - 100;
+
+		for (size_t i = 0; i < m_vecItem.size(); i += 4;)
 		{
 			m_vecItem[i]->SetPos(m_vecItem[i]->GetInfo().fX + fX, m_vecItem[i]->GetInfo().fY + fY);
 		}

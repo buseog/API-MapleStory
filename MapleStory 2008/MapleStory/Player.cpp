@@ -163,6 +163,7 @@ void CPlayer::KeyInput(DWORD _delta)
 
 	if ((m_dwKey & KEY_UP) && (m_dwState & ST_UP))
 	{
+		m_bLand = true;
 		m_tInfo.fY -= m_tStat.fSpeed;
 	}
 
@@ -170,6 +171,7 @@ void CPlayer::KeyInput(DWORD _delta)
 	{
 		if (m_dwState & ST_UP)
 		{
+			m_bLand = true;
 			m_tInfo.fY += m_tStat.fSpeed;
 		}
 
@@ -417,9 +419,4 @@ void CPlayer::SetMapSize(float _fX, float _fY)
 {
 	m_ptMapSize.x = (long)_fX;
 	m_ptMapSize.y = (long)_fY;
-}
-
-void CPlayer::SetdwState(DWORD _dwState)
-{
-	m_dwState = _dwState;
 }

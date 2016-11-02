@@ -1,8 +1,9 @@
 #include "StdAfx.h"
 #include "Scene.h"
 #include "MapEdit.h"
+#include "Parent.h"
 
-vector<CParent*>	CScene::m_vecParent[OBJ_END];
+vector<CParent*>	CScene::m_vecParent[PAR_END];
 
 CScene::CScene(void)
 {
@@ -108,7 +109,8 @@ void CScene::LoadBmp(void)
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/UI.bmp");
 	m_BitMap["Inventory"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inventory.bmp");
 	m_BitMap["Equipment"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equipment.bmp");
-	m_BitMap["Skill"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Skill.bmp");
+	m_BitMap["SkillPanel"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/SkillPanel.bmp");
+	m_BitMap["QuickSlot"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/QuickSlot.bmp");
 	
 
 
@@ -168,5 +170,25 @@ void CScene::LoadBmp(void)
 
 void CScene::SetEffect(CParent*	_Effect)
 {
-	m_vecParent[OBJ_EFFECT].push_back(_Effect);
+	m_vecParent[PAR_EFFECT].push_back(_Effect);
+}
+
+void CScene::ParentClear(void)
+{
+	for (int i = 1; i < PAR_END; ++i)
+	{
+		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
+		{
+			::Safe_Delete(*iter);
+			iter = m_vecParent[i].erase(iter);
+
+			if (iter == m_vecParent[i].end())
+				break;
+
+			else
+				++iter;
+		}
+		m_vecParent[i].clear();
+	}
+
 }

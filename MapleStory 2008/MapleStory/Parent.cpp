@@ -9,6 +9,7 @@ CParent::CParent(void)
 ,m_fGravity(10.f)
 ,m_bLand(true)
 ,m_bDestroy(false)
+,m_bUnbeatable(false)
 ,m_dwTime(0)
 ,m_dwKey(0)
 ,m_dwState(0)
@@ -98,6 +99,11 @@ bool CParent::GetDestroy(void)
 	return m_bDestroy;
 }
 
+bool CParent::GetUnbeatable(void)
+{
+	return m_bUnbeatable;
+}
+
 void	CParent::SetDestroy(bool _YN)
 {
 	m_bDestroy = _YN;
@@ -106,6 +112,11 @@ void	CParent::SetDestroy(bool _YN)
 void	CParent::SetDamage(float _fDamage)
 {
 	m_tStat.fHp -= _fDamage;
+}
+
+void	CParent::SetUnbeatable(bool _YN)
+{
+	m_bUnbeatable = _YN;
 }
 
 void	CParent::SetScroll(void)

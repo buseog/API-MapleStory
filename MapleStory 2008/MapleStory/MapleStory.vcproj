@@ -569,6 +569,30 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="03. SkillPanel"
+				>
+				<File
+					RelativePath=".\SkillPanel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SkillPanel.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="04. QuickSlot"
+				>
+				<File
+					RelativePath=".\QuickSlot.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\QuickSlot.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="99. ETC"

@@ -14,6 +14,7 @@ protected:
 	float	m_fGravity;
 	bool	m_bLand;
 	bool	m_bDestroy;
+	bool	m_bUnbeatable;
 
 	DWORD	m_dwTime;
 	DWORD	m_dwState;
@@ -31,9 +32,12 @@ public:
 	bool	GetDestroy(void);
 	string	GetStrKey(void);
 	float	GetJumpPower(void);
+	bool	GetUnbeatable(void);
 	void	SetLand(bool YN);
 	void	SetDestroy(bool _YN);
+	void	SetUnbeatable(bool _YN);
 	void	SetDamage(float _fDamage);
+
 	
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);

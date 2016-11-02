@@ -5,6 +5,9 @@
 #include "Skill.h"
 #include "UI.h"
 #include "Inventory.h"
+#include "Equipment.h"
+#include "SkillPanel.h"
+#include "QuickSlot.h"
 #include "Item.h"
 #include "Weapon.h"
 
@@ -26,8 +29,10 @@ void CPlayer::Initialize(void)
 	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
 	m_tSprite = SPRITE(0, 5, 0, 80);
 	m_pUI[UI_INVENTORY] = CFactory<CInventory>::CreateUI(600.f, 300.f);
-	m_pUI[UI_EQUIPMENT] = CFactory<CUI>::CreateUI(500.f, 300.f, "Equipment");
-	m_pUI[UI_SKILL] = CFactory<CUI>::CreateUI(600.f, 400.f, "Skill");
+	m_pUI[UI_EQUIPMENT] = CFactory<CEquipment>::CreateUI(500.f, 300.f);
+	m_pUI[UI_SKILLPANEL] = CFactory<CSkillPanel>::CreateUI(600.f, 400.f);
+	m_pUI[UI_QUICKSLOT] = CFactory<CQuickSlot>::CreateUI(730.f, 480.f);
+	
 
 	CItem*	pWeapon = new CWeapon("Weapon", 10, 0, 0, 0, 100);
 	pWeapon->Initialize();
@@ -50,6 +55,7 @@ void CPlayer::Initialize(void)
 	{
 		m_bUIOnOff[i] = false;
 	}
+	m_bUIOnOff[UI_QUICKSLOT] = true;
 
 	m_dwTime = GetTickCount();
 	m_strKey = "Player_LEFT";
@@ -61,7 +67,7 @@ void CPlayer::Initialize(void)
 
 void CPlayer::Progress(DWORD _delta)
 {
-	KeyInput();
+	KeyInput(_delta);
 	Rotation();
 	Gravity();
 	ScrollX();
@@ -118,7 +124,7 @@ void CPlayer::Release(void)
 {
 }
 
-void CPlayer::KeyInput(void)
+void CPlayer::KeyInput(DWORD _delta)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
@@ -135,10 +141,20 @@ void CPlayer::KeyInput(void)
 	}
 
 	if (m_dwKey & KEY_LEFT)
+	{
+		if (m_bLand && m_dwState == ST_ATTACK)
+			return;
+
 		m_tInfo.fX -= m_tStat.fSpeed;
+	}
 
 	if (m_dwKey & KEY_RIGHT)
+	{
+		if (m_bLand && m_dwState == ST_ATTACK)
+			return;
+
 		m_tInfo.fX += m_tStat.fSpeed;
+	}
 
 	if (m_dwKey & KEY_UP)
 	{
@@ -159,13 +175,12 @@ void CPlayer::KeyInput(void)
 				m_bLand = false;
 			}
 		}
-
 		return;
 	}
 
 	if (m_dwKey & KEY_CONTROL)
 	{
-		SetState(ST_ATTACK, 3, 2, 100);
+		SetState(ST_ATTACK, 3, 2, 150);
 		m_dwState = ST_ATTACK;
 	}
 
@@ -176,7 +191,7 @@ void CPlayer::KeyInput(void)
 
 		if (m_bLand == true)
 		{
-			m_fJpower = -10.f;
+			m_fJpower = -12.f;
 			m_bLand = false;
 		}
 	}
@@ -201,24 +216,26 @@ void CPlayer::KeyInput(void)
 
 	if (m_dwKey & KEY_K)	// ½ºÅ³Ã¢
 	{
-		if (m_bUIOnOff[UI_SKILL])
-			m_bUIOnOff[UI_SKILL] = false;
+		if (m_bUIOnOff[UI_SKILLPANEL])
+			m_bUIOnOff[UI_SKILLPANEL] = false;
 		
 		else
-			m_bUIOnOff[UI_SKILL] = true;
+			m_bUIOnOff[UI_SKILLPANEL] = true;
 	}
 
-	if (m_dwKey & KEY_Q)
+	if ((m_cTimer.m_fRemainTime[1] -= _delta) <= 0)
 	{
-		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 15,"Annihilation_LEFT"));
+		if (m_dwKey & KEY_Q)
+		{
+			if (m_strKey == "Player_LEFT") 
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 15,"Annihilation_LEFT"));
 
-		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 15,"Annihilation_RIGHT"));
+			else if (m_strKey == "Player_RIGHT")
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 15,"Annihilation_RIGHT"));
 
-		return;
+			m_cTimer.m_fRemainTime[1] = 2000.f;
+		}
 	}
-
 	if (m_dwKey & KEY_W)
 	{
 		if (m_strKey == "Player_LEFT") 
@@ -281,16 +298,16 @@ void CPlayer::Rotation(void)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
-	if (m_dwKey & KEY_LEFT)
+	if ((m_dwKey & KEY_LEFT) && (m_dwState != ST_ATTACK))
 		m_strKey = "Player_LEFT";
 
-	if (m_dwKey & KEY_RIGHT)
+	if ((m_dwKey & KEY_RIGHT) && (m_dwState != ST_ATTACK))
 		m_strKey = "Player_RIGHT";
 
 	/*if (m_dwKey & KEY_UP)
 		m_strKey = "Player_UP";*/
 
-	if (m_dwKey & KEY_DOWN)
+	if ((m_dwKey & KEY_DOWN) && (m_dwState != ST_JUMP))
 	{
 		SetState(ST_PROSTRATE, 1, 5, 100);
 		m_dwState = ST_PROSTRATE;

@@ -27,18 +27,6 @@ void CUI::Initialize(void)
 		m_tSprite = SPRITE(0, 0, 0, 0);
 	}
 
-	//if (m_strKey == "Inventory")
-	//{
-	//	m_tInfo = INFO(0, 0, 172.f, 335.f);
-	//	m_tSprite = SPRITE(0, 0, 0, 0);
-	//}
-
-	if (m_strKey == "Equipment")
-	{
-		m_tInfo = INFO(0, 0, 237.f, 332.f);
-		m_tSprite = SPRITE(0, 0, 0, 0);
-	}
-
 	if (m_strKey == "Skill")
 	{
 		m_tInfo = INFO(0, 0, 174.f, 300.f);
@@ -68,7 +56,7 @@ void CUI::Render(HDC hdc)
 			RGB(255, 255, 250));
 	}
 
-	else if (m_strKey == "Inventory" || m_strKey == "Equipment" || m_strKey == "Skill")
+	else if (m_strKey == "Skill")
 	{
 		BitBlt(hdc,
 			int(m_tInfo.fX - m_tInfo.fCX / 2.f),

@@ -22,7 +22,7 @@ void CStage2::Initialize(void)
 	LoadMap();
 	LoadBmp();
 
-	m_vecParent[OBJ_PLAYER].back()->SetPos(100.f, 100.f);
+	m_vecParent[PAR_PLAYER].back()->SetPos(100.f, 100.f);
 	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(100.f, 570.f, "Portal"));
@@ -31,7 +31,7 @@ void CStage2::Initialize(void)
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1700.f, 630.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(4);
 	
-	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetMapSize(1890, 941);
+	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1890, 941);
 
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
@@ -39,7 +39,7 @@ void CStage2::Initialize(void)
 
 void CStage2::Progress(DWORD _delta)
 {
-	for (size_t i = 0; i < OBJ_END; ++i)
+	for (size_t i = 0; i < PAR_END; ++i)
 		{
 			for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
 			{
@@ -69,23 +69,23 @@ void CStage2::Progress(DWORD _delta)
 		}
 
 		if (GetAsyncKeyState(VK_UP) & 0x8001)
-			CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecPortal);
+			CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
-		CCollisionMgr::CollisionTile(&m_vecParent[OBJ_PLAYER], &m_vecTile);
-		CCollisionMgr::CollisionTile(&m_vecParent[OBJ_MONSTER], &m_vecTile);
-		CCollisionMgr::CollisionSKill(&m_vecParent[OBJ_SKILL], &m_vecParent[OBJ_MONSTER]);
+		CCollisionMgr::CollisionTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
+		CCollisionMgr::CollisionTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
+		CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]);
 }
 
 void CStage2::Render(HDC hdc)
 {
 	BitBlt(m_BitMap["Back"]->GetMemdc(), 
-		0 + m_vecParent[OBJ_PLAYER].back()->GetScroll().x,
-		0 + m_vecParent[OBJ_PLAYER].back()->GetScroll().y, 
+		0 + m_vecParent[PAR_PLAYER].back()->GetScroll().x,
+		0 + m_vecParent[PAR_PLAYER].back()->GetScroll().y, 
 			1890, 941, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
 
-	for (size_t i = 0; i < OBJ_END; ++i)
+	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end(); )
 		{

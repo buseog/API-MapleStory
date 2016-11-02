@@ -15,18 +15,22 @@ void CDamageEffect::Initialize(void)
 	if (m_strKey == "DamageEffect")
 	{
 		m_tInfo = INFO(0, 0, 70.f, 70.f);
+		m_tStat = STAT(0, 0, 0, 5.f);
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
 
-	if (m_strKey == "CriticalDamageEffect")
+	if (m_strKey == "CriticalEffect")
 	{
 		m_tInfo = INFO(0, 0, 70.f, 70.f);
+		m_tStat = STAT(0, 0, 0, 5.f);
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
 
 }
 void CDamageEffect::Progress(DWORD _delta)
 {
+	m_tInfo.fY -= m_tStat.fSpeed;
+
 	if (m_dwTime + m_tSprite.dwTime < GetTickCount())
 	{
 		m_dwTime = GetTickCount();

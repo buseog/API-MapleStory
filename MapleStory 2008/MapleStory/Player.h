@@ -15,7 +15,7 @@ private:
 	bool				m_bUIOnOff[UI_END];
 
 private:
-	void	KeyInput(void);
+	void	KeyInput(DWORD _delta);
 	void	Rotation(void);
 	void	SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);
 	void	ScrollX(void);

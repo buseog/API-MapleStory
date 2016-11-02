@@ -14,7 +14,7 @@ CVillage::CVillage(void)
 	m_strKey = "Village";
 	LoadMap();
 	LoadBmp();
-	m_vecParent[OBJ_PLAYER].push_back(CFactory<CPlayer>::CreateParent(.0f, 0.f));
+	m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(.0f, 0.f));
 }
 
 CVillage::~CVillage(void)
@@ -24,17 +24,18 @@ CVillage::~CVillage(void)
 
 void CVillage::Initialize(void)
 {
+	ParentClear();
 	m_vecUI.push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
-	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetSkill(&m_vecParent[OBJ_SKILL]);
-	((CPlayer*)m_vecParent[OBJ_PLAYER].back())->SetMapSize(1920.f, 680.f);
+	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
+	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
 	for (int i = 0; i < 15; ++i)
 	{
-		m_vecParent[OBJ_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
 	}
 
 	CParent::SetBitMap(&m_BitMap);
@@ -44,7 +45,7 @@ void CVillage::Initialize(void)
 
 void CVillage::Progress(DWORD _delta)
 {
-	for (size_t i = 0; i < OBJ_END; ++i)
+	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
 		{
@@ -75,23 +76,23 @@ void CVillage::Progress(DWORD _delta)
 	
 
 	if (GetAsyncKeyState(VK_UP) & 0x8001)
-		CCollisionMgr::CollisionPortal(&m_vecParent[OBJ_PLAYER], &m_vecPortal);
+		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
-	CCollisionMgr::CollisionTile(&m_vecParent[OBJ_PLAYER], &m_vecTile);
-	CCollisionMgr::CollisionTile(&m_vecParent[OBJ_MONSTER], &m_vecTile);
-	CCollisionMgr::CollisionSKill(&m_vecParent[OBJ_SKILL], &m_vecParent[OBJ_MONSTER]);
+	CCollisionMgr::CollisionTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
+	CCollisionMgr::CollisionTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
+	CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]);
 }
 
 void CVillage::Render(HDC hdc)
 {
 	BitBlt(m_BitMap["Back"]->GetMemdc(), 
-		0 + m_vecParent[OBJ_PLAYER].back()->GetScroll().x,
-		0 + m_vecParent[OBJ_PLAYER].back()->GetScroll().y, 
+		0 + m_vecParent[PAR_PLAYER].back()->GetScroll().x,
+		0 + m_vecParent[PAR_PLAYER].back()->GetScroll().y, 
 			1920, 680, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
 
-	for (size_t i = 0; i < OBJ_END; ++i)
+	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end(); ++iter)
 		{

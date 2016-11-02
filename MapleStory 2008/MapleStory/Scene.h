@@ -1,9 +1,9 @@
 #pragma once
 #include "bigheader.h"
-#include "Parent.h"
 #include "UI.h"
 
 class CUI;
+class CParent;
 
 class CScene
 {
@@ -13,9 +13,10 @@ protected:
 	vector<CUI*>				m_vecUI;
 	string						m_strKey;
 	vector<CParent*>			m_vecPortal;
-	static	vector<CParent*>	m_vecParent[OBJ_END];
+	static	vector<CParent*>	m_vecParent[PAR_END];
 
 protected:
+	void	ParentClear(void);
 	void	LoadMap(void);
 	void	LoadBmp(void);
 

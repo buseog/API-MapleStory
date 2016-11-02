@@ -22,8 +22,8 @@ void CInventory::Initialize(void)
 
 void CInventory::Progress(DWORD _delta)
 {
-	float fX = (GetMouse().x - m_prevPT.x);
-	float fY = (GetMouse().y - m_prevPT.y);
+	float fX = float(GetMouse().x - m_prevPT.x);
+	float fY = float(GetMouse().y - m_prevPT.y);
 	
 	if(m_bMouse)
 	{

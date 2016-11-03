@@ -25,6 +25,7 @@ void CVillage::Initialize(void)
 	ParentClear();
 	
 	m_vecUI[UI_UI].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
+	m_bUIView[UI_UI] = true;
 	m_vecUI[UI_INVENTORY].push_back(CFactory<CInventory>::CreateUI(600.f, 300.f));
 	m_vecUI[UI_EQUIPMENT].push_back(CFactory<CEquipment>::CreateUI(500.f, 300.f));
 	m_vecUI[UI_SKILLPANEL].push_back(CFactory<CSkillPanel>::CreateUI(600.f, 400.f));

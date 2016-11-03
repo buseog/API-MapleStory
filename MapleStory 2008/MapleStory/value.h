@@ -6,6 +6,8 @@ const int WINCY = 600;
 const int TILECX = 30;
 const int TILECY = 30;
 
+const int INVENSIZE = 24;
+
 // Key °ª
 
 const	DWORD		KEY_LEFT	= 0x00000001;

@@ -27,7 +27,7 @@
 #include <algorithm>
 #include <functional>
 #include <ctime>
-#include <crtdbg.h>
+
 #include <gdiplus.h>
 #include "BitBmp.h"
 #include <algorithm>
@@ -36,7 +36,7 @@
 using namespace std;
 using namespace Gdiplus;
 
-
+#include <crtdbg.h>
 #ifdef _DEBUG
 #define new new(_CLIENT_BLOCK, __FILE__, __LINE__)
 #endif

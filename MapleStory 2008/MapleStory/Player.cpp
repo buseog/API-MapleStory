@@ -20,7 +20,7 @@ void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-	m_tStat = STAT(10.f, 10.f, 10.f, 10.f);
+	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 7.f, 1000);
 	m_tSprite = SPRITE(0, 5, 0, 80);
 
 	m_dwTime = GetTickCount();
@@ -48,24 +48,35 @@ void CPlayer::Progress(DWORD _delta)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
- 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP))
+ 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP) &&  (m_dwState != ST_HIT))
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
 	}
 
+	if(m_bUnbeatable)
+		if ((m_cTimer.m_fRemainTime[9] += _delta) >= 1100)
+		{
+			m_bUnbeatable = false;
+			m_dwState = ST_STAND;
+			m_cTimer.m_fRemainTime[9] = 0;
+
+		}
+
 
 	SetState(ST_STAND, 5, 0, 80);
 	SetState(ST_WALK, 3, 1, 100);
 	SetState(ST_JUMP, 1, 6, 100);
-	SetState(ST_ATTACK, 3, 2, 150);
+	SetState(ST_ATTACK, 3, 2, 120);
+	SetState(ST_ATTACK2, 4, 3, 80);
 	SetState(ST_UP, 1, 8, 100);
 	SetState(ST_PROSTRATE, 1, 5, 100);
+	SetState(ST_HIT, 3, 7, 30);
 }
 
 void CPlayer::Render(HDC hdc)
 {
-		TransparentBlt(hdc, 
+		TransparentBlt(hdc,
 		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_ptScroll.x),
 		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_ptScroll.y),
 		int(m_tInfo.fCX), 
@@ -76,6 +87,32 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
+
+		TCHAR szBuf[128] = L"";
+		TCHAR szBuf2[128] = L"";
+
+			wsprintf(szBuf, L"%d", (int)m_ptScroll.x);
+					TextOut(hdc, 
+						0,0,
+						szBuf, lstrlen(szBuf));
+
+			wsprintf(szBuf2, L"%d", (int)m_ptScroll.y);
+					TextOut(hdc, 
+						0, 20,
+						szBuf2, lstrlen(szBuf2));
+
+		TCHAR szBuf3[128] = L"";
+		TCHAR szBuf4[128] = L"";
+
+			wsprintf(szBuf3, L"%d", (int)m_ptOffset.x);
+					TextOut(hdc, 
+						50,0,
+						szBuf3, lstrlen(szBuf3));
+
+			wsprintf(szBuf4, L"%d", (int)m_ptOffset.y);
+					TextOut(hdc, 
+						50, 20,
+						szBuf4, lstrlen(szBuf4));
 
 	
 }
@@ -88,29 +125,23 @@ void CPlayer::KeyInput(DWORD _delta)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
-	if (!m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_UP) && (m_bLand == true))
+	if (!m_dwKey && (m_dwState != ST_ATTACK) && (m_dwState != ST_ATTACK2) && (m_dwState != ST_UP) && (m_bLand == true) && (m_dwState != ST_HIT))
 	{
    		m_dwState = ST_STAND;
 	}
 
-	if (m_dwKey && (m_dwKey != KEY_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_UP) && (m_bLand == true))
+	if (m_dwKey && (m_dwKey != KEY_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_ATTACK2) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_UP) && (m_bLand == true))
 	{
 		m_dwState = ST_WALK;
 	}
 
-	if (m_dwKey & KEY_LEFT && (m_dwState != ST_UP) && (m_dwState != ST_PROSTRATE))
+	if (m_dwKey & KEY_LEFT && (m_dwState != ST_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_ATTACK2) && (m_dwState != ST_PROSTRATE))
 	{
-		if (m_bLand && m_dwState == ST_ATTACK)
-			return;
-
 		m_tInfo.fX -= m_tStat.fSpeed;
 	}
 
-	if (m_dwKey & KEY_RIGHT && (m_dwState != ST_UP) && (m_dwState != ST_PROSTRATE))
+	if (m_dwKey & KEY_RIGHT && (m_dwState != ST_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_ATTACK2) && (m_dwState != ST_PROSTRATE))
 	{
-		if (m_bLand && m_dwState == ST_ATTACK)
-			return;
-
 		m_tInfo.fX += m_tStat.fSpeed;
 	}
 
@@ -129,7 +160,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		else if (m_dwKey & KEY_SPACE)
 		{
 			m_dwState = ST_JUMP;
-			m_tInfo.fY += 25.f;
+			m_tInfo.fY += 20.f;
 
 			if (m_bLand == true)
 			{
@@ -150,7 +181,7 @@ void CPlayer::KeyInput(DWORD _delta)
 
 		if (m_bLand)
 		{
-			m_fJpower = -11.f;
+			m_fJpower = -13.f;
 			m_bLand = false;
 		}
 	}
@@ -161,69 +192,92 @@ void CPlayer::KeyInput(DWORD _delta)
 	{
 		if (m_dwKey & KEY_Q)
 		{
+			m_dwState = ST_ATTACK;
+
 			if (m_strKey == "Player_LEFT") 
 				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 15,"Annihilation_LEFT"));
 
 			else if (m_strKey == "Player_RIGHT")
 				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 15,"Annihilation_RIGHT"));
 
-			m_cTimer.m_fRemainTime[1] = 2000.f;
+			m_cTimer.m_fRemainTime[1] = 500.f;
 		}
 	}
-	if (m_dwKey & KEY_W)
+
+	if ((m_cTimer.m_fRemainTime[2] -= _delta) <= 0)
 	{
-		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_LEFT"));
-
-		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_RIGHT"));
-
-		return;
-	}
-
-	if (m_dwKey & KEY_E)
-	{
-		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 45,"Typhoon_LEFT"));
-
-		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 45,"Typhoon_RIGHT"));
-
-		return;
-	}
-
-	if (m_dwKey & KEY_R)
-	{
-		switch (m_iBeyond)
+		if (m_dwKey & KEY_W)
 		{
-		case 0:
 			if (m_strKey == "Player_LEFT") 
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond_LEFT"));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_LEFT"));
 
 			else if (m_strKey == "Player_RIGHT")
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond_RIGHT"));
-		
-			++m_iBeyond;
-			break;
-		case 1:
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_RIGHT"));
+
+			m_cTimer.m_fRemainTime[2] = 500.f;
+		}
+	}
+
+	if ((m_cTimer.m_fRemainTime[3] -= _delta) <= 0)
+	{
+		if (m_dwKey & KEY_E)
+		{
+			m_dwState = ST_ATTACK2;
+
 			if (m_strKey == "Player_LEFT") 
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond2_LEFT"));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 45,"Typhoon_LEFT"));
 
 			else if (m_strKey == "Player_RIGHT")
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond2_RIGHT"));
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 45,"Typhoon_RIGHT"));
+
+			m_cTimer.m_fRemainTime[3] = 500.f;
+		}
+	}
+
+	if ((m_cTimer.m_fRemainTime[4] -= _delta) <= 0)
+	{
+		if (m_dwKey & KEY_R)
+		{
+			switch (m_iBeyond)
+			{
+			case 0:
+				m_dwState = ST_ATTACK;
+
+				if (m_strKey == "Player_LEFT") 
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond_LEFT"));
+
+				else if (m_strKey == "Player_RIGHT")
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond_RIGHT"));
 			
-			++m_iBeyond;
-			break;
-		case 2:
-			if (m_strKey == "Player_LEFT") 
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond3_LEFT"));
+				m_cTimer.m_fRemainTime[4] = 400.f;
+				++m_iBeyond;
+				break;
+			case 1:
+				m_dwState = ST_ATTACK;
 
-			else if (m_strKey == "Player_RIGHT")
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond3_RIGHT"));
-			
-			m_iBeyond = 0;
-			break;
+				if (m_strKey == "Player_LEFT") 
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond2_LEFT"));
 
+				else if (m_strKey == "Player_RIGHT")
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond2_RIGHT"));
+				
+				m_cTimer.m_fRemainTime[4] = 400.f;
+				++m_iBeyond;
+				break;
+			case 2:
+				m_dwState = ST_ATTACK2;
+
+				if (m_strKey == "Player_LEFT") 
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond3_LEFT"));
+
+				else if (m_strKey == "Player_RIGHT")
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond3_RIGHT"));
+				
+				m_cTimer.m_fRemainTime[4] = 400.f;
+				m_iBeyond = 0;
+				break;
+
+			}
 		}
 	}
 }
@@ -274,7 +328,7 @@ void CPlayer::ScrollX(void)
 			return;
 		}
 
-		m_ptScroll.x += (long)m_tStat.fSpeed;
+		m_ptScroll.x += (long)m_tStat.fSpeed; 
 		m_ptOffset.x -= (long)m_tStat.fSpeed;
 	}
 
@@ -298,7 +352,7 @@ void CPlayer::ScrollX(void)
 void CPlayer::ScrollY(void)
 {
 	// 상단 끝
-	if(m_tInfo.fY < m_ptOffset.y)
+	if(m_tInfo.fY < m_ptOffset.y - 50.f)
 	{
 		if(m_ptScroll.y > 0 - m_tStat.fSpeed)
 		{
@@ -313,7 +367,7 @@ void CPlayer::ScrollY(void)
 	}
 
 	// 하단 끝
-	if(GetRect().bottom > m_ptOffset.y)
+	if(GetRect().bottom > m_ptOffset.y + 50.f)
 	{
 		if(m_ptScroll.y < WINCY - m_ptMapSize.y + m_tStat.fSpeed)
 		{
@@ -347,3 +401,10 @@ void CPlayer::SetMapSize(float _fX, float _fY)
 	m_ptMapSize.y = (long)_fY;
 }
 //
+
+
+void		CPlayer::SetOffset(float _fX, float _fY)
+{
+	m_ptOffset.x = (long)_fX;
+	m_ptOffset.y = (long)_fY;
+}

@@ -1,6 +1,0 @@
-인덱스 값으로 타일 x,y 좌표 구하기
-
-y = INDEX / TILEX;
-x = INDEX - (y * TILEX);
-x = (FCX / 2) + (x * TILEFCX); 
-y = (FCY / 2) + (y * TILEFCY);

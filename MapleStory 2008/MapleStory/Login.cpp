@@ -12,6 +12,7 @@ CLogin::CLogin(void)
 
 CLogin::~CLogin(void)
 {
+	Release();
 }
 
 void CLogin::Initialize(void)
@@ -42,8 +43,8 @@ void CLogin::Progress(DWORD _delta)
 
 		switch (iSelect)
 		{
-		case SC_VILLAGE:
-			CSceneMgr::GetInstance()->SetScene(SC_VILLAGE);
+		case SC_CREATE:
+			CSceneMgr::GetInstance()->SetScene(SC_CREATE);
 			return;
 
 		case SC_MAPEDIT:
@@ -83,6 +84,12 @@ void CLogin::Release(void)
 		::Safe_Delete(m_vecButton[i]);
 	}
 	m_vecButton.clear();
+
+	for (map<string, CBitBmp*>::iterator iter = m_BitMap.begin(); iter != m_BitMap.end(); ++iter)
+	{
+		::Safe_Delete(iter->second);
+	}
+	m_BitMap.clear();
 }
 
 CUI* CLogin::CreateButton(float _fX, float _fY, string _strKey)

@@ -23,6 +23,7 @@ public:
 	CParent*	CreateSkill(float _fX, float _fY, string _strKey);
 	void		SetSkill(vector<CParent*>* _pSkill);
 	void		SetMapSize(float _fX, float _fY);
+	void		SetOffset(float _fX, float _fY);
 
 public:
 	virtual void Initialize(void);

@@ -11,6 +11,7 @@ CUI::CUI(string _strKey)
 :m_strKey(_strKey)
 ,m_iDrawID(0)
 ,m_dwTime(0)
+,m_ReturnItem(NULL)
 {
 
 }
@@ -103,4 +104,18 @@ void CUI::SetBitMap(map<string, CBitBmp*>* _pBitMap)
 INFO CUI::GetInfo(void)
 {
 	return m_tInfo;
+}
+
+void CUI::UIPicking(void)
+{
+}
+
+CItem* CUI::GetReturnItem(void)
+{
+	return m_ReturnItem;
+}
+
+void CUI::SetReturnItem(void)
+{
+	m_ReturnItem = NULL;
 }

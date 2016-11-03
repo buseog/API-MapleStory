@@ -17,12 +17,14 @@ void CSkill::Initialize(void)
 	if (m_strKey == "Annihilation_LEFT" || m_strKey == "Annihilation_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 315.f, 115.f);
+		m_tStat.fAttack = 500.f;
 		m_tSprite = SPRITE(0, 13, 0, 60);
 	}
 
 	if (m_strKey == "Ascend_LEFT" || m_strKey == "Ascend_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 250.f, 250.f);
+		m_tStat.fAttack = 500.f;
 		m_tSprite = SPRITE(0, 10, 0, 60);
 	}
 
@@ -30,36 +32,42 @@ void CSkill::Initialize(void)
 	if (m_strKey == "Typhoon_LEFT" || m_strKey == "Typhoon_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 300.f, 171.f);
+		m_tStat.fAttack = 700.f;
 		m_tSprite = SPRITE(0, 17, 0, 60);
 	}
 
 	if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 243.f, 142.f);
+		m_tStat.fAttack = 200.f;
 		m_tSprite = SPRITE(0, 15, 0, 60);
 	}
 
 	if (m_strKey == "Range")
 	{
 		m_tInfo = INFO(0, 0, 233.f, 123.f);
+		m_tStat.fAttack = 500.f;
 		m_tSprite = SPRITE(0, 10, 0, 60);
 	}
 
 	if (m_strKey == "Beyond_LEFT" || m_strKey == "Beyond_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 400.f, 400.f);
+		m_tStat.fAttack = 333.f;
 		m_tSprite = SPRITE(0, 14, 0, 60);
 	}
 
 	if (m_strKey == "Beyond2_LEFT" || m_strKey == "Beyond2_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 649.f, 300.f);
+		m_tStat.fAttack = 333.f;
 		m_tSprite = SPRITE(0, 10, 0, 60);
 	}
 
 	if (m_strKey == "Beyond3_LEFT" || m_strKey == "Beyond3_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 400.f, 300.f);
+		m_tStat.fAttack = 333.f;
 		m_tSprite = SPRITE(0, 13, 0, 60);
 	}
 

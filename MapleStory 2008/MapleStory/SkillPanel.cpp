@@ -50,3 +50,7 @@ RECT CSkillPanel::GetRect(void)
 
 	return rc;
 }
+
+void CSkillPanel::UIPicking(void)
+{
+}

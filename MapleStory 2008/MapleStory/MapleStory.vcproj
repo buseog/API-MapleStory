@@ -291,6 +291,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="98. Loading"
+				>
+				<File
+					RelativePath=".\Loading.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Loading.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="97. Design"

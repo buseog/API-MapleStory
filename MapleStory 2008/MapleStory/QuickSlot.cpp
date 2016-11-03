@@ -50,3 +50,7 @@ RECT CQuickSlot::GetRect(void)
 
 	return rc;
 }
+
+void CQuickSlot::UIPicking(void)
+{
+}

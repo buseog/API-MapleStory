@@ -34,25 +34,25 @@ void CKeyMgr::KeyCheck(void)
 	if(GetAsyncKeyState(VK_SPACE) & 0x8000)
 		m_dwKey |= KEY_SPACE;
 
-	if (GetAsyncKeyState('Q') & 0x8000)
+	if (GetAsyncKeyState('Q') & 0x0001)
 		m_dwKey |= KEY_Q;
 
-	if (GetAsyncKeyState('W') & 0x8000)
+	if (GetAsyncKeyState('W') & 0x0001)
 		m_dwKey |= KEY_W;
 
-	if (GetAsyncKeyState('E') & 0x8000)
+	if (GetAsyncKeyState('E') & 0x0001)
 		m_dwKey |= KEY_E;
 
-	if (GetAsyncKeyState('R') & 0x8001)
+	if (GetAsyncKeyState('R') & 0x0001)
 		m_dwKey |= KEY_R;
 
-	if (GetAsyncKeyState('I') & 0x8000)
+	if (GetAsyncKeyState('I') & 0x0001)
 		m_dwKey |= KEY_I;
 
-	if (GetAsyncKeyState('U') & 0x8000)
+	if (GetAsyncKeyState('U') & 0x0001)
 		m_dwKey |= KEY_U;
 
-	if (GetAsyncKeyState('K') & 0x8000)
+	if (GetAsyncKeyState('K') & 0x0001)
 		m_dwKey |= KEY_K;
 
 	if (GetAsyncKeyState(VK_F5) & 0x8000)

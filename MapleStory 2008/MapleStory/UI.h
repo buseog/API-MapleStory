@@ -1,6 +1,8 @@
 #pragma once
 #include "bigheader.h"
 
+class CItem;
+
 class CUI
 {
 protected:
@@ -8,6 +10,7 @@ protected:
 	SPRITE	m_tSprite;
 	int		m_iDrawID;
 	DWORD	m_dwTime;
+	CItem*	m_ReturnItem;
 
 	string	m_strKey;
 	static	map<string, CBitBmp*>*	m_pBitMap;
@@ -16,8 +19,11 @@ public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
 	void	SetPos(float _fX, float _fY);
 	INFO	GetInfo(void);
+	CItem*	GetReturnItem(void);
+	void	SetReturnItem(void);
 
 public:
+	virtual void UIPicking(void);
 	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

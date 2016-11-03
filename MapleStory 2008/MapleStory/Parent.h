@@ -43,7 +43,7 @@ public:
 	
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
-	void	SetScroll(void);
+	void	SetScroll(float _fX, float _fY);
 	void	SetStrKey(string _strKey);
 	void	Gravity(void);
 	void	SetPos(float _fX, float _fY);

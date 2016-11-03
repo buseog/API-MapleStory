@@ -12,6 +12,12 @@ CStage1::CStage1(void)
 	m_strKey = "Stage1";
 	LoadMap();
 	LoadBmp();
+
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(50.f, 1140.f, "Portal"));
+	((CPortal*)m_vecPortal.back())->SetPortal(1);
+
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1650.f, 1140.f, "Portal"));
+	((CPortal*)m_vecPortal.back())->SetPortal(3);
 }
 
 CStage1::~CStage1(void)
@@ -23,18 +29,13 @@ CStage1::~CStage1(void)
 void CStage1::Initialize(void)
 {
 	ParentClear();
-	m_vecParent[PAR_PLAYER].back()->SetPos(0.f, 0.f);
-
-	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(100.f, 1140.f, "Portal"));
-	((CPortal*)m_vecPortal.back())->SetPortal(1);
-
-	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1650.f, 1140.f, "Portal"));
-	((CPortal*)m_vecPortal.back())->SetPortal(3);
 
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1773.f, 1464.f);
 
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
+
+	m_vecParent[PAR_LOADING].push_back(CFactory<CLoading>::CreateParent());
 }
 
 void CStage1::Progress(DWORD _delta)
@@ -75,7 +76,7 @@ void CStage1::Progress(DWORD _delta)
 	}
 
 
-	if (GetAsyncKeyState(VK_UP) & 0x8001)
+	if (GetAsyncKeyState(VK_UP))
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
@@ -128,5 +129,21 @@ void CStage1::Render(HDC hdc)
 
 void CStage1::Release(void)
 {
-	
+	for (map<string, CBitBmp*>::iterator iter = m_BitMap.begin(); iter != m_BitMap.end(); ++iter)
+	{
+		::Safe_Delete(iter->second);
+	}
+	m_BitMap.clear();
+
+	for (size_t i = 0; i < m_vecTile.size(); ++i)
+	{
+		::Safe_Delete(m_vecTile[i]);
+	}
+	m_vecTile.clear();
+
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		::Safe_Delete(m_vecPortal[i]);
+	}
+	m_vecPortal.clear();
 }

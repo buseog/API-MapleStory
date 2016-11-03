@@ -28,7 +28,7 @@ void CScene::KeyInput(void)
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 	if (m_dwKey & KEY_F5)	// 인벤토리
 	{
-		CItem*	pWeapon = new CArmor("Armor", 10, 1, 0, 100);
+		CItem*	pWeapon = new CArmor("Armor", 10, 1, 1, 1);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
 	}
 
@@ -92,8 +92,21 @@ void CScene::UIDrag(void)
 		}
 	}
 
-	if (CItem* pSwapItem = ((CInventory*)m_vecUI[UI_INVENTORY].back())->PickingItem())
-		((CEquipment*)m_vecUI[UI_EQUIPMENT].back())->EquipItem(pSwapItem);
+	m_vecUI[UI_INVENTORY].back()->UIPicking();
+	CItem* pSwap = m_vecUI[UI_INVENTORY].back()->GetReturnItem();
+	if(pSwap)
+	{
+		((CEquipment*)m_vecUI[UI_EQUIPMENT].back())->EquipItem(pSwap);
+		m_vecUI[UI_INVENTORY].back()->SetReturnItem();
+	}
+
+	m_vecUI[UI_EQUIPMENT].back()->UIPicking();
+	CItem* pSwap2 = m_vecUI[UI_EQUIPMENT].back()->GetReturnItem();
+	if(pSwap2)
+	{
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pSwap2);
+		m_vecUI[UI_EQUIPMENT].back()->SetReturnItem();
+	}
 }
 
 void CScene::LoadMap(void)
@@ -180,10 +193,12 @@ void CScene::LoadBmp(void)
 	m_BitMap["Stage1"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage1.bmp");
 	m_BitMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp");
 	m_BitMap["BossField"] = (new CBitBmp)->LoadBmp(L"../Texture/BossField.bmp");
-
-	//m_BitMap["Portal"] = (new CBitBmp)->LoadBmp(L"../Texture/Portal.bmp");
+	m_BitMap["Loading"] = (new CBitBmp)->LoadBmp(L"../Texture/Loading.bmp");
+	
+	
 	m_BitMap["DamageEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageEffect.bmp");
 	m_BitMap["CriticalEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/CriticalEffect.bmp");
+	m_BitMap["HitEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/HitEffect.bmp");
 
 
 	//UI 추가
@@ -273,5 +288,9 @@ void CScene::ParentClear(void)
 		}
 		m_vecParent[i].clear();
 	}
+}
 
+CParent* CScene::GetPlayer(void)
+{
+	return m_vecParent[PAR_PLAYER].back();
 }

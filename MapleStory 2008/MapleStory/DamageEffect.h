@@ -5,7 +5,11 @@ class CDamageEffect :
 	public CEffect
 {
 private:
-	int		m_iNumber;
+	int			m_iDamage;
+	int			m_iPrintDamage[5];
+
+public:
+	void	SetDamage(int _Damage);
 
 public:
 	virtual void Initialize(void);

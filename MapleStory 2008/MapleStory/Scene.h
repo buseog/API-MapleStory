@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "Weapon.h"
 #include "Armor.h"
+#include "Loading.h"
 
 class CUI;
 class CParent;
@@ -37,6 +38,7 @@ protected:
 	void	LoadBmp(void);
 
 public:
+	CParent*	GetPlayer(void);
 	static void SetEffect(CParent* _Effect);
 
 public:

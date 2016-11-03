@@ -11,13 +11,16 @@ CInventory::CInventory(string _strKey)
 
 CInventory::~CInventory(void)
 {
+	Release();
 }
 
 void CInventory::Initialize(void)
 {
+	m_dwTime = GetTickCount();
+	m_pPick = NULL;
 	m_vecItem.reserve(INVENSIZE);
 	m_vecItem.resize(INVENSIZE);
-
+	m_ReturnItem = NULL;
 	m_iSwap = 100;
 	m_strKey = "Inventory";
 	m_tInfo = INFO(0, 0, 172.f, 335.f);
@@ -26,9 +29,10 @@ void CInventory::Initialize(void)
 
 void CInventory::Progress(DWORD _delta)
 {
-
-
 	ItemPos();
+
+	if (m_pPick)
+		m_pPick->SetPos((float)GetMouse().x, (float)GetMouse().y);
 }
 
 void CInventory::Render(HDC hdc)
@@ -48,11 +52,21 @@ void CInventory::Render(HDC hdc)
 		if (m_vecItem[i])
 			m_vecItem[i]->Render(hdc);
 	}
+
+	if (m_pPick)
+		m_pPick->Render(hdc);
 }
 
 void CInventory::Release(void)
 {
-	
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		if (m_vecItem[i] == NULL)
+		{
+			::Safe_Delete(m_vecItem[i]);
+		}
+	}
+	m_vecItem.clear();
 }
 
 void CInventory::AddItem(CItem*	_pItem)
@@ -101,40 +115,42 @@ RECT CInventory::GetRect(void)
 	return rc;
 }
 
-CItem* CInventory::PickingItem(void)
+void CInventory::UIPicking(void)
 {
-	CItem* pSwapItem = NULL;
-
 	for(size_t i = 0; i < m_vecItem.size(); ++i)
 	{
 		if (m_vecItem[i])
 		{
 			if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
 			{
-				if (GetAsyncKeyState(VK_RBUTTON))
+				if (m_dwTime + 80 <= GetTickCount())
 				{
-					pSwapItem = m_vecItem[i];
-					m_vecItem[i] = NULL;
-					return pSwapItem;
-				}
-
-				if (GetAsyncKeyState(VK_LBUTTON))
-				{
-					if (m_iSwap == 100)
+					if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
 					{
-						m_iSwap = i;
+						m_ReturnItem = m_vecItem[i];
+						m_vecItem[i] = NULL;
 					}
 
-					else
+
+					if (GetAsyncKeyState(VK_LBUTTON))
 					{
-						swap(m_vecItem[m_iSwap], m_vecItem[i]);
-						m_iSwap = 100;
+						if (m_pPick == NULL)
+						{
+							m_pPick = m_vecItem[i];
+							m_vecItem[i] = NULL;
+							m_iSwap = i;
+						}
+						else
+						{
+							m_vecItem[m_iSwap] = m_vecItem[i];
+							m_vecItem[i] = m_pPick;
+							m_pPick = NULL;
+						}
 					}
+
+					m_dwTime = GetTickCount();
 				}
-			
 			}
 		}
 	}
-
-	return NULL;
 }

@@ -13,6 +13,7 @@ CWeapon::CWeapon(string _strName, int _iOption, int _iCount, int _iPrice, int _i
 
 CWeapon::~CWeapon(void)
 {
+	Release();
 }
 
 void CWeapon::Initialize(void)

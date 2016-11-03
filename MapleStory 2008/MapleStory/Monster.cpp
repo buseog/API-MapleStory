@@ -16,30 +16,29 @@ void CMonster::Initialize(void)
 	if (m_strKey == "GreenMushRoom_LEFT" || m_strKey == "GreenMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 60.f, 60.f);
-		m_tStat = STAT(10.f, 10.f, 10.f, 5.f);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 50.f, 7.f, 1000);
 		m_tSprite = SPRITE(0, 4, 1, 80);
 	}
 
 	if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 170.f, 170.f);
-		m_tStat = STAT(10.f, 10.f, 10.f, 5.f);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 500.f, 10.f, 1000);
 		m_tSprite = SPRITE(0, 8, 0, 80);
 	}
 
 	if (m_strKey == "BlueMushRoom_LEFT" || m_strKey == "BlueMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 70.f, 70.f);
-		m_tStat = STAT(10.f, 10.f, 10.f, 5.f);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 150.f, 7.f, 1000);
 		m_tSprite = SPRITE(0, 3, 3, 80);
 	}
 
 	if (m_strKey == "PurpleMushRoom_LEFT" || m_strKey == "PurpleMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 80.f, 80.f);
-		m_tStat = STAT(10.f, 10.f, 10.f, 5.f);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 300.f, 7.f, 1000);
 		m_tSprite = SPRITE(0, 4, 1, 80);
-
 	}
 
 	m_dwTime = GetTickCount();
@@ -49,15 +48,26 @@ void CMonster::Progress(DWORD _delta)
 {
 	Gravity();
 
-	if ((m_cTimer.m_fRemainTime[1] -= _delta) >= 0)
+	if (m_dwState != ST_HIT)
 	{
-		m_tInfo.fX -= m_tStat.fSpeed;
+		if ((m_cTimer.m_fRemainTime[1] -= _delta) >= 0)
+		{			
+			m_tInfo.fX -= m_tStat.fSpeed;
+		}
+		else
+		{
+			if (m_strKey == "PurpleMushRoom_LEFT")
+			{
+				m_strKey = "PurpleMushRoom_RIGHT";
+			}
+			else if (m_strKey == "PurpleMushRoom_RIGHT")
+			{
+				m_strKey = "PurpleMushRoom_LEFT";
+			}
+			m_tStat.fSpeed *= -1.f;
+			m_cTimer.m_fRemainTime[1] = 1000.f;
+		}
 	}
-	else
-	{
-		m_tStat.fSpeed *= -1.f;
-		m_cTimer.m_fRemainTime[1] = 1000.f;
-	}	
 
 	if (m_dwTime + m_tSprite.dwTime < GetTickCount())
 	{
@@ -68,10 +78,44 @@ void CMonster::Progress(DWORD _delta)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
- 		if (m_dwState != ST_STAND && m_dwState != ST_PROSTRATE && m_dwState != ST_JUMP)
+ 		if (m_dwState != ST_STAND)
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
+	}
+
+
+	if (m_strKey == "GreenMushRoom_LEFT" || m_strKey == "GreenMushRoom_RIGHT")
+	{
+		SetState(ST_STAND, 2, 0, 100);
+		SetState(ST_WALK, 5, 1, 100);
+		SetState(ST_HIT, 1, 2, 800);
+		SetState(ST_DEATH, 10, 3, 80);
+	}
+
+	if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
+	{		
+		SetState(ST_STAND, 8, 0, 100);
+		SetState(ST_WALK, 14, 1, 80);
+		SetState(ST_HIT, 1, 2, 800);
+		SetState(ST_DEATH, 5, 3, 80);
+		
+	}
+
+	if (m_strKey == "BlueMushRoom_LEFT" || m_strKey == "BlueMushRoom_RIGHT")
+	{
+		SetState(ST_STAND, 2, 0, 100);
+		SetState(ST_WALK, 3, 1, 100);
+		SetState(ST_HIT, 1, 2, 800);
+		SetState(ST_DEATH, 3, 3, 80);
+	}
+
+	if (m_strKey == "PurpleMushRoom_LEFT" || m_strKey == "PurpleMushRoom_RIGHT")
+	{
+		SetState(ST_STAND, 4, 0, 100);
+		SetState(ST_WALK, 4, 1, 100);
+		SetState(ST_HIT, 1, 2, 800);
+		SetState(ST_DEATH, 10, 3, 80);
 	}
 }
 void CMonster::Render(HDC hdc)
@@ -91,4 +135,17 @@ void CMonster::Render(HDC hdc)
 void CMonster::Release(void)
 {
 
+}
+
+void CMonster::SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime)
+{
+	if (m_dwState & _dwState)
+	{
+		if (m_tSprite.iMotion != _iMotion)
+			m_tSprite.iStart = 0;
+
+		m_tSprite.iLast = _iLast;
+		m_tSprite.iMotion = _iMotion;
+		m_tSprite.dwTime = _dwTime;
+	}
 }

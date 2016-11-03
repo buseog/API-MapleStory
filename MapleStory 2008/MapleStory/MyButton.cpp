@@ -20,31 +20,21 @@ CMyButton::~CMyButton(void)
 
 void CMyButton::Initialize(void)
 {
-	m_tInfo.fCX = 150.f;
-	m_tInfo.fCY = 60.f;
-	m_iDrawID   = 0;
+	if (m_strKey == "Start" || m_strKey == "Edit" || m_strKey == "Exit")
+	{
+		m_tInfo = INFO(0.f, 0.f, 150.f, 60.f);
+		m_iDrawID = 0;
+	}
+	if (m_strKey == "Character_CREATE")
+	{
+		m_tInfo = INFO(0.f, 0.f, 120.f, 40.f);
+		m_iDrawID = 0;
+	}
 }
 
 void CMyButton::Progress(DWORD _delta)
 {
-	if(PtInRect(&GetRect(), GetMouse()))
-	{
-		m_iDrawID = 1;
-
-		if(GetAsyncKeyState(VK_LBUTTON))
-		{
-			if(m_strKey == "Start")
-				m_iButton = SC_VILLAGE;
-
-			else if(m_strKey == "Edit")
-				m_iButton = SC_MAPEDIT;
-
-			else if(m_strKey == "Exit")
-				m_iButton = SC_END;
-		}
-	}
-	else
-		m_iDrawID = 0;
+	UIPicking();
 }
 
 void CMyButton::Render(HDC hdc)
@@ -59,7 +49,7 @@ void CMyButton::Render(HDC hdc)
 		int(m_tInfo.fCY * m_iDrawID), 
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
-		RGB(255, 0, 255));
+		RGB(255, 255, 250));
 }
 
 void CMyButton::Release(void)
@@ -83,4 +73,29 @@ RECT CMyButton::GetRect(void)
 	};
 
 	return rc;
+}
+
+void CMyButton::UIPicking(void)
+{
+	if(PtInRect(&GetRect(), GetMouse()))
+	{
+		m_iDrawID = 1;
+
+		if(GetAsyncKeyState(VK_LBUTTON))
+		{
+			if(m_strKey == "Start")
+				m_iButton = SC_CREATE;
+
+			else if(m_strKey == "Edit")
+				m_iButton = SC_MAPEDIT;
+
+			else if(m_strKey == "Exit")
+				m_iButton = SC_END;
+
+			else if(m_strKey == "Character_CREATE")
+				m_iButton = SC_VILLAGE;
+		}
+	}
+	else
+		m_iDrawID = 0;
 }

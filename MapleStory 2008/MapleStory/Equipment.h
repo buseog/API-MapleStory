@@ -12,9 +12,10 @@ private:
 	void ItemPos(void);
 
 public:
-	CItem* EquipItem(CItem*	_pItem);
+	void EquipItem(CItem*	_pItem);
 
 public:
+	virtual void UIPicking(void);
 	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

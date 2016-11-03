@@ -10,6 +10,7 @@ private:
 	static	CSceneMgr*	m_pInstance;
 	CScene*				m_pScene;
 	CScene*				m_pSaveScene[SC_END];
+	SCENEID				m_eStage;
 
 public:
 	void		SetScene(SCENEID	eScene);

@@ -6,6 +6,7 @@ enum PARENTID
 	PAR_SKILL,
 	PAR_MONSTER,
 	PAR_EFFECT,
+	PAR_LOADING,
 	PAR_END
 };
 
@@ -22,7 +23,7 @@ enum UIID
 
 enum SCENEID
 {
-	SC_Start,
+	SC_START,
 	SC_LOGIN,
 	SC_CREATE,
 	SC_VILLAGE,

@@ -31,10 +31,10 @@ ITEM CItem::GetItem(void)
 RECT CItem::GetRect(void)
 {
 	RECT rc = {
-		m_tInfo.fX - m_tInfo.fCX / 2.f,
-		m_tInfo.fY - m_tInfo.fCY / 2.f,
-		m_tInfo.fX + m_tInfo.fCX / 2.f,
-		m_tInfo.fY + m_tInfo.fCY / 2.f
+		long(m_tInfo.fX - m_tInfo.fCX / 2.f),
+		long(m_tInfo.fY - m_tInfo.fCY / 2.f),
+		long(m_tInfo.fX + m_tInfo.fCX / 2.f),
+		long(m_tInfo.fY + m_tInfo.fCY / 2.f)
 	};
 
 	return rc;

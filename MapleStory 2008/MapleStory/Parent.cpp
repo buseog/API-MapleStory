@@ -72,7 +72,7 @@ void CParent::Gravity(void)
 	{
 		m_fJpower += 0.7f;
 	}
-	
+
 	if (m_dwState != ST_UP)
 		m_tInfo.fY += m_fJpower;
 }
@@ -125,10 +125,10 @@ void	CParent::SetUnbeatable(bool _YN)
 	m_bUnbeatable = _YN;
 }
 
-void	CParent::SetScroll(void)
+void	CParent::SetScroll(float _fX, float _fY)
 {
-	m_ptScroll.x = 0;
-	m_ptScroll.y = 0;
+	m_ptScroll.x = (long)_fX;
+	m_ptScroll.y = (long)_fY;
 }
 
 float	CParent::GetJumpPower(void)

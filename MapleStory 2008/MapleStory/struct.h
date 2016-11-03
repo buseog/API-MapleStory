@@ -21,13 +21,17 @@ typedef struct tagInfo
 typedef struct tagStat
 {
 	float fHp;
+	float fFullHp;
 	float fAttack;
 	float fDefense;
+	int   iLevel;
+	float fExp;
 	float fSpeed;
+	int   iGold;
 
 	tagStat(void){}
-	tagStat(float _fHp, float _fAttack, float _fDefense, float _fSpeed)
-		: fHp(_fHp), fAttack(_fAttack), fDefense(_fDefense), fSpeed(_fSpeed)
+	tagStat(float _fHp, float _fFullHp, float _fAttack, float _fDefense, int _iLevel, float _fExp, float _fSpeed, int _iGold)
+		: fHp(_fHp), fFullHp(_fFullHp), fAttack(_fAttack), fDefense(_fDefense), iLevel(_iLevel), fExp(_fExp), fSpeed(_fSpeed), iGold(_iGold)
 	{
 
 	}

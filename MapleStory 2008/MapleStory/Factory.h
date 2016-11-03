@@ -36,6 +36,17 @@ public:
 		return pParent;
 	}
 
+	static CParent* CreateParent(float _fX, float _fY, int _Damage, string _strKey)
+	{
+		CParent* pParent = new T;
+		pParent->SetStrKey(_strKey);
+		((T*)pParent)->SetDamage(_Damage);
+		pParent->Initialize();
+		pParent->SetPos(_fX, _fY);
+
+		return pParent;
+	}
+
 	static CUI* CreateUI(float _fX, float _fY)
 	{
 		CUI* pUI = new T;

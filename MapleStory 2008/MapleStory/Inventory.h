@@ -7,16 +7,17 @@ class CInventory	:
 {
 private:
 	vector<CItem*>	m_vecItem;
+	CItem*			m_pPick;
 	int				m_iSwap;
 
 private:
 	void ItemPos(void);
 
 public:
-	CItem* PickingItem(void);
 	void AddItem(CItem*	_pItem);
 
 public:
+	virtual void UIPicking(void);
 	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

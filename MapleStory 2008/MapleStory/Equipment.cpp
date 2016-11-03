@@ -15,6 +15,7 @@ CEquipment::~CEquipment(void)
 
 void CEquipment::Initialize(void)
 {
+	m_ReturnItem = NULL;
 	m_strKey = "Equipment";
 	m_tInfo = INFO(0, 0, 237.f, 332.f);
 }
@@ -47,10 +48,8 @@ void CEquipment::Release(void)
 {
 }
 
-CItem* CEquipment::EquipItem(CItem*	_pItem)
+void CEquipment::EquipItem(CItem*	_pItem)
 {
-	CItem*	pSwapItem = NULL;
-
 	if (_pItem)
 	{
 		switch (_pItem->GetItem().m_iType)
@@ -59,11 +58,13 @@ CItem* CEquipment::EquipItem(CItem*	_pItem)
 			if (m_pEquipItem[EQ_WEAPON] == NULL)
 			{
 				m_pEquipItem[EQ_WEAPON] = _pItem;
+				m_pEquipItem[EQ_WEAPON]->SetPos(m_tInfo.fX - 40.f, m_tInfo.fY + 30.f);
 			}
 			else
 			{
-				pSwapItem = m_pEquipItem[EQ_WEAPON];
+				m_ReturnItem = m_pEquipItem[EQ_WEAPON];
 				m_pEquipItem[EQ_WEAPON] = _pItem;
+				m_pEquipItem[EQ_WEAPON]->SetPos(m_tInfo.fX - 40.f, m_tInfo.fY + 30.f);
 			}
 			break;
 
@@ -71,11 +72,14 @@ CItem* CEquipment::EquipItem(CItem*	_pItem)
 			if (m_pEquipItem[EQ_ARMOR] == NULL)
 			{
 				m_pEquipItem[EQ_ARMOR] = _pItem;
+				m_pEquipItem[EQ_ARMOR]->SetPos(m_tInfo.fX, m_tInfo.fY + 30.f);
+
 			}
 			else
 			{
-				pSwapItem = m_pEquipItem[EQ_ARMOR];
+				m_ReturnItem = m_pEquipItem[EQ_ARMOR];
 				m_pEquipItem[EQ_ARMOR] = _pItem;
+				m_pEquipItem[EQ_ARMOR]->SetPos(m_tInfo.fX, m_tInfo.fY + 30.f);
 			}
 			break;
 
@@ -83,17 +87,17 @@ CItem* CEquipment::EquipItem(CItem*	_pItem)
 			if (m_pEquipItem[EQ_GLOVE] == NULL)
 			{
 				m_pEquipItem[EQ_GLOVE] = _pItem;
+				m_pEquipItem[EQ_GLOVE]->SetPos(m_tInfo.fX + 40.f, m_tInfo.fY + 65.f);
 			}
 			else
 			{
-				pSwapItem = m_pEquipItem[EQ_GLOVE];
+				m_ReturnItem = m_pEquipItem[EQ_GLOVE];
 				m_pEquipItem[EQ_GLOVE] = _pItem;
+				m_pEquipItem[EQ_GLOVE]->SetPos(m_tInfo.fX + 40.f, m_tInfo.fY + 65.f);
 			}
 			break;
 		}
 	}
-
-	return pSwapItem;
 }
 
 
@@ -124,4 +128,23 @@ RECT CEquipment::GetRect(void)
 	};
 
 	return rc;
+}
+
+
+void CEquipment::UIPicking(void)
+{
+	for (size_t i = 0; i < EQ_END; ++i)
+	{
+		if (m_pEquipItem[i])
+		{
+			if(PtInRect(&m_pEquipItem[i]->GetRect(), GetMouse()))
+			{
+				if (GetAsyncKeyState(VK_RBUTTON))
+				{
+					m_ReturnItem = m_pEquipItem[i];
+					m_pEquipItem[i] = NULL;
+				}			
+			}
+		}
+	}
 }

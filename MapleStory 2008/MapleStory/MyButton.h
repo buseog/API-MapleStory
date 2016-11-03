@@ -11,6 +11,7 @@ public:
 	int		GetSelect(void);
 
 public:
+	virtual void UIPicking(void);
 	virtual RECT GetRect(void);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

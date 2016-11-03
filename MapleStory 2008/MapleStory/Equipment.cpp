@@ -21,6 +21,7 @@ void CEquipment::Initialize(void)
 
 void CEquipment::Progress(DWORD _delta)
 {
+	ItemPos();
 }
 
 void CEquipment::Render(HDC hdc)
@@ -34,15 +35,82 @@ void CEquipment::Render(HDC hdc)
 		0,
 		0,
 		SRCCOPY);
+
+	for (size_t i = 0; i < EQ_END; ++i)
+	{
+		if (m_pEquipItem[i])
+			m_pEquipItem[i]->Render(hdc);
+	}
 }
 
 void CEquipment::Release(void)
 {
 }
 
-void CEquipment::EquipItem(CItem*	_pItem)
+CItem* CEquipment::EquipItem(CItem*	_pItem)
 {
+	CItem*	pSwapItem = NULL;
 
+	if (_pItem)
+	{
+		switch (_pItem->GetItem().m_iType)
+		{
+		case IT_WEAPON:
+			if (m_pEquipItem[EQ_WEAPON] == NULL)
+			{
+				m_pEquipItem[EQ_WEAPON] = _pItem;
+			}
+			else
+			{
+				pSwapItem = m_pEquipItem[EQ_WEAPON];
+				m_pEquipItem[EQ_WEAPON] = _pItem;
+			}
+			break;
+
+		case IT_ARMOR:
+			if (m_pEquipItem[EQ_ARMOR] == NULL)
+			{
+				m_pEquipItem[EQ_ARMOR] = _pItem;
+			}
+			else
+			{
+				pSwapItem = m_pEquipItem[EQ_ARMOR];
+				m_pEquipItem[EQ_ARMOR] = _pItem;
+			}
+			break;
+
+		case IT_GLOVE:
+			if (m_pEquipItem[EQ_GLOVE] == NULL)
+			{
+				m_pEquipItem[EQ_GLOVE] = _pItem;
+			}
+			else
+			{
+				pSwapItem = m_pEquipItem[EQ_GLOVE];
+				m_pEquipItem[EQ_GLOVE] = _pItem;
+			}
+			break;
+		}
+	}
+
+	return pSwapItem;
+}
+
+
+void CEquipment::ItemPos(void)
+{
+	//WEAPON = fX - 40;, fY + 30;
+	//ARMOR = fX, fY + 30;
+	//GLOVE = fX + 40,fY + 65;
+	
+	if (m_pEquipItem[EQ_WEAPON])
+		m_pEquipItem[EQ_WEAPON]->SetPos(m_tInfo.fX - 40.f, m_tInfo.fY + 30.f);
+
+	if (m_pEquipItem[EQ_ARMOR])
+		m_pEquipItem[EQ_ARMOR]->SetPos(m_tInfo.fX, m_tInfo.fY + 30.f);
+
+	if (m_pEquipItem[EQ_GLOVE])
+		m_pEquipItem[EQ_GLOVE]->SetPos(m_tInfo.fX + 40.f, m_tInfo.fY + 65.f);
 }
 
 RECT CEquipment::GetRect(void)

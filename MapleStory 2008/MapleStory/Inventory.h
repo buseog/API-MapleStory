@@ -13,6 +13,7 @@ private:
 	void ItemPos(void);
 
 public:
+	CItem* PickingItem(void);
 	void AddItem(CItem*	_pItem);
 
 public:

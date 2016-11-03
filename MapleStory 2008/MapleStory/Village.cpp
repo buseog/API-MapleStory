@@ -33,7 +33,7 @@ void CVillage::Initialize(void)
 	
 	for (int i = 0; i < 8; ++i)
 	{
-		CItem*	pWeapon = new CWeapon("Weapon", 10, 1, 0, 100);
+		CItem*	pWeapon = new CWeapon("Weapon", 10, 1, 0, 0);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
 	}
 

@@ -37,6 +37,7 @@ enum ITEMID
 {
 	IT_WEAPON,
 	IT_ARMOR,
+	IT_GLOVE,
 	IT_POTION,
 	IT_END
 };
@@ -45,5 +46,6 @@ enum EQIPID
 {
 	EQ_WEAPON,
 	EQ_ARMOR,
+	EQ_GLOVE,
 	EQ_END
 };

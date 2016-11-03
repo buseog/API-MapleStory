@@ -26,37 +26,7 @@ void CInventory::Initialize(void)
 
 void CInventory::Progress(DWORD _delta)
 {
-	for(size_t i = 0; i < m_vecItem.size(); ++i)
-	{
-		if (m_vecItem[i])
-		{
-			m_vecItem[i]->Progress(_delta);
 
-			if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
-			{
-				if (GetAsyncKeyState(VK_LBUTTON))
-				{
-					if (m_iSwap == 100)
-					{
-						m_iSwap = i;
-						return;
-					}
-
-					else
-					{
-						swap(m_vecItem[m_iSwap], m_vecItem[i]);
-						m_iSwap = 100;
-						return;
-					}
-				}
-				if (GetAsyncKeyState(VK_RBUTTON))
-				{
-					m_vecItem[i] = NULL;
-					return;
-				}
-			}
-		}
-	}
 
 	ItemPos();
 }
@@ -95,7 +65,6 @@ void CInventory::AddItem(CItem*	_pItem)
 			break;
 		}
 	}
-	//m_vecItem.push_back(_pItem);
 }
 
 void CInventory::ItemPos(void)
@@ -120,7 +89,7 @@ void CInventory::ItemPos(void)
 }
 
 RECT CInventory::GetRect(void)
-{
+{ 
 	RECT	rc = {
 
 		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
@@ -130,4 +99,42 @@ RECT CInventory::GetRect(void)
 	};
 
 	return rc;
+}
+
+CItem* CInventory::PickingItem(void)
+{
+	CItem* pSwapItem = NULL;
+
+	for(size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		if (m_vecItem[i])
+		{
+			if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
+			{
+				if (GetAsyncKeyState(VK_RBUTTON))
+				{
+					pSwapItem = m_vecItem[i];
+					m_vecItem[i] = NULL;
+					return pSwapItem;
+				}
+
+				if (GetAsyncKeyState(VK_LBUTTON))
+				{
+					if (m_iSwap == 100)
+					{
+						m_iSwap = i;
+					}
+
+					else
+					{
+						swap(m_vecItem[m_iSwap], m_vecItem[i]);
+						m_iSwap = 100;
+					}
+				}
+			
+			}
+		}
+	}
+
+	return NULL;
 }

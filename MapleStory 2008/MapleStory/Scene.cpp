@@ -91,6 +91,9 @@ void CScene::UIDrag(void)
 			}
 		}
 	}
+
+	if (CItem* pSwapItem = ((CInventory*)m_vecUI[UI_INVENTORY].back())->PickingItem())
+		((CEquipment*)m_vecUI[UI_EQUIPMENT].back())->EquipItem(pSwapItem);
 }
 
 void CScene::LoadMap(void)

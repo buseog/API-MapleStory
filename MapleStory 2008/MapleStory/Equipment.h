@@ -8,8 +8,12 @@ class CEquipment	:
 private:
 	CItem*			m_pEquipItem[EQ_END];
 
+private:
+	void ItemPos(void);
+
 public:
-	void EquipItem(CItem*	_pItem);
+	CItem* EquipItem(CItem*	_pItem);
+
 public:
 	virtual RECT GetRect(void);
 	virtual void Initialize(void);

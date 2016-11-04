@@ -81,11 +81,18 @@ void CVillage::Progress(DWORD _delta)
 		}
 	}
 	
+	float fHp = m_vecParent[PAR_PLAYER].back()->GetStat().fHp / m_vecParent[PAR_PLAYER].back()->GetStat().fFullHp;
+	float fExp = m_vecParent[PAR_PLAYER].back()->GetStat().fExp / 1000.f;
+
 	for (size_t i = 0; i < UI_END; ++i)
 	{
 		if (m_bUIView[i])
 		{
-			m_vecUI[i].back()->Progress(_delta);
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->SetPercent(fHp, fExp);
+				(*iter)->Progress(_delta);
+			}
 		}
 	}
 
@@ -110,8 +117,11 @@ void CVillage::Progress(DWORD _delta)
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
-	CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
+	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
+
+	if (m_vecParent[PAR_PLAYER].back()->GetStat().fExp >= 1000.f)
+		m_vecParent[PAR_PLAYER].back()->SetLevel();
 }
 
 void CVillage::Render(HDC hdc)

@@ -16,10 +16,10 @@ public:
 	RECT	GetRect(void);
 	DWORD	GetDraw(void);
 	void	SetPos(float _fX, float _fY);
+	void	SetDrawID(int _Draw);
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
 
 public:
-	virtual void Status(HDC hdc);
 	virtual void Initialize(void)	PURE;
 	virtual void Progress(DWORD _delta)		PURE;
 	virtual void Render(HDC hdc)	PURE;

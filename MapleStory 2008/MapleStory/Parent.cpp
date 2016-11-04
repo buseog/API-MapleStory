@@ -141,3 +141,19 @@ void CParent::SetState(DWORD _dwState)
 {
 	m_dwState = _dwState;
 }
+
+void CParent::SetExp(float _fExp)
+{
+	m_tStat.fExp += _fExp;
+}
+
+void CParent::SetLevel(void)
+{
+	m_tStat.fAttack += 50.f;
+	m_tStat.iLevel += 1;
+	m_tStat.fDefense += 10.f;
+	m_tStat.fFullHp += 100.f;
+	m_tStat.fHp = m_tStat.fFullHp;
+	
+	m_tStat.fExp = 0.f;
+}

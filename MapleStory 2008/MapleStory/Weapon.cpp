@@ -18,7 +18,7 @@ CWeapon::~CWeapon(void)
 
 void CWeapon::Initialize(void)
 {
-	m_tInfo = INFO(0, 0, 30.f, 30.f);
+	m_tInfo = INFO(0, 0, 32.f, 32.f);
 }
 void CWeapon::Progress(DWORD _delta)
 {
@@ -46,33 +46,49 @@ void CWeapon::Render(HDC hdc)
 
 	if (m_DrawId == 1)
 	{
-		TCHAR szName[128] = L"m_tItem.m_strName.c_str()";
+		BitBlt(hdc,
+		int(m_tInfo.fX - m_tInfo.fCX / 2.f + 30),
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f + 30),
+		150,
+		120,
+		(*m_pBitMap)["ItemStat"]->GetMemdc(),
+		0,
+		0,
+		SRCCOPY);
+
+		TCHAR szName[128] = L"";
 		TCHAR szOption[128] = L"";
 		TCHAR szPrice[128] = L"";
-		TCHAR szType[128] = L"";
 
+		wsprintf(szName, L"이름 : %s", m_tItem.m_strName.c_str());
+					TextOut(hdc,
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
+						szName, lstrlen(szName));
 
-	
+		wsprintf(szOption, L"방어력 : %d", (int)m_tItem.m_iOption);
 					TextOut(hdc, 
-					m_tInfo.fX + 30, m_tInfo.fY + 30,
-					szName, lstrlen(szName));
-
-		wsprintf(szOption, L"%d", (int)m_tItem.m_iOption);
-					TextOut(hdc, 
-						m_tInfo.fX + 30, m_tInfo.fY + 45,
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
 						szOption, lstrlen(szOption));
 
-
-
-		wsprintf(szPrice, L"%d", (int)m_tItem.m_iPrice);
+		wsprintf(szPrice, L"가격 : %d", (int)m_tItem.m_iPrice);
 					TextOut(hdc, 
-							m_tInfo.fX + 30, m_tInfo.fY + 60,
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 60),
 						szPrice, lstrlen(szPrice));
 
-		wsprintf(szType, L"%d", (int)m_tItem.m_iType);
-					TextOut(hdc, 
-							m_tInfo.fX + 30, m_tInfo.fY + 75,
-						szType, lstrlen(szType));
+		if (m_tItem.m_iType == IT_WEAPON)
+		{
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 무기", 7);
+		}
+		if (m_tItem.m_iType == IT_ARMOR)
+		{
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 방어구", 8);
+		}
+		if (m_tItem.m_iType == IT_POTION)
+		{
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 포션", 7);
+		}
+
+		SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);
 	}
 }
 void CWeapon::Release(void)

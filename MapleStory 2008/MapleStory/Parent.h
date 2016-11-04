@@ -36,6 +36,7 @@ public:
 	bool	GetUnbeatable(void);
 
 public:
+	void	SetLevel(void);
 	void	SetExp(float _fExp);
 	void	SetLand(bool YN);
 	void	SetDestroy(bool _YN);

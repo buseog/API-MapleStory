@@ -50,7 +50,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 							break;
 
 						case 2:
-							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
+							if ((_pPlayer->back()->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
 							{
 								if (_pPlayer->back()->GetState() == ST_UP)
 									_pPlayer->back()->SetState(ST_STAND);
@@ -134,7 +134,7 @@ void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _
 	}
 }
 
-void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* _pMonster)
+float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* _pMonster)
 {
 	RECT rc;
 
@@ -159,6 +159,8 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 						if ((*_pMonster)[j]->GetStat().fHp <= 0)
 						{
 							((*_pMonster)[j]->SetDestroy(true));
+
+							return (*_pMonster)[j]->GetStat().fExp;
 						}
 					}
 					else if (fHeight > fLength)
@@ -171,6 +173,8 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 						if ((*_pMonster)[j]->GetStat().fHp <= 0)
 						{
 							((*_pMonster)[j]->SetDestroy(true));
+
+							return (*_pMonster)[j]->GetStat().fExp;
 						}
 					}
 				}
@@ -178,6 +182,8 @@ void CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* 
 		}
 		((CSkill*)(*_pSkill)[i])->SetHit(true);
 	}
+
+	return 0.f;
 }
 
 void CCollisionMgr::CollisionPortal(vector<CParent*>* _pPlayer, vector<CParent*>* _pPortal)
@@ -265,17 +271,17 @@ void CCollisionMgr::AddEffect(CParent* _pParent, CParent* _pDest, int Height)
 	if (_pDest->GetUnbeatable())
 	{
 		_pDest->SetDamage(_pParent->GetStat().fAttack);
-		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50 * Height), iDamage, "HitEffect"));
+		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50.f * Height), iDamage, "HitEffect"));
 	}
 	else if (Critical < 50)
 	{
-		_pDest->SetDamage(iDamage);
-		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50 * Height), iDamage, "DamageEffect"));
+		_pDest->SetDamage((float)iDamage);
+		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50.f * Height), iDamage, "DamageEffect"));
 	}
 	else if (Critical >= 50)
 	{
-		_pDest->SetDamage(iDamage);
-		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50 * Height), iDamage, "CriticalEffect"));
+		_pDest->SetDamage((float)iDamage);
+		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50.f * Height), iDamage, "CriticalEffect"));
 	}
 
 }

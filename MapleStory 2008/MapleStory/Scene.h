@@ -6,8 +6,6 @@
 #include "SkillPanel.h"
 #include "QuickSlot.h"
 #include "Item.h"
-#include "Weapon.h"
-#include "Armor.h"
 #include "Loading.h"
 
 class CUI;

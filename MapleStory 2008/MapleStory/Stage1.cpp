@@ -40,33 +40,40 @@ void CStage1::Initialize(void)
 
 void CStage1::Progress(DWORD _delta)
 {
-	KeyInput();
+		KeyInput();
 	UIDrag();
 
 	for (size_t i = 0; i < PAR_END; ++i)
+	{
+		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
 		{
-			for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
+			(*iter)->Progress(_delta);
+
+			if ((*iter)->GetDestroy())
 			{
-				(*iter)->Progress(_delta);
+				::Safe_Delete(*iter);
+				iter = m_vecParent[i].erase(iter);
 
-				if ((*iter)->GetDestroy())
-				{
-					::Safe_Delete(*iter);
-					iter = m_vecParent[i].erase(iter);
-
-					if (iter == m_vecParent[i].end())
-						break;
-				}
-				else
-					++iter;
+				if (iter == m_vecParent[i].end())
+					break;
 			}
+			else
+				++iter;
 		}
-		
+	}
+	
+	float fHp = m_vecParent[PAR_PLAYER].back()->GetStat().fHp / m_vecParent[PAR_PLAYER].back()->GetStat().fFullHp;
+	float fExp = m_vecParent[PAR_PLAYER].back()->GetStat().fExp / 1000.f;
+
 	for (size_t i = 0; i < UI_END; ++i)
 	{
 		if (m_bUIView[i])
 		{
-			m_vecUI[i].back()->Progress(_delta);
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->SetPercent(fHp, fExp);
+				(*iter)->Progress(_delta);
+			}
 		}
 	}
 
@@ -88,7 +95,8 @@ void CStage1::Progress(DWORD _delta)
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
-	CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]);
+	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
+	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 }
 
 void CStage1::Render(HDC hdc)
@@ -118,7 +126,10 @@ void CStage1::Render(HDC hdc)
 	{
 		if (m_bUIView[i])
 		{
-			m_vecUI[i].back()->Render(m_BitMap["Back"]->GetMemdc());
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
+			}
 		}
 	}
 	

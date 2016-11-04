@@ -57,6 +57,8 @@ void CItem::SetBitMap(map<string, CBitBmp*>* _pBitMap)
 	m_pBitMap = _pBitMap;
 }
 
-void CItem::Status(HDC hdc)
+
+void CItem::SetDrawID(int _Draw)
 {
+	m_DrawId = _Draw;
 }

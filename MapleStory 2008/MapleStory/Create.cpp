@@ -82,6 +82,11 @@ void CCreate::Render(HDC hdc)
 
 void CCreate::Release(void)
 {
+	for (size_t i = 0; i < m_vecButton.size(); ++i)
+	{
+		::Safe_Delete(m_vecButton[i]);
+	}
+	m_vecButton.clear();
 }
 
 CUI* CCreate::CreateButton(float _fX, float _fY, string _strKey)

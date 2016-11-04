@@ -20,7 +20,7 @@ void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 7.f, 1000);
+	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 6.f, 1000);
 	m_tSprite = SPRITE(0, 5, 0, 80);
 
 	m_dwTime = GetTickCount();

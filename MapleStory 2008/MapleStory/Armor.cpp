@@ -16,7 +16,7 @@ CArmor::~CArmor(void)
 
 void CArmor::Initialize(void)
 {
-	m_tInfo = INFO(0, 0, 30.f, 30.f);
+	m_tInfo = INFO(0, 0, 32.f, 32.f);
 }
 
 void CArmor::Progress(DWORD _delta)
@@ -43,8 +43,6 @@ void CArmor::Render(HDC hdc)
 		(int)m_tInfo.fCY,
 		RGB(255, 255, 250));
 
-	
-
 
 	if (m_DrawId == 1)
 	{
@@ -64,30 +62,30 @@ void CArmor::Render(HDC hdc)
 
 		wsprintf(szName, L"이름 : %s", m_tItem.m_strName.c_str());
 					TextOut(hdc,
-					m_tInfo.fX + 30, m_tInfo.fY + 30,
-					szName, lstrlen(szName));
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
+						szName, lstrlen(szName));
 
 		wsprintf(szOption, L"방어력 : %d", (int)m_tItem.m_iOption);
 					TextOut(hdc, 
-						m_tInfo.fX + 30, m_tInfo.fY + 45,
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
 						szOption, lstrlen(szOption));
 
 		wsprintf(szPrice, L"가격 : %d", (int)m_tItem.m_iPrice);
 					TextOut(hdc, 
-							m_tInfo.fX + 30, m_tInfo.fY + 60,
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 60),
 						szPrice, lstrlen(szPrice));
 
 		if (m_tItem.m_iType == IT_WEAPON)
 		{
-			TextOut(hdc, m_tInfo.fX + 30, m_tInfo.fY + 75,	L"종류 : 무기", 7);
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 무기", 7);
 		}
 		if (m_tItem.m_iType == IT_ARMOR)
 		{
-			TextOut(hdc, m_tInfo.fX + 30, m_tInfo.fY + 75,	L"종류 : 방어구", 8);
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 방어구", 8);
 		}
 		if (m_tItem.m_iType == IT_POTION)
 		{
-			TextOut(hdc, m_tInfo.fX + 30, m_tInfo.fY + 75,	L"종류 : 포션", 7);
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 포션", 7);
 		}
 
 		SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);

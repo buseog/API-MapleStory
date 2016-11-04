@@ -3,6 +3,9 @@
 #include "MapEdit.h"
 #include "Parent.h"
 #include "KeyMgr.h"
+#include "Weapon.h"
+#include "Armor.h"
+#include "Potion.h"
 
 
 vector<CParent*>	CScene::m_vecParent[PAR_END];
@@ -27,10 +30,22 @@ CScene::~CScene(void)
 void CScene::KeyInput(void)
 {
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
-	if (m_dwKey & KEY_F5)	// 인벤토리
+	if (m_dwKey & KEY_F5)
 	{
-		CItem*	pWeapon = new CArmor(L"Armor", 10, 1, 1, 1);
+		CItem*	pWeapon = new CWeapon(L"Weapon", 10, 1, 1, IT_WEAPON);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
+	}
+
+	if (m_dwKey & KEY_F6)
+	{
+		CItem*	pArmor = new CArmor(L"Armor", 10, 1, 1, IT_ARMOR);
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pArmor);
+	}
+
+	if (m_dwKey & KEY_F7)
+	{
+		CItem*	pPotion = new CPotion(L"HPPotion", 10, 1, 1, IT_POTION);
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pPotion);
 	}
 
 	if (m_dwKey & KEY_I)	// 인벤토리
@@ -270,6 +285,8 @@ void CScene::LoadBmp(void)
 	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");
 	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor.bmp");
 	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
+	m_BitMap["HPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/HPPotion.bmp");
+	m_BitMap["MPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/MPPotion.bmp");
 
 }
 

@@ -33,7 +33,7 @@ void CSkill::Initialize(void)
 	{
 		m_tInfo = INFO(0, 0, 300.f, 171.f);
 		m_tStat.fAttack = 700.f;
-		m_tSprite = SPRITE(0, 17, 0, 60);
+		m_tSprite = SPRITE(0, 17, 0, 45);
 	}
 
 	if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")

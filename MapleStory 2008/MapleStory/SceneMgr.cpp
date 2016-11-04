@@ -32,7 +32,7 @@ void CSceneMgr::SetScene(SCENEID eScene)
 {
 	if(m_pScene != NULL)
 	{
-		if (eScene == SC_LOGIN || eScene == SC_MAPEDIT)
+		if (eScene == SC_LOGIN || eScene == SC_MAPEDIT || eScene == SC_CREATE)
 			::Safe_Delete(m_pScene);
 	}
 
@@ -136,7 +136,7 @@ void CSceneMgr::SetScene(SCENEID eScene)
 		// Æ÷Å» ÀÌµ¿ºÎ
 		if (m_eStage == SC_STAGE2)
 		{
-			m_pScene->GetPlayer()->SetPos(150.f, 900.f);
+			m_pScene->GetPlayer()->SetPos(170.f, 900.f);
 			((CPlayer*)m_pScene->GetPlayer())->SetScroll(0.f, -600.f);
 			((CPlayer*)m_pScene->GetPlayer())->SetOffset(400.f, 900.f);
 		}

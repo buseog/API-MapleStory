@@ -149,6 +149,7 @@ void CInventory::UIPicking(void)
 					if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
 					{
 						m_ReturnItem = m_vecItem[i];
+						m_vecItem[i]->SetDrawID(0);
 						m_vecItem[i] = NULL;
 					}
 

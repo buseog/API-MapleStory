@@ -13,7 +13,8 @@ CUI::CUI(string _strKey)
 ,m_dwTime(0)
 ,m_ReturnItem(NULL)
 {
-
+	m_fPercent[0] = 100.f;
+	m_fPercent[1] = 0.f;
 }
 
 CUI::~CUI(void)
@@ -61,7 +62,20 @@ void CUI::Render(HDC hdc)
 			RGB(255, 255, 250));
 	}
 
-	if (m_strKey == "HPBar" || m_strKey == "MPBar" || m_strKey == "EXPBar")
+	if (m_strKey == "HPBar")
+	{
+		BitBlt(hdc,
+			int(m_tInfo.fX),
+			int(m_tInfo.fY),
+			int(m_tInfo.fCX * m_fPercent[0]),
+			int(m_tInfo.fCY),
+			(*m_pBitMap)[m_strKey]->GetMemdc(),
+			0,
+			0,
+			SRCCOPY);
+	}
+
+	if (m_strKey == "MPBar")
 	{
 		BitBlt(hdc,
 			int(m_tInfo.fX),
@@ -73,6 +87,20 @@ void CUI::Render(HDC hdc)
 			0,
 			SRCCOPY);
 	}
+
+	if (m_strKey == "EXPBar")
+	{
+		BitBlt(hdc,
+			int(m_tInfo.fX),
+			int(m_tInfo.fY),
+			int(m_tInfo.fCX * m_fPercent[1]),
+			int(m_tInfo.fCY),
+			(*m_pBitMap)[m_strKey]->GetMemdc(),
+			0,
+			0,
+			SRCCOPY);
+	}
+
 }
 
 void CUI::Release(void)
@@ -122,4 +150,10 @@ CItem* CUI::GetReturnItem(void)
 void CUI::SetReturnItem(void)
 {
 	m_ReturnItem = NULL;
+}
+
+void CUI::SetPercent(float _fHp, float _fExp)
+{
+	m_fPercent[0] = _fHp;
+	m_fPercent[1] = _fExp;
 }

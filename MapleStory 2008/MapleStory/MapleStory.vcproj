@@ -292,14 +292,14 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="98. Loading"
+				Name="05. NPC"
 				>
 				<File
-					RelativePath=".\Loading.cpp"
+					RelativePath=".\NPC.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Loading.h"
+					RelativePath=".\NPC.h"
 					>
 				</File>
 			</Filter>
@@ -743,6 +743,18 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="06. Loading"
+			>
+			<File
+				RelativePath=".\Loading.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Loading.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

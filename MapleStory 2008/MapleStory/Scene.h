@@ -17,6 +17,7 @@ class CScene
 {
 protected:
 	DWORD						m_dwKey;
+	CLoading*					m_pLoading;
 	map<string, CBitBmp*>		m_BitMap;
 	vector<TILE*>				m_vecTile;
 	string						m_strKey;

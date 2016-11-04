@@ -9,6 +9,7 @@ CItem::CItem(void)
 
 CItem::CItem(string _strName, int _iOption, int _iCount, int _iPrice, int _iType)
 :m_tItem(_strName, _iOption, _iCount, _iPrice, _iType)
+,m_DrawId(0)
 {
 
 }
@@ -40,6 +41,11 @@ RECT CItem::GetRect(void)
 	return rc;
 }
 
+DWORD CItem::GetDraw(void)
+{
+	return m_DrawId;
+}
+
 void CItem::SetPos(float _fX, float _fY)
 {
 	m_tInfo.fX = _fX;
@@ -49,4 +55,8 @@ void CItem::SetPos(float _fX, float _fY)
 void CItem::SetBitMap(map<string, CBitBmp*>* _pBitMap)
 {
 	m_pBitMap = _pBitMap;
+}
+
+void CItem::Status(HDC hdc)
+{
 }

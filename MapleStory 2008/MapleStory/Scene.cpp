@@ -14,6 +14,7 @@ CUI*			CScene::m_pUI;
 
 CScene::CScene(void)
 :m_dwKey(0)
+,m_pLoading(NULL)
 {
 	
 }
@@ -193,8 +194,9 @@ void CScene::LoadBmp(void)
 	m_BitMap["Stage1"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage1.bmp");
 	m_BitMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp");
 	m_BitMap["BossField"] = (new CBitBmp)->LoadBmp(L"../Texture/BossField.bmp");
-	m_BitMap["Loading"] = (new CBitBmp)->LoadBmp(L"../Texture/Loading.bmp");
-	
+	m_BitMap["NPC"] = (new CBitBmp)->LoadBmp(L"../Texture/NPC.bmp");
+	m_BitMap["Mouse"] = (new CBitBmp)->LoadBmp(L"../Texture/Mouse.bmp");
+
 	
 	m_BitMap["DamageEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageEffect.bmp");
 	m_BitMap["CriticalEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/CriticalEffect.bmp");
@@ -263,6 +265,7 @@ void CScene::LoadBmp(void)
 	//아이템 추가
 	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");
 	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor.bmp");
+	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
 
 }
 

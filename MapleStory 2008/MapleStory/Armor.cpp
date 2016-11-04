@@ -21,7 +21,12 @@ void CArmor::Initialize(void)
 
 void CArmor::Progress(DWORD _delta)
 {
-
+	if(PtInRect(&GetRect(), GetMouse()))
+	{
+		m_DrawId = 1;
+	}
+	else
+		m_DrawId = 0;
 }
 
 void CArmor::Render(HDC hdc)
@@ -37,6 +42,7 @@ void CArmor::Render(HDC hdc)
 		(int)m_tInfo.fCX,
 		(int)m_tInfo.fCY,
 		RGB(255, 255, 250));
+
 }
 
 void CArmor::Release(void)

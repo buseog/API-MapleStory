@@ -35,7 +35,7 @@ void CStage1::Initialize(void)
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
 
-	m_vecParent[PAR_LOADING].push_back(CFactory<CLoading>::CreateParent());
+	m_pLoading = new CLoading();
 }
 
 void CStage1::Progress(DWORD _delta)
@@ -75,6 +75,13 @@ void CStage1::Progress(DWORD _delta)
 		m_vecPortal[i]->Progress(_delta);
 	}
 
+	if (m_pLoading)
+	{
+		m_pLoading->Progress(_delta);
+		
+		if (m_pLoading->GetDestroy())
+			::Safe_Delete(m_pLoading);
+	}
 
 	if (GetAsyncKeyState(VK_UP))
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
@@ -119,6 +126,9 @@ void CStage1::Render(HDC hdc)
 	{
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
+
+	if (m_pLoading)
+		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
 
 	BitBlt(hdc, 
 			0, 0, 

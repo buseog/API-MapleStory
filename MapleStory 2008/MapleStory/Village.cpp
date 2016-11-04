@@ -6,8 +6,10 @@
 #include "Portal.h"
 #include "CollisionMgr.h"
 #include "Item.h"
+#include "Npc.h"
 
 CVillage::CVillage(void)
+:m_pStore(NULL)
 {
 	m_strKey = "Village";
 	LoadMap();
@@ -23,6 +25,8 @@ CVillage::CVillage(void)
 
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
+
+	m_pStore = CFactory<CNPC>::CreateParent();
 }
 
 CVillage::~CVillage(void)
@@ -37,16 +41,17 @@ void CVillage::Initialize(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
-	for (int i = 0; i < 15; ++i)
-	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
-	}
+	//for (int i = 0; i < 15; ++i)
+	//{
+	//	m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
+	//}
+
+	m_pLoading = new CLoading();
 
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
 	CItem::SetBitMap(&m_BitMap);
 
-	m_vecParent[PAR_LOADING].push_back(CFactory<CLoading>::CreateParent());
 }
 
 void CVillage::Progress(DWORD _delta)
@@ -85,7 +90,17 @@ void CVillage::Progress(DWORD _delta)
 	{
 		m_vecPortal[i]->Progress(_delta);
 	}
-	
+
+	if (m_pStore)
+		m_pStore->Progress(_delta);
+
+	if (m_pLoading)
+	{
+		m_pLoading->Progress(_delta);
+		
+		if (m_pLoading->GetDestroy())
+			::Safe_Delete(m_pLoading);
+	}
 
 	if (GetAsyncKeyState(VK_UP))
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
@@ -113,6 +128,11 @@ void CVillage::Render(HDC hdc)
 		}
 	}
 
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
 	for (size_t i = 0; i < UI_END; ++i)
 	{
 		if (m_bUIView[i])
@@ -121,11 +141,11 @@ void CVillage::Render(HDC hdc)
 		}
 	}
 
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
-	{
-		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
-	
+	if (m_pStore)
+		m_pStore->Render(m_BitMap["Back"]->GetMemdc());
+
+	if (m_pLoading)
+		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
 
 	BitBlt(hdc, 
 			0, 0, 

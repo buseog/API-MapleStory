@@ -87,34 +87,6 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
-
-		TCHAR szBuf[128] = L"";
-		TCHAR szBuf2[128] = L"";
-
-			wsprintf(szBuf, L"%d", (int)m_ptScroll.x);
-					TextOut(hdc, 
-						0,0,
-						szBuf, lstrlen(szBuf));
-
-			wsprintf(szBuf2, L"%d", (int)m_ptScroll.y);
-					TextOut(hdc, 
-						0, 20,
-						szBuf2, lstrlen(szBuf2));
-
-		TCHAR szBuf3[128] = L"";
-		TCHAR szBuf4[128] = L"";
-
-			wsprintf(szBuf3, L"%d", (int)m_ptOffset.x);
-					TextOut(hdc, 
-						50,0,
-						szBuf3, lstrlen(szBuf3));
-
-			wsprintf(szBuf4, L"%d", (int)m_ptOffset.y);
-					TextOut(hdc, 
-						50, 20,
-						szBuf4, lstrlen(szBuf4));
-
-	
 }
 
 void CPlayer::Release(void)

@@ -31,6 +31,12 @@ void CInventory::Progress(DWORD _delta)
 {
 	ItemPos();
 
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		if (m_vecItem[i])
+			m_vecItem[i]->Progress(_delta);
+	}
+
 	if (m_pPick)
 		m_pPick->SetPos((float)GetMouse().x, (float)GetMouse().y);
 }

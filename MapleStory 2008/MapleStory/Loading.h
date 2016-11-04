@@ -1,14 +1,19 @@
 #pragma once
-#include "Parent.h"
 
-class CLoading	:
-	public CParent
+class CLoading
 {
+private:
+	INFO		m_tInfo;
+	SPRITE		m_tSprite;
+	DWORD		m_dwTime;
+	CBitBmp*	m_bmpLoading;
+	bool		m_bDestroy;
+
 public:
-	virtual void Initialize(void);
-	virtual void Progress(DWORD _delta);
-	virtual void Render(HDC hdc);
-	virtual void Release(void);
+	bool GetDestroy(void);
+	void Progress(DWORD _delta);
+	void Render(HDC hdc);
+	void Release(void);
 
 public:
 	CLoading(void);

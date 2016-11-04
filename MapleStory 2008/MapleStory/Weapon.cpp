@@ -22,7 +22,13 @@ void CWeapon::Initialize(void)
 }
 void CWeapon::Progress(DWORD _delta)
 {
-	
+	if(PtInRect(&GetRect(), GetMouse()))
+	{
+		m_DrawId = 1;
+	}
+	else
+		m_DrawId = 0;
+
 }
 void CWeapon::Render(HDC hdc)
 {
@@ -37,8 +43,43 @@ void CWeapon::Render(HDC hdc)
 		(int)m_tInfo.fCX,
 		(int)m_tInfo.fCY,
 		RGB(255, 255, 250));
+
+	if (m_DrawId == 1)
+	{
+		TCHAR szName[128] = L"";
+		TCHAR szOption[128] = L"";
+		TCHAR szPrice[128] = L"";
+		TCHAR szType[128] = L"";
+
+
+		wsprintf(szOption, L"%d", (int)(LPCWSTR)m_tItem.m_strName.c_str());
+					TextOut(hdc, 
+					m_tInfo.fX + 30, m_tInfo.fY + 30,
+					szName, lstrlen(szName));
+
+		wsprintf(szOption, L"%d", (int)m_tItem.m_iOption);
+					TextOut(hdc, 
+						m_tInfo.fX + 30, m_tInfo.fY + 45,
+						szOption, lstrlen(szOption));
+
+
+
+		wsprintf(szPrice, L"%d", (int)m_tItem.m_iPrice);
+					TextOut(hdc, 
+							m_tInfo.fX + 30, m_tInfo.fY + 60,
+						szPrice, lstrlen(szPrice));
+
+		wsprintf(szType, L"%d", (int)m_tItem.m_iType);
+					TextOut(hdc, 
+							m_tInfo.fX + 30, m_tInfo.fY + 75,
+						szType, lstrlen(szType));
+	}
 }
 void CWeapon::Release(void)
 {
 
+}
+
+void CWeapon::Status(HDC hdc)
+{
 }

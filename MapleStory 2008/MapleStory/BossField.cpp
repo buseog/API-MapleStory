@@ -28,11 +28,7 @@ void CBossField::Initialize(void)
 
 
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1372, 1200);
-
-	CParent::SetBitMap(&m_BitMap);
-	CUI::SetBitMap(&m_BitMap);
-
-	m_vecParent[PAR_LOADING].push_back(CFactory<CLoading>::CreateParent());
+	m_pLoading = new CLoading();
 }
 
 void CBossField::Progress(DWORD _delta)
@@ -70,6 +66,14 @@ void CBossField::Progress(DWORD _delta)
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Progress(_delta);
+	}
+
+	if (m_pLoading)
+	{
+		m_pLoading->Progress(_delta);
+		
+		if (m_pLoading->GetDestroy())
+			::Safe_Delete(m_pLoading);
 	}
 
 	if (GetAsyncKeyState(VK_UP))
@@ -115,6 +119,9 @@ void CBossField::Render(HDC hdc)
 	{
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
+
+	if (m_pLoading)
+		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
 
 
 	BitBlt(hdc, 

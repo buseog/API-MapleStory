@@ -5,6 +5,7 @@ class CWeapon :
 	public CItem
 {
 public:
+	virtual void Status(HDC hdc);
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);
 	virtual void Render(HDC hdc);

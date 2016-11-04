@@ -14,6 +14,9 @@ CSkill::~CSkill()
 
 void CSkill::Initialize(void)
 {
+	m_dwTime = GetTickCount();
+	m_dwKey = 0;
+
 	if (m_strKey == "Annihilation_LEFT" || m_strKey == "Annihilation_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 315.f, 115.f);
@@ -52,16 +55,16 @@ void CSkill::Initialize(void)
 
 	if (m_strKey == "Beyond_LEFT" || m_strKey == "Beyond_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 400.f, 400.f);
+		m_tInfo = INFO(0, 0, 400.f, 300.f);
 		m_tStat.fAttack = 333.f;
-		m_tSprite = SPRITE(0, 14, 0, 60);
+		m_tSprite = SPRITE(0, 12, 0, 90);
 	}
 
 	if (m_strKey == "Beyond2_LEFT" || m_strKey == "Beyond2_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 649.f, 300.f);
+		m_tInfo = INFO(0, 0, 450.f, 300.f);
 		m_tStat.fAttack = 333.f;
-		m_tSprite = SPRITE(0, 10, 0, 60);
+		m_tSprite = SPRITE(0, 10, 0, 90);
 	}
 
 	if (m_strKey == "Beyond3_LEFT" || m_strKey == "Beyond3_RIGHT")
@@ -70,9 +73,6 @@ void CSkill::Initialize(void)
 		m_tStat.fAttack = 333.f;
 		m_tSprite = SPRITE(0, 13, 0, 60);
 	}
-
-	m_dwTime = GetTickCount();
-	m_dwKey = 0;
 }
 void CSkill::Progress(DWORD _delta)
 {
@@ -112,6 +112,7 @@ void	CSkill::SetHit(bool _YN)
 {
 	m_bHit = _YN;
 }
+
 bool	CSkill::GetHit(void)
 {
 	return m_bHit;

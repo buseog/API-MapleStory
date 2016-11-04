@@ -44,9 +44,9 @@ void CVillage::Initialize(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
-	for (int i = 0; i < 15; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(100 * i, 50 * i, "PurpleMushRoom_LEFT"));
 	}
 
 	m_pLoading = new CLoading();
@@ -70,6 +70,11 @@ void CVillage::Progress(DWORD _delta)
 
 			if ((*iter)->GetDestroy())
 			{
+				if (i == PAR_MONSTER)
+					if(((CMonster*)(*iter))->GetDrop())
+						m_vecItem.push_back(((CMonster*)(*iter))->GetDropItem());
+						
+
 				::Safe_Delete(*iter);
 				iter = m_vecParent[i].erase(iter);
 

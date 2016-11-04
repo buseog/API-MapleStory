@@ -295,7 +295,8 @@ void CScene::LoadBmp(void)
 	m_BitMap["Typhoon_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Typhoon_EFFECT.bmp");
 	m_BitMap["Annihilation_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Annihilation_EFFECT.bmp");
 	m_BitMap["Ascend_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Ascend_EFFECT.bmp");
-	m_BitMap["Beyond1_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond1_EFFECT.bmp");
+	m_BitMap["Range_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Range_EFFECT.bmp");
+	m_BitMap["Beyond_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond_EFFECT.bmp");
 	m_BitMap["Beyond2_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond2_EFFECT.bmp");
 	m_BitMap["Beyond3_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_EFFECT.bmp");
 
@@ -305,6 +306,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
 	m_BitMap["HPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/HPPotion.bmp");
 	m_BitMap["MPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/MPPotion.bmp");
+	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
 
 }
 

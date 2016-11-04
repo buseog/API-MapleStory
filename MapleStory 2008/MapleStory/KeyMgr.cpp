@@ -64,6 +64,18 @@ void CKeyMgr::KeyCheck(void)
 	if (GetAsyncKeyState(VK_F7) & 0x8000)
 		m_dwKey |= KEY_F7;
 
+	if (GetAsyncKeyState('A') & 0x0001)
+		m_dwKey |= KEY_A;
+
+	if (GetAsyncKeyState('S') & 0x0001)
+		m_dwKey |= KEY_S;
+
+	if (GetAsyncKeyState('D') & 0x0001)
+		m_dwKey |= KEY_D;
+
+	if (GetAsyncKeyState('F') & 0x0001)
+		m_dwKey |= KEY_F;
+
 }
 
 DWORD CKeyMgr::GetKey(void)

@@ -4,6 +4,10 @@
 class CGold :
 	public CItem
 {
+private:
+	DWORD	m_dwTime;
+	SPRITE	m_tSprite;
+
 public:
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

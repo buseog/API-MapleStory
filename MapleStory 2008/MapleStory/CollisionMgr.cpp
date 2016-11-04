@@ -2,6 +2,7 @@
 #include "CollisionMgr.h"
 #include "Parent.h"
 #include "Player.h"
+#include "Monster.h"
 #include "Skill.h"
 #include "Effect.h"
 #include "DamageEffect.h"
@@ -179,6 +180,7 @@ void CCollisionMgr::CollisionITile(vector<CItem*>* _pItem, vector<TILE*>* _pTile
 float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* _pMonster)
 {
 	RECT rc;
+	float fExp = 0.f;
 
 	for (size_t i = 0; i < _pSkill->size(); ++i)
 	{
@@ -200,12 +202,13 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 
 						if ((*_pMonster)[j]->GetStat().fHp <= 0)
 						{
+							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
 							((*_pMonster)[j]->SetDestroy(true));
 
-							return (*_pMonster)[j]->GetStat().fExp;
+							fExp =  (*_pMonster)[j]->GetStat().fExp;
 						}
 					}
-					else if (fHeight > fLength)
+					if (fHeight > fLength)
 					{
 						(*_pMonster)[j]->SetState(ST_HIT);
 
@@ -214,9 +217,10 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 
 						if ((*_pMonster)[j]->GetStat().fHp <= 0)
 						{
+							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
 							((*_pMonster)[j]->SetDestroy(true));
 
-							return (*_pMonster)[j]->GetStat().fExp;
+							fExp = (*_pMonster)[j]->GetStat().fExp;
 						}
 					}
 				}
@@ -225,8 +229,64 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 		((CSkill*)(*_pSkill)[i])->SetHit(true);
 	}
 
-	return 0.f;
+	return fExp;
 }
+
+
+//float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* _pMonster)
+//{
+//	RECT rc;
+//	float fExp = 0.f;
+//
+//	for (size_t i = 0; i < _pSkill->size(); ++i)
+//	{
+//		for (size_t j = 0; j < _pMonster->size(); ++j)
+//		{
+//			if (!((CSkill*)(*_pSkill)[i])->GetHit())
+//			{
+//				if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
+//				{
+//					LONG fLength = rc.right - rc.left;
+//					LONG fHeight = rc.bottom - rc.top;
+//
+//					if (fLength > fHeight)
+//					{
+//						(*_pMonster)[j]->SetState(ST_HIT);
+//
+//						SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
+//						AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
+//
+//						if ((*_pMonster)[j]->GetStat().fHp <= 0)
+//						{
+//							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
+//							((*_pMonster)[j]->SetDestroy(true));
+//
+//							return (*_pMonster)[j]->GetStat().fExp;
+//						}
+//					}
+//					else if (fHeight > fLength)
+//					{
+//						(*_pMonster)[j]->SetState(ST_HIT);
+//
+//						SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
+//						AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
+//
+//						if ((*_pMonster)[j]->GetStat().fHp <= 0)
+//						{
+//							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
+//							((*_pMonster)[j]->SetDestroy(true));
+//
+//							return (*_pMonster)[j]->GetStat().fExp;
+//						}
+//					}
+//				}
+//			}
+//		}
+//		((CSkill*)(*_pSkill)[i])->SetHit(true);
+//	}
+//
+//	return fExp;
+//}
 
 void CCollisionMgr::CollisionPortal(vector<CParent*>* _pPlayer, vector<CParent*>* _pPortal)
 {
@@ -288,9 +348,14 @@ void CCollisionMgr::AddSkillEffect(CParent* _pSkill, CParent* _pMonster)
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Bolt_EFFECT"));
 	}
 
+	if (_pSkill->GetStrKey() == "Range")
+	{
+		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Range_EFFECT"));
+	}
+
 	if (_pSkill->GetStrKey() == "Beyond_LEFT" || _pSkill->GetStrKey() == "Beyond_RIGHT")
 	{
-		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond1_EFFECT"));
+		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond_EFFECT"));
 	}
 
 	if (_pSkill->GetStrKey() == "Beyond2_LEFT" || _pSkill->GetStrKey() == "Beyond2_RIGHT")
@@ -357,6 +422,15 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 	if (_pSkill->GetStrKey() == "Bolt_LEFT" || _pSkill->GetStrKey() == "Bolt_RIGHT")
 	{
 		for (int i = 0; i < 4; ++i)
+		{
+			AddEffect(_pSkill, _pMonster, i);
+		}
+	}
+
+	
+	if (_pSkill->GetStrKey() == "Range")
+	{
+		for (int i = 0; i < 8; ++i)
 		{
 			AddEffect(_pSkill, _pMonster, i);
 		}

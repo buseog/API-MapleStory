@@ -39,6 +39,7 @@ enum ITEMID
 	IT_ARMOR,
 	IT_GLOVE,
 	IT_POTION,
+	IT_GOLD,
 	IT_END
 };
 

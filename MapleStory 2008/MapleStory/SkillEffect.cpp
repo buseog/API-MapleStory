@@ -53,6 +53,12 @@ void CSkillEffect::Initialize(void)
 		m_tInfo = INFO(0, 0, 350.f, 300.f);
 		m_tSprite = SPRITE(0, 7, 0, 80);
 	}
+
+	if (m_strKey == "Range_EFFECT")
+	{
+		m_tInfo = INFO(0, 0, 150.f, 110.f);
+		m_tSprite = SPRITE(0, 4, 0, 80);
+	}
 }
 void CSkillEffect::Progress(DWORD _delta)
 {

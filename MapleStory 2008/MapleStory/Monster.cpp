@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Monster.h"
+#include "Gold.h"
 
 CMonster::CMonster(void)
 {
@@ -148,4 +149,22 @@ void CMonster::SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime)
 		m_tSprite.iMotion = _iMotion;
 		m_tSprite.dwTime = _dwTime;
 	}
+}
+
+CItem* CMonster::GetDropItem(void)
+{
+	CItem* pDropItem = new CGold(L"Gold", rand() % 2000, 1, 1, IT_GOLD);
+	pDropItem->SetPos(m_tInfo.fX, m_tInfo.fY - 15);
+	
+	return pDropItem;
+}
+
+DWORD CMonster::GetDrop(void)
+{
+	return m_dwDrop;
+}
+
+void CMonster::SetDrop(int _dwDrop)
+{
+	m_dwDrop = _dwDrop;
 }

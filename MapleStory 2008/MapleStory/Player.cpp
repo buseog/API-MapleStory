@@ -216,10 +216,10 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK;
 
 				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond_LEFT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond_LEFT"));
 
-				else if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond_RIGHT"));
+				if (m_strKey == "Player_RIGHT")
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond_RIGHT"));
 			
 				m_cTimer.m_fRemainTime[4] = 400.f;
 				++m_iBeyond;
@@ -228,10 +228,10 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK;
 
 				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond2_LEFT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond2_LEFT"));
 
-				else if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond2_RIGHT"));
+				if (m_strKey == "Player_RIGHT")
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond2_RIGHT"));
 				
 				m_cTimer.m_fRemainTime[4] = 400.f;
 				++m_iBeyond;
@@ -240,10 +240,10 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK2;
 
 				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX - 50, m_tInfo.fY,"Beyond3_LEFT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond3_LEFT"));
 
-				else if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX + 50, m_tInfo.fY,"Beyond3_RIGHT"));
+				if (m_strKey == "Player_RIGHT")
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond3_RIGHT"));
 				
 				m_cTimer.m_fRemainTime[4] = 400.f;
 				m_iBeyond = 0;
@@ -252,6 +252,17 @@ void CPlayer::KeyInput(DWORD _delta)
 			}
 		}
 	}
+
+	if (m_dwKey & KEY_A)
+		{
+			m_dwState = ST_ATTACK2;
+
+			if (m_strKey == "Player_LEFT") 
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
+
+			else if (m_strKey == "Player_RIGHT")
+				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
+		}
 }
 
 void CPlayer::Rotation(void)

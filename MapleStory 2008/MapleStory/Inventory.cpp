@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Inventory.h"
+#include "SceneMgr.h"
 
 CInventory::CInventory(void)
 {
@@ -18,6 +19,7 @@ void CInventory::Initialize(void)
 {
 	m_dwTime = GetTickCount();
 	m_pPick = NULL;
+	m_pDrop = NULL;
 	m_vecItem.reserve(INVENSIZE);
 	m_vecItem.resize(INVENSIZE);
 	m_ReturnItem = NULL;
@@ -127,12 +129,15 @@ void CInventory::UIPicking(void)
 	{
 		if (m_pPick)	
 		{
-			 if (GetMouse().x > m_tInfo.fX - m_tInfo.fCX / 2 &&
+			 if (!(GetMouse().x > m_tInfo.fX - m_tInfo.fCX / 2 &&
 				 GetMouse().y > m_tInfo.fY - m_tInfo.fCY / 2 &&
 				 GetMouse().x < m_tInfo.fX + m_tInfo.fCX / 2 &&
-				 GetMouse().y < m_tInfo.fY + m_tInfo.fCY / 2)
+				 GetMouse().y < m_tInfo.fY + m_tInfo.fCY / 2))
 			 {
-				
+				m_pDrop = m_pPick;
+				m_pPick->SetDrawID(0);
+				m_pPick->SetDropID(1);
+				m_pPick = NULL;
 			 }
 		}
 	}
@@ -150,6 +155,7 @@ void CInventory::UIPicking(void)
 					{
 						m_ReturnItem = m_vecItem[i];
 						m_vecItem[i]->SetDrawID(0);
+
 						m_vecItem[i] = NULL;
 					}
 
@@ -174,4 +180,14 @@ void CInventory::UIPicking(void)
 			}
 		}
 	}
+}
+
+void CInventory::SetDropItem(void)
+{
+	m_pDrop = NULL;
+}
+
+CItem* CInventory::GetDropItem(void)
+{
+	return m_pDrop;
 }

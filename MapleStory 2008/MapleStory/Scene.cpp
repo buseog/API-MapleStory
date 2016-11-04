@@ -11,6 +11,7 @@
 vector<CParent*>	CScene::m_vecParent[PAR_END];
 vector<CUI*>	CScene::m_vecUI[UI_END];
 bool			CScene::m_bUIView[UI_END];
+vector<CItem*>	CScene::m_vecItem;
 bool			CScene::m_bMouse;
 POINT			CScene::m_prevPT;
 CUI*			CScene::m_pUI;
@@ -44,7 +45,7 @@ void CScene::KeyInput(void)
 
 	if (m_dwKey & KEY_F7)
 	{
-		CItem*	pPotion = new CPotion(L"HPPotion", 10, 1, 1, IT_POTION);
+		CItem*	pPotion = new CPotion(L"HPPotion", 1000, 1, 1, IT_POTION);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pPotion);
 	}
 
@@ -109,11 +110,28 @@ void CScene::UIDrag(void)
 	}
 
 	m_vecUI[UI_INVENTORY].back()->UIPicking();
+	CItem* pDrop = ((CInventory*)m_vecUI[UI_INVENTORY].back())->GetDropItem();
+	if(pDrop)
+	{
+		pDrop->SetPos(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 20.f);
+		m_vecItem.push_back(pDrop);
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->SetDropItem();
+	}
+
 	CItem* pSwap = m_vecUI[UI_INVENTORY].back()->GetReturnItem();
 	if(pSwap)
 	{
-		((CEquipment*)m_vecUI[UI_EQUIPMENT].back())->EquipItem(pSwap);
-		m_vecUI[UI_INVENTORY].back()->SetReturnItem();
+		if (pSwap->GetItem().m_iType == IT_POTION)
+		{
+			m_vecParent[PAR_PLAYER].back()->HavePotion(pSwap);
+			m_vecUI[UI_INVENTORY].back()->SetReturnItem();
+			::Safe_Delete(pSwap);
+		}
+		else
+		{
+			((CEquipment*)m_vecUI[UI_EQUIPMENT].back())->EquipItem(pSwap);
+			m_vecUI[UI_INVENTORY].back()->SetReturnItem();
+		}
 	}
 
 	m_vecUI[UI_EQUIPMENT].back()->UIPicking();
@@ -317,4 +335,9 @@ void CScene::ParentClear(void)
 CParent* CScene::GetPlayer(void)
 {
 	return m_vecParent[PAR_PLAYER].back();
+}
+
+void CScene::SetDropItem(CItem* _pItem)
+{
+	m_vecItem.push_back(_pItem);
 }

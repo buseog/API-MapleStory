@@ -1,8 +1,9 @@
 #include "StdAfx.h"
 #include "Parent.h"
+#include "Item.h"
 
-map<string, CBitBmp*>*		CParent::m_pBitMap = NULL;
-POINT CParent::m_ptScroll = {};
+POINT CParent::m_ptScroll;
+map<string, CBitBmp*>*		CParent::m_pBitMap;
 
 CParent::CParent(void)
 :m_fJpower(0)
@@ -156,4 +157,14 @@ void CParent::SetLevel(void)
 	m_tStat.fHp = m_tStat.fFullHp;
 	
 	m_tStat.fExp = 0.f;
+}
+
+void CParent::HavePotion(CItem* _pPotion)
+{
+	m_tStat.fHp += _pPotion->GetItem().m_iOption;
+	if (_pPotion->GetItem().m_strName.c_str() == L"HPPotion")
+		m_tStat.fHp += _pPotion->GetItem().m_iOption;
+
+	if (m_tStat.fHp >= m_tStat.fFullHp)
+		m_tStat.fHp = m_tStat.fFullHp;
 }

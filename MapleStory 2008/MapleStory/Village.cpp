@@ -101,6 +101,11 @@ void CVillage::Progress(DWORD _delta)
 		m_vecPortal[i]->Progress(_delta);
 	}
 
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		m_vecItem[i]->Progress(_delta);
+	}
+
 	if (m_pStore)
 		m_pStore->Progress(_delta);
 
@@ -117,6 +122,7 @@ void CVillage::Progress(DWORD _delta)
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
+	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
 
@@ -155,6 +161,11 @@ void CVillage::Render(HDC hdc)
 				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
 			}
 		}
+	}
+	
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 	if (m_pStore)

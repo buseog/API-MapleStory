@@ -26,6 +26,7 @@ protected:
 	static	bool				m_bMouse;
 	static	POINT				m_prevPT;
 	static	bool				m_bUIView[UI_END];
+	static	vector<CItem*>		m_vecItem;
 	static	vector<CUI*>		m_vecUI[UI_END];
 	static	vector<CParent*>	m_vecParent[PAR_END];
 
@@ -38,6 +39,7 @@ protected:
 
 public:
 	CParent*	GetPlayer(void);
+	void		SetDropItem(CItem* _pItem);
 	static void SetEffect(CParent* _Effect);
 
 public:

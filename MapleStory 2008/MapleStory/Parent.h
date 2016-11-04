@@ -2,6 +2,7 @@
 #include "Bigheader.h"
 #include "Timer.h"
 
+class CItem;
 
 class CParent
 {
@@ -20,10 +21,10 @@ protected:
 	DWORD	m_dwState;
 	DWORD	m_dwKey;
 	string	m_strKey;
-	static  POINT m_ptScroll;
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
+	static  POINT m_ptScroll;
 	INFO	GetInfo(void);
 	STAT	GetStat(void);
 	SPRITE	GetSprite(void);
@@ -36,6 +37,7 @@ public:
 	bool	GetUnbeatable(void);
 
 public:
+	void	HavePotion(CItem* _pPotion);
 	void	SetLevel(void);
 	void	SetExp(float _fExp);
 	void	SetLand(bool YN);

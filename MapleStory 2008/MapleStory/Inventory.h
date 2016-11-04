@@ -8,6 +8,7 @@ class CInventory	:
 private:
 	vector<CItem*>	m_vecItem;
 	CItem*			m_pPick;
+	CItem*			m_pDrop;
 	int				m_iSwap;
 
 private:
@@ -15,6 +16,8 @@ private:
 
 public:
 	void AddItem(CItem*	_pItem);
+	void SetDropItem(void);
+	CItem* GetDropItem(void);
 
 public:
 	virtual void UIPicking(void);

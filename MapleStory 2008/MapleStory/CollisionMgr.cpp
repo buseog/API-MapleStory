@@ -10,6 +10,7 @@
 #include "Factory.h"
 #include "SceneMgr.h"
 #include "Scene.h"
+#include "Item.h"
 
 CCollisionMgr::CCollisionMgr(void)
 {
@@ -39,7 +40,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 						switch ((*_pTile)[j]->iOption)
 						{
 						case 1:
-							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
+							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위이고, 점프가 내려가는 중일때
 							{
 								if (_pPlayer->back()->GetState() == ST_UP)
 									_pPlayer->back()->SetState(ST_STAND);
@@ -50,7 +51,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 							break;
 
 						case 2:
-							if ((_pPlayer->back()->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위
+							if ((_pPlayer->back()->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	
 							{
 								if (_pPlayer->back()->GetState() == ST_UP)
 									_pPlayer->back()->SetState(ST_STAND);
@@ -112,7 +113,7 @@ void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _
 						switch ((*_pTile)[j]->iOption)
 						{
 						case 1:
-							if ((rc.top <= (*_pTile)[j]->GetRect().top) && ((*_pMonster)[i]->GetJumpPower() >= 0))	//플레이어가 위
+							if ((rc.top <= (*_pTile)[j]->GetRect().top) && ((*_pMonster)[i]->GetJumpPower() >= 0))
 							{
 								(*_pMonster)[i]->SetLand(true);
 								(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - fHeight);
@@ -120,10 +121,51 @@ void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _
 							break;
 
 						case 2:
-							if ((rc.top <= (*_pTile)[j]->GetRect().top) && ((*_pMonster)[i]->GetJumpPower() >= 0))	//플레이어가 위
+							if ((rc.top <= (*_pTile)[j]->GetRect().top) && ((*_pMonster)[i]->GetJumpPower() >= 0))
 							{
 								(*_pMonster)[i]->SetLand(true);
 								(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - fHeight);
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+void CCollisionMgr::CollisionITile(vector<CItem*>* _pItem, vector<TILE*>* _pTile)
+{
+	RECT rc;
+
+	for (size_t i = 0; i < _pItem->size(); ++i)
+	{
+		for (size_t j = 0; j < _pTile->size(); ++j)
+		{
+			if (!(*_pTile)[j]->iOption == 0)
+			{
+				if (IntersectRect(&rc, &(*_pItem)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
+				{
+					LONG fLength = rc.right - rc.left;
+					LONG fHeight = rc.bottom - rc.top;
+
+					if (fLength > fHeight)			//상하충돌
+					{
+						switch ((*_pTile)[j]->iOption)
+						{
+						case 1:
+							if (rc.top <= (*_pTile)[j]->GetRect().top)
+							{
+								(*_pItem)[i]->SetPos((*_pItem)[i]->GetInfo().fX, (*_pItem)[i]->GetInfo().fY - fHeight);
+							}
+							break;
+
+						case 2:
+							if (rc.top <= (*_pTile)[j]->GetRect().top)
+							{
+								(*_pItem)[i]->SetPos((*_pItem)[i]->GetInfo().fX, (*_pItem)[i]->GetInfo().fY - fHeight);
 							}
 							break;
 						}

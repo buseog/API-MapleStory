@@ -1,5 +1,6 @@
 #pragma once
 #include "bigheader.h"
+#include "Parent.h"
 
 class CItem
 {
@@ -7,6 +8,7 @@ protected:
 	INFO						m_tInfo;
 	ITEM						m_tItem;
 	DWORD						m_DrawId;
+	DWORD						m_DropId;
 
 	static	map<string, CBitBmp*>*		m_pBitMap;
 
@@ -17,6 +19,7 @@ public:
 	DWORD	GetDraw(void);
 	void	SetPos(float _fX, float _fY);
 	void	SetDrawID(int _Draw);
+	void	SetDropID(int _Draw);
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
 
 public:

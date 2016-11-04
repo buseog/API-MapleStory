@@ -21,6 +21,11 @@ void CArmor::Initialize(void)
 
 void CArmor::Progress(DWORD _delta)
 {
+	if (m_DropId == 1)
+	{
+		m_tInfo.fY += 5.f;
+	}
+
 	if(PtInRect(&GetRect(), GetMouse()))
 	{
 		m_DrawId = 1;
@@ -31,17 +36,38 @@ void CArmor::Progress(DWORD _delta)
 
 void CArmor::Render(HDC hdc)
 {
-	TransparentBlt(hdc,
-		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
-		int(m_tInfo.fY - m_tInfo.fCY / 2.f),
-		int(m_tInfo.fCX),
-		int(m_tInfo.fCY),
-		(*m_pBitMap)["Armor"]->GetMemdc(),
-		0,
-		0,
-		(int)m_tInfo.fCX,
-		(int)m_tInfo.fCY,
-		RGB(255, 255, 250));
+	string str;
+
+	str.assign(m_tItem.m_strName.begin(), m_tItem.m_strName.end());
+
+	if (m_DropId == 0)
+	{
+		TransparentBlt(hdc,
+			int(m_tInfo.fX - m_tInfo.fCX / 2.f),
+			int(m_tInfo.fY - m_tInfo.fCY / 2.f),
+			int(m_tInfo.fCX),
+			int(m_tInfo.fCY),
+			(*m_pBitMap)[str]->GetMemdc(),
+			0,
+			0,
+			(int)m_tInfo.fCX,
+			(int)m_tInfo.fCY,
+			RGB(255, 255, 250));
+	}
+	else if (m_DropId == 1)
+	{
+		TransparentBlt(hdc,
+			int(m_tInfo.fX - m_tInfo.fCX / 2.f + CParent::m_ptScroll.x),
+			int(m_tInfo.fY - m_tInfo.fCY / 2.f + CParent::m_ptScroll.y),
+			int(m_tInfo.fCX),
+			int(m_tInfo.fCY),
+			(*m_pBitMap)[str]->GetMemdc(),
+			0,
+			0,
+			(int)m_tInfo.fCX,
+			(int)m_tInfo.fCY,
+			RGB(255, 255, 250));
+	}
 
 
 	if (m_DrawId == 1)

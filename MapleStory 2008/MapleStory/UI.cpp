@@ -28,10 +28,14 @@ void CUI::Initialize(void)
 		m_tSprite = SPRITE(0, 0, 0, 0);
 	}
 
-	if (m_strKey == "Skill")
+	if (m_strKey == "HPBar" || m_strKey == "MPBar")
 	{
-		m_tInfo = INFO(0, 0, 174.f, 300.f);
-		m_tSprite = SPRITE(0, 0, 0, 0);
+		m_tInfo = INFO(100, 500, 141.f, 14.f);
+	}
+
+	if (m_strKey == "EXPBar")
+	{
+		m_tInfo = INFO(100, 500, 310.f, 14.f);
 	}
 }
 
@@ -57,11 +61,11 @@ void CUI::Render(HDC hdc)
 			RGB(255, 255, 250));
 	}
 
-	else if (m_strKey == "Skill")
+	if (m_strKey == "HPBar" || m_strKey == "MPBar" || m_strKey == "EXPBar")
 	{
 		BitBlt(hdc,
-			int(m_tInfo.fX - m_tInfo.fCX / 2.f),
-			int(m_tInfo.fY - m_tInfo.fCY / 2.f),
+			int(m_tInfo.fX),
+			int(m_tInfo.fY),
 			int(m_tInfo.fCX),
 			int(m_tInfo.fCY),
 			(*m_pBitMap)[m_strKey]->GetMemdc(),

@@ -12,6 +12,6 @@ public:
 
 public:
 	CArmor(void);
-	CArmor(string _strName, int _iOption, int _iCount, int _iPrice, int _iType);
+	CArmor(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType);
 	~CArmor(void);
 };

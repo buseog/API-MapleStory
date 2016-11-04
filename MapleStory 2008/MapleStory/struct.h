@@ -76,14 +76,14 @@ typedef struct tagSprite
 
 typedef struct tagItem
 {
-	string m_strName;
+	wstring m_strName;
 	int m_iOption;
 	int m_iCount;
 	int m_iPrice;
 	int m_iType;
 
 	tagItem(){}
-	tagItem(string	_strName, int _iOption, int _iCount, int _iPrice, int _iType)
+	tagItem(wstring	_strName, int _iOption, int _iCount, int _iPrice, int _iType)
 		:m_strName(_strName), m_iOption(_iOption), m_iCount(_iCount), m_iPrice(_iPrice), m_iType(_iType)
 	{
 	}

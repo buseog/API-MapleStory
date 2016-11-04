@@ -32,7 +32,16 @@ void CNPC::Progress(DWORD _delta)
 	{
 		m_tSprite.iStart = 0;
 	}
+
+	if(PtInRect(&GetRect(), GetMouse()))
+	{
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+
+		}
+	}
 }
+
 void CNPC::Render(HDC hdc)
 {
 	TransparentBlt(hdc,
@@ -47,6 +56,7 @@ void CNPC::Render(HDC hdc)
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
 }
+
 void CNPC::Release(void)
 {
 }

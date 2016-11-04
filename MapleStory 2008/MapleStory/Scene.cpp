@@ -29,7 +29,7 @@ void CScene::KeyInput(void)
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 	if (m_dwKey & KEY_F5)	// 인벤토리
 	{
-		CItem*	pWeapon = new CArmor("Armor", 10, 1, 1, 1);
+		CItem*	pWeapon = new CArmor(L"Armor", 10, 1, 1, 1);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
 	}
 
@@ -209,6 +209,10 @@ void CScene::LoadBmp(void)
 	m_BitMap["Equipment"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equipment.bmp");
 	m_BitMap["SkillPanel"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/SkillPanel.bmp");
 	m_BitMap["QuickSlot"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/QuickSlot.bmp");
+	m_BitMap["HPBar"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/HPBar.bmp");
+	m_BitMap["MPBar"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/MPBar.bmp");
+	m_BitMap["EXPBar"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/EXPBar.bmp");
+	m_BitMap["ItemStat"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/ItemStat.bmp");
 	
 
 

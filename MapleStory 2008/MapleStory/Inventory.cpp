@@ -123,6 +123,21 @@ RECT CInventory::GetRect(void)
 
 void CInventory::UIPicking(void)
 {
+	if (GetAsyncKeyState(VK_LBUTTON))
+	{
+		if (m_pPick)	
+		{
+			 if (GetMouse().x > m_tInfo.fX - m_tInfo.fCX / 2 &&
+				 GetMouse().y > m_tInfo.fY - m_tInfo.fCY / 2 &&
+				 GetMouse().x < m_tInfo.fX + m_tInfo.fCX / 2 &&
+				 GetMouse().y < m_tInfo.fY + m_tInfo.fCY / 2)
+			 {
+				
+			 }
+		}
+	}
+
+
 	for(size_t i = 0; i < m_vecItem.size(); ++i)
 	{
 		if (m_vecItem[i])
@@ -136,7 +151,6 @@ void CInventory::UIPicking(void)
 						m_ReturnItem = m_vecItem[i];
 						m_vecItem[i] = NULL;
 					}
-
 
 					if (GetAsyncKeyState(VK_LBUTTON))
 					{

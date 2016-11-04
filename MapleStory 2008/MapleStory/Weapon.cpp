@@ -5,7 +5,7 @@ CWeapon::CWeapon(void)
 {
 }
 
-CWeapon::CWeapon(string _strName, int _iOption, int _iCount, int _iPrice, int _iType)
+CWeapon::CWeapon(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType)
 :CItem(_strName, _iOption, _iCount, _iPrice, _iType)
 {
 	Initialize();
@@ -46,13 +46,13 @@ void CWeapon::Render(HDC hdc)
 
 	if (m_DrawId == 1)
 	{
-		TCHAR szName[128] = L"";
+		TCHAR szName[128] = L"m_tItem.m_strName.c_str()";
 		TCHAR szOption[128] = L"";
 		TCHAR szPrice[128] = L"";
 		TCHAR szType[128] = L"";
 
 
-		wsprintf(szOption, L"%d", (int)(LPCWSTR)m_tItem.m_strName.c_str());
+	
 					TextOut(hdc, 
 					m_tInfo.fX + 30, m_tInfo.fY + 30,
 					szName, lstrlen(szName));

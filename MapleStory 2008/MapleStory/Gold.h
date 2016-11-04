@@ -11,6 +11,6 @@ public:
 	virtual void Release(void);
 public:
 	CGold(void);
-	CGold(string _strName, int _iOption, int _iCount, int _iPrice, int _iType);
+	CGold(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType);
 	~CGold(void);
 };

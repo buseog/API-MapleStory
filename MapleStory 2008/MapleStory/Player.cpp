@@ -375,7 +375,7 @@ void CPlayer::SetMapSize(float _fX, float _fY)
 //
 
 
-void		CPlayer::SetOffset(float _fX, float _fY)
+void CPlayer::SetOffset(float _fX, float _fY)
 {
 	m_ptOffset.x = (long)_fX;
 	m_ptOffset.y = (long)_fY;

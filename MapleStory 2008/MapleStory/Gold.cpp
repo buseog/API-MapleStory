@@ -4,7 +4,7 @@
 CGold::CGold(void)
 {
 }
-CGold::CGold(string _strName, int _iOption, int _iCount, int _iPrice, int _iType)
+CGold::CGold(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType)
 :CItem(_strName, _iOption, _iCount, _iPrice, _iType)
 {
 

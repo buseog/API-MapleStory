@@ -17,6 +17,9 @@ CVillage::CVillage(void)
 	m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f));
 
 	m_vecUI[UI_UI].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
+	m_vecUI[UI_UI].push_back(CFactory<CUI>::CreateUI(250, 560, "HPBar"));
+	m_vecUI[UI_UI].push_back(CFactory<CUI>::CreateUI(420, 560, "MPBar"));
+	m_vecUI[UI_UI].push_back(CFactory<CUI>::CreateUI(250, 575, "EXPBar"));
 	m_bUIView[UI_UI] = true;
 	m_vecUI[UI_INVENTORY].push_back(CFactory<CInventory>::CreateUI(600.f, 300.f));
 	m_vecUI[UI_EQUIPMENT].push_back(CFactory<CEquipment>::CreateUI(500.f, 300.f));
@@ -41,10 +44,10 @@ void CVillage::Initialize(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
-	//for (int i = 0; i < 15; ++i)
-	//{
-	//	m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
-	//}
+	for (int i = 0; i < 15; ++i)
+	{
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand()% 500, "PurpleMushRoom_LEFT"));
+	}
 
 	m_pLoading = new CLoading();
 
@@ -137,7 +140,10 @@ void CVillage::Render(HDC hdc)
 	{
 		if (m_bUIView[i])
 		{
-			m_vecUI[i].back()->Render(m_BitMap["Back"]->GetMemdc());
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
+			}
 		}
 	}
 

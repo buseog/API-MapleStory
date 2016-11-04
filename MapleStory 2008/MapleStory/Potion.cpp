@@ -5,7 +5,7 @@ CPotion::CPotion(void)
 {
 }
 
-CPotion::CPotion(string _strName, int _iOption, int _iCount, int _iPrice, int _iType)
+CPotion::CPotion(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType)
 :CItem(_strName, _iOption, _iCount, _iPrice, _iType)
 {
 

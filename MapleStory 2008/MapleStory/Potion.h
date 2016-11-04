@@ -12,6 +12,6 @@ public:
 
 public:
 	CPotion(void);
-	CPotion(string _strName, int _iOption, int _iCount, int _iPrice, int _iType);
+	CPotion(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType);
 	~CPotion(void);
 };

@@ -7,7 +7,7 @@ CItem::CItem(void)
 {
 }
 
-CItem::CItem(string _strName, int _iOption, int _iCount, int _iPrice, int _iType)
+CItem::CItem(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType)
 :m_tItem(_strName, _iOption, _iCount, _iPrice, _iType)
 ,m_DrawId(0)
 {

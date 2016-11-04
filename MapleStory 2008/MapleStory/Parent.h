@@ -34,6 +34,9 @@ public:
 	float	GetJumpPower(void);
 	DWORD	GetState(void);
 	bool	GetUnbeatable(void);
+
+public:
+	void	SetExp(float _fExp);
 	void	SetLand(bool YN);
 	void	SetDestroy(bool _YN);
 	void	SetUnbeatable(bool _YN);

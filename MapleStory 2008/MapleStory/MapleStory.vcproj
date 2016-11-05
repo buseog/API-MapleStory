@@ -605,6 +605,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="05. Status"
+				>
+				<File
+					RelativePath=".\Status.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Status.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="99. ETC"

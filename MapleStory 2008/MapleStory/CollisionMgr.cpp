@@ -27,7 +27,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 
 	for (size_t j = 0; j < _pTile->size(); ++j)
 	{
-		if (!(*_pTile)[j]->iOption == 0)
+		if ((*_pTile)[j]->iOption)
 		{
 			if (IntersectRect(&rc, &_pPlayer->back()->GetRect(), &(*_pTile)[j]->GetRect()))
 			{
@@ -63,11 +63,6 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 							break;
 
 						case 3:
-							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetState() != ST_UP) && (_pPlayer->back()->GetState() != ST_JUMP))
-							{
-								_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
-							}
-
 							if (_pPlayer->back()->GetState() != ST_UP)
 							{
 								if (GetAsyncKeyState(VK_UP))
@@ -76,17 +71,34 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 									_pPlayer->back()->SetState(ST_UP);
 									_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY - 10.f);
 								}
+							}
+							break;
 
-								if (GetAsyncKeyState(VK_DOWN))
+						case 4:
+							if ((_pPlayer->back()->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))
+							{
+								
+								if  (_pPlayer->back()->GetState() != ST_UP)
 								{
 									_pPlayer->back()->SetLand(true);
-									_pPlayer->back()->SetState(ST_UP);
-									_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 20.f);
+									_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+
+									if (GetAsyncKeyState(VK_DOWN) )
+									{
+										if (_pPlayer->back()->GetState() != ST_UP)
+											_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 30.f);
+
+										_pPlayer->back()->SetLand(true);
+										_pPlayer->back()->SetState(ST_UP);
+										
+									}
 								}
+								else
+									_pPlayer->back()->SetState(ST_STAND);
+
 							}
 							break;
 						}
-
 					}
 				}
 			}

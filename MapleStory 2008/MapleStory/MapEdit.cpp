@@ -241,6 +241,11 @@ void CMapEdit::KeyCheck(void)
 		m_iTileOption = 3;
 	}
 
+	if (GetAsyncKeyState('5'))
+	{
+		m_iTileOption = 4;
+	}
+
 	if(GetAsyncKeyState(VK_LEFT))
 		m_ptScroll.x += (long)m_tStat.fSpeed;
 

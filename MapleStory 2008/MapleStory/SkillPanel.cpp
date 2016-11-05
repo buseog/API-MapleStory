@@ -41,11 +41,10 @@ void CSkillPanel::Release(void)
 RECT CSkillPanel::GetRect(void)
 {
 	RECT	rc = {
-
 		int(m_tInfo.fX - m_tInfo.fCX / 2.f),
 		int(m_tInfo.fY - m_tInfo.fCY / 2.f),
 		int(m_tInfo.fX + m_tInfo.fCX / 2.f),
-		int(m_tInfo.fY + m_tInfo.fCY / 2.f)
+		int(m_tInfo.fY - m_tInfo.fCY / 2.f + 20)
 	};
 
 	return rc;

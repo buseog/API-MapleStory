@@ -75,6 +75,15 @@ void CScene::KeyInput(void)
 		else
 			m_bUIView[UI_SKILLPANEL] = true;
 	}
+
+	if (m_dwKey & KEY_J)	// 스킬창
+	{
+		if (m_bUIView[UI_STATUS])
+			m_bUIView[UI_STATUS] = false;
+		
+		else
+			m_bUIView[UI_STATUS] = true;
+	}
 }
 
 void CScene::UIDrag(void)
@@ -89,22 +98,25 @@ void CScene::UIDrag(void)
 
 	for (int i = 1; i < UI_END; ++i)
 	{
-		if(PtInRect(&m_vecUI[i].back()->GetRect(), GetMouse()))
+		if (!m_vecUI[i].empty())
 		{
-			if(GetAsyncKeyState(VK_LBUTTON))
+			if(PtInRect(&m_vecUI[i].back()->GetRect(), GetMouse()))
 			{
-				if (m_bUIView[i])
+				if(GetAsyncKeyState(VK_LBUTTON))
 				{
-					m_prevPT = GetMouse();
-					m_bMouse = true;
-					m_pUI = m_vecUI[i].back();
+					if (m_bUIView[i])
+					{
+						m_prevPT = GetMouse();
+						m_bMouse = true;
+						m_pUI = m_vecUI[i].back();
+					}
 				}
-			}
 
-			else
-			{
-				m_bMouse = false;
-				m_pUI = NULL;
+				else
+				{
+					m_bMouse = false;
+					m_pUI = NULL;
+				}
 			}
 		}
 	}
@@ -238,6 +250,7 @@ void CScene::LoadBmp(void)
 
 	//UI 추가
 	m_BitMap["UI"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/UI.bmp");
+	m_BitMap["Status"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Status.bmp");
 	m_BitMap["Inventory"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Inventory.bmp");
 	m_BitMap["Equipment"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Equipment.bmp");
 	m_BitMap["SkillPanel"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/SkillPanel.bmp");
@@ -246,6 +259,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["MPBar"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/MPBar.bmp");
 	m_BitMap["EXPBar"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/EXPBar.bmp");
 	m_BitMap["ItemStat"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/ItemStat.bmp");
+	m_BitMap["Dead"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Dead.bmp");
 	
 
 

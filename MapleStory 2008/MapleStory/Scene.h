@@ -5,6 +5,7 @@
 #include "Equipment.h"
 #include "SkillPanel.h"
 #include "QuickSlot.h"
+#include "Status.h"
 #include "Item.h"
 #include "Loading.h"
 

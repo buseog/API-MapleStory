@@ -25,6 +25,8 @@ CVillage::CVillage(void)
 	m_vecUI[UI_EQUIPMENT].push_back(CFactory<CEquipment>::CreateUI(500.f, 300.f));
 	m_vecUI[UI_SKILLPANEL].push_back(CFactory<CSkillPanel>::CreateUI(600.f, 400.f));
 	m_vecUI[UI_QUICKSLOT].push_back(CFactory<CQuickSlot>::CreateUI(730.f, 480.f));
+	m_vecUI[UI_STATUS].push_back(CFactory<CStatus>::CreateUI(400.f, 450.f));
+	((CStatus*)m_vecUI[UI_STATUS].back())->SetPlayer(m_vecParent[PAR_PLAYER].back());
 
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);

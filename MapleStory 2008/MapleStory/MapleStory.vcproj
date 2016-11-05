@@ -755,6 +755,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="04. Empty"
+				>
+				<File
+					RelativePath=".\ItemEmpty.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ItemEmpty.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="06. Loading"

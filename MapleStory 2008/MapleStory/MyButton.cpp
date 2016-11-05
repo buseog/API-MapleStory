@@ -25,6 +25,7 @@ void CMyButton::Initialize(void)
 		m_tInfo = INFO(0.f, 0.f, 150.f, 60.f);
 		m_iDrawID = 0;
 	}
+	
 	if (m_strKey == "Character_CREATE")
 	{
 		m_tInfo = INFO(0.f, 0.f, 120.f, 40.f);

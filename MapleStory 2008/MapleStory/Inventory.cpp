@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "Inventory.h"
 #include "SceneMgr.h"
+#include "Factory.h"
+#include "ItemEmpty.h"
 
 CInventory::CInventory(void)
 {
@@ -17,6 +19,7 @@ CInventory::~CInventory(void)
 
 void CInventory::Initialize(void)
 {
+	m_bOnOff = false;
 	m_dwTime = GetTickCount();
 	m_pPick = NULL;
 	m_pDrop = NULL;
@@ -26,7 +29,8 @@ void CInventory::Initialize(void)
 	m_iSwap = 100;
 	m_strKey = "Inventory";
 	m_tInfo = INFO(0, 0, 172.f, 335.f);
-	m_vecItem.reserve(24);
+
+	m_pCloseButton = CFactory<CUI>::CreateUI(0.f, 0.f, "Close");
 }
 
 void CInventory::Progress(DWORD _delta)
@@ -36,7 +40,11 @@ void CInventory::Progress(DWORD _delta)
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
 		if (m_vecItem[i])
+		{
 			m_vecItem[i]->Progress(_delta);
+		}
+		else
+			m_vecItem[i] = new CItemEmpty();
 	}
 
 	if (m_pPick)
@@ -61,6 +69,14 @@ void CInventory::Render(HDC hdc)
 			m_vecItem[i]->Render(hdc);
 	}
 
+	TCHAR szGold[128] = L"";
+	wsprintf(szGold, L"%d", (int)m_pPlayer->GetStat().iGold);
+					TextOut(hdc, int(m_tInfo.fX - 5), int(m_tInfo.fY + 97), szGold, lstrlen(szGold));
+
+	SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);
+
+	m_pCloseButton->Render(hdc);
+
 	if (m_pPick)
 		m_pPick->Render(hdc);
 }
@@ -81,8 +97,9 @@ void CInventory::AddItem(CItem*	_pItem)
 {
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
-		if (m_vecItem[i] == NULL)
+		if (m_vecItem[i]->GetItem().iType == IT_EMPTY)
 		{
+			::Safe_Delete(m_vecItem[i]);
 			m_vecItem[i] = _pItem;
 			break;
 		}
@@ -108,6 +125,11 @@ void CInventory::ItemPos(void)
 
 		++iCount;
 	}
+
+	float fCloseX = m_tInfo.fX + m_tInfo.fCX / 2.f - 17.f;
+	float fCloseY = m_tInfo.fY - m_tInfo.fCY / 2.f + 12.f;
+
+	m_pCloseButton->SetPos(fCloseX, fCloseY);
 }
 
 RECT CInventory::GetRect(void)
@@ -125,9 +147,15 @@ RECT CInventory::GetRect(void)
 
 void CInventory::UIPicking(void)
 {
-	if (GetAsyncKeyState(VK_LBUTTON))
+	if (PtInRect(&m_pCloseButton->GetRect(), GetMouse()))
 	{
-		if (m_pPick)	
+		if (GetAsyncKeyState(VK_LBUTTON))
+			m_bOnOff = false;
+	}
+
+	if (m_pPick)
+	{
+		if (GetAsyncKeyState(VK_LBUTTON))
 		{
 			 if (!(GetMouse().x > m_tInfo.fX - m_tInfo.fCX / 2 &&
 				 GetMouse().y > m_tInfo.fY - m_tInfo.fCY / 2 &&

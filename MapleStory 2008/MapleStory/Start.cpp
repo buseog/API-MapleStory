@@ -18,6 +18,8 @@ CStart::~CStart(void)
 
 void CStart::Initialize(void)
 {
+	m_dwTime = GetTickCount();
+
 	m_hVideo = MCIWndCreate(g_hWnd, NULL, MCIWNDF_NOPLAYBAR | WS_VISIBLE | WS_CHILD,
 		L"../Video/Logo.wmv");
 
@@ -27,6 +29,12 @@ void CStart::Initialize(void)
 
 void CStart::Progress(DWORD _delta)
 {
+	if (m_dwTime + 8500 <= GetTickCount())
+	{
+		CSceneMgr::GetInstance()->SetScene(SC_LOGIN);
+		return;
+	}
+
 	if(GetAsyncKeyState(VK_RETURN))
 	{
 		CSceneMgr::GetInstance()->SetScene(SC_LOGIN);

@@ -45,7 +45,7 @@ void CGold::Render(HDC hdc)
 {
 	string str;
 
-	str.assign(m_tItem.m_strName.begin(), m_tItem.m_strName.end());
+	str.assign(m_tItem.strName.begin(), m_tItem.strName.end());
 
 	if (m_DropId == 1)
 	{

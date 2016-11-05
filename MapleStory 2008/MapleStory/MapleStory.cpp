@@ -180,12 +180,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
 		break;
-
+	case WM_SYSKEYDOWN:
+			break;
 	case WM_KEYDOWN:
 		switch(wParam)
 		{
 		case VK_ESCAPE:
 			PostQuitMessage(0);
+			break;
+		case VK_MENU:
 			break;
 		}
 		break;

@@ -1,7 +1,9 @@
 #pragma once
 #include "bigheader.h"
+#include "Player.h"
 
 class CItem;
+
 
 class CUI
 {
@@ -11,18 +13,25 @@ protected:
 	int		m_iDrawID;
 	float	m_fPercent[2];
 	DWORD	m_dwTime;
+	bool	m_bOnOff;
+
 	CItem*	m_ReturnItem;
+	CUI*	m_pCloseButton;
+	CParent*	m_pPlayer;
 
 	string	m_strKey;
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
+	void	SetPlayer(CParent* _pPlayer);
 	void	SetPercent(float _fHp, float _fExp);
 	void	SetPos(float _fX, float _fY);
 	INFO	GetInfo(void);
 	CItem*	GetReturnItem(void);
 	void	SetReturnItem(void);
+	bool	GetOnOff(void);
+	void	SetOnOff(bool _YN);
 
 public:
 	virtual void UIPicking(void);

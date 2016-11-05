@@ -24,9 +24,8 @@ protected:
 
 protected:
 	static	CUI*				m_pUI;
-	static	bool				m_bMouse;
+	static	bool				m_bDrag;
 	static	POINT				m_prevPT;
-	static	bool				m_bUIView[UI_END];
 	static	vector<CItem*>		m_vecItem;
 	static	vector<CUI*>		m_vecUI[UI_END];
 	static	vector<CParent*>	m_vecParent[PAR_END];

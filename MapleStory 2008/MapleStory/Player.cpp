@@ -20,7 +20,7 @@ void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 6.f, 1000);
+	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 5.f, 1000);
 	m_tSprite = SPRITE(0, 5, 0, 80);
 
 	m_dwTime = GetTickCount();
@@ -67,8 +67,8 @@ void CPlayer::Progress(DWORD _delta)
 	SetState(ST_STAND, 5, 0, 80);
 	SetState(ST_WALK, 3, 1, 100);
 	SetState(ST_JUMP, 1, 6, 100);
-	SetState(ST_ATTACK, 3, 2, 120);
-	SetState(ST_ATTACK2, 4, 3, 80);
+	SetState(ST_ATTACK, 3, 2, 100);
+	SetState(ST_ATTACK2, 4, 3, 100);
 	SetState(ST_UP, 1, 8, 100);
 	SetState(ST_PROSTRATE, 1, 5, 100);
 	SetState(ST_HIT, 3, 7, 30);
@@ -129,7 +129,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			m_tInfo.fY += m_tStat.fSpeed;
 		}
 
-		else if (m_dwKey & KEY_SPACE)
+		else if (m_dwKey & KEY_ALT)
 		{
 			m_dwState = ST_JUMP;
 			m_tInfo.fY += 20.f;
@@ -147,14 +147,30 @@ void CPlayer::KeyInput(DWORD _delta)
 		m_dwState = ST_ATTACK;
 	}
 
-	if (m_dwKey & KEY_SPACE)
+	if (m_dwKey & KEY_ALT && m_dwState != ST_PROSTRATE)
 	{
-		m_dwState = ST_JUMP;
-
-		if (m_bLand)
+		if (m_dwState == ST_UP)
 		{
-			m_fJpower = -13.f;
-			m_bLand = false;
+			if (m_dwKey & KEY_LEFT || m_dwKey & KEY_RIGHT)
+			{
+				m_dwState = ST_JUMP;
+
+				if (m_bLand)
+				{
+					m_fJpower = -6.f;
+					m_bLand = false;
+				}
+			}
+		}
+		else
+		{
+			m_dwState = ST_JUMP;
+
+			if (m_bLand)
+			{
+				m_fJpower = -11.f;
+				m_bLand = false;
+			}
 		}
 	}
 
@@ -216,10 +232,10 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK;
 
 				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond_LEFT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_LEFT"));
 
 				if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond_RIGHT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_RIGHT"));
 			
 				m_cTimer.m_fRemainTime[4] = 400.f;
 				++m_iBeyond;
@@ -228,10 +244,10 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK;
 
 				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond2_LEFT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond2_LEFT"));
 
 				if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond2_RIGHT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond2_RIGHT"));
 				
 				m_cTimer.m_fRemainTime[4] = 400.f;
 				++m_iBeyond;
@@ -240,10 +256,10 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK2;
 
 				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond3_LEFT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond3_LEFT"));
 
 				if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 120,"Beyond3_RIGHT"));
+					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond3_RIGHT"));
 				
 				m_cTimer.m_fRemainTime[4] = 400.f;
 				m_iBeyond = 0;
@@ -254,15 +270,26 @@ void CPlayer::KeyInput(DWORD _delta)
 	}
 
 	if (m_dwKey & KEY_A)
-		{
-			m_dwState = ST_ATTACK2;
+	{
+		m_dwState = ST_ATTACK2;
 
-			if (m_strKey == "Player_LEFT") 
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
+		if (m_strKey == "Player_LEFT") 
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 50,"Range"));
 
-			else if (m_strKey == "Player_RIGHT")
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Range"));
-		}
+		else if (m_strKey == "Player_RIGHT")
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 50,"Range"));
+	}
+
+	if (m_dwKey & KEY_S)
+	{
+		m_dwState = ST_ATTACK2;
+
+		if (m_strKey == "Player_LEFT") 
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Bolt_LEFT"));
+
+		else if (m_strKey == "Player_RIGHT")
+			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Bolt_RIGHT"));
+	}
 }
 
 void CPlayer::Rotation(void)
@@ -390,4 +417,32 @@ void CPlayer::SetOffset(float _fX, float _fY)
 {
 	m_ptOffset.x = (long)_fX;
 	m_ptOffset.y = (long)_fY;
+}
+
+STATUS CPlayer::GetStatus(void)
+{
+	return m_tStatus;
+}
+
+void CPlayer::SetStatus(int _iType, int _iValue)
+{
+	switch (_iType)
+	{
+	case 0:
+		m_tStatus.iStr += _iValue;
+		break;
+	
+	case 1:
+		m_tStatus.iStr += _iValue;
+		break;
+		
+	case 2:
+		m_tStatus.iStr += _iValue;
+		break;
+		
+	case 3:
+		m_tStatus.iStr += _iValue;
+		break;
+
+	}
 }

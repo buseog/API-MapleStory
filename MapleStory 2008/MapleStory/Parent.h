@@ -38,6 +38,7 @@ public:
 
 public:
 	void	HavePotion(CItem* _pPotion);
+	void	SetGold(int _iGold);
 	void	SetLevel(void);
 	void	SetExp(float _fExp);
 	void	SetLand(bool YN);

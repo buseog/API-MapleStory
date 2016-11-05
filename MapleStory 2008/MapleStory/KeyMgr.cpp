@@ -31,8 +31,8 @@ void CKeyMgr::KeyCheck(void)
 	if(GetAsyncKeyState(VK_CONTROL) & 0x8000)
 		m_dwKey |= KEY_CONTROL;
 
-	if(GetAsyncKeyState(VK_SPACE) & 0x8000)
-		m_dwKey |= KEY_SPACE;
+	if(GetAsyncKeyState(VK_MENU) & 0x8000)
+		m_dwKey |= KEY_ALT;
 
 	if (GetAsyncKeyState('Q') & 0x0001)
 		m_dwKey |= KEY_Q;
@@ -81,6 +81,9 @@ void CKeyMgr::KeyCheck(void)
 
 	if (GetAsyncKeyState('F') & 0x0001)
 		m_dwKey |= KEY_F;
+	
+	if (GetAsyncKeyState('Z') & 0x0001)
+		m_dwKey |= KEY_Z;
 
 }
 

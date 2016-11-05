@@ -164,10 +164,15 @@ void CParent::SetLevel(void)
 
 void CParent::HavePotion(CItem* _pPotion)
 {
-	m_tStat.fHp += _pPotion->GetItem().m_iOption;
-	if (_pPotion->GetItem().m_strName.c_str() == L"HPPotion")
-		m_tStat.fHp += _pPotion->GetItem().m_iOption;
+	m_tStat.fHp += _pPotion->GetItem().iOption;
+	if (_pPotion->GetItem().strName.c_str() == L"HPPotion")
+		m_tStat.fHp += _pPotion->GetItem().iOption;
 
 	if (m_tStat.fHp >= m_tStat.fFullHp)
 		m_tStat.fHp = m_tStat.fFullHp;
+}
+
+void CParent::SetGold(int _iGold)
+{
+	m_tStat.iGold += _iGold;
 }

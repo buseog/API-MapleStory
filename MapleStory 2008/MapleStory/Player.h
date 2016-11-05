@@ -8,6 +8,7 @@ class CPlayer	:
 {
 private:
 	vector<CParent*>*	m_pSkill;
+	STATUS				m_tStatus;
 	POINT				m_ptOffset;
 	POINT				m_ptMapSize;
 	int					m_iBeyond;
@@ -24,6 +25,8 @@ public:
 	void		SetSkill(vector<CParent*>* _pSkill);
 	void		SetMapSize(float _fX, float _fY);
 	void		SetOffset(float _fX, float _fY);
+	STATUS		GetStatus(void);
+	void		SetStatus(int _iType, int _iValue);
 
 public:
 	virtual void Initialize(void);

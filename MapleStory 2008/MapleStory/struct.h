@@ -38,6 +38,22 @@ typedef struct tagStat
 
 }STAT;
 
+typedef struct tagStatus
+{
+	int iStr;
+	int iDex;
+	int iInt;
+	int iLuk;
+
+	tagStatus(void){}
+	tagStatus(int _iStr, int _iDex, int _iInt,int _iLuk)
+		:iStr(_iStr), iDex(_iDex), iInt(_iInt), iLuk(_iLuk)
+	{
+
+	}
+
+}STATUS;
+
 typedef	 struct tagTile
 {
 	float	fX;
@@ -76,15 +92,15 @@ typedef struct tagSprite
 
 typedef struct tagItem
 {
-	wstring m_strName;
-	int m_iOption;
-	int m_iCount;
-	int m_iPrice;
-	int m_iType;
+	wstring strName;
+	int iOption;
+	int iCount;
+	int iPrice;
+	int iType;
 
 	tagItem(){}
 	tagItem(wstring	_strName, int _iOption, int _iCount, int _iPrice, int _iType)
-		:m_strName(_strName), m_iOption(_iOption), m_iCount(_iCount), m_iPrice(_iPrice), m_iType(_iType)
+		:strName(_strName), iOption(_iOption), iCount(_iCount), iPrice(_iPrice), iType(_iType)
 	{
 	}
 

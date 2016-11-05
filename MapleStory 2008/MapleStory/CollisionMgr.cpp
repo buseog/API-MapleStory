@@ -12,6 +12,7 @@
 #include "SceneMgr.h"
 #include "Scene.h"
 #include "Item.h"
+#include "UI.h"
 
 CCollisionMgr::CCollisionMgr(void)
 {
@@ -77,7 +78,6 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 						case 4:
 							if ((_pPlayer->back()->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))
 							{
-								
 								if  (_pPlayer->back()->GetState() != ST_UP)
 								{
 									_pPlayer->back()->SetLand(true);
@@ -94,7 +94,10 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 									}
 								}
 								else
+								{
+									_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
 									_pPlayer->back()->SetState(ST_STAND);
+								}
 
 							}
 							break;
@@ -205,35 +208,17 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 					LONG fLength = rc.right - rc.left;
 					LONG fHeight = rc.bottom - rc.top;
 
-					if (fLength > fHeight)
+					(*_pMonster)[j]->SetState(ST_HIT);
+
+					SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
+					AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
+
+					if ((*_pMonster)[j]->GetStat().fHp <= 0)
 					{
-						(*_pMonster)[j]->SetState(ST_HIT);
+						((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
+						((*_pMonster)[j]->SetDestroy(true));
 
-						SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
-						AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
-
-						if ((*_pMonster)[j]->GetStat().fHp <= 0)
-						{
-							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
-							((*_pMonster)[j]->SetDestroy(true));
-
-							fExp =  (*_pMonster)[j]->GetStat().fExp;
-						}
-					}
-					if (fHeight > fLength)
-					{
-						(*_pMonster)[j]->SetState(ST_HIT);
-
-						SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
-						AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
-
-						if ((*_pMonster)[j]->GetStat().fHp <= 0)
-						{
-							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
-							((*_pMonster)[j]->SetDestroy(true));
-
-							fExp = (*_pMonster)[j]->GetStat().fExp;
-						}
+					return (*_pMonster)[j]->GetStat().fExp;
 					}
 				}
 			}
@@ -471,4 +456,35 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 			AddEffect(_pSkill, _pMonster, i);
 		}
 	}
+}
+
+void CCollisionMgr::CollisionItem(vector<CParent*>* _pPlayer, vector<CItem*>* _pItem, vector<CUI*>* _pInventory)
+{
+	RECT rc;
+	CParent* pPlayer = _pPlayer->back();
+	CUI*	pInventory = _pInventory->back();
+
+	for (size_t i = 0; i < _pItem->size(); ++i)
+	{
+		if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pItem)[i]->GetRect()))
+		{
+			if (pPlayer->GetInfo().fX > (*_pItem)[i]->GetRect().left &&
+				pPlayer->GetInfo().fX < (*_pItem)[i]->GetRect().right)
+			{
+				if ((*_pItem)[i]->GetItem().iType == IT_GOLD)
+				{
+					pPlayer->SetGold((*_pItem)[i]->GetItem().iOption);
+					(*_pItem)[i]->SetDropID(0);
+					_pItem->erase(_pItem->begin() + i);
+				}
+				else
+				{
+					((CInventory*)pInventory)->AddItem((*_pItem)[i]);
+					(*_pItem)[i]->SetDropID(0);
+					_pItem->erase(_pItem->begin() + i);
+				}
+			}
+		}
+	}
+
 }

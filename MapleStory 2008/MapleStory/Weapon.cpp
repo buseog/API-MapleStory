@@ -39,7 +39,7 @@ void CWeapon::Render(HDC hdc)
 {
 	string str;
 
-	str.assign(m_tItem.m_strName.begin(), m_tItem.m_strName.end());
+	str.assign(m_tItem.strName.begin(), m_tItem.strName.end());
 
 	if (m_DropId == 0)
 	{
@@ -86,30 +86,30 @@ void CWeapon::Render(HDC hdc)
 		TCHAR szOption[128] = L"";
 		TCHAR szPrice[128] = L"";
 
-		wsprintf(szName, L"이름 : %s", m_tItem.m_strName.c_str());
+		wsprintf(szName, L"이름 : %s", m_tItem.strName.c_str());
 					TextOut(hdc,
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
 						szName, lstrlen(szName));
 
-		wsprintf(szOption, L"방어력 : %d", (int)m_tItem.m_iOption);
+		wsprintf(szOption, L"방어력 : %d", (int)m_tItem.iOption);
 					TextOut(hdc, 
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
 						szOption, lstrlen(szOption));
 
-		wsprintf(szPrice, L"가격 : %d", (int)m_tItem.m_iPrice);
+		wsprintf(szPrice, L"가격 : %d", (int)m_tItem.iPrice);
 					TextOut(hdc, 
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 60),
 						szPrice, lstrlen(szPrice));
 
-		if (m_tItem.m_iType == IT_WEAPON)
+		if (m_tItem.iType == IT_WEAPON)
 		{
 			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 무기", 7);
 		}
-		if (m_tItem.m_iType == IT_ARMOR)
+		if (m_tItem.iType == IT_ARMOR)
 		{
 			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 방어구", 8);
 		}
-		if (m_tItem.m_iType == IT_POTION)
+		if (m_tItem.iType == IT_POTION)
 		{
 			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 포션", 7);
 		}

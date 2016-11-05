@@ -6,13 +6,13 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include "Potion.h"
+#include "CollisionMgr.h"
 
 
 vector<CParent*>	CScene::m_vecParent[PAR_END];
 vector<CUI*>	CScene::m_vecUI[UI_END];
-bool			CScene::m_bUIView[UI_END];
 vector<CItem*>	CScene::m_vecItem;
-bool			CScene::m_bMouse;
+bool			CScene::m_bDrag;
 POINT			CScene::m_prevPT;
 CUI*			CScene::m_pUI;
 
@@ -51,38 +51,43 @@ void CScene::KeyInput(void)
 
 	if (m_dwKey & KEY_I)	// 인벤토리
 	{
-		if (m_bUIView[UI_INVENTORY])
-			m_bUIView[UI_INVENTORY] = false;
+		if (m_vecUI[UI_INVENTORY].back()->GetOnOff())
+			m_vecUI[UI_INVENTORY].back()->SetOnOff(false);
 		
 		else
-			m_bUIView[UI_INVENTORY] = true;
+			m_vecUI[UI_INVENTORY].back()->SetOnOff(true);
 	}
 
 	if (m_dwKey & KEY_U)	// 장비창
 	{
-		if (m_bUIView[UI_EQUIPMENT])
-			m_bUIView[UI_EQUIPMENT] = false;
+		if (m_vecUI[UI_EQUIPMENT].back()->GetOnOff())
+			m_vecUI[UI_EQUIPMENT].back()->SetOnOff(false);
 		
 		else
-			m_bUIView[UI_EQUIPMENT] = true;
+			m_vecUI[UI_EQUIPMENT].back()->SetOnOff(true);
 	}
 
 	if (m_dwKey & KEY_K)	// 스킬창
 	{
-		if (m_bUIView[UI_SKILLPANEL])
-			m_bUIView[UI_SKILLPANEL] = false;
+		if (m_vecUI[UI_SKILLPANEL].back()->GetOnOff())
+			m_vecUI[UI_SKILLPANEL].back()->SetOnOff(false);
 		
 		else
-			m_bUIView[UI_SKILLPANEL] = true;
+			m_vecUI[UI_SKILLPANEL].back()->SetOnOff(true);
 	}
 
-	if (m_dwKey & KEY_J)	// 스킬창
+	if (m_dwKey & KEY_J)	// 스텟
 	{
-		if (m_bUIView[UI_STATUS])
-			m_bUIView[UI_STATUS] = false;
+		if (m_vecUI[UI_STATUS].back()->GetOnOff())
+			m_vecUI[UI_STATUS].back()->SetOnOff(false);
 		
 		else
-			m_bUIView[UI_STATUS] = true;
+			m_vecUI[UI_STATUS].back()->SetOnOff(true);
+	}
+
+	if (m_dwKey & KEY_Z)
+	{
+		CCollisionMgr::CollisionItem(&m_vecParent[PAR_PLAYER], &m_vecItem, &m_vecUI[UI_INVENTORY]);
 	}
 }
 
@@ -91,31 +96,30 @@ void CScene::UIDrag(void)
 	float fX = float(GetMouse().x - m_prevPT.x);
 	float fY = float(GetMouse().y - m_prevPT.y);
 	
-	if(m_bMouse && m_pUI)
+	if(m_bDrag && m_pUI)
 	{
 		m_pUI->SetPos(m_pUI->GetInfo().fX + fX, m_pUI->GetInfo().fY + fY);
 	}
 
-	for (int i = 1; i < UI_END; ++i)
+	for (int i = 1; i < UI_QUICKSLOT; ++i)
 	{
 		if (!m_vecUI[i].empty())
 		{
-			if(PtInRect(&m_vecUI[i].back()->GetRect(), GetMouse()))
+			if (m_vecUI[i].back()->GetOnOff())
 			{
-				if(GetAsyncKeyState(VK_LBUTTON))
+				if(PtInRect(&m_vecUI[i].back()->GetRect(), GetMouse()))
 				{
-					if (m_bUIView[i])
+					if(GetAsyncKeyState(VK_LBUTTON))
 					{
 						m_prevPT = GetMouse();
-						m_bMouse = true;
+						m_bDrag = true;
 						m_pUI = m_vecUI[i].back();
 					}
-				}
-
-				else
-				{
-					m_bMouse = false;
-					m_pUI = NULL;
+					else
+					{
+						m_bDrag = false;
+						m_pUI = NULL;
+					}
 				}
 			}
 		}
@@ -133,7 +137,7 @@ void CScene::UIDrag(void)
 	CItem* pSwap = m_vecUI[UI_INVENTORY].back()->GetReturnItem();
 	if(pSwap)
 	{
-		if (pSwap->GetItem().m_iType == IT_POTION)
+		if (pSwap->GetItem().iType == IT_POTION)
 		{
 			m_vecParent[PAR_PLAYER].back()->HavePotion(pSwap);
 			m_vecUI[UI_INVENTORY].back()->SetReturnItem();
@@ -246,6 +250,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["DamageEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/DamageEffect.bmp");
 	m_BitMap["CriticalEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/CriticalEffect.bmp");
 	m_BitMap["HitEffect"] = (new CBitBmp)->LoadBmp(L"../Texture/HitEffect.bmp");
+	m_BitMap["LevelUpEFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/LevelUpEFFECT.bmp");
 
 
 	//UI 추가
@@ -260,6 +265,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["EXPBar"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/EXPBar.bmp");
 	m_BitMap["ItemStat"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/ItemStat.bmp");
 	m_BitMap["Dead"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Dead.bmp");
+	m_BitMap["Close"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Close.bmp");
 	
 
 
@@ -331,20 +337,23 @@ void CScene::SetEffect(CParent*	_Effect)
 
 void CScene::ParentClear(void)
 {
-	for (int i = 1; i < PAR_END; ++i)
+	for (int i = 0; i < PAR_END; ++i)
 	{
-		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
+		if (i != PAR_PLAYER)
 		{
-			::Safe_Delete(*iter);
-			iter = m_vecParent[i].erase(iter);
+			for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
+			{
+				::Safe_Delete(*iter);
+				iter = m_vecParent[i].erase(iter);
 
-			if (iter == m_vecParent[i].end())
-				break;
+				if (iter == m_vecParent[i].end())
+					break;
 
-			else
-				++iter;
+				else
+					++iter;
+			}
+			m_vecParent[i].clear();
 		}
-		m_vecParent[i].clear();
 	}
 }
 

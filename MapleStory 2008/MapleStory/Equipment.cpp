@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Equipment.h"
+#include "Factory.h"
 
 CEquipment::CEquipment(void)
 {
@@ -15,9 +16,12 @@ CEquipment::~CEquipment(void)
 
 void CEquipment::Initialize(void)
 {
+	m_bOnOff = false;
 	m_ReturnItem = NULL;
 	m_strKey = "Equipment";
 	m_tInfo = INFO(0, 0, 237.f, 332.f);
+
+	m_pCloseButton = CFactory<CUI>::CreateUI(0.f, 0.f, "Close");
 }
 
 void CEquipment::Progress(DWORD _delta)
@@ -42,6 +46,8 @@ void CEquipment::Render(HDC hdc)
 		if (m_pEquipItem[i])
 			m_pEquipItem[i]->Render(hdc);
 	}
+
+	m_pCloseButton->Render(hdc);
 }
 
 void CEquipment::Release(void)
@@ -52,7 +58,7 @@ void CEquipment::EquipItem(CItem*	_pItem)
 {
 	if (_pItem)
 	{
-		switch (_pItem->GetItem().m_iType)
+		switch (_pItem->GetItem().iType)
 		{
 		case IT_WEAPON:
 			if (m_pEquipItem[EQ_WEAPON] == NULL)
@@ -115,6 +121,11 @@ void CEquipment::ItemPos(void)
 
 	if (m_pEquipItem[EQ_GLOVE])
 		m_pEquipItem[EQ_GLOVE]->SetPos(m_tInfo.fX + 40.f, m_tInfo.fY + 65.f);
+
+	float fCloseX = m_tInfo.fX + m_tInfo.fCX / 2.f - 17.f;
+	float fCloseY = m_tInfo.fY - m_tInfo.fCY / 2.f + 12.f;
+
+	m_pCloseButton->SetPos(fCloseX, fCloseY);
 }
 
 RECT CEquipment::GetRect(void)
@@ -132,6 +143,12 @@ RECT CEquipment::GetRect(void)
 
 void CEquipment::UIPicking(void)
 {
+	if (PtInRect(&m_pCloseButton->GetRect(), GetMouse()))
+	{
+		if (GetAsyncKeyState(VK_LBUTTON))
+			m_bOnOff = false;
+	}
+
 	for (size_t i = 0; i < EQ_END; ++i)
 	{
 		if (m_pEquipItem[i])

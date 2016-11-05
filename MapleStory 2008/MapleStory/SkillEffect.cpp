@@ -59,6 +59,12 @@ void CSkillEffect::Initialize(void)
 		m_tInfo = INFO(0, 0, 150.f, 110.f);
 		m_tSprite = SPRITE(0, 4, 0, 80);
 	}
+
+	if (m_strKey == "LevelUpEFFECT")
+	{
+		m_tInfo = INFO(0, 0, 350.f, 420.f);
+		m_tSprite = SPRITE(0, 21, 0, 50);
+	}
 }
 void CSkillEffect::Progress(DWORD _delta)
 {

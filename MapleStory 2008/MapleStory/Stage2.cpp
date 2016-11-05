@@ -6,6 +6,9 @@
 #include "UI.h"
 #include "Portal.h"
 #include "CollisionMgr.h"
+#include "Item.h"
+#include "SkillEffect.h"
+
 
 CStage2::CStage2(void)
 {
@@ -44,6 +47,11 @@ void CStage2::Progress(DWORD _delta)
 
 			if ((*iter)->GetDestroy())
 			{
+				if (i == PAR_MONSTER)
+					if(((CMonster*)(*iter))->GetDrop())
+						m_vecItem.push_back(((CMonster*)(*iter))->GetDropItem());
+						
+
 				::Safe_Delete(*iter);
 				iter = m_vecParent[i].erase(iter);
 
@@ -56,11 +64,11 @@ void CStage2::Progress(DWORD _delta)
 	}
 	
 	float fHp = m_vecParent[PAR_PLAYER].back()->GetStat().fHp / m_vecParent[PAR_PLAYER].back()->GetStat().fFullHp;
-	float fExp = m_vecParent[PAR_PLAYER].back()->GetStat().fExp / 1000.f;
+	float fExp = m_vecParent[PAR_PLAYER].back()->GetStat().fExp / (1000.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel);
 
 	for (size_t i = 0; i < UI_END; ++i)
 	{
-		if (m_bUIView[i])
+		if (m_vecUI[i].back()->GetOnOff())
 		{
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
@@ -73,6 +81,11 @@ void CStage2::Progress(DWORD _delta)
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Progress(_delta);
+	}
+
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		m_vecItem[i]->Progress(_delta);
 	}
 
 	if (m_pLoading)
@@ -88,8 +101,16 @@ void CStage2::Progress(DWORD _delta)
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
-	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
+	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
+	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
+
+	if (m_vecParent[PAR_PLAYER].back()->GetStat().fExp >= (1000.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel))
+	{
+		m_vecParent[PAR_PLAYER].back()->SetLevel();
+		m_vecParent[PAR_EFFECT].push_back(CFactory<CSkillEffect>::CreateParent(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 150, "LevelUpEFFECT"));
+
+	}
 }
 
 void CStage2::Render(HDC hdc)
@@ -101,34 +122,33 @@ void CStage2::Render(HDC hdc)
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
 
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
-		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end(); )
+		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end(); ++iter)
 		{
 			(*iter)->Render(m_BitMap["Back"]->GetMemdc());
-
-			if (iter == m_vecParent[i].end())
-				break;
-
-			else
-				++iter;
 		}
+	}
+
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 	for (size_t i = 0; i < UI_END; ++i)
 	{
-		if (m_bUIView[i])
+		if (m_vecUI[i].back()->GetOnOff())
 		{
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
 				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
 			}
 		}
-	}
-	
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
-	{
-		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 	if (m_pLoading)

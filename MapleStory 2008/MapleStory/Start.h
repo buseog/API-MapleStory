@@ -5,6 +5,7 @@ class CStart	:
 	public CScene
 {
 private:
+	DWORD	m_dwTime;
 	HWND	m_hVideo;
 
 public:

@@ -41,14 +41,14 @@ void CSkill::Initialize(void)
 
 	if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 243.f, 142.f);
+		m_tInfo = INFO(0, 0, 400.f, 233.f);
 		m_tStat.fAttack = 200.f;
 		m_tSprite = SPRITE(0, 15, 0, 60);
 	}
 
 	if (m_strKey == "Range")
 	{
-		m_tInfo = INFO(0, 0, 233.f, 123.f);
+		m_tInfo = INFO(0, 0, 350.f, 184.f);
 		m_tStat.fAttack = 500.f;
 		m_tSprite = SPRITE(0, 10, 0, 60);
 	}

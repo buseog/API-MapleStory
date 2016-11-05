@@ -3,6 +3,7 @@
 #include "SceneMgr.h"
 #include "Factory.h"
 #include "ItemEmpty.h"
+#include "Potion.h"
 
 CInventory::CInventory(void)
 {
@@ -69,11 +70,13 @@ void CInventory::Render(HDC hdc)
 			m_vecItem[i]->Render(hdc);
 	}
 
+	SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);
+
 	TCHAR szGold[128] = L"";
 	wsprintf(szGold, L"%d", (int)m_pPlayer->GetStat().iGold);
 					TextOut(hdc, int(m_tInfo.fX - 5), int(m_tInfo.fY + 97), szGold, lstrlen(szGold));
 
-	SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);
+	
 
 	m_pCloseButton->Render(hdc);
 
@@ -95,6 +98,22 @@ void CInventory::Release(void)
 
 void CInventory::AddItem(CItem*	_pItem)
 {
+	for (size_t i = 0; i < m_vecItem.size();)
+	{
+		if (_pItem->GetItem().iType == IT_POTION)
+		{
+			if (m_vecItem[i]->GetItem().iType == IT_POTION && m_vecItem[i]->GetItem().iCount < 10)
+			{
+				((CPotion*)m_vecItem[i])->SetCount(_pItem->GetItem().iCount);
+				return;
+			}
+			else
+				++i;
+		}
+		else
+			break;
+	}
+
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
 		if (m_vecItem[i]->GetItem().iType == IT_EMPTY)
@@ -181,10 +200,23 @@ void CInventory::UIPicking(void)
 				{
 					if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
 					{
-						m_ReturnItem = m_vecItem[i];
-						m_vecItem[i]->SetDrawID(0);
+						if (m_vecItem[i]->GetItem().iType == IT_POTION)
+						{
+							((CPotion*)m_vecItem[i])->SetPotion();
+							m_ReturnItem = new CPotion(L"HPPotion", 1000, 1, 1, IT_POTION);
+							m_vecItem[i]->SetDrawID(0);
 
-						m_vecItem[i] = NULL;
+							if (m_vecItem[i]->GetItem().iCount <= 0)
+							{
+								m_vecItem[i] = NULL;
+							}
+						}
+						else
+						{
+							m_ReturnItem = m_vecItem[i];
+							m_vecItem[i]->SetDrawID(0);
+							m_vecItem[i] = NULL;
+						}
 					}
 
 					if (GetAsyncKeyState(VK_LBUTTON))
@@ -202,7 +234,6 @@ void CInventory::UIPicking(void)
 							m_pPick = NULL;
 						}
 					}
-
 					m_dwTime = GetTickCount();
 				}
 			}

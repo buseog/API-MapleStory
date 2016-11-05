@@ -10,7 +10,7 @@
 #include "SkillEffect.h"
 
 CVillage::CVillage(void)
-:m_pStore(NULL)
+:m_pStoreNPC(NULL)
 {
 	m_strKey = "Village";
 	LoadMap();
@@ -25,7 +25,7 @@ CVillage::CVillage(void)
 	m_vecUI[UI_INVENTORY].push_back(CFactory<CInventory>::CreateUI(600.f, 300.f));
 	m_vecUI[UI_EQUIPMENT].push_back(CFactory<CEquipment>::CreateUI(500.f, 300.f));
 	m_vecUI[UI_SKILLPANEL].push_back(CFactory<CSkillPanel>::CreateUI(600.f, 400.f));
-	m_vecUI[UI_QUICKSLOT].push_back(CFactory<CQuickSlot>::CreateUI(730.f, 480.f));
+	m_vecUI[UI_QUICKSLOT].push_back(CFactory<CQuickSlot>::CreateUI(730.f, 490.f));
 	m_vecUI[UI_STATUS].push_back(CFactory<CStatus>::CreateUI(400.f, 450.f));
 
 	m_vecUI[UI_STATUS].back()->SetPlayer(m_vecParent[PAR_PLAYER].back());
@@ -35,7 +35,8 @@ CVillage::CVillage(void)
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
-	m_pStore = CFactory<CNPC>::CreateParent();
+	m_pStoreNPC = new CNPC;
+	m_pStoreNPC->Initialize();
 }
 
 CVillage::~CVillage(void)
@@ -50,9 +51,9 @@ void CVillage::Initialize(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 50; ++i)
 	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(100 * i, 50 * i, "PurpleMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(100 * i, 300, "PurpleMushRoom_LEFT"));
 	}
 
 	m_pLoading = new CLoading();
@@ -68,8 +69,8 @@ void CVillage::Progress(DWORD _delta)
 	KeyInput();
 	UIDrag();
 
-	if (m_pStore)
-		m_pStore->Progress(_delta);
+	if (m_pStoreNPC)
+		m_pStoreNPC->Progress(_delta);
 
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
@@ -153,8 +154,8 @@ void CVillage::Render(HDC hdc)
 			1920, 680, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
-	if (m_pStore)
-		m_pStore->Render(m_BitMap["Back"]->GetMemdc());
+	if (m_pStoreNPC)
+		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{

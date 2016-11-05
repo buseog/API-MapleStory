@@ -31,13 +31,13 @@ void CStart::Progress(DWORD _delta)
 {
 	if (m_dwTime + 8500 <= GetTickCount())
 	{
-		CSceneMgr::GetInstance()->SetScene(SC_LOGIN);
+		CSceneMgr::GetInstance()->SetScene(SC_LOBBY);
 		return;
 	}
 
 	if(GetAsyncKeyState(VK_RETURN))
 	{
-		CSceneMgr::GetInstance()->SetScene(SC_LOGIN);
+		CSceneMgr::GetInstance()->SetScene(SC_LOBBY);
 		return;
 	}
 }

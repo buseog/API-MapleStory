@@ -68,7 +68,7 @@ void CKeyMgr::KeyCheck(void)
 		m_dwKey |= KEY_F7;
 
 	if (GetAsyncKeyState(VK_F8) & 0x8000)
-		m_dwKey |= KEY_F7;
+		m_dwKey |= KEY_F8;
 
 	if (GetAsyncKeyState('A') & 0x0001)
 		m_dwKey |= KEY_A;

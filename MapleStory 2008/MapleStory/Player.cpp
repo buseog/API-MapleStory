@@ -76,7 +76,7 @@ void CPlayer::Progress(DWORD _delta)
 
 void CPlayer::Render(HDC hdc)
 {
-		TransparentBlt(hdc,
+	TransparentBlt(hdc,
 		int(m_tInfo.fX - m_tInfo.fCX / 2.f + m_ptScroll.x),
 		int(m_tInfo.fY - m_tInfo.fCY / 2.f + m_ptScroll.y),
 		int(m_tInfo.fCX), 

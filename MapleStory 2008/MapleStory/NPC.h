@@ -1,14 +1,21 @@
 #pragma once
-#include "Parent.h"
+#include "bigheader.h"
 
-class CNPC	:
-	public CParent
+class CNPC
 {
+private:
+	INFO		m_tInfo;
+	SPRITE		m_tSprite;
+	DWORD		m_dwTime;
+	CBitBmp*	m_pBit;
+
 public:
-	virtual void Initialize(void);
-	virtual void Progress(DWORD _delta);
-	virtual void Render(HDC hdc);
-	virtual void Release(void);
+	RECT GetRect(void);
+public:
+	void Initialize(void);
+	void Progress(DWORD _delta);
+	void Render(HDC hdc);
+	void Release(void);
 public:
 	CNPC(void);
 	~CNPC(void);

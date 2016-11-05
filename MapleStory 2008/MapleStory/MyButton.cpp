@@ -25,10 +25,31 @@ void CMyButton::Initialize(void)
 		m_tInfo = INFO(0.f, 0.f, 150.f, 60.f);
 		m_iDrawID = 0;
 	}
+
+	if (m_strKey == "Character_SELECT")
+	{
+		m_tInfo = INFO(0.f, 0.f, 141.f, 50.f);
+		m_iDrawID = 0;
+	}
+
 	
 	if (m_strKey == "Character_CREATE")
 	{
-		m_tInfo = INFO(0.f, 0.f, 120.f, 40.f);
+		m_tInfo = INFO(0.f, 0.f, 141.f, 44.f);
+		m_iDrawID = 0;
+	}
+
+
+
+	if (m_strKey == "Character_DELETE")
+	{
+		m_tInfo = INFO(0.f, 0.f, 141.f, 73.f);
+		m_iDrawID = 0;
+	}
+
+	if (m_strKey == "BackScene")
+	{
+		m_tInfo = INFO(0.f, 0.f, 126.f, 46.f);
 		m_iDrawID = 0;
 	}
 }
@@ -51,6 +72,7 @@ void CMyButton::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
+
 }
 
 void CMyButton::Release(void)
@@ -85,7 +107,7 @@ void CMyButton::UIPicking(void)
 		if(GetAsyncKeyState(VK_LBUTTON))
 		{
 			if(m_strKey == "Start")
-				m_iButton = SC_CREATE;
+				m_iButton = SC_LOBBY;
 
 			else if(m_strKey == "Edit")
 				m_iButton = SC_MAPEDIT;
@@ -94,6 +116,12 @@ void CMyButton::UIPicking(void)
 				m_iButton = SC_END;
 
 			else if(m_strKey == "Character_CREATE")
+				m_iButton = SC_CREATE;
+
+			else if(m_strKey == "Character_SELECT")
+				m_iButton = SC_VILLAGE;
+
+			else if(m_strKey == "Character_DELETE")
 				m_iButton = SC_VILLAGE;
 		}
 	}

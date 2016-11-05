@@ -11,7 +11,6 @@
 
 vector<CParent*>	CScene::m_vecParent[PAR_END];
 vector<CUI*>	CScene::m_vecUI[UI_END];
-vector<CItem*>	CScene::m_vecItem;
 bool			CScene::m_bDrag;
 POINT			CScene::m_prevPT;
 CUI*			CScene::m_pUI;
@@ -47,6 +46,27 @@ void CScene::KeyInput(void)
 	{
 		CItem*	pPotion = new CPotion(L"HPPotion", 1000, 1, 1, IT_POTION);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pPotion);
+	}
+
+	if (m_dwKey & KEY_F8)
+	{
+		if (m_vecParent[PAR_PLAYER].back())
+		{
+			HANDLE hFile = NULL;
+			DWORD dwByte = 0;
+
+			hFile = CreateFile(L"../Data/Character.dat",
+								GENERIC_WRITE,
+								0,
+								NULL,
+								CREATE_ALWAYS,
+								FILE_ATTRIBUTE_NORMAL,
+								NULL);
+
+			WriteFile(hFile, m_vecParent[PAR_PLAYER].back(), sizeof(CPlayer), &dwByte, NULL);
+		
+			CloseHandle(hFile);
+		}
 	}
 
 	if (m_dwKey & KEY_I)	// 인벤토리
@@ -243,7 +263,6 @@ void CScene::LoadBmp(void)
 	m_BitMap["Stage1"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage1.bmp");
 	m_BitMap["Stage2"] = (new CBitBmp)->LoadBmp(L"../Texture/Stage2.bmp");
 	m_BitMap["BossField"] = (new CBitBmp)->LoadBmp(L"../Texture/BossField.bmp");
-	m_BitMap["NPC"] = (new CBitBmp)->LoadBmp(L"../Texture/NPC.bmp");
 	m_BitMap["Mouse"] = (new CBitBmp)->LoadBmp(L"../Texture/Mouse.bmp");
 
 	

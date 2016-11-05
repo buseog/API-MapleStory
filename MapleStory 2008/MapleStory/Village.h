@@ -2,12 +2,14 @@
 #include "Scene.h"
 
 class CParent;
+class CNPC;
+
 
 class CVillage	:
 	public CScene
 {
 private:
-	CParent*	m_pStore;
+	CNPC*	m_pStoreNPC;
 
 public:
 	virtual void Initialize(void);

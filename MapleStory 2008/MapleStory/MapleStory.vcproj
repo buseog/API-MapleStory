@@ -291,18 +291,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="05. NPC"
-				>
-				<File
-					RelativePath=".\NPC.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\NPC.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="97. Design"
@@ -328,7 +316,7 @@
 				>
 			</File>
 			<Filter
-				Name="04. Stage1"
+				Name="05. Stage1"
 				>
 				<File
 					RelativePath=".\Stage1.cpp"
@@ -340,7 +328,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="05. Stage2"
+				Name="06. Stage2"
 				>
 				<File
 					RelativePath=".\Stage2.cpp"
@@ -364,31 +352,31 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="01. Login"
+				Name="01. Menu"
 				>
 				<File
-					RelativePath=".\Login.cpp"
+					RelativePath=".\Menu.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Login.h"
+					RelativePath=".\Menu.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="02. Create"
+				Name="02. Loby"
 				>
 				<File
-					RelativePath=".\Create.cpp"
+					RelativePath=".\Lobby.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Create.h"
+					RelativePath=".\Lobby.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="03. Village"
+				Name="04. Village"
 				>
 				<File
 					RelativePath=".\Village.cpp"
@@ -407,7 +395,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="06. BossField"
+				Name="07. BossField"
 				>
 				<File
 					RelativePath=".\BossField.cpp"
@@ -419,7 +407,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="07. MapEditor"
+				Name="08. MapEditor"
 				>
 				<File
 					RelativePath=".\MapEditor.cpp"
@@ -435,6 +423,18 @@
 							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="03. Create"
+				>
+				<File
+					RelativePath=".\Create.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Create.h"
+					>
 				</File>
 			</Filter>
 		</Filter>
@@ -779,6 +779,22 @@
 				RelativePath=".\Loading.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="07. NPC"
+			>
+			<File
+				RelativePath=".\NPC.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NPC.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="08. Store"
+			>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

@@ -175,7 +175,7 @@ void CMapEdit::KeyCheck(void)
 		PickingOff();
 	}
 
-	if ((GetAsyncKeyState(VK_F5) & 0x8001) == 0x8001)
+	if (GetAsyncKeyState(VK_F5) & 0x8001)
 	{
 		if (m_bType)
 		{
@@ -187,7 +187,7 @@ void CMapEdit::KeyCheck(void)
 		}
 	}
 
-	if ((GetAsyncKeyState(VK_F8) & 0x8001) == 0x8001)
+	if (GetAsyncKeyState(VK_F8) & 0x8001)
 	{
 		SaveMap();
 		return;

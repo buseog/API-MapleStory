@@ -38,6 +38,8 @@ void CPotion::Progress(DWORD _delta)
 
 void CPotion::Render(HDC hdc)
 {
+	SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);
+
 	string str;
 
 	str.assign(m_tItem.strName.begin(), m_tItem.strName.end());
@@ -72,6 +74,12 @@ void CPotion::Render(HDC hdc)
 			RGB(255, 255, 250));
 	}
 
+	TCHAR szNumber[128] = L"";
+	wsprintf(szNumber, L"%d", (int)m_tItem.iCount);
+			TextOut(hdc, 
+				int(m_tInfo.fX + 5), int(m_tInfo.fY + 5),
+				szNumber, lstrlen(szNumber));
+
 
 	if (m_DrawId == 1)
 	{
@@ -87,7 +95,9 @@ void CPotion::Render(HDC hdc)
 
 		TCHAR szName[128] = L"";
 		TCHAR szOption[128] = L"";
+		TCHAR szCount[128] = L"";
 		TCHAR szPrice[128] = L"";
+
 
 		wsprintf(szName, L"이름 : %s", m_tItem.strName.c_str());
 					TextOut(hdc,
@@ -98,6 +108,11 @@ void CPotion::Render(HDC hdc)
 					TextOut(hdc, 
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
 						szOption, lstrlen(szOption));
+
+		wsprintf(szCount, L"갯수 : %d", (int)m_tItem.iCount);
+					TextOut(hdc, 
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
+						szCount, lstrlen(szCount));
 
 		wsprintf(szPrice, L"가격 : %d", (int)m_tItem.iPrice);
 					TextOut(hdc, 
@@ -116,12 +131,20 @@ void CPotion::Render(HDC hdc)
 		{
 			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 포션", 7);
 		}
-
-		SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);
 	}
 }
 
 void CPotion::Release(void)
 {
 
+}
+
+void CPotion::SetCount(int _iCount)
+{
+	m_tItem.iCount += _iCount;
+}
+
+void CPotion::SetPotion(void)
+{
+	m_tItem.iCount -= 1;
 }

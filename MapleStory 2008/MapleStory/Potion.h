@@ -5,6 +5,12 @@ class CPotion :
 	public CItem
 {
 public:
+	void SetCount(int _iCount);
+
+public:
+	void SetPotion(void);
+
+public:
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);
 	virtual void Render(HDC hdc);

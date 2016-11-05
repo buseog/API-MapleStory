@@ -1,21 +1,21 @@
 #include "StdAfx.h"
-#include "Login.h"
+#include "Menu.h"
 #include "SceneMgr.h"
 #include "MyButton.h"
 #include "Factory.h"
 #include "UI.h"
 
 
-CLogin::CLogin(void)
+CMenu::CMenu(void)
 {
 }
 
-CLogin::~CLogin(void)
+CMenu::~CMenu(void)
 {
 	Release();
 }
 
-void CLogin::Initialize(void)
+void CMenu::Initialize(void)
 {
 	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
 	m_BitMap["Menu"] = (new CBitBmp)->LoadBmp(L"../Texture/Menu.bmp");
@@ -32,7 +32,7 @@ void CLogin::Initialize(void)
 	CUI::SetBitMap(&m_BitMap);
 }
 
-void CLogin::Progress(DWORD _delta)
+void CMenu::Progress(DWORD _delta)
 {
 	int iSelect = 0;
 
@@ -43,8 +43,8 @@ void CLogin::Progress(DWORD _delta)
 
 		switch (iSelect)
 		{
-		case SC_CREATE:
-			CSceneMgr::GetInstance()->SetScene(SC_CREATE);
+		case SC_LOBBY:
+			CSceneMgr::GetInstance()->SetScene(SC_LOBBY);
 			return;
 
 		case SC_MAPEDIT:
@@ -58,7 +58,7 @@ void CLogin::Progress(DWORD _delta)
 	}
 }
 
-void CLogin::Render(HDC hdc)
+void CMenu::Render(HDC hdc)
 {
 	BitBlt(m_BitMap["Back"]->GetMemdc(), 
 		0, 0, 
@@ -77,7 +77,7 @@ void CLogin::Render(HDC hdc)
 			m_BitMap["Back"]->GetMemdc(),
 			0, 0, SRCCOPY);
 }
-void CLogin::Release(void)
+void CMenu::Release(void)
 {
 	for (size_t i = 0; i < m_vecButton.size(); ++i)
 	{
@@ -92,7 +92,7 @@ void CLogin::Release(void)
 	m_BitMap.clear();
 }
 
-CUI* CLogin::CreateButton(float _fX, float _fY, string _strKey)
+CUI* CMenu::CreateButton(float _fX, float _fY, string _strKey)
 {
 	CUI* pButton = CFactory<CMyButton>::CreateUI(_fX, _fY, _strKey);
 

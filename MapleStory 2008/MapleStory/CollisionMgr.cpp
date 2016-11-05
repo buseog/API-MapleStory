@@ -25,14 +25,15 @@ CCollisionMgr::~CCollisionMgr(void)
 void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _pTile)
 {
 	RECT rc;
+	CParent* pPlayer = _pPlayer->back();
 
 	for (size_t j = 0; j < _pTile->size(); ++j)
 	{
 		if ((*_pTile)[j]->iOption)
 		{
-			if (IntersectRect(&rc, &_pPlayer->back()->GetRect(), &(*_pTile)[j]->GetRect()))
+			if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pTile)[j]->GetRect()))
 			{
-				if ((_pPlayer->back()->GetInfo().fX >= (*_pTile)[j]->GetRect().left) && (_pPlayer->back()->GetInfo().fX <= (*_pTile)[j]->GetRect().right))
+				if ((pPlayer->GetInfo().fX >= (*_pTile)[j]->GetRect().left) && (pPlayer->GetInfo().fX <= (*_pTile)[j]->GetRect().right))
 				{
 					LONG fLength = rc.right - rc.left;
 					LONG fHeight = rc.bottom - rc.top;
@@ -42,61 +43,61 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 						switch ((*_pTile)[j]->iOption)
 						{
 						case 1:
-							if ((_pPlayer->back()->GetRect().top <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	//플레이어가 위이고, 점프가 내려가는 중일때
+							if ((pPlayer->GetRect().top <= (*_pTile)[j]->GetRect().top) && (pPlayer->GetJumpPower() >= 0))	//플레이어가 위이고, 점프가 내려가는 중일때
 							{
-								if (_pPlayer->back()->GetState() == ST_UP)
-									_pPlayer->back()->SetState(ST_STAND);
+								if (pPlayer->GetState() == ST_UP)
+									pPlayer->SetState(ST_STAND);
 
-								_pPlayer->back()->SetLand(true);
-								_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+								pPlayer->SetLand(true);
+								pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - fHeight);
 							}
 							break;
 
 						case 2:
-							if ((_pPlayer->back()->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))	
+							if ((pPlayer->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (pPlayer->GetJumpPower() >= 0))	
 							{
-								if (_pPlayer->back()->GetState() == ST_UP)
-									_pPlayer->back()->SetState(ST_STAND);
+								if (pPlayer->GetState() == ST_UP)
+									pPlayer->SetState(ST_STAND);
 												
-								_pPlayer->back()->SetLand(true);
-								_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+								pPlayer->SetLand(true);
+								pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - fHeight);
 							}
 							break;
 
 						case 3:
-							if (_pPlayer->back()->GetState() != ST_UP)
+							if (pPlayer->GetState() != ST_UP)
 							{
 								if (GetAsyncKeyState(VK_UP))
 								{
-									_pPlayer->back()->SetLand(true);
-									_pPlayer->back()->SetState(ST_UP);
-									_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY - 10.f);
+									pPlayer->SetLand(true);
+									pPlayer->SetState(ST_UP);
+									pPlayer->SetPos((*_pTile)[j]->fX, pPlayer->GetInfo().fY - 10.f);
 								}
 							}
 							break;
 
 						case 4:
-							if ((_pPlayer->back()->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (_pPlayer->back()->GetJumpPower() >= 0))
+							if ((pPlayer->GetInfo().fY <= (*_pTile)[j]->GetRect().top) && (pPlayer->GetJumpPower() >= 0))
 							{
-								if  (_pPlayer->back()->GetState() != ST_UP)
+								if  (pPlayer->GetState() != ST_UP)
 								{
-									_pPlayer->back()->SetLand(true);
-									_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
+									pPlayer->SetLand(true);
+									pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - fHeight);
 
 									if (GetAsyncKeyState(VK_DOWN) )
 									{
-										if (_pPlayer->back()->GetState() != ST_UP)
-											_pPlayer->back()->SetPos((*_pTile)[j]->fX, _pPlayer->back()->GetInfo().fY + 30.f);
+										if (pPlayer->GetState() != ST_UP)
+											pPlayer->SetPos((*_pTile)[j]->fX, pPlayer->GetInfo().fY + 30.f);
 
-										_pPlayer->back()->SetLand(true);
-										_pPlayer->back()->SetState(ST_UP);
+										pPlayer->SetLand(true);
+										pPlayer->SetState(ST_UP);
 										
 									}
 								}
 								else
 								{
-									_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX, _pPlayer->back()->GetInfo().fY - fHeight);
-									_pPlayer->back()->SetState(ST_STAND);
+									pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - fHeight);
+									pPlayer->SetState(ST_STAND);
 								}
 
 							}
@@ -288,10 +289,11 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 void CCollisionMgr::CollisionPortal(vector<CParent*>* _pPlayer, vector<CParent*>* _pPortal)
 {
 	RECT rc;
+	CParent* pPlayer = _pPlayer->back();
 
 	for (size_t j = 0; j < _pPortal->size(); ++j)
 	{
-		if (IntersectRect(&rc, &_pPlayer->back()->GetRect(), &(*_pPortal)[j]->GetRect()))
+		if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pPortal)[j]->GetRect()))
 		{
 			CSceneMgr::GetInstance()->SetScene(((CPortal*)(*_pPortal)[j])->GetPortal());
 			return;
@@ -302,22 +304,23 @@ void CCollisionMgr::CollisionPortal(vector<CParent*>* _pPlayer, vector<CParent*>
 void CCollisionMgr::CollisionBodyButt(vector<CParent*>*	_pPlayer, vector<CParent*>* _pMonster)
 {
 	RECT rc;
+	CParent* pPlayer = _pPlayer->back();
 
 	for (size_t i = 0; i < _pMonster->size(); ++i)
 	{
-		if (IntersectRect(&rc, &_pPlayer->back()->GetRect(), &(*_pMonster)[i]->GetRect()))
+		if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pMonster)[i]->GetRect()))
 		{
-			if(!_pPlayer->back()->GetUnbeatable())
+			if(!pPlayer->GetUnbeatable())
 			{
-				_pPlayer->back()->SetState(ST_HIT);	
-				if ((*_pMonster)[i]->GetInfo().fX - _pPlayer->back()->GetInfo().fX >= 0)
-					_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX - 10, _pPlayer->back()->GetInfo().fY - 20);
+				pPlayer->SetState(ST_HIT);	
+				if ((*_pMonster)[i]->GetInfo().fX - pPlayer->GetInfo().fX >= 0)
+					pPlayer->SetPos(pPlayer->GetInfo().fX - 10, pPlayer->GetInfo().fY - 20);
 
 				else
-					_pPlayer->back()->SetPos(_pPlayer->back()->GetInfo().fX + 10, _pPlayer->back()->GetInfo().fY - 20);
+					pPlayer->SetPos(pPlayer->GetInfo().fX + 10, pPlayer->GetInfo().fY - 20);
 
-				_pPlayer->back()->SetUnbeatable(true);
-				AddEffect((*_pMonster)[i], _pPlayer->back(), 1);
+				pPlayer->SetUnbeatable(true);
+				AddEffect((*_pMonster)[i], pPlayer, 1);
 			}
 		}
 	}
@@ -375,17 +378,17 @@ void CCollisionMgr::AddEffect(CParent* _pParent, CParent* _pDest, int Height)
 	if (_pDest->GetUnbeatable())
 	{
 		_pDest->SetDamage(_pParent->GetStat().fAttack);
-		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50.f * Height), iDamage, "HitEffect"));
+		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (30.f * Height), iDamage, "HitEffect"));
 	}
 	else if (Critical < 50)
 	{
 		_pDest->SetDamage((float)iDamage);
-		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50.f * Height), iDamage, "DamageEffect"));
+		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (30.f * Height), iDamage, "DamageEffect"));
 	}
 	else if (Critical >= 50)
 	{
 		_pDest->SetDamage((float)iDamage);
-		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (50.f * Height), iDamage, "CriticalEffect"));
+		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (30.f * Height), iDamage, "CriticalEffect"));
 	}
 
 }

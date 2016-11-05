@@ -1,14 +1,14 @@
 #pragma once
 #include "Scene.h"
 
-class CUI;
-
-class CLogin	:
+class CLobby	:
 	public CScene
 {
 private:
+	CParent*	m_pPlayer[3];
 	vector<CUI*>	m_vecButton;
 	CUI* CreateButton(float _fX, float _fY, string _StrKey);
+	bool		m_bPick;
 
 public:
 	virtual void Initialize(void);
@@ -17,6 +17,6 @@ public:
 	virtual void Release(void);
 
 public:
-	CLogin(void);
-	~CLogin(void);
+	CLobby(void);
+	~CLobby(void);
 };

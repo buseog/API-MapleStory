@@ -64,7 +64,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		}
 		else
 		{
-			if(dwTime + 15 < GetTickCount())
+			if(dwTime + 10 < GetTickCount())
 			{
 				MainGame.Progress(GetTickCount() - dwTime);
 				MainGame.Render();
@@ -181,7 +181,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_SYSKEYDOWN:
-			break;
 	case WM_KEYDOWN:
 		switch(wParam)
 		{

@@ -193,7 +193,7 @@ void CInventory::UIPicking(void)
 		{
 			if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
 			{
-				if (m_dwTime + 80 <= GetTickCount())
+				if (m_dwTime + 50 <= GetTickCount())
 				{
 					if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
 					{
@@ -214,6 +214,8 @@ void CInventory::UIPicking(void)
 							m_vecItem[i]->SetDrawID(0);
 							m_vecItem[i] = new CItemEmpty();
 						}
+
+						m_dwTime = GetTickCount();
 					}
 
 					if (GetAsyncKeyState(VK_LBUTTON))

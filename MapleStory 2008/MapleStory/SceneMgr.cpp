@@ -31,11 +31,11 @@ CSceneMgr::~CSceneMgr(void)
 
 void CSceneMgr::SetScene(SCENEID eScene)
 {
-	//if(m_pScene != NULL)
-	//{
-	//	if (eScene == SC_LOBBY || eScene == SC_MAPEDIT || eScene == SC_CREATE)
-	//		::Safe_Delete(m_pScene);
-	//}
+	if(m_pScene != NULL)
+	{
+		if (eScene == SC_LOBBY || eScene == SC_CREATE)
+			::Safe_Delete(m_pScene);
+	}
 
 	switch(eScene)
 	{
@@ -52,39 +52,15 @@ void CSceneMgr::SetScene(SCENEID eScene)
 		break;
 
 	case SC_MENU:
-		if (!m_pSaveScene[eScene])
-		{
-			m_pScene = new CMenu;
-			m_pSaveScene[eScene] = m_pScene;
-		}
-		else
-		{
-			m_pScene = m_pSaveScene[eScene];
-		}
+		m_pScene = new CMenu;
 		break;
 
 	case SC_LOBBY:
-		if (!m_pSaveScene[eScene])
-		{
-			m_pScene = new CLobby;
-			m_pSaveScene[eScene] = m_pScene;
-		}
-		else
-		{
-			m_pScene = m_pSaveScene[eScene];
-		}
+		m_pScene = new CLobby;
 		break;
 
 	case SC_CREATE:
-		if (!m_pSaveScene[eScene])
-		{
-			m_pScene = new CCreate;
-			m_pSaveScene[eScene] = m_pScene;
-		}
-		else
-		{
-			m_pScene = m_pSaveScene[eScene];
-		}
+		m_pScene = new CCreate;
 		break;
 
 	case SC_VILLAGE:

@@ -21,6 +21,9 @@ protected:
 	vector<TILE*>				m_vecTile;
 	string						m_strKey;
 	vector<CParent*>			m_vecPortal;
+	int							m_iFPS;
+	TCHAR						m_szFPS[128];
+	DWORD						m_dwTime;
 
 protected:
 	static	CUI*				m_pUI;

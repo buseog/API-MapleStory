@@ -13,6 +13,6 @@ void CTimer::TimeSetting(void)
 {
 	for(int i = 0; i < 10; ++i)
 	{
-		m_fRemainTime[i] = 0.f;
+		dwRemainTime[i] = GetTickCount();
 	}
 }

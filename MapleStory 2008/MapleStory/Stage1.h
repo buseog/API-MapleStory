@@ -4,6 +4,10 @@
 class CStage1	:
 	public CScene
 {
+private:
+	void	Regen(void);
+	float	m_fRegenTime;
+
 public:
 	virtual void Initialize(void);
 	virtual void Progress(DWORD _delta);

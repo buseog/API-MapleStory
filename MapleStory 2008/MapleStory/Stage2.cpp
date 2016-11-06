@@ -20,7 +20,7 @@ CStage2::CStage2(void)
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(50.f, 570.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
-	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 630.f, "Portal"));
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1830.f, 630.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(4);
 }
 
@@ -34,9 +34,9 @@ void CStage2::Initialize(void)
 	ParentClear();
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1890, 941);
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1700, rand() % 1400, "CoupleMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), float(rand() % 1400), "CoupleMushRoom_LEFT"));
 	}
 
 	CParent::SetBitMap(&m_BitMap);

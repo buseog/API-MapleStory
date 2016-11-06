@@ -13,7 +13,7 @@ CDamageEffect::~CDamageEffect(void)
 
 void CDamageEffect::Initialize(void)
 {
-	m_cTimer.m_fRemainTime[0] = 1000.f;
+	m_cTimer.dwRemainTime[0] = 1000;
 
 	int iPosition = 10000;
 
@@ -48,7 +48,7 @@ void CDamageEffect::Initialize(void)
 }
 void CDamageEffect::Progress(DWORD _delta)
 {
-	if ((m_cTimer.m_fRemainTime[0] -= _delta) <= 0)
+	if ((m_cTimer.dwRemainTime[0] -= _delta) <= 0)
 		m_bDestroy = true;
 
 	else

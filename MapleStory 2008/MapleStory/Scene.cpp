@@ -18,8 +18,10 @@ CUI*			CScene::m_pUI;
 CScene::CScene(void)
 :m_dwKey(0)
 ,m_pLoading(NULL)
+,m_iFPS(0)
+,m_dwTime(GetTickCount())
 {
-	
+	memset(m_szFPS, 0, sizeof(TCHAR) * 128);
 }
 
 CScene::~CScene(void)
@@ -346,6 +348,8 @@ void CScene::LoadBmp(void)
 	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");
 	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor.bmp");
 	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
+	m_BitMap["Gold2"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold2.bmp");
+	m_BitMap["Gold3"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold3.bmp");
 	m_BitMap["HPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/HPPotion.bmp");
 	m_BitMap["MPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/MPPotion.bmp");
 

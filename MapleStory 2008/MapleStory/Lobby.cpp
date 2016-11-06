@@ -18,11 +18,6 @@ void CLobby::Initialize(void)
 {
 	m_bPick = false;
 
-	for (int i = 0; i < 3; ++i)
-	{
-		m_pPlayer[i] = NULL;
-	}
-
 	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
 	m_BitMap["Lobby"] = (new CBitBmp)->LoadBmp(L"../Texture/Lobby.bmp");
 
@@ -38,34 +33,8 @@ void CLobby::Initialize(void)
 	m_vecButton.push_back(CreateButton(628.f, 156.f, "Character_SELECT"));
 	m_vecButton.push_back(CreateButton(628.f, 205.f, "Character_CREATE"));
 	m_vecButton.push_back(CreateButton(628.f, 262.f, "Character_DELETE"));
-	m_vecButton.push_back(CreateButton(100.f, 500.f, "BackScene"));
+	m_vecButton.push_back(CreateButton(63.f, 450.f, "BackScene"));
 
-	//HANDLE		hFile = NULL;
-	//DWORD		dwByte = 0;
-	//CParent*	p = new CPlayer;
-	//
-	//	hFile = CreateFile(L"../Data/Character.dat",
-	//						GENERIC_READ, 
-	//						0, 
-	//						NULL, 
-	//						OPEN_EXISTING, 
-	//						FILE_ATTRIBUTE_NORMAL, 
-	//						NULL);
-
-	//	ReadFile(hFile, p, sizeof(CPlayer), &dwByte, NULL);
-
-	//	if(dwByte == 0)
-	//	{
-	//		::Safe_Delete(p);
-	//	}
-	//	else
-	//		m_pPlayer[0] = p;
-	//	
-	//	
-	//CloseHandle(hFile);
-
-	CParent::SetBitMap(&m_BitMap);
-	m_pPlayer[0]->SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
 }
 
@@ -93,10 +62,10 @@ void CLobby::Progress(DWORD _delta)
 			{
 				case SC_CREATE:
 					CSceneMgr::GetInstance()->SetScene(SC_CREATE);
-					break;
+					return;
 				case SC_VILLAGE:
 					CSceneMgr::GetInstance()->SetScene(SC_VILLAGE);
-					break;;
+					return;
 			}
 		}
 	}
@@ -110,8 +79,9 @@ void CLobby::Progress(DWORD _delta)
 			switch (iSelect)
 			{
 				case SC_CREATE:
+					iSelect = 0;
 					CSceneMgr::GetInstance()->SetScene(SC_CREATE);
-					break;
+					return;
 			}
 		}
 	}
@@ -143,19 +113,15 @@ void CLobby::Render(HDC hdc)
 					TextOut(m_BitMap["Back"]->GetMemdc(),
 						0,20,
 						szBuf, lstrlen(szBuf));
-	//if(m_pPlayer[0])
-	//{
-	//	if (m_pPlayer[0]->GetStrKey() == "Player_LEFT" || m_pPlayer[0]->GetStrKey() == "Player_RIGHT")
-	//	{
-			TransparentBlt(m_BitMap["Back"]->GetMemdc(),
-				300, 300, 
-				50, 70,
-				m_BitMap["Fighter"]->GetMemdc(),
-				0, 0,
-				50, 70,
-				RGB(255, 255, 250));
-	//	}
-	//}
+
+
+	TransparentBlt(m_BitMap["Back"]->GetMemdc(),
+		300, 300, 
+		50, 70,
+		m_BitMap["Fighter"]->GetMemdc(),
+		0, 0,
+		50, 70,
+		RGB(255, 255, 250));
 
 	BitBlt(hdc, 
 			0, 0, 
@@ -177,13 +143,6 @@ void CLobby::Release(void)
 		::Safe_Delete(iter->second);
 	}
 	m_BitMap.clear();
-
-	for (int i = 0; i < 3; ++i)
-	{
-		if (m_pPlayer)
-			::Safe_Delete(m_pPlayer[i]);
-	}
-
 }
 
 CUI* CLobby::CreateButton(float _fX, float _fY, string _strKey)

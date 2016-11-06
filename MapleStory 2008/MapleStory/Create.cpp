@@ -1,5 +1,8 @@
 #include "StdAfx.h"
 #include "Create.h"
+#include "MyButton.h"
+#include "SceneMgr.h"
+#include "Factory.h"
 
 CCreate::CCreate(void)
 {
@@ -15,19 +18,35 @@ void CCreate::Initialize(void)
 {
 	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
 	m_BitMap["Create"] = (new CBitBmp)->LoadBmp(L"../Texture/Create.bmp");
+	m_BitMap["BackCreate"] = (new CBitBmp)->LoadBmp(L"../Texture/BackCreate.bmp");
 
 	m_BitMap["Fighter"] = (new CBitBmp)->LoadBmp(L"../Texture/Fighter.bmp");
 	m_BitMap["Sworder"] = (new CBitBmp)->LoadBmp(L"../Texture/Sworder.bmp");
 	m_BitMap["Archer"] = (new CBitBmp)->LoadBmp(L"../Texture/Archer.bmp");
 	m_BitMap["NameTag"] = (new CBitBmp)->LoadBmp(L"../Texture/NameTag.bmp");
 
+	m_vecButton.push_back(CreateButton(55.f, 450.f, "BackCreate"));
 
-
+	CUI::SetBitMap(&m_BitMap);
 }
 
 void CCreate::Progress(DWORD _delta)
 {
+	int iSelect = 0;
 
+	for (size_t i = 0; i < m_vecButton.size(); ++i)
+	{
+		m_vecButton[i]->Progress(_delta);
+		iSelect = ((CMyButton*)m_vecButton[i])->GetSelect();
+
+		switch (iSelect)
+		{
+		case SC_LOBBY:
+			iSelect = 0;
+			CSceneMgr::GetInstance()->SetScene(SC_LOBBY);
+			return;
+		}
+	}
 }
 
 void CCreate::Render(HDC hdc)
@@ -88,6 +107,11 @@ void CCreate::Render(HDC hdc)
 		47, 76,
 		RGB(255, 255, 250));
 
+	for (size_t i = 0; i < m_vecButton.size(); ++i)
+	{
+		m_vecButton[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
 	BitBlt(hdc, 
 			0, 0, 
 			WINCX, WINCY, 
@@ -101,4 +125,17 @@ void CCreate::Release(void)
 		::Safe_Delete(iter->second);
 	}
 	m_BitMap.clear();
+
+	for (size_t i = 0; i < m_vecButton.size(); ++i)
+	{
+		::Safe_Delete(m_vecButton[i]);
+	}
+	m_vecButton.clear();
+}
+
+CUI* CCreate::CreateButton(float _fX, float _fY, string _strKey)
+{
+	CUI* pButton = CFactory<CMyButton>::CreateUI(_fX, _fY, _strKey);
+
+	return pButton;
 }

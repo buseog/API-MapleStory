@@ -3,7 +3,7 @@
 class CTimer
 {
 public:
-	float m_fRemainTime[10];
+	DWORD dwRemainTime[10];
 
 public:
 	void TimeSetting(void);

@@ -17,28 +17,28 @@ void CMonster::Initialize(void)
 	if (m_strKey == "GreenMushRoom_LEFT" || m_strKey == "GreenMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 60.f, 60.f);
-		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 50.f, 7.f, 1000);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 50.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 4, 1, 80);
 	}
 
 	if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 170.f, 110.f);
-		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 500.f, 10.f, 1000);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 500.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 8, 0, 80);
 	}
 
 	if (m_strKey == "BlueMushRoom_LEFT" || m_strKey == "BlueMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 70.f, 70.f);
-		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 150.f, 7.f, 1000);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 150.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 3, 3, 80);
 	}
 
 	if (m_strKey == "PurpleMushRoom_LEFT" || m_strKey == "PurpleMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 80.f, 80.f);
-		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 300.f, 7.f, 1000);
+		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 300.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 4, 1, 80);
 	}
 
@@ -51,7 +51,7 @@ void CMonster::Progress(DWORD _delta)
 
 	if (m_dwState != ST_HIT)
 	{
-		if ((m_cTimer.m_fRemainTime[1] -= _delta) >= 0)
+		if ((m_cTimer.dwRemainTime[1] + 1100) >= GetTickCount())
 		{			
 			m_tInfo.fX -= m_tStat.fSpeed;
 		}
@@ -93,7 +93,7 @@ void CMonster::Progress(DWORD _delta)
 				m_strKey = "CoupleMushRoom_LEFT";
 			}
 			m_tStat.fSpeed *= -1.f;
-			m_cTimer.m_fRemainTime[1] = 1000.f;
+			m_cTimer.dwRemainTime[1] = GetTickCount();
 		}
 	}
 
@@ -180,9 +180,23 @@ void CMonster::SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime)
 
 CItem* CMonster::GetDropItem(void)
 {
-	CItem* pDropItem = new CGold(L"Gold", rand() % 2000, 1, 1, IT_GOLD);
+	int Random = m_tStat.iGold + rand() % 1000;
+	CItem* pDropItem = NULL;
+
+	if (Random < 100)
+	{
+		pDropItem = new CGold(L"Gold3", Random, 1, 1, IT_GOLD);
+	}
+	else if (Random < 1000)
+	{
+		pDropItem = new CGold(L"Gold2", Random, 1, 1, IT_GOLD);
+	}
+	else
+	{
+		pDropItem = new CGold(L"Gold", Random, 1, 1, IT_GOLD);
+	}
+
 	pDropItem->SetPos(m_tInfo.fX, m_tInfo.fY - 15);
-	
 	return pDropItem;
 }
 

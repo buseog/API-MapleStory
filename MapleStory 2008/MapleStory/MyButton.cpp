@@ -52,6 +52,12 @@ void CMyButton::Initialize(void)
 		m_tInfo = INFO(0.f, 0.f, 126.f, 46.f);
 		m_iDrawID = 0;
 	}
+
+	if (m_strKey == "BackCreate")
+	{
+		m_tInfo = INFO(0.f, 0.f, 63.f, 25.f);
+		m_iDrawID = 0;
+	}
 }
 
 void CMyButton::Progress(DWORD _delta)
@@ -123,6 +129,12 @@ void CMyButton::UIPicking(void)
 
 			else if(m_strKey == "Character_DELETE")
 				m_iButton = SC_VILLAGE;
+
+			else if(m_strKey == "BackScene")
+				m_iButton = SC_MENU;
+
+			else if(m_strKey == "BackCreate")
+				m_iButton = SC_LOBBY;
 		}
 	}
 	else

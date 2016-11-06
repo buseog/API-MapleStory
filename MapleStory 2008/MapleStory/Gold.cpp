@@ -16,9 +16,27 @@ CGold::~CGold(void)
 void CGold::Initialize(void)
 {
 	m_dwTime = GetTickCount();
-	m_tInfo = INFO(0, 0, 32.f, 32.f);
-	m_tSprite = SPRITE(0, 4, 0, 90);
-	m_DropId = 1;
+
+	if (m_tItem.strName == L"Gold")
+	{
+		m_tInfo = INFO(0, 0, 32.f, 32.f);
+		m_tSprite = SPRITE(0, 4, 0, 90);
+		m_DropId = 1;
+	}
+
+	else if (m_tItem.strName == L"Gold2")
+	{
+		m_tInfo = INFO(0, 0, 31.f, 28.f);
+		m_tSprite = SPRITE(0, 4, 0, 90);
+		m_DropId = 1;
+	}
+
+	else if (m_tItem.strName == L"Gold3")
+	{
+		m_tInfo = INFO(0, 0, 23.f, 22.f);
+		m_tSprite = SPRITE(0, 4, 0, 90);
+		m_DropId = 1;
+	}
 }
 
 void CGold::Progress(DWORD _delta)

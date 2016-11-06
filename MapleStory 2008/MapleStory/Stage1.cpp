@@ -32,11 +32,12 @@ CStage1::~CStage1(void)
 void CStage1::Initialize(void)
 {
 	ParentClear();
+	m_fRegenTime = 7000.f;
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1773.f, 1464.f);
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 8; ++i)
 	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1700, rand() % 1400, "BlueMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), float(rand() % 700 + 200), "BlueMushRoom_LEFT"));
 	}
 
 	CParent::SetBitMap(&m_BitMap);
@@ -49,6 +50,12 @@ void CStage1::Progress(DWORD _delta)
 {
 	KeyInput();
 	UIDrag();
+
+	/*if ((m_fRegenTime -= _delta) <= 0)
+	{
+		Regen();
+		m_fRegenTime = 7000;
+	}*/
 
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
@@ -166,6 +173,18 @@ void CStage1::Render(HDC hdc)
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
 
+	
+	++m_iFPS;
+
+	if(m_dwTime + 1000 < GetTickCount())
+	{
+		m_dwTime = GetTickCount();
+		wsprintf(m_szFPS, L"FPS : %d", m_iFPS);
+		m_iFPS = 0;
+	}
+
+	SetWindowText(g_hWnd, m_szFPS);
+
 	BitBlt(hdc, 
 			0, 0, 
 			WINCX, WINCY, 
@@ -192,4 +211,17 @@ void CStage1::Release(void)
 		::Safe_Delete(m_vecPortal[i]);
 	}
 	m_vecPortal.clear();
+}
+
+void CStage1::Regen(void)
+{
+	int Regen = 7 - m_vecParent[PAR_MONSTER].size();
+
+	if (Regen)
+	{
+		for (int i = 0; i < Regen; ++i)
+		{
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1300 + 200), float(rand() % 700 + 200), "BlueMushRoom_LEFT"));
+		}
+	}
 }

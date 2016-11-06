@@ -53,11 +53,6 @@ void CVillage::Initialize(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
-	for (int i = 0; i < 30; ++i)
-	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand() % 600, "PurpleMushRoom_LEFT"));
-	}
-
 	m_pLoading = new CLoading();
 
 	CParent::SetBitMap(&m_BitMap);
@@ -191,6 +186,16 @@ void CVillage::Render(HDC hdc)
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
+
+	++m_iFPS;
+
+	if(m_dwTime + 1000 < GetTickCount())
+	{
+		m_dwTime = GetTickCount();
+		wsprintf(m_szFPS, L"FPS : %d", m_iFPS);
+		m_iFPS = 0;
+	}
+		SetWindowText(g_hWnd, m_szFPS);
 
 	BitBlt(hdc, 
 			0, 0, 

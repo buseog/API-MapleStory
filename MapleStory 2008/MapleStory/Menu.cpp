@@ -28,7 +28,6 @@ void CMenu::Initialize(void)
 	m_vecButton.push_back(CreateButton(400.f, 400.f, "Edit"));
 	m_vecButton.push_back(CreateButton(600.f, 400.f, "Exit"));
 
-	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
 }
 

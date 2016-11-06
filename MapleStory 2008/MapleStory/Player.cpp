@@ -20,7 +20,7 @@ void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 10.f, 1000);
+	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 6.f, 1000);
 	m_tSprite = SPRITE(0, 5, 0, 80);
 
 	m_dwTime = GetTickCount();
@@ -55,11 +55,11 @@ void CPlayer::Progress(DWORD _delta)
 	}
 
 	if(m_bUnbeatable)
-		if ((m_cTimer.m_fRemainTime[9] += _delta) >= 1100)
+		if ((m_cTimer.dwRemainTime[9] += _delta) >= 1100)
 		{
 			m_bUnbeatable = false;
 			m_dwState = ST_STAND;
-			m_cTimer.m_fRemainTime[9] = 0;
+			m_cTimer.dwRemainTime[9] = 0;
 
 		}
 
@@ -129,7 +129,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			m_tInfo.fY += m_tStat.fSpeed;
 		}
 
-		else if (m_dwKey & KEY_ALT)
+		else if (m_dwKey & KEY_ALT && m_dwState != ST_JUMP)
 		{
 			m_dwState = ST_JUMP;
 			m_tInfo.fY += 20.f;
@@ -176,7 +176,7 @@ void CPlayer::KeyInput(DWORD _delta)
 
 
 	//// ½ºÅ³
-	if ((m_cTimer.m_fRemainTime[1] -= _delta) <= 0)
+	if ((m_cTimer.dwRemainTime[1] + 500) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_Q)
 		{
@@ -188,11 +188,11 @@ void CPlayer::KeyInput(DWORD _delta)
 			else if (m_strKey == "Player_RIGHT")
 				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 15,"Annihilation_RIGHT"));
 
-			m_cTimer.m_fRemainTime[1] = 500.f;
+			m_cTimer.dwRemainTime[1] = GetTickCount();
 		}
 	}
 
-	if ((m_cTimer.m_fRemainTime[2] -= _delta) <= 0)
+	if ((m_cTimer.dwRemainTime[2] + 500) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_W)
 		{
@@ -202,11 +202,11 @@ void CPlayer::KeyInput(DWORD _delta)
 			else if (m_strKey == "Player_RIGHT")
 				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_RIGHT"));
 
-			m_cTimer.m_fRemainTime[2] = 500.f;
+			m_cTimer.dwRemainTime[2] = GetTickCount();
 		}
 	}
 
-	if ((m_cTimer.m_fRemainTime[3] -= _delta) <= 0)
+	if ((m_cTimer.dwRemainTime[3] + 500) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_E)
 		{
@@ -218,11 +218,11 @@ void CPlayer::KeyInput(DWORD _delta)
 			else if (m_strKey == "Player_RIGHT")
 				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 45,"Typhoon_RIGHT"));
 
-			m_cTimer.m_fRemainTime[3] = 500.f;
+			m_cTimer.dwRemainTime[3] = GetTickCount();
 		}
 	}
 
-	if ((m_cTimer.m_fRemainTime[4] -= _delta) <= 0)
+	if ((m_cTimer.dwRemainTime[4] + 400) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_R)
 		{
@@ -237,7 +237,7 @@ void CPlayer::KeyInput(DWORD _delta)
 				if (m_strKey == "Player_RIGHT")
 					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_RIGHT"));
 			
-				m_cTimer.m_fRemainTime[4] = 400.f;
+				m_cTimer.dwRemainTime[4] = GetTickCount();
 				++m_iBeyond;
 				break;
 			case 1:
@@ -249,7 +249,7 @@ void CPlayer::KeyInput(DWORD _delta)
 				if (m_strKey == "Player_RIGHT")
 					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond2_RIGHT"));
 				
-				m_cTimer.m_fRemainTime[4] = 400.f;
+				m_cTimer.dwRemainTime[4] = GetTickCount();
 				++m_iBeyond;
 				break;
 			case 2:
@@ -261,7 +261,7 @@ void CPlayer::KeyInput(DWORD _delta)
 				if (m_strKey == "Player_RIGHT")
 					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond3_RIGHT"));
 				
-				m_cTimer.m_fRemainTime[4] = 400.f;
+				m_cTimer.dwRemainTime[4] = GetTickCount();
 				m_iBeyond = 0;
 				break;
 

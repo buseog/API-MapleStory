@@ -119,7 +119,6 @@ void CMapEdit::Release(void)
 		::Safe_Delete(m_vecTile[i]);
 	}
 	m_vecTile.clear();
-	vector<TILE*>().swap(m_vecTile);	
 }
 
 TILE* CMapEdit::CreateTile(float _fX, float _fY)

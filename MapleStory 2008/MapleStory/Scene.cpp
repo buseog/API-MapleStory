@@ -348,7 +348,6 @@ void CScene::LoadBmp(void)
 	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
 	m_BitMap["HPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/HPPotion.bmp");
 	m_BitMap["MPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/MPPotion.bmp");
-	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
 
 }
 

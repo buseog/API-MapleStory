@@ -25,7 +25,7 @@ void CSkill::Initialize(void)
 		m_iHitCount = 2;
 	}
 
-	if (m_strKey == "Ascend_LEFT" || m_strKey == "Ascend_RIGHT")
+	else if (m_strKey == "Ascend_LEFT" || m_strKey == "Ascend_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 250.f, 250.f);
 		m_tStat.fAttack = 500.f;
@@ -33,7 +33,7 @@ void CSkill::Initialize(void)
 	}
 
 
-	if (m_strKey == "Typhoon_LEFT" || m_strKey == "Typhoon_RIGHT")
+	else if (m_strKey == "Typhoon_LEFT" || m_strKey == "Typhoon_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 300.f, 171.f);
 		m_tStat.fAttack = 700.f;
@@ -41,7 +41,7 @@ void CSkill::Initialize(void)
 		m_iHitCount = 7;
 	}
 
-	if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")
+	else if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 400.f, 233.f);
 		m_tStat.fAttack = 200.f;
@@ -49,7 +49,7 @@ void CSkill::Initialize(void)
 		m_iHitCount = 4;
 	}
 
-	if (m_strKey == "Range")
+	else if (m_strKey == "Range")
 	{
 		m_tInfo = INFO(0, 0, 350.f, 184.f);
 		m_tStat.fAttack = 500.f;
@@ -57,7 +57,7 @@ void CSkill::Initialize(void)
 		m_iHitCount = 3;
 	}
 
-	if (m_strKey == "Beyond_LEFT" || m_strKey == "Beyond_RIGHT")
+	else if (m_strKey == "Beyond_LEFT" || m_strKey == "Beyond_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 400.f, 300.f);
 		m_tStat.fAttack = 333.f;
@@ -65,7 +65,7 @@ void CSkill::Initialize(void)
 		m_iHitCount = 1;
 	}
 
-	if (m_strKey == "Beyond2_LEFT" || m_strKey == "Beyond2_RIGHT")
+	else if (m_strKey == "Beyond2_LEFT" || m_strKey == "Beyond2_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 450.f, 300.f);
 		m_tStat.fAttack = 333.f;
@@ -73,7 +73,7 @@ void CSkill::Initialize(void)
 		m_iHitCount = 1;
 	}
 
-	if (m_strKey == "Beyond3_LEFT" || m_strKey == "Beyond3_RIGHT")
+	else if (m_strKey == "Beyond3_LEFT" || m_strKey == "Beyond3_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 400.f, 300.f);
 		m_tStat.fAttack = 333.f;

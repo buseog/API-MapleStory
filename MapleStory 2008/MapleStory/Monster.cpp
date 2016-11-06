@@ -23,7 +23,7 @@ void CMonster::Initialize(void)
 
 	if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
 	{
-		m_tInfo = INFO(0, 0, 170.f, 170.f);
+		m_tInfo = INFO(0, 0, 170.f, 110.f);
 		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 500.f, 10.f, 1000);
 		m_tSprite = SPRITE(0, 8, 0, 80);
 	}

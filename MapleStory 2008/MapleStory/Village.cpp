@@ -53,7 +53,7 @@ void CVillage::Initialize(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 30; ++i)
 	{
 		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand() % 600, "PurpleMushRoom_LEFT"));
 	}

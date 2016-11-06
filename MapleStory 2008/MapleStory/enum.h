@@ -53,3 +53,10 @@ enum EQIPID
 	EQ_GLOVE,
 	EQ_END
 };
+
+enum ICONID
+{
+	IC_SKILL,
+	IC_ITEM,
+	IC_END
+};

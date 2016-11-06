@@ -65,6 +65,33 @@ void CMonster::Progress(DWORD _delta)
 			{
 				m_strKey = "PurpleMushRoom_LEFT";
 			}
+
+			if (m_strKey == "GreenMushRoom_LEFT")
+			{
+				m_strKey = "GreenMushRoom_RIGHT";
+			}
+			else if (m_strKey == "GreenMushRoom_RIGHT")
+			{
+				m_strKey = "GreenMushRoom_LEFT";
+			}
+
+			if (m_strKey == "BlueMushRoom_LEFT")
+			{
+				m_strKey = "BlueMushRoom_RIGHT";
+			}
+			else if (m_strKey == "BlueMushRoom_RIGHT")
+			{
+				m_strKey = "BlueMushRoom_LEFT";
+			}
+
+			if (m_strKey == "CoupleMushRoom_LEFT")
+			{
+				m_strKey = "CoupleMushRoom_RIGHT";
+			}
+			else if (m_strKey == "CoupleMushRoom_RIGHT")
+			{
+				m_strKey = "CoupleMushRoom_LEFT";
+			}
 			m_tStat.fSpeed *= -1.f;
 			m_cTimer.m_fRemainTime[1] = 1000.f;
 		}
@@ -94,7 +121,7 @@ void CMonster::Progress(DWORD _delta)
 		SetState(ST_DEATH, 10, 3, 80);
 	}
 
-	if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
+	else if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
 	{		
 		SetState(ST_STAND, 8, 0, 100);
 		SetState(ST_WALK, 14, 1, 80);
@@ -103,7 +130,7 @@ void CMonster::Progress(DWORD _delta)
 		
 	}
 
-	if (m_strKey == "BlueMushRoom_LEFT" || m_strKey == "BlueMushRoom_RIGHT")
+	else if (m_strKey == "BlueMushRoom_LEFT" || m_strKey == "BlueMushRoom_RIGHT")
 	{
 		SetState(ST_STAND, 2, 0, 100);
 		SetState(ST_WALK, 3, 1, 100);
@@ -111,7 +138,7 @@ void CMonster::Progress(DWORD _delta)
 		SetState(ST_DEATH, 3, 3, 80);
 	}
 
-	if (m_strKey == "PurpleMushRoom_LEFT" || m_strKey == "PurpleMushRoom_RIGHT")
+	else if (m_strKey == "PurpleMushRoom_LEFT" || m_strKey == "PurpleMushRoom_RIGHT")
 	{
 		SetState(ST_STAND, 4, 0, 100);
 		SetState(ST_WALK, 4, 1, 100);

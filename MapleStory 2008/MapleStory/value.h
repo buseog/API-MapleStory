@@ -8,6 +8,8 @@ const int TILECY = 30;
 
 const int INVENSIZE = 24;
 
+const int SKILLPANELSLOT = 4;
+
 // Key °ª
 
 const	DWORD		KEY_LEFT	= 0x00000001;

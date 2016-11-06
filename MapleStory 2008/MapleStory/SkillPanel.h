@@ -1,9 +1,14 @@
 #pragma once
 #include "Ui.h"
+#include "Icon.h"
 
 class CSkillPanel	:
 	public CUI
 {
+private:
+	CIcon*	m_pIcon[SKILLPANELSLOT];
+	CIcon*	m_pPick;
+
 public:
 	virtual void UIPicking(void);
 	virtual RECT GetRect(void);

@@ -50,7 +50,7 @@ void CScene::KeyInput(void)
 
 	if (m_dwKey & KEY_F8)
 	{
-		if (m_vecParent[PAR_PLAYER].back())
+		/*if (m_vecParent[PAR_PLAYER].back())
 		{
 			HANDLE hFile = NULL;
 			DWORD dwByte = 0;
@@ -63,10 +63,10 @@ void CScene::KeyInput(void)
 								FILE_ATTRIBUTE_NORMAL,
 								NULL);
 
-			WriteFile(hFile, m_vecParent[PAR_PLAYER].back(), sizeof(CPlayer), &dwByte, NULL);
+			WriteFile(hFile, m_vecParent[PAR_MONSTER].back(), sizeof(CPlayer), &dwByte, NULL);
 		
 			CloseHandle(hFile);
-		}
+		}*/
 	}
 
 	if (m_dwKey & KEY_I)	// 인벤토리
@@ -123,24 +123,24 @@ void CScene::UIDrag(void)
 
 	for (int i = 1; i < UI_QUICKSLOT; ++i)
 	{
-		if (!m_vecUI[i].empty())
+		if (m_vecUI[i].back()->GetOnOff())
 		{
-			if (m_vecUI[i].back()->GetOnOff())
+			if(GetAsyncKeyState(VK_LBUTTON))
 			{
+				m_prevPT = GetMouse();
+				if (m_bDrag)
+					break;
+
 				if(PtInRect(&m_vecUI[i].back()->GetRect(), GetMouse()))
 				{
-					if(GetAsyncKeyState(VK_LBUTTON))
-					{
-						m_prevPT = GetMouse();
-						m_bDrag = true;
-						m_pUI = m_vecUI[i].back();
-					}
-					else
-					{
-						m_bDrag = false;
-						m_pUI = NULL;
-					}
+					m_bDrag = true;
+					m_pUI = m_vecUI[i].back();
 				}
+			}
+			else
+			{
+				m_bDrag = false;
+				m_pUI = NULL;
 			}
 		}
 	}
@@ -167,15 +167,18 @@ void CScene::UIDrag(void)
 		{
 			((CEquipment*)m_vecUI[UI_EQUIPMENT].back())->EquipItem(pSwap);
 			m_vecUI[UI_INVENTORY].back()->SetReturnItem();
+			pSwap = NULL;
 		}
 	}
 
 	m_vecUI[UI_EQUIPMENT].back()->UIPicking();
 	CItem* pSwap2 = m_vecUI[UI_EQUIPMENT].back()->GetReturnItem();
+
 	if(pSwap2)
 	{
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pSwap2);
 		m_vecUI[UI_EQUIPMENT].back()->SetReturnItem();
+		pSwap2 = NULL;
 	}
 }
 

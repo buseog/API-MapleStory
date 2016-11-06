@@ -6,10 +6,13 @@ class CSkill	:
 {
 private:
 	bool	m_bHit;
+	int		m_iHitCount;
 
 public:
 	void	SetHit(bool _YN);
 	bool	GetHit(void);
+	void	SetHitCount(void);
+	int		GetHitCount(void);
 
 public:
 	virtual void Initialize(void);

@@ -8,6 +8,7 @@ CCreate::CCreate(void)
 
 CCreate::~CCreate(void)
 {
+	Release();
 }
 
 void CCreate::Initialize(void)
@@ -95,5 +96,9 @@ void CCreate::Render(HDC hdc)
 }
 void CCreate::Release(void)
 {
-
+	for (map<string, CBitBmp*>::iterator iter = m_BitMap.begin(); iter != m_BitMap.end(); ++iter)
+	{
+		::Safe_Delete(iter->second);
+	}
+	m_BitMap.clear();
 }

@@ -418,31 +418,3 @@ void CPlayer::SetOffset(float _fX, float _fY)
 	m_ptOffset.x = (long)_fX;
 	m_ptOffset.y = (long)_fY;
 }
-
-STATUS CPlayer::GetStatus(void)
-{
-	return m_tStatus;
-}
-
-void CPlayer::SetStatus(int _iType, int _iValue)
-{
-	switch (_iType)
-	{
-	case 0:
-		m_tStatus.iStr += _iValue;
-		break;
-	
-	case 1:
-		m_tStatus.iStr += _iValue;
-		break;
-		
-	case 2:
-		m_tStatus.iStr += _iValue;
-		break;
-		
-	case 3:
-		m_tStatus.iStr += _iValue;
-		break;
-
-	}
-}

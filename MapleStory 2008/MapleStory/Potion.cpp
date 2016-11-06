@@ -104,32 +104,32 @@ void CPotion::Render(HDC hdc)
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
 						szName, lstrlen(szName));
 
-		wsprintf(szOption, L"방어력 : %d", (int)m_tItem.iOption);
+		wsprintf(szOption, L"회복량 : %d", (int)m_tItem.iOption);
 					TextOut(hdc, 
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
 						szOption, lstrlen(szOption));
 
 		wsprintf(szCount, L"갯수 : %d", (int)m_tItem.iCount);
 					TextOut(hdc, 
-						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 60),
 						szCount, lstrlen(szCount));
 
 		wsprintf(szPrice, L"가격 : %d", (int)m_tItem.iPrice);
 					TextOut(hdc, 
-						int(m_tInfo.fX + 30), int(m_tInfo.fY + 60),
+						int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),
 						szPrice, lstrlen(szPrice));
 
 		if (m_tItem.iType == IT_WEAPON)
 		{
-			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 무기", 7);
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 90),	L"종류 : 무기", 7);
 		}
 		if (m_tItem.iType == IT_ARMOR)
 		{
-			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 방어구", 8);
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 90),	L"종류 : 방어구", 8);
 		}
 		if (m_tItem.iType == IT_POTION)
 		{
-			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),	L"종류 : 포션", 7);
+			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 90),	L"종류 : 포션", 7);
 		}
 	}
 }

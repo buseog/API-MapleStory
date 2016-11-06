@@ -91,7 +91,7 @@ void CWeapon::Render(HDC hdc)
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
 						szName, lstrlen(szName));
 
-		wsprintf(szOption, L"방어력 : %d", (int)m_tItem.iOption);
+		wsprintf(szOption, L"공격력 : %d", (int)m_tItem.iOption);
 					TextOut(hdc, 
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
 						szOption, lstrlen(szOption));

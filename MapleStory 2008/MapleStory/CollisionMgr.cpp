@@ -26,7 +26,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 {
 	RECT rc;
 	CParent* pPlayer = _pPlayer->back();
-
+	
 	for (size_t j = 0; j < _pTile->size(); ++j)
 	{
 		if ((*_pTile)[j]->iOption)
@@ -63,7 +63,6 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 								pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - fHeight);
 							}
 							break;
-
 						case 3:
 							if (pPlayer->GetState() != ST_UP)
 							{
@@ -202,7 +201,7 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 	{
 		for (size_t j = 0; j < _pMonster->size(); ++j)
 		{
-			if (!((CSkill*)(*_pSkill)[i])->GetHit())
+			if (!((CSkill*)(*_pSkill)[i])->GetHit() && ((CSkill*)(*_pSkill)[i])->GetHitCount() > 0)
 			{
 				if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
 				{
@@ -213,6 +212,7 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 
 					SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
 					AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
+					((CSkill*)(*_pSkill)[i])->SetHitCount();
 
 					if ((*_pMonster)[j]->GetStat().fHp <= 0)
 					{
@@ -290,10 +290,19 @@ void CCollisionMgr::CollisionPortal(vector<CParent*>* _pPlayer, vector<CParent*>
 {
 	RECT rc;
 	CParent* pPlayer = _pPlayer->back();
+	RECT rc1 = {pPlayer->GetRect().left + 10,
+			pPlayer->GetRect().top,
+			pPlayer->GetRect().right - 10,
+			pPlayer->GetRect().bottom};
 
 	for (size_t j = 0; j < _pPortal->size(); ++j)
 	{
-		if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pPortal)[j]->GetRect()))
+		RECT rc2 = {(*_pPortal)[j]->GetRect().left + 20,
+					(*_pPortal)[j]->GetRect().top + 20,
+					(*_pPortal)[j]->GetRect().right -20,
+					(*_pPortal)[j]->GetRect().bottom};
+
+		if (IntersectRect(&rc, &rc1, &rc2))
 		{
 			CSceneMgr::GetInstance()->SetScene(((CPortal*)(*_pPortal)[j])->GetPortal());
 			return;
@@ -478,6 +487,7 @@ void CCollisionMgr::CollisionItem(vector<CParent*>* _pPlayer, vector<CItem*>* _p
 				{
 					pPlayer->SetGold((*_pItem)[i]->GetItem().iOption);
 					(*_pItem)[i]->SetDropID(0);
+					::Safe_Delete((*_pItem)[i]);
 					_pItem->erase(_pItem->begin() + i);
 				}
 				else

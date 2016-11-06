@@ -533,6 +533,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="04. RenderMgr"
+				>
+				<File
+					RelativePath=".\RenderMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderMgr.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="03. UI"
@@ -795,6 +807,18 @@
 		<Filter
 			Name="08. Store"
 			>
+		</Filter>
+		<Filter
+			Name="09. Icon"
+			>
+			<File
+				RelativePath=".\Icon.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Icon.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

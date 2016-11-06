@@ -38,22 +38,6 @@ typedef struct tagStat
 
 }STAT;
 
-typedef struct tagStatus
-{
-	int iStr;
-	int iDex;
-	int iInt;
-	int iLuk;
-
-	tagStatus(void){}
-	tagStatus(int _iStr, int _iDex, int _iInt,int _iLuk)
-		:iStr(_iStr), iDex(_iDex), iInt(_iInt), iLuk(_iLuk)
-	{
-
-	}
-
-}STATUS;
-
 typedef	 struct tagTile
 {
 	float	fX;

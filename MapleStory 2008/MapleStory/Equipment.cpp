@@ -12,6 +12,7 @@ CEquipment::CEquipment(void)
 
 CEquipment::~CEquipment(void)
 {
+	Release();
 }
 
 void CEquipment::Initialize(void)

@@ -5,6 +5,7 @@
 #include "Factory.h"
 #include "Portal.h"
 #include "CollisionMgr.h"
+#include "RenderMgr.h"
 #include "Item.h"
 #include "Npc.h"
 #include "SkillEffect.h"
@@ -15,6 +16,7 @@ CVillage::CVillage(void)
 	m_strKey = "Village";
 	LoadMap();
 	LoadBmp();
+
 	m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f));
 
 	m_vecUI[UI_UI].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
@@ -53,7 +55,7 @@ void CVillage::Initialize(void)
 
 	for (int i = 0; i < 50; ++i)
 	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(100 * i, 300, "PurpleMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(rand() % 1900, rand() % 600, "PurpleMushRoom_LEFT"));
 	}
 
 	m_pLoading = new CLoading();
@@ -95,9 +97,8 @@ void CVillage::Progress(DWORD _delta)
 				++iter;
 		}
 	}
-	
-	float fHp = m_vecParent[PAR_PLAYER].back()->GetStat().fHp / m_vecParent[PAR_PLAYER].back()->GetStat().fFullHp;
-	float fExp = m_vecParent[PAR_PLAYER].back()->GetStat().fExp / (1000.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel);
+
+	CRenderMgr::GetInstance()->UIClear();
 
 	for (size_t i = 0; i < UI_END; ++i)
 	{
@@ -105,8 +106,10 @@ void CVillage::Progress(DWORD _delta)
 		{
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
-				(*iter)->SetPercent(fHp, fExp);
 				(*iter)->Progress(_delta);
+
+				if (i != UI_UI)
+					CRenderMgr::GetInstance()->AddUI(*iter);
 			}
 		}
 	}
@@ -138,7 +141,7 @@ void CVillage::Progress(DWORD _delta)
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
 
-	if (m_vecParent[PAR_PLAYER].back()->GetStat().fExp >= (1000.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel))
+	if (m_vecParent[PAR_PLAYER].back()->GetStat().fExp >= (800.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel))
 	{
 		m_vecParent[PAR_PLAYER].back()->SetLevel();
 		m_vecParent[PAR_EFFECT].push_back(CFactory<CSkillEffect>::CreateParent(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 150, "LevelUpEFFECT"));
@@ -175,16 +178,16 @@ void CVillage::Render(HDC hdc)
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
-	for (size_t i = 0; i < UI_END; ++i)
+
+	
+	for (size_t i = 0; i < m_vecUI[UI_UI].size(); ++i)
 	{
-		if (m_vecUI[i].back()->GetOnOff())
-		{
-			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
-			{
-				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
-			}
-		}
+		m_vecUI[UI_UI][i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
+
+	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
+	
+
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
@@ -223,7 +226,7 @@ void CVillage::Release(void)
 	{
 		for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 		{
-		::Safe_Delete(*iter);
+			::Safe_Delete(*iter);
 		}
 		m_vecUI[i].clear();
 	}
@@ -233,5 +236,21 @@ void CVillage::Release(void)
 		::Safe_Delete(m_vecPortal[i]);
 	}
 	m_vecPortal.clear();
-	
+
+	::Safe_Delete(m_pStoreNPC);
+
+	for (size_t i = 0; i < UI_END; ++i)
+	{
+		for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+		{
+			::Safe_Delete(*iter);
+		}
+		m_vecUI[i].clear();
+	}
+
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		::Safe_Delete(m_vecItem[i]);
+	}
+	m_vecItem.clear();
 }

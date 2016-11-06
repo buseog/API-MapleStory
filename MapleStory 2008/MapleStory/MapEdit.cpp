@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MapEdit.h"
 #include "BitBmp.h"
+#include "SceneMgr.h"
 
 CMapEdit::CMapEdit(void)
 :m_bType(false)
@@ -221,6 +222,15 @@ void CMapEdit::KeyCheck(void)
 		return;
 	}
 
+	if ((GetAsyncKeyState(VK_F12) & 0x8001) == 0x8001)
+	{
+		CSceneMgr::GetInstance()->SetScene(SC_MENU);
+		m_ptScroll.x = 0;
+		m_ptScroll.y = 0;
+		return;
+	}
+
+
 	if (GetAsyncKeyState('1'))
 	{
 		m_iTileOption = 0;
@@ -408,6 +418,4 @@ void CMapEdit::LoadMap(void)
 	}
 
 	CloseHandle(hFile);
-
-	MessageBox(g_hWnd,L"로드됨.", L"메세지", MB_OK);
 }

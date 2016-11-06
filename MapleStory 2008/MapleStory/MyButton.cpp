@@ -104,7 +104,7 @@ void CMyButton::UIPicking(void)
 	{
 		m_iDrawID = 1;
 
-		if(GetAsyncKeyState(VK_LBUTTON))
+		if(GetAsyncKeyState(VK_LBUTTON) & 0x8001)
 		{
 			if(m_strKey == "Start")
 				m_iButton = SC_LOBBY;

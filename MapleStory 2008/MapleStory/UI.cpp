@@ -1,7 +1,8 @@
 #include "StdAfx.h"
 #include "UI.h"
 
-map<string, CBitBmp*>*		CUI::m_pBitMap = NULL;
+map<string, CBitBmp*>*		CUI::m_pBitMap;
+CParent*					CUI::m_pPlayer;
 
 CUI::CUI(void)
 {
@@ -13,7 +14,6 @@ CUI::CUI(string _strKey)
 ,m_dwTime(0)
 ,m_ReturnItem(NULL)
 ,m_pCloseButton(NULL)
-,m_pPlayer(NULL)
 ,m_bOnOff(true)
 {
 	m_fPercent[0] = 100.f;
@@ -50,7 +50,8 @@ void CUI::Initialize(void)
 
 void CUI::Progress(DWORD _delta)
 {
-
+	m_fPercent[0] = m_pPlayer->GetStat().fHp / m_pPlayer->GetStat().fFullHp;
+	m_fPercent[2] = m_pPlayer->GetStat().fExp / (800 * m_pPlayer->GetStat().iLevel);
 }
 
 void CUI::Render(HDC hdc)
@@ -101,7 +102,7 @@ void CUI::Render(HDC hdc)
 		BitBlt(hdc,
 			int(m_tInfo.fX),
 			int(m_tInfo.fY),
-			int(m_tInfo.fCX * m_fPercent[1]),
+			int(m_tInfo.fCX * m_fPercent[2]),
 			int(m_tInfo.fCY),
 			(*m_pBitMap)[m_strKey]->GetMemdc(),
 			0,
@@ -174,11 +175,6 @@ void CUI::SetReturnItem(void)
 	m_ReturnItem = NULL;
 }
 
-void CUI::SetPercent(float _fHp, float _fExp)
-{
-	m_fPercent[0] = _fHp;
-	m_fPercent[1] = _fExp;
-}
 
 bool CUI::GetOnOff(void)
 {

@@ -4,6 +4,7 @@
 #include "Factory.h"
 #include "SceneMgr.h"
 #include "KeyMgr.h"
+#include "RenderMgr.h"
 
 CMainGame::CMainGame(void)
 :m_pSceneMgr(CSceneMgr::GetInstance())
@@ -39,4 +40,5 @@ void CMainGame::Release(void)
 	ReleaseDC(g_hWnd, m_hdc);
 	m_pSceneMgr->DestroyInstance();
 	CKeyMgr::GetInstance()->DestroyInst();
+	CSceneMgr::GetInstance()->DestroyInstance();
 }

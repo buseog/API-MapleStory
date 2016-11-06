@@ -11,21 +11,20 @@ protected:
 	INFO	m_tInfo;
 	SPRITE	m_tSprite;
 	int		m_iDrawID;
-	float	m_fPercent[2];
+	float	m_fPercent[3];
 	DWORD	m_dwTime;
 	bool	m_bOnOff;
 
 	CItem*	m_ReturnItem;
 	CUI*	m_pCloseButton;
-	CParent*	m_pPlayer;
 
 	string	m_strKey;
+	static	CParent*				m_pPlayer;
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
-	void	SetPlayer(CParent* _pPlayer);
-	void	SetPercent(float _fHp, float _fExp);
+	static void	SetPlayer(CParent* _pPlayer);
 	void	SetPos(float _fX, float _fY);
 	INFO	GetInfo(void);
 	CItem*	GetReturnItem(void);

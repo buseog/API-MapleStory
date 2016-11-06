@@ -40,19 +40,51 @@ void CSceneMgr::SetScene(SCENEID eScene)
 	switch(eScene)
 	{
 	case SC_START:
-		m_pScene = new CStart;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CStart;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+		{
+			m_pScene = m_pSaveScene[eScene];
+		}
 		break;
 
 	case SC_MENU:
-		m_pScene = new CMenu;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CMenu;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+		{
+			m_pScene = m_pSaveScene[eScene];
+		}
 		break;
 
 	case SC_LOBBY:
-		m_pScene = new CLobby;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CLobby;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+		{
+			m_pScene = m_pSaveScene[eScene];
+		}
 		break;
 
 	case SC_CREATE:
-		m_pScene = new CCreate;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CCreate;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+		{
+			m_pScene = m_pSaveScene[eScene];
+		}
 		break;
 
 	case SC_VILLAGE:

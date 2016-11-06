@@ -88,30 +88,26 @@ void CInventory::Release(void)
 {
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
-		if (m_vecItem[i] == NULL)
-		{
-			::Safe_Delete(m_vecItem[i]);
-		}
+		::Safe_Delete(m_vecItem[i]);
 	}
 	m_vecItem.clear();
 }
 
 void CInventory::AddItem(CItem*	_pItem)
 {
-	for (size_t i = 0; i < m_vecItem.size();)
+	if (_pItem->GetItem().iType == IT_POTION)
 	{
-		if (_pItem->GetItem().iType == IT_POTION)
+		for (size_t i = 0; i < m_vecItem.size();)
 		{
 			if (m_vecItem[i]->GetItem().iType == IT_POTION && m_vecItem[i]->GetItem().iCount < 10)
 			{
 				((CPotion*)m_vecItem[i])->SetCount(_pItem->GetItem().iCount);
+				::Safe_Delete(_pItem);
 				return;
 			}
 			else
 				++i;
 		}
-		else
-			break;
 	}
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
@@ -123,6 +119,7 @@ void CInventory::AddItem(CItem*	_pItem)
 			break;
 		}
 	}
+	
 }
 
 void CInventory::ItemPos(void)
@@ -208,14 +205,14 @@ void CInventory::UIPicking(void)
 
 							if (m_vecItem[i]->GetItem().iCount <= 0)
 							{
-								m_vecItem[i] = NULL;
+								m_vecItem[i] = new CItemEmpty();
 							}
 						}
 						else
 						{
 							m_ReturnItem = m_vecItem[i];
 							m_vecItem[i]->SetDrawID(0);
-							m_vecItem[i] = NULL;
+							m_vecItem[i] = new CItemEmpty();
 						}
 					}
 
@@ -224,7 +221,7 @@ void CInventory::UIPicking(void)
 						if (m_pPick == NULL)
 						{
 							m_pPick = m_vecItem[i];
-							m_vecItem[i] = NULL;
+							m_vecItem[i] = new CItemEmpty();
 							m_iSwap = i;
 						}
 						else

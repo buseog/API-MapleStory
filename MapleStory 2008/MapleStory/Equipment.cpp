@@ -53,6 +53,7 @@ void CEquipment::Render(HDC hdc)
 
 void CEquipment::Release(void)
 {
+	::Safe_Delete(m_pCloseButton);
 }
 
 void CEquipment::EquipItem(CItem*	_pItem)

@@ -629,6 +629,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="06. Store"
+				>
+				<File
+					RelativePath=".\Store.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Store.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="99. ETC"
@@ -803,10 +815,6 @@
 				RelativePath=".\NPC.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="08. Store"
-			>
 		</Filter>
 		<Filter
 			Name="09. Icon"

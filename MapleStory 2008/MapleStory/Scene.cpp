@@ -290,6 +290,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["ItemStat"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/ItemStat.bmp");
 	m_BitMap["Dead"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Dead.bmp");
 	m_BitMap["Close"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Close.bmp");
+	m_BitMap["Store"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Store.bmp");
 	
 
 

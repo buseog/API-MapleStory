@@ -91,6 +91,8 @@ void CInventory::Release(void)
 		::Safe_Delete(m_vecItem[i]);
 	}
 	m_vecItem.clear();
+
+	::Safe_Delete(m_pCloseButton);
 }
 
 void CInventory::AddItem(CItem*	_pItem)

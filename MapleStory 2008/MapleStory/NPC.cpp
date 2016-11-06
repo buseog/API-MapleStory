@@ -1,8 +1,11 @@
 #include "StdAfx.h"
 #include "NPC.h"
 #include "Parent.h"
+#include "Store.h"
+#include "Factory.h"
 
 CNPC::CNPC(void)
+:m_pStore(NULL)
 {
 }
 
@@ -14,6 +17,7 @@ CNPC::~CNPC(void)
 
 void CNPC::Initialize(void)
 {
+	m_pStore = CFactory<CStore>::CreateUI(400.f, 300.f, "Store");
 	m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/NPC.bmp");
 	m_tInfo = INFO(580.f, 560.f, 68.f, 56.f);
 	m_tSprite = SPRITE(0, 16, 0, 80);
@@ -36,11 +40,15 @@ void CNPC::Progress(DWORD _delta)
 
 	if(PtInRect(&GetRect(), GetMouse()))
 	{
-		if (GetAsyncKeyState(VK_LBUTTON))
+		if (GetAsyncKeyState(VK_LBUTTON) )
 		{
-
+			m_pStore->SetOnOff(true);
 		}
 	}
+
+
+	if (m_pStore->GetOnOff())
+		m_pStore->Progress(_delta);
 }
 
 void CNPC::Render(HDC hdc)
@@ -56,6 +64,9 @@ void CNPC::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
+
+	if (m_pStore->GetOnOff())
+		m_pStore->Render(hdc);
 }
 
 void CNPC::Release(void)
@@ -66,10 +77,10 @@ void CNPC::Release(void)
 RECT CNPC::GetRect(void)
 {
 	RECT rc = {
-		long(m_tInfo.fX - m_tInfo.fCX / 2.f),
-		long(m_tInfo.fY - m_tInfo.fCY / 2.f),
-		long(m_tInfo.fX + m_tInfo.fCX / 2.f),
-		long(m_tInfo.fY + m_tInfo.fCY / 2.f)};
+		long(m_tInfo.fX - 50),
+		long(m_tInfo.fY - 50),
+		long(m_tInfo.fX + 90),
+		long(m_tInfo.fY + 50)};
 
 	return rc;
 }

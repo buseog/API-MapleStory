@@ -73,6 +73,7 @@ void CStatus::Render(HDC hdc)
 void CStatus::Release(void)
 {
 	m_pPlayer = NULL;
+	::Safe_Delete(m_pCloseButton);
 }
 
 RECT CStatus::GetRect(void)

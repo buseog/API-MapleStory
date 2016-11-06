@@ -93,6 +93,8 @@ void CSkillPanel::Release(void)
 			::Safe_Delete(m_pIcon[i]);
 		}
 	}
+
+	::Safe_Delete(m_pCloseButton);
 }
 
 RECT CSkillPanel::GetRect(void)

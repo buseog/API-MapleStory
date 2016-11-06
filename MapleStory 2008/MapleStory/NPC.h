@@ -1,6 +1,8 @@
 #pragma once
 #include "bigheader.h"
 
+class CUI;
+
 class CNPC
 {
 private:
@@ -8,9 +10,11 @@ private:
 	SPRITE		m_tSprite;
 	DWORD		m_dwTime;
 	CBitBmp*	m_pBit;
+	CUI*		m_pStore;
 
 public:
 	RECT GetRect(void);
+
 public:
 	void Initialize(void);
 	void Progress(DWORD _delta);

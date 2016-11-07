@@ -184,7 +184,6 @@ void CPlayer::KeyInput(DWORD _delta)
 		{
 			m_dwState = ST_ATTACK;
 			m_pSkill->push_back(CreateSkill(0));
-
 			m_cTimer.dwRemainTime[1] = GetTickCount();
 		}
 	}
@@ -193,6 +192,7 @@ void CPlayer::KeyInput(DWORD _delta)
 	{
 		if (m_dwKey & KEY_W)
 		{
+			m_dwState = ST_ATTACK;
 			m_pSkill->push_back(CreateSkill(1));
 			m_cTimer.dwRemainTime[2] = GetTickCount();
 		}
@@ -376,7 +376,10 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 		}
 	}
 
-	return pSkill;
+	if (pSkill)
+		return pSkill;
+
+	return NULL;
 }
 
 void CPlayer::SetSkill(vector<CParent*>* _pSkill)

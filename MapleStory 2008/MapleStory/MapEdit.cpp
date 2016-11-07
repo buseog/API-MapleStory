@@ -114,11 +114,12 @@ void CMapEdit::Render(HDC hdc)
 
 void CMapEdit::Release(void)
 {
-	for(size_t i = 0; i < m_vecTile.size(); ++i)
+	for (size_t i = 0; i < m_vecTile.size(); ++i)
 	{
 		::Safe_Delete(m_vecTile[i]);
 	}
 	m_vecTile.clear();
+
 }
 
 TILE* CMapEdit::CreateTile(float _fX, float _fY)
@@ -335,6 +336,7 @@ void CMapEdit::SaveMap(void)
 
 	for (size_t i = 0; i < m_vecTile.size(); ++i)
 	{
+		if (m_vecTile[i]->iOption)
 		WriteFile(hFile, m_vecTile[i], sizeof(TILE), &dwByte, NULL);
 	}
 

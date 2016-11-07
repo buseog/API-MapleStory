@@ -19,8 +19,8 @@ protected:
 	CLoading*					m_pLoading;
 	map<string, CBitBmp*>		m_BitMap;
 	vector<TILE*>				m_vecTile;
-	string						m_strKey;
 	vector<CParent*>			m_vecPortal;
+	string						m_strKey;
 	int							m_iFPS;
 	TCHAR						m_szFPS[128];
 	DWORD						m_dwTime;

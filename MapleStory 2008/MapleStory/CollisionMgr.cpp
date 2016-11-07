@@ -29,75 +29,68 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 	
 	for (size_t i = 0; i < _pTile->size(); ++i)
 	{
-		if ((*_pTile)[i]->iOption)
+		if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pTile)[i]->GetRect()))
 		{
-			if (pPlayer->GetInfo().fX >= (*_pTile)[i]->fX - 100.f && pPlayer->GetInfo().fX <= (*_pTile)[i]->fX + 100.f &&
-					pPlayer->GetInfo().fY >= (*_pTile)[i]->fY - 100.f && pPlayer->GetInfo().fY <= (*_pTile)[i]->fY + 100.f)
+			LONG lWidth = rc.right - rc.left;
+			LONG lHeight = rc.bottom - rc.top;
+
+			if (lWidth > lHeight)			//상하충돌
 			{
-				if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pTile)[i]->GetRect()))
+			
+				switch ((*_pTile)[i]->iOption)
 				{
-					LONG lWidth = rc.right - rc.left;
-					LONG lHeight = rc.bottom - rc.top;
+				case 1:
+					if (pPlayer->GetState() == ST_UP)
+						pPlayer->SetState(ST_STAND);
 
-					if (lWidth > lHeight)			//상하충돌
+					pPlayer->SetLand(true);
+					pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
+					break;
+
+				case 2:
+					if (pPlayer->GetInfo().fY <= (*_pTile)[i]->GetRect().bottom)
 					{
-						if (pPlayer->GetRect().bottom <= (*_pTile)[i]->fY && pPlayer->GetJumpPower() >= 0)
+						pPlayer->SetLand(true);
+						pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
+					}
+					break;
+
+				case 3:
+					if (pPlayer->GetState() != ST_UP)
+					{
+						if (GetAsyncKeyState(VK_UP))
 						{
-							switch ((*_pTile)[i]->iOption)
-							{
-							case 1:
-								if (pPlayer->GetState() == ST_UP)
-									pPlayer->SetState(ST_STAND);
-
-								pPlayer->SetLand(true);
-								pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
-								break;
-
-							case 2:
-								if (pPlayer->GetState() == ST_UP)
-									pPlayer->SetState(ST_STAND);
-												
-								pPlayer->SetLand(true);
-								pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
-								break;
-
-							case 3:
-								if (pPlayer->GetState() != ST_UP)
-								{
-									if (GetAsyncKeyState(VK_UP))
-									{
-										pPlayer->SetLand(true);
-										pPlayer->SetState(ST_UP);
-										pPlayer->SetPos((*_pTile)[i]->fX, pPlayer->GetInfo().fY - 10.f);
-									}
-								}
-								break;
-
-							case 4:
-								if  (pPlayer->GetState() != ST_UP)
-								{
-									pPlayer->SetLand(true);
-									pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
-
-									if (GetAsyncKeyState(VK_DOWN) )
-									{
-										if (pPlayer->GetState() != ST_UP)
-											pPlayer->SetPos((*_pTile)[i]->fX, pPlayer->GetInfo().fY + 30.f);
-
-										pPlayer->SetLand(true);
-										pPlayer->SetState(ST_UP);
-										
-									}
-								}
-								else
-								{
-									pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
-									pPlayer->SetState(ST_STAND);
-								}
-								break;
-							}
+							pPlayer->SetLand(true);
+							pPlayer->SetState(ST_UP);
+							pPlayer->SetPos((*_pTile)[i]->fX, pPlayer->GetInfo().fY - 10.f);
 						}
 					}
+					break;
+
+				case 4:
+					if (pPlayer->GetInfo().fY <= (*_pTile)[i]->GetRect().bottom)
+					{
+						if  (pPlayer->GetState() != ST_UP)
+						{
+							pPlayer->SetLand(true);
+							pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
+
+							if (GetAsyncKeyState(VK_DOWN) )
+							{
+								if (pPlayer->GetState() != ST_UP)
+									pPlayer->SetPos((*_pTile)[i]->fX, pPlayer->GetInfo().fY + 30.f);
+
+								pPlayer->SetLand(true);
+								pPlayer->SetState(ST_UP);
+							}
+						}
+						else
+						{
+							pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
+							pPlayer->SetState(ST_STAND);
+						}
+					}
+					break;
 				}
 			}
 		}
@@ -113,38 +106,26 @@ void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _
 	{
 		for (size_t j = 0; j < _pTile->size(); ++j)
 		{
-			if ((*_pTile)[j]->iOption)
+			if ((*_pTile)[j]->fY >= (*_pMonster)[i]->GetInfo().fY)
 			{
-				if ((*_pMonster)[i]->GetInfo().fX >= (*_pTile)[j]->fX - 100.f && (*_pMonster)[i]->GetInfo().fX <= (*_pTile)[j]->fX + 100.f &&
-					(*_pMonster)[i]->GetInfo().fY >= (*_pTile)[j]->fY - 100.f && (*_pMonster)[i]->GetInfo().fY <= (*_pTile)[j]->fY + 100.f)
+				if (IntersectRect(&rc, &(*_pMonster)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
 				{
-					if (IntersectRect(&rc, &(*_pMonster)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
+					LONG lWidth = rc.right - rc.left;
+					LONG lHeight = rc.bottom - rc.top;
+
+					if (lWidth > lHeight)			//상하충돌
 					{
-						LONG lWidth = rc.right - rc.left;
-						LONG lHeight = rc.bottom - rc.top;
-
-						if (lWidth > lHeight)			//상하충돌
+						switch ((*_pTile)[j]->iOption)
 						{
-							if ((*_pMonster)[i]->GetRect().top <= (*_pTile)[j]->GetRect().top)
-							{
-								switch ((*_pTile)[j]->iOption)
-								{
-								case 1:
-									(*_pMonster)[i]->SetLand(true);
-									(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
-									break;
+						case 1:
+							(*_pMonster)[i]->SetLand(true);
+							(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
+							break;
 
-								case 2:
-									(*_pMonster)[i]->SetLand(true);
-									(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
-									break;
-								case 3:
-									break;
-
-								case 4:
-									break;
-								}
-							}
+						case 2:
+							(*_pMonster)[i]->SetLand(true);
+							(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
+							break;
 						}
 					}
 				}

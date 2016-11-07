@@ -13,7 +13,7 @@ CDamageEffect::~CDamageEffect(void)
 
 void CDamageEffect::Initialize(void)
 {
-	m_cTimer.dwRemainTime[0] = 1000;
+	m_cTimer.dwRemainTime[0] = GetTickCount();
 
 	int iPosition = 10000;
 
@@ -48,7 +48,7 @@ void CDamageEffect::Initialize(void)
 }
 void CDamageEffect::Progress(DWORD _delta)
 {
-	if ((m_cTimer.dwRemainTime[0] -= _delta) <= 0)
+	if ((m_cTimer.dwRemainTime[0] + 1000) <= GetTickCount())
 		m_bDestroy = true;
 
 	else

@@ -35,9 +35,9 @@ void CStage1::Initialize(void)
 	m_fRegenTime = 7000.f;
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1773.f, 1464.f);
 
-	for (int i = 0; i < 8; ++i)
+	for (int i = 0; i < 50; ++i)
 	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), float(rand() % 700 + 200), "BlueMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), 0, "BlueMushRoom_LEFT"));
 	}
 
 	CParent::SetBitMap(&m_BitMap);

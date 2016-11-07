@@ -87,6 +87,33 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
+
+		TCHAR szOption[128] = L"";
+		TCHAR szPrice[128] = L"";
+
+		wsprintf(szOption, L"%d ", (int)m_ptScroll.x);
+					TextOut(hdc,
+						0, 0,
+						szOption, lstrlen(szOption));
+
+		wsprintf(szPrice, L"%d", (int)m_ptScroll.y);
+					TextOut(hdc, 
+						0, 20,
+						szPrice, lstrlen(szPrice));
+
+
+			TCHAR szOption2[128] = L"";
+		TCHAR szPrice2[128] = L"";
+
+		wsprintf(szOption2, L"%d", (int)m_tInfo.fX);
+					TextOut(hdc,
+						0, 60,
+						szOption2, lstrlen(szOption2));
+
+		wsprintf(szPrice2, L"%d", (int)m_tInfo.fY);
+					TextOut(hdc, 
+						0, 80,
+						szPrice2, lstrlen(szPrice2));
 }
 
 void CPlayer::Release(void)

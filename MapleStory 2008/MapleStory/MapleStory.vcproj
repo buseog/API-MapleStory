@@ -545,6 +545,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="05. UiMgr"
+				>
+				<File
+					RelativePath=".\UiMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\UiMgr.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="03. UI"
@@ -582,7 +594,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="02 Equipment"
+				Name="02. Equipment"
 				>
 				<File
 					RelativePath=".\Equipment.cpp"

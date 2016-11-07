@@ -10,7 +10,7 @@ class CStore	:
 	public CUI
 {
 private:
-	vector<CItem*>	m_vecItemList[IT_END];
+	vector<CItem*>		m_vecItemList[IT_END];
 	bool				m_bDrag;
 	POINT				m_prevPT;
 

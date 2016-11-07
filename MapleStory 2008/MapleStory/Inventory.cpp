@@ -6,10 +6,8 @@
 #include "Potion.h"
 
 CInventory::CInventory(void)
-{
-}
-
-CInventory::CInventory(string _strKey)
+:m_pPick(NULL)
+,m_pDrop(NULL)
 {
 }
 
@@ -22,11 +20,8 @@ void CInventory::Initialize(void)
 {
 	m_bOnOff = false;
 	m_dwTime = GetTickCount();
-	m_pPick = NULL;
-	m_pDrop = NULL;
 	m_vecItem.reserve(INVENSIZE);
 	m_vecItem.resize(INVENSIZE);
-	m_ReturnItem = NULL;
 	m_iSwap = 100;
 	m_strKey = "Inventory";
 	m_tInfo = INFO(0, 0, 172.f, 335.f);
@@ -36,6 +31,7 @@ void CInventory::Initialize(void)
 
 void CInventory::Progress(DWORD _delta)
 {
+	UIPicking();
 	ItemPos();
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
@@ -76,7 +72,6 @@ void CInventory::Render(HDC hdc)
 	wsprintf(szGold, L"%d", (int)m_pPlayer->GetStat().iGold);
 					TextOut(hdc, int(m_tInfo.fX - 5), int(m_tInfo.fY + 97), szGold, lstrlen(szGold));
 
-	
 
 	m_pCloseButton->Render(hdc);
 

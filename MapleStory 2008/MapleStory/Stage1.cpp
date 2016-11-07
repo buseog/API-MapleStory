@@ -35,10 +35,17 @@ void CStage1::Initialize(void)
 	m_fRegenTime = 7000.f;
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1773.f, 1464.f);
 
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 15; ++i)
 	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), 0, "BlueMushRoom_LEFT"));
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), rand()%500 + 200, "PurpleMushRoom_LEFT"));
+
 	}
+	for (int i = 0; i < 15; ++i)
+	{
+		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), rand()%500 + 200, "BlueMushRoom_LEFT"));
+	}
+
+
 
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
@@ -48,9 +55,6 @@ void CStage1::Initialize(void)
 
 void CStage1::Progress(DWORD _delta)
 {
-	KeyInput();
-	UIDrag();
-
 	/*if ((m_fRegenTime -= _delta) <= 0)
 	{
 		Regen();
@@ -81,21 +85,6 @@ void CStage1::Progress(DWORD _delta)
 		}
 	}
 
-	CRenderMgr::GetInstance()->UIClear();
-
-	for (size_t i = 0; i < UI_END; ++i)
-	{
-		if (m_vecUI[i].back()->GetOnOff())
-		{
-			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
-			{
-				(*iter)->Progress(_delta);
-
-				if (i != UI_UI)
-					CRenderMgr::GetInstance()->AddUI(*iter);
-			}
-		}
-	}
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
@@ -119,9 +108,16 @@ void CStage1::Progress(DWORD _delta)
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
-	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
-	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
+
+	if (m_vecParent[PAR_MONSTER].size())
+		CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
+
+	if (m_vecItem.size())
+		CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
+
+	if (m_vecParent[PAR_MONSTER].size())
+		CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
+	
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
 
 	if (m_vecParent[PAR_PLAYER].back()->GetStat().fExp >= (800.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel))
@@ -158,16 +154,6 @@ void CStage1::Render(HDC hdc)
 	{
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
-
-
-	
-	for (size_t i = 0; i < m_vecUI[UI_UI].size(); ++i)
-	{
-		m_vecUI[UI_UI][i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
-
-	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
-	
 
 
 	if (m_pLoading)

@@ -3,7 +3,12 @@
 #include "Factory.h"
 
 CSkillPanel::CSkillPanel(void)
+:m_pPick(NULL)
 {
+	for (int i = 0; i < SKILLPANELSLOT; ++i)
+	{
+		m_pIcon[i] = NULL;
+	}
 }
 
 CSkillPanel::~CSkillPanel(void)
@@ -13,8 +18,6 @@ CSkillPanel::~CSkillPanel(void)
 
 void CSkillPanel::Initialize(void)
 {
-	m_pPick = NULL;
-	m_bOnOff = false;
 	m_strKey = "SkillPanel";
 	m_tInfo = INFO(0, 0, 174.f, 300.f);
 

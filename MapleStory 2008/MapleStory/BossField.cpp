@@ -40,6 +40,9 @@ void CBossField::Initialize(void)
 
 void CBossField::Progress(DWORD _delta)
 {
+	KeyInput();
+	UIDrag();
+
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
@@ -64,6 +67,21 @@ void CBossField::Progress(DWORD _delta)
 		}
 	}
 
+	CRenderMgr::GetInstance()->UIClear();
+
+	for (size_t i = 0; i < UI_END; ++i)
+	{
+		if (m_vecUI[i].back()->GetOnOff())
+		{
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->Progress(_delta);
+
+				if (i != UI_MAIN)
+					CRenderMgr::GetInstance()->AddUI(*iter);
+			}
+		}
+	}
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
@@ -126,6 +144,16 @@ void CBossField::Render(HDC hdc)
 	{
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
+
+
+	
+	for (size_t i = 0; i < m_vecUI[UI_MAIN].size(); ++i)
+	{
+		m_vecUI[UI_MAIN][i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
+	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
+	
 
 
 	if (m_pLoading)

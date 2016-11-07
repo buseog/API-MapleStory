@@ -8,7 +8,7 @@ CIcon::CIcon(void)
 
 CIcon::CIcon(ICONID _eID, string _strName)
 :m_eID(_eID)
-,m_strName(_strName)
+,m_strKey(_strName)
 ,m_pBit(NULL)
 {
 	m_dwTime = GetTickCount();
@@ -22,21 +22,21 @@ CIcon::CIcon(const CIcon &_Icon)
 	m_tInfo.fCX = _Icon.m_tInfo.fCX;
 	m_tInfo.fCY = _Icon.m_tInfo.fCY;
 	m_eID = _Icon.m_eID;
-	m_strName = _Icon.m_strName;
+	m_strKey = _Icon.m_strKey;
 
-	if (m_strName == "Typhoon_ON")
+	if (m_strKey == "Typhoon_ON")
 	{
 		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Typhoon_ON.bmp");
 	}
-	else if (m_strName == "Bolt_ON")
+	else if (m_strKey == "Bolt_ON")
 	{
 		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Bolt_ON.bmp");
 	}
-	else if (m_strName == "Beyond_ON")
+	else if (m_strKey == "Beyond_ON")
 	{
 		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Beyond_ON.bmp");
 	}
-	else if (m_strName == "Annihilation_ON")
+	else if (m_strKey == "Annihilation_ON")
 	{
 		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Annihilation_ON.bmp");
 	}
@@ -52,19 +52,19 @@ void	CIcon::Initialize(void)
 	switch (m_eID)
 	{
 	case IC_SKILL:
-		if (m_strName == "Typhoon_ON")
+		if (m_strKey == "Typhoon_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Typhoon_ON.bmp");
 		}
-		else if (m_strName == "Bolt_ON")
+		else if (m_strKey == "Bolt_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Bolt_ON.bmp");
 		}
-		else if (m_strName == "Beyond_ON")
+		else if (m_strKey == "Beyond_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Beyond_ON.bmp");
 		}
-		else if (m_strName == "Annihilation_ON")
+		else if (m_strKey == "Annihilation_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Annihilation_ON.bmp");
 		}
@@ -81,6 +81,12 @@ void	CIcon::Progress(DWORD _dwDelta)
 }
 void	CIcon::Render(HDC hdc)
 {
+	if (m_strKey == "Empty")
+	{
+
+	}
+	else
+	{
 	TransparentBlt(hdc,
 			int(m_tInfo.fX - m_tInfo.fCX / 2.f),
 			int(m_tInfo.fY - m_tInfo.fCY / 2.f),
@@ -92,6 +98,7 @@ void	CIcon::Render(HDC hdc)
 			(int)m_tInfo.fCX, 
 			(int)m_tInfo.fCY,
 			RGB(255, 255, 250));
+	}
 }
 void	CIcon::Release(void)
 {
@@ -103,6 +110,7 @@ void	CIcon::SetPos(float _fX, float _fY)
 	m_tInfo.fX = _fX;
 	m_tInfo.fY = _fY;
 }
+
 void	CIcon::Picking(void)
 {
 	
@@ -118,4 +126,9 @@ RECT CIcon::GetRect(void)
 	};
 
 	return rc;
+}
+
+string CIcon::GetStrKey(void)
+{
+	return m_strKey;
 }

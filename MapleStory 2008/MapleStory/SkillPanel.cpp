@@ -3,12 +3,7 @@
 #include "Factory.h"
 
 CSkillPanel::CSkillPanel(void)
-:m_pPick(NULL)
 {
-	for (int i = 0; i < SKILLPANELSLOT; ++i)
-	{
-		m_pIcon[i] = NULL;
-	}
 }
 
 CSkillPanel::~CSkillPanel(void)
@@ -18,6 +13,8 @@ CSkillPanel::~CSkillPanel(void)
 
 void CSkillPanel::Initialize(void)
 {
+	m_pPick = NULL;
+	m_bOnOff = false;
 	m_strKey = "SkillPanel";
 	m_tInfo = INFO(0, 0, 174.f, 300.f);
 
@@ -98,6 +95,9 @@ void CSkillPanel::Release(void)
 	}
 
 	::Safe_Delete(m_pCloseButton);
+
+	if (m_pPick)
+		::Safe_Delete(m_pPick);
 }
 
 RECT CSkillPanel::GetRect(void)
@@ -127,18 +127,25 @@ void CSkillPanel::UIPicking(void)
 
 	for (int i = 0; i < SKILLPANELSLOT; ++i)
 	{
-		if (m_pIcon[i])
+		if(PtInRect(&m_pIcon[i]->GetRect(), GetMouse()))
 		{
-			if(PtInRect(&m_pIcon[i]->GetRect(), GetMouse()))
+			if (GetAsyncKeyState(VK_LBUTTON))
 			{
-				if (GetAsyncKeyState(VK_LBUTTON))
+				if (m_pPick == NULL)
 				{
-					if (m_pPick == NULL)
-					{
-						m_pPick = new CIcon(*m_pIcon[i]);
-					}
+					m_pPick = new CIcon(*m_pIcon[i]);
 				}
 			}
 		}
 	}
+}
+
+CIcon*	CSkillPanel::GetPickIcon(void)
+{
+	return m_pPick;
+}
+
+void CSkillPanel::SetPickIcon(void)
+{
+	::Safe_Delete(m_pPick);
 }

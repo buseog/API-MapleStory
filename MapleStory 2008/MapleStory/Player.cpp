@@ -3,11 +3,13 @@
 #include "KeyMgr.h"
 #include "Factory.h"
 #include "Skill.h"
+#include "QuickSlot.h"
 
 
 CPlayer::CPlayer(void)
 :m_pSkill(NULL)
 ,m_iBeyond(0)
+,m_pSlot(NULL)
 {
 }
 
@@ -87,33 +89,6 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
-
-		TCHAR szOption[128] = L"";
-		TCHAR szPrice[128] = L"";
-
-		wsprintf(szOption, L"%d ", (int)m_ptScroll.x);
-					TextOut(hdc,
-						0, 0,
-						szOption, lstrlen(szOption));
-
-		wsprintf(szPrice, L"%d", (int)m_ptScroll.y);
-					TextOut(hdc, 
-						0, 20,
-						szPrice, lstrlen(szPrice));
-
-
-			TCHAR szOption2[128] = L"";
-		TCHAR szPrice2[128] = L"";
-
-		wsprintf(szOption2, L"%d", (int)m_tInfo.fX);
-					TextOut(hdc,
-						0, 60,
-						szOption2, lstrlen(szOption2));
-
-		wsprintf(szPrice2, L"%d", (int)m_tInfo.fY);
-					TextOut(hdc, 
-						0, 80,
-						szPrice2, lstrlen(szPrice2));
 }
 
 void CPlayer::Release(void)
@@ -208,12 +183,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		if (m_dwKey & KEY_Q)
 		{
 			m_dwState = ST_ATTACK;
-
-			if (m_strKey == "Player_LEFT") 
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 15,"Annihilation_LEFT"));
-
-			else if (m_strKey == "Player_RIGHT")
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 15,"Annihilation_RIGHT"));
+			m_pSkill->push_back(CreateSkill(0));
 
 			m_cTimer.dwRemainTime[1] = GetTickCount();
 		}
@@ -223,12 +193,7 @@ void CPlayer::KeyInput(DWORD _delta)
 	{
 		if (m_dwKey & KEY_W)
 		{
-			if (m_strKey == "Player_LEFT") 
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_LEFT"));
-
-			else if (m_strKey == "Player_RIGHT")
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 15,"Ascend_RIGHT"));
-
+			m_pSkill->push_back(CreateSkill(1));
 			m_cTimer.dwRemainTime[2] = GetTickCount();
 		}
 	}
@@ -238,13 +203,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		if (m_dwKey & KEY_E)
 		{
 			m_dwState = ST_ATTACK2;
-
-			if (m_strKey == "Player_LEFT") 
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX - 150, m_tInfo.fY - 45,"Typhoon_LEFT"));
-
-			else if (m_strKey == "Player_RIGHT")
-				m_pSkill->push_back(CreateSkill(m_tInfo.fX + 150, m_tInfo.fY - 45,"Typhoon_RIGHT"));
-
+			m_pSkill->push_back(CreateSkill(2));
 			m_cTimer.dwRemainTime[3] = GetTickCount();
 		}
 	}
@@ -253,46 +212,9 @@ void CPlayer::KeyInput(DWORD _delta)
 	{
 		if (m_dwKey & KEY_R)
 		{
-			switch (m_iBeyond)
-			{
-			case 0:
-				m_dwState = ST_ATTACK;
-
-				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_LEFT"));
-
-				if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond_RIGHT"));
-			
-				m_cTimer.dwRemainTime[4] = GetTickCount();
-				++m_iBeyond;
-				break;
-			case 1:
-				m_dwState = ST_ATTACK;
-
-				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond2_LEFT"));
-
-				if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond2_RIGHT"));
-				
-				m_cTimer.dwRemainTime[4] = GetTickCount();
-				++m_iBeyond;
-				break;
-			case 2:
-				m_dwState = ST_ATTACK2;
-
-				if (m_strKey == "Player_LEFT") 
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond3_LEFT"));
-
-				if (m_strKey == "Player_RIGHT")
-					m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Beyond3_RIGHT"));
-				
-				m_cTimer.dwRemainTime[4] = GetTickCount();
-				m_iBeyond = 0;
-				break;
-
-			}
+			m_dwState = ST_ATTACK2;
+			m_pSkill->push_back(CreateSkill(3));
+			m_cTimer.dwRemainTime[3] = GetTickCount();
 		}
 	}
 
@@ -300,22 +222,12 @@ void CPlayer::KeyInput(DWORD _delta)
 	{
 		m_dwState = ST_ATTACK2;
 
-		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 50,"Range"));
-
-		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY - 50,"Range"));
 	}
 
 	if (m_dwKey & KEY_S)
 	{
 		m_dwState = ST_ATTACK2;
 
-		if (m_strKey == "Player_LEFT") 
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Bolt_LEFT"));
-
-		else if (m_strKey == "Player_RIGHT")
-			m_pSkill->push_back(CreateSkill(m_tInfo.fX, m_tInfo.fY,"Bolt_RIGHT"));
 	}
 }
 
@@ -419,10 +331,50 @@ void CPlayer::ScrollY(void)
 	}
 }
 
-CParent* CPlayer::CreateSkill(float _fX, float _fY, string _strKey)
+CParent* CPlayer::CreateSkill(int _iSlot)
 {
+	string _strkey;
+	CParent* pSkill = NULL;
+	vector<CIcon*>* pIcon = ((CQuickSlot*)m_pSlot)->GetSlot();
 
-	CParent* pSkill = CFactory<CSkill>::CreateParent(_fX, _fY, _strKey);
+	if (m_strKey == "Player_LEFT")
+	{
+		if ((*pIcon)[_iSlot]->GetStrKey() == "Beyond_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 50, m_tInfo.fY - 30, "Beyond_LEFT");
+		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Bolt_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 50, m_tInfo.fY - 30, "Bolt_LEFT");
+		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Typhoon_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 120, m_tInfo.fY - 30, "Typhoon_LEFT");
+		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Annihilation_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 80, m_tInfo.fY - 30, "Annihilation_LEFT");
+		}
+	}
+	else
+	{
+		if ((*pIcon)[_iSlot]->GetStrKey() == "Beyond_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 50, m_tInfo.fY - 30, "Beyond_RIGHT");
+		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Bolt_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 50, m_tInfo.fY - 30, "Bolt_RIGHT");
+		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Typhoon_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 120, m_tInfo.fY - 30, "Typhoon_RIGHT");
+		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Annihilation_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 80, m_tInfo.fY - 30, "Annihilation_RIGHT");
+		}
+	}
 
 	return pSkill;
 }
@@ -437,11 +389,15 @@ void CPlayer::SetMapSize(float _fX, float _fY)
 	m_ptMapSize.x = (long)_fX;
 	m_ptMapSize.y = (long)_fY;
 }
-//
 
 
 void CPlayer::SetOffset(float _fX, float _fY)
 {
 	m_ptOffset.x = (long)_fX;
 	m_ptOffset.y = (long)_fY;
+}
+
+void CPlayer::SetQuickSlot(CUI* _pSlot)
+{
+	m_pSlot = _pSlot;
 }

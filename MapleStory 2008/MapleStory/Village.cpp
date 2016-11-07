@@ -9,7 +9,6 @@
 #include "Item.h"
 #include "Npc.h"
 #include "SkillEffect.h"
-#include "UiMgr.h"
 
 CVillage::CVillage(void)
 :m_pStoreNPC(NULL)
@@ -20,8 +19,26 @@ CVillage::CVillage(void)
 
 	m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f));
 
+	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
+	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(250, 560, "HPBar"));
+	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(420, 560, "MPBar"));
+	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(250, 576, "EXPBar"));
+
+	m_vecUI[UI_INVENTORY].push_back(CFactory<CInventory>::CreateUI(600.f, 300.f));
+	m_vecUI[UI_EQUIPMENT].push_back(CFactory<CEquipment>::CreateUI(500.f, 300.f));
+	m_vecUI[UI_SKILLPANEL].push_back(CFactory<CSkillPanel>::CreateUI(600.f, 400.f));
+	m_vecUI[UI_QUICKSLOT].push_back(CFactory<CQuickSlot>::CreateUI(730.f, 490.f));
+	m_vecUI[UI_STATUS].push_back(CFactory<CStatus>::CreateUI(400.f, 450.f));
+
+	m_vecUI[UI_STATUS].back()->SetPlayer(m_vecParent[PAR_PLAYER].back());
+	m_vecUI[UI_INVENTORY].back()->SetPlayer(m_vecParent[PAR_PLAYER].back());
+	m_vecUI[UI_EQUIPMENT].back()->SetPlayer(m_vecParent[PAR_PLAYER].back());
+
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
+
+	((CQuickSlot*)m_vecUI[UI_QUICKSLOT].back())->SetPanel(m_vecUI[UI_SKILLPANEL].back());
+	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetQuickSlot(m_vecUI[UI_QUICKSLOT].back());
 
 	m_pStoreNPC = new CNPC;
 	m_pStoreNPC->Initialize();
@@ -39,11 +56,8 @@ void CVillage::Initialize(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
 
-	CUiMgr::GetInstance()->Initialize();
-
 	m_pLoading = new CLoading();
 
-	CUI::SetPlayer(m_vecParent[PAR_PLAYER].back());
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
 	CItem::SetBitMap(&m_BitMap);
@@ -52,6 +66,9 @@ void CVillage::Initialize(void)
 
 void CVillage::Progress(DWORD _delta)
 {
+	KeyInput();
+	UIDrag();
+
 	if (m_pStoreNPC)
 		m_pStoreNPC->Progress(_delta);
 
@@ -79,6 +96,22 @@ void CVillage::Progress(DWORD _delta)
 		}
 	}
 
+	//CRenderMgr::GetInstance()->UIClear();
+
+	for (int i = 0; i < UI_END; ++i)
+	{
+		if (m_vecUI[i].back()->GetOnOff())
+		{
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->Progress(_delta);
+
+				/*if (i != UI_MAIN)
+					CRenderMgr::GetInstance()->AddUI(*iter);*/
+			}
+		}
+	}
+
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Progress(_delta);
@@ -88,8 +121,6 @@ void CVillage::Progress(DWORD _delta)
 	{
 		m_vecItem[i]->Progress(_delta);
 	}
-
-	CUiMgr::GetInstance()->Progress(_delta);
 
 	if (m_pLoading)
 	{
@@ -103,7 +134,7 @@ void CVillage::Progress(DWORD _delta)
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
+	//CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
 	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
@@ -124,6 +155,7 @@ void CVillage::Render(HDC hdc)
 			1920, 680, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
+
 	if (m_pStoreNPC)
 		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
 
@@ -131,6 +163,12 @@ void CVillage::Render(HDC hdc)
 	{
 		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
+
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
 
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
@@ -140,13 +178,25 @@ void CVillage::Render(HDC hdc)
 		}
 	}
 
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	for (size_t i = 0; i < m_vecUI[UI_MAIN].size(); ++i)
 	{
-		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+		m_vecUI[UI_MAIN][i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
+	//CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
+	
+	for (int i = 0; i < UI_END; ++i)
+	{
+		if (m_vecUI[i].back()->GetOnOff())
+		{
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
+			}
+		}
 	}
 
 
-	CUiMgr::GetInstance()->Render(m_BitMap["Back"]->GetMemdc());
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
@@ -191,6 +241,15 @@ void CVillage::Release(void)
 		m_vecParent[i].clear();
 	}
 
+	for (int i = 0; i < UI_END; ++i)
+	{
+		for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+		{
+			::Safe_Delete(*iter);
+		}
+		m_vecUI[i].clear();
+	}
+
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		::Safe_Delete(m_vecPortal[i]);
@@ -198,6 +257,15 @@ void CVillage::Release(void)
 	m_vecPortal.clear();
 
 	::Safe_Delete(m_pStoreNPC);
+
+	for (size_t i = 0; i < UI_END; ++i)
+	{
+		for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+		{
+			::Safe_Delete(*iter);
+		}
+		m_vecUI[i].clear();
+	}
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{

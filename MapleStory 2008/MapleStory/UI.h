@@ -10,9 +10,9 @@ class CUI
 protected:
 	INFO	m_tInfo;
 	SPRITE	m_tSprite;
+	DWORD	m_dwTime;
 	int		m_iDrawID;
 	float	m_fPercent[3];
-	DWORD	m_dwTime;
 	bool	m_bOnOff;
 
 	CItem*	m_ReturnItem;

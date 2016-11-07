@@ -8,13 +8,14 @@ private:
 	ICONID		m_eID;
 	DWORD		m_dwTime;
 	CBitBmp*	m_pBit;
-	string		m_strName;
+	string		m_strKey;
 	
 
 public:
 	void	SetPos(float _fX, float _fY);
 	void	Picking(void);
 	RECT	GetRect(void);
+	string	GetStrKey(void);
 
 public:
 	void	Initialize(void);

@@ -104,36 +104,19 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 	}
 }
 
+
 void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _pTile)
 {
 	RECT rc;
 
 	for (size_t i = 0; i < _pMonster->size(); ++i)
 	{
-		int PosX = (*_pMonster)[i]->GetInfo().fX - 500;
-		int PosY = (*_pMonster)[i]->GetInfo().fY - 350;
-
-		if (PosX <= 0)
-			PosX = 0;
-		if (PosY <=0)
-			PosY = 0;
-
-		if (PosX <= 0)
-			PosX = 0;
-		if (PosY <=0)
-			PosY = 0;
-
-		int CullX = PosX / 30;
-		int CullY = PosY / 30;
-
-		for (size_t j = (CullY * 59) + CullX; j < 10 * (CullY * 59) + (20 * CullX); ++j)
+		for (size_t j = 0; j < _pTile->size(); ++j)
 		{
-			if (j < 0 || j >= 59 * 48)
-				break;
-
-			else if ((*_pTile)[j]->iOption)
+			if ((*_pTile)[j]->iOption)
 			{
-				if ((*_pMonster)[i]->GetInfo().fY + 100 >= (*_pTile)[j]->fY && (*_pMonster)[i]->GetInfo().fY - 100 <= (*_pTile)[j]->fY)
+				if ((*_pMonster)[i]->GetInfo().fX >= (*_pTile)[j]->fX - 100.f && (*_pMonster)[i]->GetInfo().fX <= (*_pTile)[j]->fX + 100.f &&
+					(*_pMonster)[i]->GetInfo().fY >= (*_pTile)[j]->fY - 100.f && (*_pMonster)[i]->GetInfo().fY <= (*_pTile)[j]->fY + 100.f)
 				{
 					if (IntersectRect(&rc, &(*_pMonster)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
 					{
@@ -155,6 +138,11 @@ void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _
 									(*_pMonster)[i]->SetLand(true);
 									(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
 									break;
+								case 3:
+									break;
+
+								case 4:
+									break;
 								}
 							}
 						}
@@ -164,49 +152,6 @@ void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _
 		}
 	}
 }
-
-
-//void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _pTile)
-//{
-//	RECT rc;
-//
-//	for (size_t i = 0; i < _pMonster->size(); ++i)
-//	{
-//		for (size_t j = 0; j < _pTile->size(); ++j)
-//		{
-//			if ((*_pTile)[j]->iOption)
-//			{
-//				if ((*_pMonster)[i]->GetInfo().fY + 100 >= (*_pTile)[j]->fY && (*_pMonster)[i]->GetInfo().fY - 100 <= (*_pTile)[j]->fY)
-//				{
-//					if (IntersectRect(&rc, &(*_pMonster)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
-//					{
-//						LONG lWidth = rc.right - rc.left;
-//						LONG lHeight = rc.bottom - rc.top;
-//
-//						if (lWidth > lHeight)			//상하충돌
-//						{
-//							if ((*_pMonster)[i]->GetRect().top <= (*_pTile)[j]->GetRect().top)
-//							{
-//								switch ((*_pTile)[j]->iOption)
-//								{
-//								case 1:
-//									(*_pMonster)[i]->SetLand(true);
-//									(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
-//									break;
-//
-//								case 2:
-//									(*_pMonster)[i]->SetLand(true);
-//									(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
-//									break;
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//}
 
 
 void CCollisionMgr::CollisionITile(vector<CItem*>* _pItem, vector<TILE*>* _pTile)

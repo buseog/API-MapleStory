@@ -57,6 +57,9 @@ void CKeyMgr::KeyCheck(void)
 
 	if (GetAsyncKeyState('J') & 0x0001)
 		m_dwKey |= KEY_J;
+		
+	if (GetAsyncKeyState('P') & 0x0001)
+		m_dwKey |= KEY_P;
 
 	if (GetAsyncKeyState(VK_F5) & 0x0001)
 		m_dwKey |= KEY_F5;

@@ -47,7 +47,6 @@ void CMonster::Initialize(void)
 }
 void CMonster::Progress(DWORD _delta)
 {
-
 	Gravity();
 
 	if (m_dwState != ST_HIT)

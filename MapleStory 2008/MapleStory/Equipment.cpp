@@ -27,6 +27,7 @@ void CEquipment::Initialize(void)
 
 void CEquipment::Progress(DWORD _delta)
 {
+	UIPicking();
 	ItemPos();
 }
 

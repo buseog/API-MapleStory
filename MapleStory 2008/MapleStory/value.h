@@ -40,7 +40,8 @@ const	DWORD		KEY_S		= 0x00200000;
 const	DWORD		KEY_D		= 0x00400000;
 const	DWORD		KEY_F		= 0x00800000;
 
-const	DWORD		KEY_Z		= 0x01000000;
+const	DWORD		KEY_P		= 0x01000000;
+const	DWORD		KEY_Z		= 0x02000000;
 
 
 

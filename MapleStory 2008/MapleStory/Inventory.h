@@ -29,5 +29,6 @@ public:
 
 public:
 	CInventory(void);
+	CInventory(string _strKey);
 	~CInventory(void);
 };

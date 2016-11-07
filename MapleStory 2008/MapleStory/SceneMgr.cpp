@@ -33,7 +33,7 @@ void CSceneMgr::SetScene(SCENEID eScene)
 {
 	if(m_pScene != NULL)
 	{
-		if (eScene == SC_LOBBY || eScene == SC_CREATE)
+		if (eScene == SC_LOBBY || eScene == SC_CREATE || eScene == SC_VILLAGE)
 			::Safe_Delete(m_pScene);
 	}
 

@@ -10,6 +10,10 @@ private:
 	CIcon*	m_pPick;
 
 public:
+	CIcon*	GetPickIcon(void);
+	void	SetPickIcon(void);
+
+public:
 	virtual void UIPicking(void);
 	virtual RECT GetRect(void);
 	virtual void Initialize(void);

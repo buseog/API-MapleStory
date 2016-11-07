@@ -1,6 +1,7 @@
 #pragma once
 #include "Parent.h"
 
+class CIcon;
 class CUI;
 
 class CPlayer	:
@@ -11,6 +12,7 @@ private:
 	POINT				m_ptOffset;
 	POINT				m_ptMapSize;
 	int					m_iBeyond;
+	CUI*				m_pSlot;
 
 private:
 	void	SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);
@@ -20,8 +22,9 @@ private:
 	void	ScrollY(void);
 
 public:
-	CParent*	CreateSkill(float _fX, float _fY, string _strKey);
+	CParent*	CreateSkill(int _iSlot);
 	void		SetSkill(vector<CParent*>* _pSkill);
+	void		SetQuickSlot(CUI* _pSlot);
 	void		SetMapSize(float _fX, float _fY);
 	void		SetOffset(float _fX, float _fY);
 

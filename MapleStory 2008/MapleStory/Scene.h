@@ -26,11 +26,16 @@ protected:
 	DWORD						m_dwTime;
 
 protected:
-
+	static	CUI*				m_pUI;
+	static	bool				m_bDrag;
+	static	POINT				m_prevPT;
 	vector<CItem*>				m_vecItem;
+	static	vector<CUI*>		m_vecUI[UI_END];
 	static	vector<CParent*>	m_vecParent[PAR_END];
 
 protected:
+	void	UIDrag(void);
+	void	KeyInput(void);
 	void	ParentClear(void);
 	void	LoadMap(void);
 	void	LoadBmp(void);

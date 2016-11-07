@@ -6,7 +6,6 @@
 
 CNPC::CNPC(void)
 :m_pStore(NULL)
-,m_pBit(NULL)
 {
 }
 

@@ -13,6 +13,7 @@ CStatus::~CStatus(void)
 
 void CStatus::Initialize(void)
 {
+	m_bOnOff = false;
 	m_strKey = "Status";
 	m_tInfo = INFO(0, 0, 212.f, 373.f);
 

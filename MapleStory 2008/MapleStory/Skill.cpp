@@ -80,6 +80,8 @@ void CSkill::Initialize(void)
 		m_tSprite = SPRITE(0, 13, 0, 60);
 		m_iHitCount = 1;
 	}
+
+
 }
 void CSkill::Progress(DWORD _delta)
 {

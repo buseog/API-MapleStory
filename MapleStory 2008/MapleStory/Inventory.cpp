@@ -20,6 +20,7 @@ CInventory::~CInventory(void)
 
 void CInventory::Initialize(void)
 {
+	m_iPriority = UI_INVENTORY;
 	m_bOnOff = false;
 	m_dwTime = GetTickCount();
 	m_pPick = NULL;
@@ -196,48 +197,43 @@ void CInventory::UIPicking(void)
 		{
 			if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
 			{
-				if (m_dwTime + 50 <= GetTickCount())
+				if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
 				{
-					if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
+					if (m_vecItem[i]->GetItem().iType == IT_POTION)
 					{
-						if (m_vecItem[i]->GetItem().iType == IT_POTION)
-						{
-							((CPotion*)m_vecItem[i])->SetPotion();
-							m_ReturnItem = new CPotion(L"HPPotion", 1000, 1, 1, IT_POTION);
-							m_vecItem[i]->SetDrawID(0);
+						((CPotion*)m_vecItem[i])->SetPotion();
+						m_ReturnItem = new CPotion(L"HPPotion", 1000, 1, 1, IT_POTION);
+						m_vecItem[i]->SetDrawID(0);
 
-							if (m_vecItem[i]->GetItem().iCount <= 0)
-							{
-								m_vecItem[i] = new CItemEmpty();
-							}
-						}
-						else
+						if (m_vecItem[i]->GetItem().iCount <= 0)
 						{
-							m_ReturnItem = m_vecItem[i];
-							m_vecItem[i]->SetDrawID(0);
 							m_vecItem[i] = new CItemEmpty();
 						}
-
-						m_dwTime = GetTickCount();
 					}
-
-					if (GetAsyncKeyState(VK_LBUTTON))
+					else
 					{
-						if (m_pPick == NULL)
-						{
-							m_pPick = m_vecItem[i];
-							m_vecItem[i] = new CItemEmpty();
-							m_iSwap = i;
-						}
-						else
-						{
-							m_vecItem[m_iSwap] = m_vecItem[i];
-							m_vecItem[i] = m_pPick;
-							m_pPick = NULL;
-						}
+						m_ReturnItem = m_vecItem[i];
+						m_vecItem[i]->SetDrawID(0);
+						m_vecItem[i] = new CItemEmpty();
 					}
-					m_dwTime = GetTickCount();
 				}
+
+				if (GetAsyncKeyState(VK_LBUTTON) & 0x0001)
+				{
+					if (m_pPick == NULL)
+					{
+						m_pPick = m_vecItem[i];
+						m_vecItem[i] = new CItemEmpty();
+						m_iSwap = i;
+					}
+					else
+					{
+						m_vecItem[m_iSwap] = m_vecItem[i];
+						m_vecItem[i] = m_pPick;
+						m_pPick = NULL;
+					}
+				}
+				m_dwTime = GetTickCount();
 			}
 		}
 	}
@@ -251,4 +247,44 @@ void CInventory::SetDropItem(void)
 CItem* CInventory::GetDropItem(void)
 {
 	return m_pDrop;
+}
+
+void CInventory::SellStore(void)
+{
+	if (PtInRect(&m_pCloseButton->GetRect(), GetMouse()))
+	{
+		if (GetAsyncKeyState(VK_LBUTTON))
+			m_bOnOff = false;
+	}
+	
+	ItemPos();
+
+	DWORD _delta = 0.f;
+
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		if (m_vecItem[i])
+		{
+			m_vecItem[i]->Progress(_delta);
+		}
+		else
+			m_vecItem[i] = new CItemEmpty();
+	}
+
+	if (m_pPick)
+		m_pPick->SetPos((float)GetMouse().x, (float)GetMouse().y);
+
+	
+	for(size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
+		{
+			if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
+			{
+				m_pPlayer->SetGold(m_vecItem[i]->GetItem().iPrice / 2);
+				::Safe_Delete(m_vecItem[i]);
+				m_vecItem[i] = new CItemEmpty();
+			}
+		}
+	}
 }

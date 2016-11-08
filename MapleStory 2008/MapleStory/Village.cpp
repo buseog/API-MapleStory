@@ -104,6 +104,8 @@ void CVillage::Progress(DWORD _delta)
 		m_vecPortal[i]->Progress(_delta);
 	}
 
+	CRenderMgr::GetInstance()->UIClear();
+
 	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
@@ -111,6 +113,8 @@ void CVillage::Progress(DWORD _delta)
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
 				(*iter)->Progress(_delta);
+
+				CRenderMgr::GetInstance()->AddUI(*iter);
 			}
 		}
 	}
@@ -175,17 +179,7 @@ void CVillage::Render(HDC hdc)
 		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
-	for (int i = 0; i < UI_END; ++i)
-	{
-		if (m_vecUI[i].back()->GetOnOff())
-		{
-			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
-			{
-				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
-			}
-		}
-	}
-
+	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
 
 
 	if (m_pLoading)

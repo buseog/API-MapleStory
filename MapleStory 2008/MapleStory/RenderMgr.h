@@ -5,7 +5,7 @@ class CRenderMgr
 {
 private:
 	static CRenderMgr*		m_pInstance;
-	multimap<float, CUI*>	m_MapRenderUI;
+	multimap<int, CUI*>	m_MapRenderUI;
 
 public:
 	void	AddUI(CUI* pUI);

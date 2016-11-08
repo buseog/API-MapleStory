@@ -15,6 +15,7 @@ CUI::CUI(string _strKey)
 ,m_ReturnItem(NULL)
 ,m_pCloseButton(NULL)
 ,m_bOnOff(true)
+,m_iPriority(0)
 {
 	m_fPercent[0] = 100.f;
 	m_fPercent[1] = 0.f;
@@ -189,4 +190,14 @@ void CUI::SetOnOff(bool _YN)
 void CUI::SetPlayer(CParent* _pPlayer)
 {
 	m_pPlayer = _pPlayer;
+}
+
+void CUI::SetPriority(int _iInput)
+{
+	m_iPriority = _iInput;
+}
+
+int CUI::GetPriority(void)
+{
+	return m_iPriority;
 }

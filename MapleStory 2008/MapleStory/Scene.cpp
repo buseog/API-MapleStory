@@ -20,6 +20,7 @@ CScene::CScene(void)
 ,m_pLoading(NULL)
 ,m_iFPS(0)
 ,m_dwTime(GetTickCount())
+,m_iPriority(10)
 {
 	memset(m_szFPS, 0, sizeof(TCHAR) * 128);
 }
@@ -34,8 +35,7 @@ void CScene::KeyInput(void)
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 	if (m_dwKey & KEY_F5)
 	{
-		CItem*	pWeapon = new CWeapon(L"Weapon", 10, 1, 1, IT_WEAPON);
-		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
+		m_vecParent[PAR_PLAYER].back()->SetGold(50000);
 	}
 
 	if (m_dwKey & KEY_F6)
@@ -129,6 +129,8 @@ void CScene::UIDrag(void)
 				{
 					m_bDrag = true;
 					m_pUI = m_vecUI[i].back();
+					m_pUI->SetPriority(m_iPriority);
+					++m_iPriority;
 				}
 			}
 			else
@@ -335,6 +337,11 @@ void CScene::LoadBmp(void)
 	m_BitMap["Beyond_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond_EFFECT.bmp");
 	m_BitMap["Beyond2_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond2_EFFECT.bmp");
 	m_BitMap["Beyond3_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_EFFECT.bmp");
+
+	m_BitMap["Boss_Fire"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Fire.bmp");
+	m_BitMap["Boss_Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Back.bmp");
+
+
 
 	//아이템 추가
 	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");

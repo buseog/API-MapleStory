@@ -149,7 +149,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		else if (m_dwKey & KEY_ALT && m_dwState != ST_JUMP)
 		{
 			m_dwState = ST_JUMP;
-			m_tInfo.fY += 20.f;
+			m_tInfo.fY += 25.f;
 
 			if (m_bLand == true)
 			{
@@ -202,7 +202,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[1] = 1200.f;
+				m_cTimer.fRemainTime[1] = 800.f;
 			}
 		}
 	}
@@ -216,7 +216,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[2] = 1200.f;
+				m_cTimer.fRemainTime[2] = 800.f;
 			}
 		}
 	}
@@ -230,7 +230,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[3] = 1200.f;
+				m_cTimer.fRemainTime[3] = 800.f;
 			}
 		}
 	}
@@ -244,7 +244,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[4] = 1200.f;
+				m_cTimer.fRemainTime[4] = 800.f;
 			}
 		}
 	}
@@ -258,7 +258,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[5] = 1200.f;
+				m_cTimer.fRemainTime[5] = 800.f;
 			}
 
 		}
@@ -273,7 +273,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[6] = 1200.f;
+				m_cTimer.fRemainTime[6] = 800.f;
 			}
 		}
 	}
@@ -359,8 +359,8 @@ void CPlayer::ScrollY(void)
 			return;
 		}
 
-		m_ptScroll.y += (long)m_tStat.fSpeed;
-		m_ptOffset.y -= (long)m_tStat.fSpeed;
+		m_ptScroll.y += (long)m_tStat.fSpeed + m_fJpower;
+		m_ptOffset.y -= (long)m_tStat.fSpeed + m_fJpower;
 	}
 
 	// ÇÏ´Ü ³¡
@@ -374,8 +374,8 @@ void CPlayer::ScrollY(void)
 			return;
 		}
 
-		m_ptScroll.y -= (long)m_tStat.fSpeed;
-		m_ptOffset.y += (long)m_tStat.fSpeed;
+		m_ptScroll.y -= (long)m_tStat.fSpeed + m_fJpower;
+		m_ptOffset.y += (long)m_tStat.fSpeed + m_fJpower;
 	}
 }
 
@@ -389,7 +389,22 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 	{
 		if ((*pIcon)[_iSlot]->GetStrKey() == "Beyond_ON")
 		{	
-			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 50, m_tInfo.fY - 30, "Beyond_LEFT");
+			if (m_iBeyond == 0)
+			{
+				pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 50, m_tInfo.fY - 30, "Beyond_LEFT");
+				++m_iBeyond;
+			}
+			else if(m_iBeyond == 1)
+			{
+				pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 50, m_tInfo.fY - 30, "Beyond2_LEFT");
+				++m_iBeyond;
+			}
+			else
+			{
+				pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 50, m_tInfo.fY - 30, "Beyond3_LEFT");
+				m_iBeyond = 0;
+			}
+
 		}
 		else if ((*pIcon)[_iSlot]->GetStrKey() == "Bolt_ON")
 		{	
@@ -412,7 +427,22 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 	{
 		if ((*pIcon)[_iSlot]->GetStrKey() == "Beyond_ON")
 		{	
-			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 50, m_tInfo.fY - 30, "Beyond_RIGHT");
+			if (m_iBeyond == 0)
+			{
+				pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 50, m_tInfo.fY - 30, "Beyond_RIGHT");
+				++m_iBeyond;
+			}
+			else if(m_iBeyond == 1)
+			{
+				pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 50, m_tInfo.fY - 30, "Beyond2_RIGHT");
+				++m_iBeyond;
+			}
+			else
+			{
+				pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 50, m_tInfo.fY - 30, "Beyond3_RIGHT");
+				m_iBeyond = 0;
+			}
+
 		}
 		else if ((*pIcon)[_iSlot]->GetStrKey() == "Bolt_ON")
 		{	

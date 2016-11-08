@@ -65,6 +65,19 @@ void CSkillEffect::Initialize(void)
 		m_tInfo = INFO(0, 0, 350.f, 420.f);
 		m_tSprite = SPRITE(0, 21, 0, 50);
 	}
+
+	if (m_strKey == "Boss_Back")
+	{
+		m_tInfo = INFO(0, 0, 297.f, 333.f);
+		m_tStat.fAttack = 100.f;
+		m_tSprite = SPRITE(0, 27, 0, 30);
+	}
+	if (m_strKey == "Boss_Fire")
+	{
+		m_tInfo = INFO(0, 0, 154.f, 152.f);
+		m_tStat.fAttack = 600.f;
+		m_tSprite = SPRITE(0, 6, 0, 80);
+	}
 }
 void CSkillEffect::Progress(DWORD _delta)
 {

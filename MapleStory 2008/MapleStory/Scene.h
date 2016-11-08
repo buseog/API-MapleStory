@@ -24,6 +24,7 @@ protected:
 	int							m_iFPS;
 	TCHAR						m_szFPS[128];
 	DWORD						m_dwTime;
+	int							m_iPriority;
 
 protected:
 	static	CUI*				m_pUI;

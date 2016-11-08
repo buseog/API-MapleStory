@@ -17,6 +17,7 @@ CEquipment::~CEquipment(void)
 
 void CEquipment::Initialize(void)
 {
+	m_iPriority = UI_EQUIPMENT;
 	m_bOnOff = false;
 	m_ReturnItem = NULL;
 	m_strKey = "Equipment";

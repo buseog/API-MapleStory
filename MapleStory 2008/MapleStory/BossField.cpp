@@ -33,7 +33,7 @@ void CBossField::Initialize(void)
 	ParentClear();
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1372, 1200);
 
-	m_vecParent[PAR_BOSS].push_back(CFactory<CBoss>::CreateParent(500.f, 600.f, "Boss"));
+	m_vecParent[PAR_BOSS].push_back(CFactory<CBoss>::CreateParent(800.f, 800.f, "Boss"));
 
 	m_pLoading = new CLoading();
 }
@@ -51,7 +51,7 @@ void CBossField::Progress(DWORD _delta)
 
 			if ((*iter)->GetDestroy())
 			{
-				if (i == PAR_MONSTER)
+				if (i == PAR_MONSTER || i == PAR_BOSS)
 					if(((CMonster*)(*iter))->GetDrop())
 						m_vecItem.push_back(((CMonster*)(*iter))->GetDropItem());
 						
@@ -79,6 +79,7 @@ void CBossField::Progress(DWORD _delta)
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
 				(*iter)->Progress(_delta);
+				CRenderMgr::GetInstance()->AddUI(*iter);
 			}
 		}
 	}
@@ -101,9 +102,9 @@ void CBossField::Progress(DWORD _delta)
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
-	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
-	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
-
+	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_BOSS]);
+	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_BOSS]));
+	CCollisionMgr::CollisionBoss(m_vecParent[PAR_BOSS].back(), m_vecParent[PAR_PLAYER].back());
 	if (m_vecParent[PAR_PLAYER].back()->GetStat().fExp >= (800.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel))
 	{
 		m_vecParent[PAR_PLAYER].back()->SetLevel();
@@ -139,16 +140,7 @@ void CBossField::Render(HDC hdc)
 		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
-	for (int i = 0; i < UI_END; ++i)
-	{
-		if (m_vecUI[i].back()->GetOnOff())
-		{
-			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
-			{
-				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
-			}
-		}
-	}
+	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());

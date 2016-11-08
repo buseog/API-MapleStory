@@ -47,7 +47,11 @@ void	CStore::Progress(DWORD _dwDelta)
 		m_vecItemList[i]->Progress(_dwDelta);
 	}
 
-	m_pCloseButton->SetPos(fCloseX, fCloseY);
+	if (m_bOnOff)
+	{
+		((CInventory*)m_pInventory)->SellStore();
+		m_pCloseButton->SetPos(fCloseX, fCloseY);
+	}
 }
 
 void	CStore::Render(HDC hdc)
@@ -67,7 +71,10 @@ void	CStore::Render(HDC hdc)
 		m_vecItemList[i]->Render(hdc);
 	}
 
-	m_pCloseButton->Render(hdc);
+	if (m_bOnOff)
+	{
+		m_pCloseButton->Render(hdc);
+	}
 }
 
 void	CStore::Release(void)

@@ -172,6 +172,24 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 	return 0.f;
 }
 
+void CCollisionMgr::CollisionBoss(CParent* _pBoss, CParent* _pPlayer)
+{
+	if ((_pBoss->GetInfo().fX - _pPlayer->GetInfo().fX) >= 500.f)
+	{
+		_pBoss->SetState(ST_ATTACK2);
+		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Back"));
+		_pPlayer->SetPos(_pPlayer->GetInfo().fX + 10.f, _pPlayer->GetInfo().fY);
+	}
+	if (_pBoss->GetStat().fHp / _pBoss->GetStat().fFullHp <= 0.5)
+	{
+		_pBoss->SetState(ST_ATTACK3);
+	}
+	//else
+	//	_pBoss->SetState(ST_ATTACK);
+
+}
+
+
 void CCollisionMgr::CollisionPortal(vector<CParent*>* _pPlayer, vector<CParent*>* _pPortal)
 {
 	RECT rc;
@@ -236,37 +254,37 @@ void CCollisionMgr::AddSkillEffect(CParent* _pSkill, CParent* _pMonster)
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Annihilation_EFFECT"));
 	}
 
-	else if (_pSkill->GetStrKey() == "Ascend_LEFT" || _pSkill->GetStrKey() == "Ascend_RIGHT")
+	if (_pSkill->GetStrKey() == "Ascend_LEFT" || _pSkill->GetStrKey() == "Ascend_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Ascend_EFFECT"));
 	}
 
-	else if (_pSkill->GetStrKey() == "Typhoon_LEFT" ||_pSkill->GetStrKey() == "Typhoon_RIGHT")
+	if (_pSkill->GetStrKey() == "Typhoon_LEFT" ||_pSkill->GetStrKey() == "Typhoon_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Typhoon_EFFECT"));
 	}
 
-	else if (_pSkill->GetStrKey() == "Bolt_LEFT" || _pSkill->GetStrKey() == "Bolt_RIGHT")
+	if (_pSkill->GetStrKey() == "Bolt_LEFT" || _pSkill->GetStrKey() == "Bolt_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Bolt_EFFECT"));
 	}
 
-	else if (_pSkill->GetStrKey() == "Range")
+	if (_pSkill->GetStrKey() == "Range")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Range_EFFECT"));
 	}
 
-	else if (_pSkill->GetStrKey() == "Beyond_LEFT" || _pSkill->GetStrKey() == "Beyond_RIGHT")
+	if (_pSkill->GetStrKey() == "Beyond_LEFT" || _pSkill->GetStrKey() == "Beyond_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond_EFFECT"));
 	}
 
-	else if (_pSkill->GetStrKey() == "Beyond2_LEFT" || _pSkill->GetStrKey() == "Beyond2_RIGHT")
+	if (_pSkill->GetStrKey() == "Beyond2_LEFT" || _pSkill->GetStrKey() == "Beyond2_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond2_EFFECT"));
 	}
 
-	else if (_pSkill->GetStrKey() == "Beyond3_LEFT" || _pSkill->GetStrKey() == "Beyond3_RIGHT")
+	if (_pSkill->GetStrKey() == "Beyond3_LEFT" || _pSkill->GetStrKey() == "Beyond3_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond3_EFFECT"));
 	}
@@ -274,8 +292,8 @@ void CCollisionMgr::AddSkillEffect(CParent* _pSkill, CParent* _pMonster)
 
 void CCollisionMgr::AddEffect(CParent* _pParent, CParent* _pDest, int Height)
 {
-	int Critical = rand() % 150;
-	int iDamage = int(_pParent->GetStat().fAttack + (_pParent->GetStat().fAttack * Critical) / 100.f) - int(_pDest->GetStat().fDefense);
+	int Critical = rand() % 100;
+	int iDamage = int(_pParent->GetStat().fAttack + (_pParent->GetStat().fAttack * Critical) / 100.f);
 
 
 	if (_pDest->GetUnbeatable())
@@ -283,12 +301,12 @@ void CCollisionMgr::AddEffect(CParent* _pParent, CParent* _pDest, int Height)
 		_pDest->SetDamage(_pParent->GetStat().fAttack);
 		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (30.f * Height), iDamage, "HitEffect"));
 	}
-	else if (Critical < 50)
+	if (Critical < 50)
 	{
 		_pDest->SetDamage((float)iDamage);
 		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (30.f * Height), iDamage, "DamageEffect"));
 	}
-	else if (Critical >= 50)
+	if (Critical >= 50)
 	{
 		_pDest->SetDamage((float)iDamage);
 		CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pDest->GetInfo().fX,_pDest->GetInfo().fY - (30.f * Height), iDamage, "CriticalEffect"));
@@ -306,7 +324,7 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 		}
 	}
 
-	else if (_pSkill->GetStrKey() == "Ascend_LEFT" || _pSkill->GetStrKey() == "Ascend_RIGHT")
+	if (_pSkill->GetStrKey() == "Ascend_LEFT" || _pSkill->GetStrKey() == "Ascend_RIGHT")
 	{
 		for (int i = 0; i < 2; ++i)
 		{
@@ -314,7 +332,7 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 		}
 	}
 
-	else if (_pSkill->GetStrKey() == "Typhoon_LEFT" ||_pSkill->GetStrKey() == "Typhoon_RIGHT")
+	if (_pSkill->GetStrKey() == "Typhoon_LEFT" ||_pSkill->GetStrKey() == "Typhoon_RIGHT")
 	{
 		for (int i = 0; i < 4; ++i)
 		{
@@ -322,7 +340,7 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 		}
 	}
 
-	else if (_pSkill->GetStrKey() == "Bolt_LEFT" || _pSkill->GetStrKey() == "Bolt_RIGHT")
+	if (_pSkill->GetStrKey() == "Bolt_LEFT" || _pSkill->GetStrKey() == "Bolt_RIGHT")
 	{
 		for (int i = 0; i < 4; ++i)
 		{
@@ -331,7 +349,7 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 	}
 
 	
-	else if (_pSkill->GetStrKey() == "Range")
+	if (_pSkill->GetStrKey() == "Range")
 	{
 		for (int i = 0; i < 8; ++i)
 		{
@@ -339,7 +357,7 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 		}
 	}
 
-	else if (_pSkill->GetStrKey() == "Beyond_LEFT" || _pSkill->GetStrKey() == "Beyond_RIGHT")
+	if (_pSkill->GetStrKey() == "Beyond_LEFT" || _pSkill->GetStrKey() == "Beyond_RIGHT")
 	{
 		for (int i = 0; i < 3; ++i)
 		{
@@ -347,7 +365,7 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 		}
 	}
 
-	else if (_pSkill->GetStrKey() == "Beyond2_LEFT" || _pSkill->GetStrKey() == "Beyond2_RIGHT")
+	if (_pSkill->GetStrKey() == "Beyond2_LEFT" || _pSkill->GetStrKey() == "Beyond2_RIGHT")
 	{
 		for (int i = 0; i < 3; ++i)
 		{
@@ -355,7 +373,7 @@ void CCollisionMgr::SkillDamage(CParent* _pSkill, CParent* _pMonster)
 		}
 	}
 
-	else if (_pSkill->GetStrKey() == "Beyond3_LEFT" || _pSkill->GetStrKey() == "Beyond3_RIGHT")
+	if (_pSkill->GetStrKey() == "Beyond3_LEFT" || _pSkill->GetStrKey() == "Beyond3_RIGHT")
 	{
 		for (int i = 0; i < 3; ++i)
 		{

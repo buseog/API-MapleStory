@@ -13,6 +13,7 @@ CSkillPanel::~CSkillPanel(void)
 
 void CSkillPanel::Initialize(void)
 {
+	m_iPriority = UI_SKILLPANEL;
 	m_pPick = NULL;
 	m_bOnOff = false;
 	m_strKey = "SkillPanel";

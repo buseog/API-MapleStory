@@ -15,9 +15,10 @@ private:
 	void ItemPos(void);
 
 public:
-	void AddItem(CItem*	_pItem);
-	void SetDropItem(void);
-	CItem* GetDropItem(void);
+	void	AddItem(CItem*	_pItem);
+	void	SetDropItem(void);
+	CItem*	GetDropItem(void);
+	void	SellStore(void);
 
 public:
 	virtual void UIPicking(void);

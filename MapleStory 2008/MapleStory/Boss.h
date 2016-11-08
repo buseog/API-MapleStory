@@ -5,6 +5,7 @@ class CBoss :
 	public CParent
 {
 private:
+	int		m_iPattern;
 	void SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);
 
 public:

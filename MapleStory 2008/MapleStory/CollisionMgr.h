@@ -17,6 +17,7 @@ public:
 	static	void	CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _pTile);
 	static	void	CollisionITile(vector<CItem*>* _pItem, vector<TILE*>* _pTile);
 	static	float	CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>* _pMonster);
+	static	void	CollisionBoss(CParent* _pBoss, CParent* _pPlayer);
 	static	void	CollisionPortal(vector<CParent*>* _pParent, vector<CParent*>* _pPortal);
 
 public:

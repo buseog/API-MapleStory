@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "RenderMgr.h"
+#include "Ui.h"
 
 CRenderMgr* CRenderMgr::m_pInstance = NULL; 
 
@@ -13,12 +14,12 @@ CRenderMgr::~CRenderMgr(void)
 
 void CRenderMgr::AddUI(CUI* pUI)
 {
-	m_MapRenderUI.insert(make_pair(float(pUI->GetRect().bottom), pUI));
+	m_MapRenderUI.insert(make_pair(pUI->GetPriority(), pUI));
 }
 
 void CRenderMgr::RenderUI(HDC hdc)
 {
-	for(multimap<float, CUI*>::iterator iter = m_MapRenderUI.begin();
+	for(multimap<int, CUI*>::iterator iter = m_MapRenderUI.begin();
 		iter != m_MapRenderUI.end(); ++iter)
 	{
 		iter->second->Render(hdc);

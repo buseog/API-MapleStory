@@ -8,6 +8,7 @@ class CItem;
 class CUI
 {
 protected:
+	int		m_iPriority;
 	INFO	m_tInfo;
 	SPRITE	m_tSprite;
 	DWORD	m_dwTime;
@@ -31,6 +32,9 @@ public:
 	void	SetReturnItem(void);
 	bool	GetOnOff(void);
 	void	SetOnOff(bool _YN);
+	void	SetPriority(int _iInput);
+	int		GetPriority(void);
+
 
 public:
 	virtual void UIPicking(void);

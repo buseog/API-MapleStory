@@ -4,6 +4,9 @@
 CItemEmpty::CItemEmpty(void)
 {
 	m_tInfo = INFO(0, 0, 32.f, 32.f);
+	m_tItem.iOption = 0;
+	m_tItem.iPrice = 0;
+	m_tItem.iCount = 0;
 	m_tItem.iType = IT_EMPTY;
 }
 

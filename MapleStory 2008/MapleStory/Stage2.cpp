@@ -20,7 +20,7 @@ CStage2::CStage2(void)
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(50.f, 570.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
-	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1830.f, 630.f, "Portal"));
+	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 630.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(4);
 }
 
@@ -139,7 +139,13 @@ void CStage2::Render(HDC hdc)
 		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
-	for (size_t i = 0; i < PAR_END; ++i)
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
+
+	for (int i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end(); ++iter)
 		{
@@ -147,24 +153,29 @@ void CStage2::Render(HDC hdc)
 		}
 	}
 
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	for (int i = 0; i < UI_END; ++i)
 	{
-		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+		if (m_vecUI[i].back()->GetOnOff())
+		{
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
+			}
+		}
 	}
-
-
-	
-	for (size_t i = 0; i < m_vecUI[UI_MAIN].size(); ++i)
-	{
-		m_vecUI[UI_MAIN][i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
-
-	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
-	
-
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
+
+	++m_iFPS;
+
+	if(m_dwTime + 1000 < GetTickCount())
+	{
+		m_dwTime = GetTickCount();
+		wsprintf(m_szFPS, L"FPS : %d", m_iFPS);
+		m_iFPS = 0;
+	}
+		SetWindowText(g_hWnd, m_szFPS);
 
 	BitBlt(hdc, 
 			0, 0, 
@@ -192,4 +203,6 @@ void CStage2::Release(void)
 		::Safe_Delete(m_vecPortal[i]);
 	}
 	m_vecPortal.clear();
+
+	::Safe_Delete(m_pLoading);
 }

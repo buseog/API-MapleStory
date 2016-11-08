@@ -48,7 +48,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 					break;
 
 				case 2:
-					if (pPlayer->GetInfo().fY <= (*_pTile)[i]->GetRect().bottom)
+					if (pPlayer->GetInfo().fY <= (*_pTile)[i]->GetRect().bottom && pPlayer->GetJumpPower() > 0.f)
 					{
 						pPlayer->SetLand(true);
 						pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
@@ -193,8 +193,10 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 
 						if ((*_pMonster)[j]->GetStat().fHp <= 0)
 						{
+
 							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
-							((*_pMonster)[j]->SetDestroy(true));
+							(*_pMonster)[j]->SetState(ST_DEATH);
+							//((*_pMonster)[j]->SetDestroy(true));
 
 							return (*_pMonster)[j]->GetStat().fExp;
 						}

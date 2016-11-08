@@ -10,9 +10,9 @@ class CPlayer	:
 private:
 	vector<CParent*>*	m_pSkill;
 	POINT				m_ptOffset;
-	POINT				m_ptMapSize;
 	int					m_iBeyond;
 	CUI*				m_pSlot;
+
 
 private:
 	void	SetState(DWORD _dwState, int _iLast, int _iMotion, DWORD _dwTime);
@@ -25,8 +25,9 @@ public:
 	CParent*	CreateSkill(int _iSlot);
 	void		SetSkill(vector<CParent*>* _pSkill);
 	void		SetQuickSlot(CUI* _pSlot);
-	void		SetMapSize(float _fX, float _fY);
 	void		SetOffset(float _fX, float _fY);
+	void		EquipItem(CItem* _pItem);
+	void		UnEquipItem(CItem* _pItem);
 
 public:
 	virtual void Initialize(void);

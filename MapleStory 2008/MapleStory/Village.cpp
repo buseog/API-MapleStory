@@ -54,7 +54,7 @@ void CVillage::Initialize(void)
 	ParentClear();
 	
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetSkill(&m_vecParent[PAR_SKILL]);
-	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1920.f, 680.f);
+	m_vecParent[PAR_PLAYER].back()->SetMapSize(1920.f, 680.f);
 
 	m_pLoading = new CLoading();
 
@@ -96,8 +96,6 @@ void CVillage::Progress(DWORD _delta)
 		}
 	}
 
-	//CRenderMgr::GetInstance()->UIClear();
-
 	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
@@ -105,9 +103,6 @@ void CVillage::Progress(DWORD _delta)
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
 				(*iter)->Progress(_delta);
-
-				/*if (i != UI_MAIN)
-					CRenderMgr::GetInstance()->AddUI(*iter);*/
 			}
 		}
 	}
@@ -159,18 +154,13 @@ void CVillage::Render(HDC hdc)
 	if (m_pStoreNPC)
 		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
 
-	for (size_t i = 0; i < m_vecItem.size(); ++i)
-	{
-		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
-
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 
-	for (size_t i = 0; i < PAR_END; ++i)
+	for (int i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end(); ++iter)
 		{
@@ -178,13 +168,11 @@ void CVillage::Render(HDC hdc)
 		}
 	}
 
-	for (size_t i = 0; i < m_vecUI[UI_MAIN].size(); ++i)
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
-		m_vecUI[UI_MAIN][i]->Render(m_BitMap["Back"]->GetMemdc());
+		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
-	//CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
-	
 	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
@@ -272,4 +260,6 @@ void CVillage::Release(void)
 		::Safe_Delete(m_vecItem[i]);
 	}
 	m_vecItem.clear();
+
+	::Safe_Delete(m_pLoading);
 }

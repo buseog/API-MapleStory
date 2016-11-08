@@ -4,6 +4,7 @@
 
 POINT CParent::m_ptScroll;
 map<string, CBitBmp*>*		CParent::m_pBitMap;
+POINT						CParent::m_ptMapSize;
 
 CParent::CParent(void)
 :m_fJpower(0)
@@ -158,6 +159,8 @@ void CParent::SetLevel(void)
 	m_tStat.fDefense += 10.f;
 	m_tStat.fFullHp += 100.f;
 	m_tStat.fHp = m_tStat.fFullHp;
+	m_fOriginAttack += 50.f;
+	m_fOriginDefense += 10.f;
 	
 	m_tStat.fExp = 0.f;
 }
@@ -178,4 +181,10 @@ void CParent::HavePotion(CItem* _pPotion)
 void CParent::SetGold(int _iGold)
 {
 	m_tStat.iGold += _iGold;
+}
+
+void CParent::SetMapSize(float _fX, float _fY)
+{
+	m_ptMapSize.x = (long)_fX;
+	m_ptMapSize.y = (long)_fY;
 }

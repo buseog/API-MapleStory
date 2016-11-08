@@ -142,7 +142,7 @@ void CScene::UIDrag(void)
 	CItem* pDrop = ((CInventory*)m_vecUI[UI_INVENTORY].back())->GetDropItem();
 	if(pDrop)
 	{
-		pDrop->SetPos(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 20.f);
+		pDrop->SetPos(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 40.f);
 		m_vecItem.push_back(pDrop);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->SetDropItem();
 	}

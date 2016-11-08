@@ -9,6 +9,7 @@
 #include "RenderMgr.h"
 #include "Item.h"
 #include "SkillEffect.h"
+#include "Boss.h"
 
 
 CBossField::CBossField(void)
@@ -32,8 +33,7 @@ void CBossField::Initialize(void)
 	ParentClear();
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1372, 1200);
 
-	CParent::SetBitMap(&m_BitMap);
-	CUI::SetBitMap(&m_BitMap);
+	m_vecParent[PAR_BOSS].push_back(CFactory<CBoss>::CreateParent(500.f, 600.f, "Boss"));
 
 	m_pLoading = new CLoading();
 }
@@ -67,18 +67,13 @@ void CBossField::Progress(DWORD _delta)
 		}
 	}
 
-	CRenderMgr::GetInstance()->UIClear();
-
-	for (size_t i = 0; i < UI_END; ++i)
+	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
 		{
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
 				(*iter)->Progress(_delta);
-
-				if (i != UI_MAIN)
-					CRenderMgr::GetInstance()->AddUI(*iter);
 			}
 		}
 	}
@@ -132,7 +127,13 @@ void CBossField::Render(HDC hdc)
 		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
-	for (size_t i = 0; i < PAR_END; ++i)
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
+
+	for (int i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end(); ++iter)
 		{
@@ -140,24 +141,31 @@ void CBossField::Render(HDC hdc)
 		}
 	}
 
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	for (int i = 0; i < UI_END; ++i)
 	{
-		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
+		if (m_vecUI[i].back()->GetOnOff())
+		{
+			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			{
+				(*iter)->Render(m_BitMap["Back"]->GetMemdc());
+			}
+		}
 	}
 
-
-	
-	for (size_t i = 0; i < m_vecUI[UI_MAIN].size(); ++i)
-	{
-		m_vecUI[UI_MAIN][i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
-
-	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
-	
 
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
+
+	++m_iFPS;
+
+	if(m_dwTime + 1000 < GetTickCount())
+	{
+		m_dwTime = GetTickCount();
+		wsprintf(m_szFPS, L"FPS : %d", m_iFPS);
+		m_iFPS = 0;
+	}
+		SetWindowText(g_hWnd, m_szFPS);
 
 	BitBlt(hdc, 
 			0, 0, 
@@ -185,4 +193,6 @@ void CBossField::Release(void)
 		::Safe_Delete(m_vecPortal[i]);
 	}
 	m_vecPortal.clear();
+
+	::Safe_Delete(m_pLoading);
 }

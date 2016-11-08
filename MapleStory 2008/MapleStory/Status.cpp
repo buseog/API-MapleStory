@@ -47,22 +47,28 @@ void CStatus::Render(HDC hdc)
 		SRCCOPY);
 
 	
-	TCHAR szName[128] = L"";
-	TCHAR szLevel[128] = L"";
-	TCHAR szHp[128] = L"";
-	TCHAR szExp[128] = L"";
+	TCHAR szString[128] = L"";
 
-		wsprintf(szName, L"%s", L"오부석");
-		TextOut(hdc, int(m_tInfo.fX - 25), int(m_tInfo.fY - 155), szName, lstrlen(szName));
+		wsprintf(szString, L"%s", L"오부석");
+		TextOut(hdc, int(m_tInfo.fX - 25), int(m_tInfo.fY - 157), szString, lstrlen(szString));
 
-		wsprintf(szLevel, L"%d", (int)m_pPlayer->GetStat().iLevel);
-					TextOut(hdc, int(m_tInfo.fX - 25), int(m_tInfo.fY - 120), szLevel, lstrlen(szLevel));
+		wsprintf(szString, L"%s", L"쥬신 중수");
+		TextOut(hdc, int(m_tInfo.fX - 25), int(m_tInfo.fY - 137), szString, lstrlen(szString));
 
-		wsprintf(szExp, L"%d", (int)m_pPlayer->GetStat().fExp);
-					TextOut(hdc, int(m_tInfo.fX -25), int(m_tInfo.fY - 103),	szExp, lstrlen(szExp));
+		wsprintf(szString, L"%d", (int)m_pPlayer->GetStat().iLevel);
+					TextOut(hdc, int(m_tInfo.fX - 25), int(m_tInfo.fY - 120), szString, lstrlen(szString));
 
-		wsprintf(szHp, L"%d", (int)m_pPlayer->GetStat().fHp);
-					TextOut(hdc, int(m_tInfo.fX -25), int(m_tInfo.fY - 30),	szHp, lstrlen(szHp));
+		wsprintf(szString, L"%d", (int)m_pPlayer->GetStat().fExp);
+					TextOut(hdc, int(m_tInfo.fX -25), int(m_tInfo.fY - 103), szString, lstrlen(szString));
+
+		wsprintf(szString, L"%d", (int)m_pPlayer->GetStat().fHp);
+					TextOut(hdc, int(m_tInfo.fX -25), int(m_tInfo.fY - 30),	szString, lstrlen(szString));
+
+		wsprintf(szString, L"%d", (int)m_pPlayer->GetStat().fAttack);
+		TextOut(hdc, int(m_tInfo.fX - 25), int(m_tInfo.fY + 72), szString, lstrlen(szString));
+
+		wsprintf(szString, L"%d", (int)m_pPlayer->GetStat().fDefense);
+		TextOut(hdc, int(m_tInfo.fX - 25), int(m_tInfo.fY + 91), szString, lstrlen(szString));
 
 
 	SetBkMode((*m_pBitMap)["Back"]->GetMemdc(),TRANSPARENT);

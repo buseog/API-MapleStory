@@ -4,6 +4,7 @@
 #include "Factory.h"
 #include "Skill.h"
 #include "QuickSlot.h"
+#include "Item.h"
 
 
 CPlayer::CPlayer(void)
@@ -22,8 +23,10 @@ void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-	m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 0.f, 6.f, 1000);
+	m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 6.f, 1000);
 	m_tSprite = SPRITE(0, 5, 0, 80);
+	m_fOriginAttack = m_tStat.fAttack;
+	m_fOriginDefense = m_tStat.fDefense;
 
 	m_dwTime = GetTickCount();
 	m_strKey = "Player_LEFT";
@@ -398,13 +401,6 @@ void CPlayer::SetSkill(vector<CParent*>* _pSkill)
 	m_pSkill = _pSkill;
 }
 
-void CPlayer::SetMapSize(float _fX, float _fY)
-{
-	m_ptMapSize.x = (long)_fX;
-	m_ptMapSize.y = (long)_fY;
-}
-
-
 void CPlayer::SetOffset(float _fX, float _fY)
 {
 	m_ptOffset.x = (long)_fX;
@@ -414,4 +410,28 @@ void CPlayer::SetOffset(float _fX, float _fY)
 void CPlayer::SetQuickSlot(CUI* _pSlot)
 {
 	m_pSlot = _pSlot;
+}
+
+void CPlayer::EquipItem(CItem* _pItem)
+{
+	if (_pItem->GetItem().iType == IT_WEAPON)
+	{
+		m_tStat.fAttack = m_fOriginAttack + _pItem->GetItem().iOption;
+	}
+	else if (_pItem->GetItem().iType == IT_ARMOR)
+	{
+		m_tStat.fDefense = m_fOriginDefense + _pItem->GetItem().iOption;
+	}
+}
+
+void CPlayer::UnEquipItem(CItem* _pItem)
+{
+	if (_pItem->GetItem().iType == IT_WEAPON)
+	{
+		m_tStat.fAttack = m_fOriginAttack;
+	}
+	else if (_pItem->GetItem().iType == IT_ARMOR)
+	{
+		m_tStat.fDefense = m_fOriginDefense;
+	}
 }

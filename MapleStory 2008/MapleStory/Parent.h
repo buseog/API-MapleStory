@@ -13,6 +13,8 @@ protected:
 	CTimer	m_cTimer;
 	float	m_fJpower;
 	float	m_fGravity;
+	float	m_fOriginAttack;
+	float	m_fOriginDefense;
 	bool	m_bLand;
 	bool	m_bDestroy;
 	bool	m_bUnbeatable;
@@ -21,6 +23,7 @@ protected:
 	DWORD	m_dwState;
 	DWORD	m_dwKey;
 	string	m_strKey;
+	static	POINT					m_ptMapSize;
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
@@ -37,6 +40,7 @@ public:
 	bool	GetUnbeatable(void);
 
 public:
+	void	SetMapSize(float _fX, float _fY);
 	void	HavePotion(CItem* _pPotion);
 	void	SetGold(int _iGold);
 	void	SetLevel(void);

@@ -58,6 +58,12 @@ void CPotion::Render(HDC hdc)
 			(int)m_tInfo.fCX,
 			(int)m_tInfo.fCY,
 			RGB(255, 255, 250));
+
+		TCHAR szNumber[128] = L"";
+		wsprintf(szNumber, L"%d", (int)m_tItem.iCount);
+			TextOut(hdc, 
+				int(m_tInfo.fX + 5), int(m_tInfo.fY + 5),
+				szNumber, lstrlen(szNumber));
 	}
 	else if (m_DropId == 1)
 	{
@@ -73,13 +79,6 @@ void CPotion::Render(HDC hdc)
 			(int)m_tInfo.fCY,
 			RGB(255, 255, 250));
 	}
-
-	TCHAR szNumber[128] = L"";
-	wsprintf(szNumber, L"%d", (int)m_tItem.iCount);
-			TextOut(hdc, 
-				int(m_tInfo.fX + 5), int(m_tInfo.fY + 5),
-				szNumber, lstrlen(szNumber));
-
 
 	if (m_DrawId == 1)
 	{

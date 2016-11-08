@@ -13,10 +13,10 @@ void CBoss::Initialize(void)
 {
 	m_cTimer.TimeSetting();
 
-	if (m_strKey == "GreenMushRoom_LEFT" || m_strKey == "GreenMushRoom_RIGHT")
+	if (m_strKey == "Boss")
 	{
-		m_tInfo = INFO(0, 0, 60.f, 60.f);
-		m_tStat = STAT(1500.f, 1500.f, 500.f, 0.f, 1, 50.f, 2.f, 500);
+		m_tInfo = INFO(0, 0, 300.f, 300.f);
+		m_tStat = STAT(50000.f, 50000.f, 1500.f, 100.f, 10, 500.f, 1.f, 50000);
 		m_tSprite = SPRITE(0, 4, 1, 80);
 	}
 
@@ -39,6 +39,13 @@ void CBoss::Progress(DWORD _delta)
 
 		m_tSprite.iStart = 0;
 	}
+
+	SetState(ST_STAND, 8, 0, 100);
+	SetState(ST_ATTACK, 8, 1, 100);
+	SetState(ST_ATTACK2, 8, 2, 100);
+	SetState(ST_ATTACK3, 8, 3, 80);
+	SetState(ST_HIT, 1, 4, 900);
+	SetState(ST_DEATH, 6, 5, 130);
 
 }
 void CBoss::Render(HDC hdc)

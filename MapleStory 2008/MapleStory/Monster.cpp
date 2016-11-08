@@ -49,7 +49,13 @@ void CMonster::Progress(DWORD _delta)
 {
 	Gravity();
 
-	if (m_dwState != ST_HIT)
+	if(m_tInfo.fY < 0)
+		m_tInfo.fY = 0.f;
+
+	if(m_tInfo.fY > m_ptMapSize.y)
+		m_tInfo.fY = (float)m_ptMapSize.y;
+
+	if (m_dwState != ST_HIT && m_dwState != ST_DEATH)
 	{
 		if ((m_cTimer.dwRemainTime[1] + 1100) >= GetTickCount())
 		{			
@@ -106,6 +112,9 @@ void CMonster::Progress(DWORD _delta)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
+		if (m_dwState == ST_DEATH)
+			m_bDestroy = true;
+
  		if (m_dwState != ST_STAND)
 			m_dwState = ST_STAND;
 
@@ -118,7 +127,7 @@ void CMonster::Progress(DWORD _delta)
 		SetState(ST_STAND, 2, 0, 100);
 		SetState(ST_WALK, 5, 1, 100);
 		SetState(ST_HIT, 1, 2, 800);
-		SetState(ST_DEATH, 10, 3, 80);
+		SetState(ST_DEATH, 10, 3, 200);
 	}
 
 	else if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
@@ -126,7 +135,7 @@ void CMonster::Progress(DWORD _delta)
 		SetState(ST_STAND, 8, 0, 100);
 		SetState(ST_WALK, 14, 1, 80);
 		SetState(ST_HIT, 1, 2, 800);
-		SetState(ST_DEATH, 5, 3, 80);
+		SetState(ST_DEATH, 5, 3, 200);
 		
 	}
 
@@ -135,7 +144,7 @@ void CMonster::Progress(DWORD _delta)
 		SetState(ST_STAND, 2, 0, 100);
 		SetState(ST_WALK, 3, 1, 100);
 		SetState(ST_HIT, 1, 2, 800);
-		SetState(ST_DEATH, 3, 3, 80);
+		SetState(ST_DEATH, 3, 3, 200);
 	}
 
 	else if (m_strKey == "PurpleMushRoom_LEFT" || m_strKey == "PurpleMushRoom_RIGHT")
@@ -143,7 +152,7 @@ void CMonster::Progress(DWORD _delta)
 		SetState(ST_STAND, 4, 0, 100);
 		SetState(ST_WALK, 4, 1, 100);
 		SetState(ST_HIT, 1, 2, 800);
-		SetState(ST_DEATH, 10, 3, 80);
+		SetState(ST_DEATH, 10, 3, 200);
 	}
 }
 void CMonster::Render(HDC hdc)

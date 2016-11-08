@@ -18,8 +18,8 @@ void CPortal::Initialize(void)
 {
 	if (m_strKey == "Portal")
 	{
-		m_tInfo = INFO(0, 0, 80.f, 120.f);
-		m_tSprite = SPRITE(0, 8, 0, 120);
+		m_tInfo = INFO(0, 0, 88.f, 126.f);
+		m_tSprite = SPRITE(0, 4, 0, 90);
 	}
 }
 

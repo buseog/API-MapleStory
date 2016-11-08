@@ -101,12 +101,15 @@ void CQuickSlot::Release(void)
 {
 	for (int i = 0; i < QUICKSLOT; ++i)
 	{
-		if (!m_vecSlot[i])
-		{
-			::Safe_Delete(m_vecSlot[i]);
-		}
+		::Safe_Delete(m_vecSlot[i]);
 	}
 	m_vecSlot.clear();
+
+	for (int i = 0; i < QUICKSLOT; ++i)
+	{
+		::Safe_Delete(m_vecCool[i]);
+	}
+	m_vecCool.clear();
 }
 
 RECT CQuickSlot::GetRect(void)
@@ -192,26 +195,31 @@ void	CQuickSlot::SetSkillOff(void)
 	{
 		if (m_vecSlot[i]->GetStrKey() == "Typhoon_ON")
 		{
+			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Typhoon_OFF");
 			m_vecCool[i]->Initialize();
 		}
 		else if (m_vecSlot[i]->GetStrKey() == "Bolt_ON")
 		{
+			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Bolt_OFF");
 			m_vecCool[i]->Initialize();
 		}
 		else if (m_vecSlot[i]->GetStrKey() == "Beyond_ON")
 		{
+			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Beyond_OFF");
 			m_vecCool[i]->Initialize();
 		}
 		else if (m_vecSlot[i]->GetStrKey() == "Annihilation_ON")
 		{
+			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Annihilation_OFF");
 			m_vecCool[i]->Initialize();
 		}
 		else if (m_vecSlot[i]->GetStrKey() == "Range_ON")
 		{
+			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Range_OFF");
 			m_vecCool[i]->Initialize();
 		}

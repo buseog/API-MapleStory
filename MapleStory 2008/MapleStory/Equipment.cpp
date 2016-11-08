@@ -55,10 +55,17 @@ void CEquipment::Render(HDC hdc)
 void CEquipment::Release(void)
 {
 	::Safe_Delete(m_pCloseButton);
+
+	for (int i = 0; i < EQ_END; ++i)
+	{
+		::Safe_Delete(m_pEquipItem[i]);
+	}
 }
 
 void CEquipment::EquipItem(CItem*	_pItem)
 {
+	((CPlayer*)m_pPlayer)->EquipItem(_pItem);
+
 	if (_pItem)
 	{
 		switch (_pItem->GetItem().iType)
@@ -161,6 +168,7 @@ void CEquipment::UIPicking(void)
 				if (GetAsyncKeyState(VK_RBUTTON))
 				{
 					m_ReturnItem = m_pEquipItem[i];
+					((CPlayer*)m_pPlayer)->UnEquipItem(m_pEquipItem[i]);
 					m_pEquipItem[i] = NULL;
 				}			
 			}

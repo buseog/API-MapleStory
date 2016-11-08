@@ -41,4 +41,6 @@ void CMainGame::Release(void)
 	m_pSceneMgr->DestroyInstance();
 	CKeyMgr::GetInstance()->DestroyInst();
 	CSceneMgr::GetInstance()->DestroyInstance();
+	CSceneMgr::GetInstance()->Release();
+	//::Safe_Delete(m_pSceneMgr);
 }

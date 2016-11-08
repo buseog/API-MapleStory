@@ -81,6 +81,8 @@ void CStage2::Progress(DWORD _delta)
 		m_vecPortal[i]->Progress(_delta);
 	}
 
+	CRenderMgr::GetInstance()->UIClear();
+
 	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())

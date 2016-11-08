@@ -193,7 +193,7 @@ void CPlayer::KeyInput(DWORD _delta)
 
 
 	//// ½ºÅ³
-	if ((m_cTimer.fRemainTime[1] -= _delta) <= 0)
+	if ((m_cTimer.fRemainTime[1] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 	{
 		if (m_dwKey & KEY_Q && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 		{
@@ -207,7 +207,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[2] -= _delta) <= 0)
+	if ((m_cTimer.fRemainTime[2] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 	{
 		if (m_dwKey & KEY_W)
 		{
@@ -221,7 +221,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[3] -= _delta) <= 0)
+	if ((m_cTimer.fRemainTime[3] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 	{
 		if (m_dwKey & KEY_E)
 		{
@@ -235,7 +235,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[4] -= _delta) <= 0)
+	if ((m_cTimer.fRemainTime[4] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 	{
 		if (m_dwKey & KEY_R)
 		{
@@ -249,7 +249,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[5] -= _delta) <= 0)
+	if ((m_cTimer.fRemainTime[5] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 	{
 		if (m_dwKey & KEY_A)
 		{
@@ -264,7 +264,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[6] -= _delta) <= 0)
+	if ((m_cTimer.fRemainTime[6] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 	{
 		if (m_dwKey & KEY_S)
 		{

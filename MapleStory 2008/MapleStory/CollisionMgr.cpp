@@ -97,44 +97,6 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 	}
 }
 
-
-void CCollisionMgr::CollisionMTile(vector<CParent*>* _pMonster, vector<TILE*>* _pTile)
-{
-	RECT rc;
-
-	for (size_t i = 0; i < _pMonster->size(); ++i)
-	{
-		for (size_t j = 0; j < _pTile->size(); ++j)
-		{
-			if ((*_pTile)[j]->fY >= (*_pMonster)[i]->GetInfo().fY)
-			{
-				if (IntersectRect(&rc, &(*_pMonster)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
-				{
-					LONG lWidth = rc.right - rc.left;
-					LONG lHeight = rc.bottom - rc.top;
-
-					if (lWidth > lHeight)			//상하충돌
-					{
-						switch ((*_pTile)[j]->iOption)
-						{
-						case 1:
-							(*_pMonster)[i]->SetLand(true);
-							(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
-							break;
-
-						case 2:
-							(*_pMonster)[i]->SetLand(true);
-							(*_pMonster)[i]->SetPos((*_pMonster)[i]->GetInfo().fX, (*_pMonster)[i]->GetInfo().fY - lHeight);
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-
 void CCollisionMgr::CollisionITile(vector<CItem*>* _pItem, vector<TILE*>* _pTile)
 {
 	RECT rc;
@@ -180,27 +142,26 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 		{
 			for (size_t j = 0; j < _pMonster->size(); ++j)
 			{
-				if ((*_pSkill)[i]->GetInfo().fX >= (*_pMonster)[j]->GetInfo().fX - 300.f && (*_pSkill)[i]->GetInfo().fX <= (*_pMonster)[j]->GetInfo().fX + 200.f &&
-					(*_pSkill)[i]->GetInfo().fY >= (*_pMonster)[j]->GetInfo().fY - 300.f && (*_pSkill)[i]->GetInfo().fY <= (*_pMonster)[j]->GetInfo().fY + 200.f)
+				if ((*_pMonster)[j]->GetState() != ST_DEATH)
 				{
-					if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
+					if ((*_pSkill)[i]->GetInfo().fX >= (*_pMonster)[j]->GetInfo().fX - 300.f && (*_pSkill)[i]->GetInfo().fX <= (*_pMonster)[j]->GetInfo().fX + 200.f &&
+						(*_pSkill)[i]->GetInfo().fY >= (*_pMonster)[j]->GetInfo().fY - 300.f && (*_pSkill)[i]->GetInfo().fY <= (*_pMonster)[j]->GetInfo().fY + 200.f)
 					{
-						(*_pMonster)[j]->SetState(ST_HIT);
-
-						SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
-						AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
-						((CSkill*)(*_pSkill)[i])->SetHitCount();
-
-						if ((*_pMonster)[j]->GetStat().fHp <= 0)
+						if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
 						{
+							(*_pMonster)[j]->SetState(ST_HIT);
 
-							((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
-							(*_pMonster)[j]->SetState(ST_DEATH);
-							//((*_pMonster)[j]->SetDestroy(true));
+							SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
+							AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
+							((CSkill*)(*_pSkill)[i])->SetHitCount();
 
-							return (*_pMonster)[j]->GetStat().fExp;
+							if ((*_pMonster)[j]->GetStat().fHp <= 0)
+							{
+								((CMonster*)(*_pMonster)[j])->SetDrop(rand() % 2);
+								(*_pMonster)[j]->SetState(ST_DEATH);
+								return (*_pMonster)[j]->GetStat().fExp;
+							}		
 						}
-						
 					}
 				}
 			}
@@ -246,8 +207,8 @@ void CCollisionMgr::CollisionBodyButt(vector<CParent*>*	_pPlayer, vector<CParent
 
 	for (size_t i = 0; i < _pMonster->size(); ++i)
 	{
-		if (pPlayer->GetInfo().fX >= (*_pMonster)[i]->GetInfo().fX - 100.f && pPlayer->GetInfo().fX <= (*_pMonster)[i]->GetInfo().fX + 100.f &&
-					pPlayer->GetInfo().fY >= (*_pMonster)[i]->GetInfo().fY - 100.f && pPlayer->GetInfo().fY <= (*_pMonster)[i]->GetInfo().fY + 100.f)
+		if (pPlayer->GetInfo().fX >= (*_pMonster)[i]->GetInfo().fX - 50.f && pPlayer->GetInfo().fX <= (*_pMonster)[i]->GetInfo().fX + 50.f &&
+					pPlayer->GetInfo().fY >= (*_pMonster)[i]->GetInfo().fY - 50.f && pPlayer->GetInfo().fY <= (*_pMonster)[i]->GetInfo().fY + 50.f)
 		{
 			if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pMonster)[i]->GetRect()))
 			{
@@ -255,10 +216,10 @@ void CCollisionMgr::CollisionBodyButt(vector<CParent*>*	_pPlayer, vector<CParent
 				{
 					pPlayer->SetState(ST_HIT);	
 					if ((*_pMonster)[i]->GetInfo().fX - pPlayer->GetInfo().fX >= 0)
-						pPlayer->SetPos(pPlayer->GetInfo().fX - 10, pPlayer->GetInfo().fY - 20);
+						pPlayer->SetPos(pPlayer->GetInfo().fX - 20, pPlayer->GetInfo().fY - 20);
 
 					else
-						pPlayer->SetPos(pPlayer->GetInfo().fX + 10, pPlayer->GetInfo().fY - 20);
+						pPlayer->SetPos(pPlayer->GetInfo().fX + 20, pPlayer->GetInfo().fY - 20);
 
 					pPlayer->SetUnbeatable(true);
 					AddEffect((*_pMonster)[i], pPlayer, 1);
@@ -313,8 +274,8 @@ void CCollisionMgr::AddSkillEffect(CParent* _pSkill, CParent* _pMonster)
 
 void CCollisionMgr::AddEffect(CParent* _pParent, CParent* _pDest, int Height)
 {
-	int Critical = rand() % 100;
-	int iDamage = int(_pParent->GetStat().fAttack + (_pParent->GetStat().fAttack * Critical) / 100.f);
+	int Critical = rand() % 150;
+	int iDamage = int(_pParent->GetStat().fAttack + (_pParent->GetStat().fAttack * Critical) / 100.f) - int(_pDest->GetStat().fDefense);
 
 
 	if (_pDest->GetUnbeatable())

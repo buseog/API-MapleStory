@@ -13,7 +13,7 @@ CDamageEffect::~CDamageEffect(void)
 
 void CDamageEffect::Initialize(void)
 {
-	m_cTimer.dwRemainTime[0] = GetTickCount();
+	m_cTimer.fRemainTime[0] = 1000.f;
 
 	int iPosition = 10000;
 
@@ -31,14 +31,14 @@ void CDamageEffect::Initialize(void)
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
 
-	if (m_strKey == "CriticalEffect")
+	else if (m_strKey == "CriticalEffect")
 	{
 		m_tInfo = INFO(0, 0, 60.f, 50.f);
 		m_tStat.fSpeed = 2.f;
 		m_tSprite = SPRITE(0, 10, 0, 80);
 	}
 
-	if (m_strKey == "HitEffect")
+	else if (m_strKey == "HitEffect")
 	{
 		m_tInfo = INFO(0, 0, 50.f, 40.f);
 		m_tStat.fSpeed = 2.f;
@@ -48,7 +48,7 @@ void CDamageEffect::Initialize(void)
 }
 void CDamageEffect::Progress(DWORD _delta)
 {
-	if ((m_cTimer.dwRemainTime[0] + 1000) <= GetTickCount())
+	if ((m_cTimer.fRemainTime[0] -= _delta) <= 0)
 		m_bDestroy = true;
 
 	else

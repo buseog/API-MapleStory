@@ -29,6 +29,12 @@ void CEquipment::Progress(DWORD _delta)
 {
 	UIPicking();
 	ItemPos();
+
+	for (int i = 0; i < EQ_END; ++i)
+	{
+		if (m_pEquipItem[i])
+			m_pEquipItem[i]->Progress(_delta);
+	}
 }
 
 void CEquipment::Render(HDC hdc)

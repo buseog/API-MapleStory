@@ -23,7 +23,7 @@ void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
 	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-	m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 6.f, 1000);
+	m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 4.f, 1000);
 	m_tSprite = SPRITE(0, 5, 0, 80);
 	m_fOriginAttack = m_tStat.fAttack;
 	m_fOriginDefense = m_tStat.fDefense;
@@ -60,11 +60,11 @@ void CPlayer::Progress(DWORD _delta)
 	}
 
 	if(m_bUnbeatable)
-		if ((m_cTimer.dwRemainTime[9] += _delta) >= 1100)
+		if ((m_cTimer.fRemainTime[9] += _delta) >= 1100)
 		{
 			m_bUnbeatable = false;
 			m_dwState = ST_STAND;
-			m_cTimer.dwRemainTime[9] = 0;
+			m_cTimer.fRemainTime[9] = 0;
 
 		}
 
@@ -92,6 +92,18 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCX, 
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
+
+	
+		TCHAR szName[128] = L"";
+		wsprintf(szName, L"%d",(int) m_tInfo.fX);
+					TextOut(hdc,
+						0,0,
+						szName, lstrlen(szName));
+
+		wsprintf(szName, L"%d", (int)m_tInfo.fY);
+					TextOut(hdc,
+						0, 20,
+						szName, lstrlen(szName));
 }
 
 void CPlayer::Release(void)
@@ -181,56 +193,89 @@ void CPlayer::KeyInput(DWORD _delta)
 
 
 	//// ½ºÅ³
-	if ((m_cTimer.dwRemainTime[1] + 1200) <= GetTickCount())
+	if ((m_cTimer.fRemainTime[1] -= _delta) <= 0)
 	{
-		if (m_dwKey & KEY_Q)
+		if (m_dwKey & KEY_Q && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 		{
-			m_dwState = ST_ATTACK;
-			m_pSkill->push_back(CreateSkill(0));
-			m_cTimer.dwRemainTime[1] = GetTickCount();
+			CParent* pSkill = CreateSkill(0);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[1] = 1200.f;
+			}
 		}
 	}
 
-	if ((m_cTimer.dwRemainTime[2] + 1200) <= GetTickCount())
+	if ((m_cTimer.fRemainTime[2] -= _delta) <= 0)
 	{
 		if (m_dwKey & KEY_W)
 		{
-			m_dwState = ST_ATTACK;
-			m_pSkill->push_back(CreateSkill(1));
-			m_cTimer.dwRemainTime[2] = GetTickCount();
+			CParent* pSkill = CreateSkill(1);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK2;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[2] = 1200.f;
+			}
 		}
 	}
 
-	if ((m_cTimer.dwRemainTime[3] + 1200) <= GetTickCount())
+	if ((m_cTimer.fRemainTime[3] -= _delta) <= 0)
 	{
 		if (m_dwKey & KEY_E)
 		{
-			m_dwState = ST_ATTACK2;
-			m_pSkill->push_back(CreateSkill(2));
-			m_cTimer.dwRemainTime[3] = GetTickCount();
+			CParent* pSkill = CreateSkill(2);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[3] = 1200.f;
+			}
 		}
 	}
 
-	if ((m_cTimer.dwRemainTime[4] + 1200) <= GetTickCount())
+	if ((m_cTimer.fRemainTime[4] -= _delta) <= 0)
 	{
 		if (m_dwKey & KEY_R)
 		{
-			m_dwState = ST_ATTACK2;
-			m_pSkill->push_back(CreateSkill(3));
-			m_cTimer.dwRemainTime[3] = GetTickCount();
+			CParent* pSkill = CreateSkill(3);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK2;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[4] = 1200.f;
+			}
 		}
 	}
 
-	if (m_dwKey & KEY_A)
+	if ((m_cTimer.fRemainTime[5] -= _delta) <= 0)
 	{
-		m_dwState = ST_ATTACK2;
+		if (m_dwKey & KEY_A)
+		{
+			CParent* pSkill = CreateSkill(4);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[5] = 1200.f;
+			}
 
+		}
 	}
 
-	if (m_dwKey & KEY_S)
+	if ((m_cTimer.fRemainTime[6] -= _delta) <= 0)
 	{
-		m_dwState = ST_ATTACK2;
-
+		if (m_dwKey & KEY_S)
+		{
+			CParent* pSkill = CreateSkill(5);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK2;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[6] = 1200.f;
+			}
+		}
 	}
 }
 
@@ -392,7 +437,7 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 	if (pSkill)
 		return pSkill;
 
-	return NULL;
+	return 0;
 }
 
 void CPlayer::SetSkill(vector<CParent*>* _pSkill)
@@ -433,4 +478,9 @@ void CPlayer::UnEquipItem(CItem* _pItem)
 	{
 		m_tStat.fDefense = m_fOriginDefense;
 	}
+}
+
+void CPlayer::BuyItem(int _iGold)
+{
+	m_tStat.iGold -= _iGold;
 }

@@ -35,11 +35,6 @@ void CStage1::Initialize(void)
 	m_fRegenTime = 7000.f;
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1773.f, 1464.f);
 
-	for (int i = 0; i < 50; ++i)
-	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), 0, "BlueMushRoom_LEFT"));
-	}
-
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
 
@@ -51,11 +46,11 @@ void CStage1::Progress(DWORD _delta)
 	KeyInput();
 	UIDrag();
 
-	/*if ((m_fRegenTime -= _delta) <= 0)
+	if ((m_fRegenTime -= _delta) <= 0)
 	{
 		Regen();
-		m_fRegenTime = 7000;
-	}*/
+		m_fRegenTime = 7000 + float(rand() % 2000);
+	}
 
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
@@ -81,25 +76,20 @@ void CStage1::Progress(DWORD _delta)
 		}
 	}
 
-	CRenderMgr::GetInstance()->UIClear();
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Progress(_delta);
+	}
 
-	for (size_t i = 0; i < UI_END; ++i)
+	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
 		{
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
 				(*iter)->Progress(_delta);
-
-				if (i != UI_MAIN)
-					CRenderMgr::GetInstance()->AddUI(*iter);
 			}
 		}
-	}
-
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
-	{
-		m_vecPortal[i]->Progress(_delta);
 	}
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
@@ -119,7 +109,6 @@ void CStage1::Progress(DWORD _delta)
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
 	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
@@ -128,7 +117,6 @@ void CStage1::Progress(DWORD _delta)
 	{
 		m_vecParent[PAR_PLAYER].back()->SetLevel();
 		m_vecParent[PAR_EFFECT].push_back(CFactory<CSkillEffect>::CreateParent(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 150, "LevelUpEFFECT"));
-
 	}
 }
 
@@ -140,11 +128,6 @@ void CStage1::Render(HDC hdc)
 			1773, 1464, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
-
-	for (size_t i = 0; i < m_vecItem.size(); ++i)
-	{
-		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
@@ -158,6 +141,11 @@ void CStage1::Render(HDC hdc)
 		{
 			(*iter)->Render(m_BitMap["Back"]->GetMemdc());
 		}
+	}
+
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 	for (int i = 0; i < UI_END; ++i)
@@ -211,18 +199,45 @@ void CStage1::Release(void)
 	}
 	m_vecPortal.clear();
 
+
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		::Safe_Delete(m_vecItem[i]);
+	}
+	m_vecItem.clear();
+
 	::Safe_Delete(m_pLoading);
 }
 
 void CStage1::Regen(void)
 {
-	int Regen = 7 - m_vecParent[PAR_MONSTER].size();
+	int Regen = 30 - m_vecParent[PAR_MONSTER].size();
 
-	if (Regen)
+	for (int i = 0; i < Regen; ++i)
 	{
-		for (int i = 0; i < Regen; ++i)
+		int iRandom = rand() % 5 + 1;
+
+		switch (iRandom)
 		{
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1300 + 200), float(rand() % 700 + 200), "BlueMushRoom_LEFT"));
+		case 1:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 1230.f, "BlueMushRoom_RIGHT"));
+			break;
+
+		case 2:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 980.f, "GreenMushRoom_RIGHT"));
+			break;
+
+		case 3:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 730.f, "BlueMushRoom_RIGHT"));
+			break;
+
+		case 4:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 500.f, "BlueMushRoom_RIGHT"));
+			break;
+
+		case 5:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 240.f, "GreenMushRoom_RIGHT"));
+			break;
 		}
 	}
 }

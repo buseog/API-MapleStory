@@ -1,6 +1,10 @@
 #include "StdAfx.h"
 #include "Store.h"
 #include "Factory.h"
+#include "Inventory.h"
+#include "Weapon.h"
+#include "Armor.h"
+#include "Potion.h"
 
 CStore::CStore(void)
 {
@@ -9,6 +13,7 @@ CStore::CStore(void)
 CStore::CStore(string _strKey)
 {
 	m_strKey = _strKey;
+	m_pInventory = NULL;
 }
 CStore::~CStore(void)
 {
@@ -18,18 +23,15 @@ CStore::~CStore(void)
 void	CStore::Initialize(void)
 {
 	m_bDrag = false;
-	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 500.f, 500.f);
+	m_tInfo = INFO(300.f, 200.f, 271.f, 500.f);
 	m_bOnOff = false;
 
 	m_pCloseButton = CFactory<CUI>::CreateUI(0.f, 0.f, "Close");
 
 	m_vecItemList.push_back(new CWeapon(L"Weapon", 100, 1, 5000, IT_WEAPON));
-
-	m_vecItemList.push_back(new CWeapon(L"Armor", 50, 1, 5000, IT_ARMOR));
-	m_vecItemList.push_back(new CWeapon(L"Armor2", 100, 1, 1000, IT_ARMOR));
-
-	/*m_vecItemList[IT_WEAPON].push_back(new CWeapon(L"Weapon", 100, 1, 5000, IT_WEAPON));
-	m_vecItemList[IT_WEAPON].push_back(new CWeapon(L"Weapon", 100, 1, 5000, IT_WEAPON));*/
+	m_vecItemList.push_back(new CArmor(L"Armor", 50, 1, 5000, IT_ARMOR));
+	m_vecItemList.push_back(new CArmor(L"Armor2", 100, 1, 1000, IT_ARMOR));
+	m_vecItemList.push_back(new CPotion(L"HPPotion", 100, 1, 500, IT_POTION));
 }
 
 void	CStore::Progress(DWORD _dwDelta)
@@ -41,9 +43,9 @@ void	CStore::Progress(DWORD _dwDelta)
 
 	for (size_t i = 0; i < m_vecItemList.size(); ++i)
 	{
-		m_vecItemList[i]->SetPos(m_tInfo.fX - 220, m_tInfo.fY - 110 + (35 * i));
+		m_vecItemList[i]->SetPos(m_tInfo.fX - 110, m_tInfo.fY - 110 + (40 * i));
+		m_vecItemList[i]->Progress(_dwDelta);
 	}
-
 
 	m_pCloseButton->SetPos(fCloseX, fCloseY);
 }
@@ -58,6 +60,7 @@ void	CStore::Render(HDC hdc)
 	(*m_pBitMap)[m_strKey]->GetMemdc(), 
 	0, 0, SRCCOPY);
 
+	TCHAR szString[128] = L"";
 
 	for (size_t i = 0; i < m_vecItemList.size(); ++i)
 	{
@@ -98,7 +101,10 @@ void CStore::UIPicking(void)
 	if (PtInRect(&m_pCloseButton->GetRect(), GetMouse()))
 	{
 		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			m_bDrag = false;
 			m_bOnOff = false;
+		}
 	}
 
 	if(m_bDrag)
@@ -108,7 +114,6 @@ void CStore::UIPicking(void)
 	}
 
 
-	
 	if (GetAsyncKeyState(VK_LBUTTON))
 	{
 		if(PtInRect(&GetRect(), GetMouse()))
@@ -122,4 +127,38 @@ void CStore::UIPicking(void)
 		m_bDrag = false;
 	}
 
+	for (size_t i = 0; i < m_vecItemList.size(); ++i)
+	{
+		if (PtInRect(&m_vecItemList[i]->GetRect(), GetMouse()))
+		{
+			if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
+			{
+				if (m_pPlayer->GetStat().iGold >= m_vecItemList[i]->GetItem().iPrice)
+				{
+					((CPlayer*)m_pPlayer)->BuyItem(m_vecItemList[i]->GetItem().iPrice);
+
+					if (m_vecItemList[i]->GetItem().iType == IT_WEAPON)
+					{
+						CItem* pBuyItem = new CWeapon(*m_vecItemList[i]);
+						((CInventory*)m_pInventory)->AddItem(pBuyItem);
+					}
+					else if (m_vecItemList[i]->GetItem().iType == IT_ARMOR)
+					{
+						CItem* pBuyItem = new CArmor(*m_vecItemList[i]);
+						((CInventory*)m_pInventory)->AddItem(pBuyItem);
+					}
+					else if (m_vecItemList[i]->GetItem().iType == IT_POTION)
+					{
+						CItem* pBuyItem = new CPotion(*m_vecItemList[i]);
+						((CInventory*)m_pInventory)->AddItem(pBuyItem);
+					}
+				}
+			}
+		}
+	}
+}
+
+void CStore::SetInventory(CUI*	_pInventory)
+{
+	m_pInventory = _pInventory;
 }

@@ -17,6 +17,9 @@ CVillage::CVillage(void)
 	LoadMap();
 	LoadBmp();
 
+	m_pStoreNPC = new CNPC;
+	m_pStoreNPC->Initialize();
+
 	m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f));
 
 	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
@@ -37,11 +40,11 @@ CVillage::CVillage(void)
 	m_vecPortal.push_back(CFactory<CPortal>::CreateParent(1800.f, 470.f, "Portal"));
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
+	m_pStoreNPC->SetInventory(m_vecUI[UI_INVENTORY].back());
 	((CQuickSlot*)m_vecUI[UI_QUICKSLOT].back())->SetPanel(m_vecUI[UI_SKILLPANEL].back());
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetQuickSlot(m_vecUI[UI_QUICKSLOT].back());
 
-	m_pStoreNPC = new CNPC;
-	m_pStoreNPC->Initialize();
+
 }
 
 CVillage::~CVillage(void)
@@ -69,9 +72,6 @@ void CVillage::Progress(DWORD _delta)
 	KeyInput();
 	UIDrag();
 
-	if (m_pStoreNPC)
-		m_pStoreNPC->Progress(_delta);
-
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
@@ -96,6 +96,14 @@ void CVillage::Progress(DWORD _delta)
 		}
 	}
 
+	if (m_pStoreNPC)
+		m_pStoreNPC->Progress(_delta);
+
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Progress(_delta);
+	}
+
 	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
@@ -105,11 +113,6 @@ void CVillage::Progress(DWORD _delta)
 				(*iter)->Progress(_delta);
 			}
 		}
-	}
-
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
-	{
-		m_vecPortal[i]->Progress(_delta);
 	}
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
@@ -129,7 +132,6 @@ void CVillage::Progress(DWORD _delta)
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-	//CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
 	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
@@ -138,7 +140,6 @@ void CVillage::Progress(DWORD _delta)
 	{
 		m_vecParent[PAR_PLAYER].back()->SetLevel();
 		m_vecParent[PAR_EFFECT].push_back(CFactory<CSkillEffect>::CreateParent(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 150, "LevelUpEFFECT"));
-
 	}
 }
 
@@ -150,9 +151,6 @@ void CVillage::Render(HDC hdc)
 			1920, 680, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
-
-	if (m_pStoreNPC)
-		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
@@ -167,6 +165,10 @@ void CVillage::Render(HDC hdc)
 			(*iter)->Render(m_BitMap["Back"]->GetMemdc());
 		}
 	}
+
+	
+	if (m_pStoreNPC)
+		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{

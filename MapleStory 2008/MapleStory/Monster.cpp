@@ -47,60 +47,52 @@ void CMonster::Initialize(void)
 }
 void CMonster::Progress(DWORD _delta)
 {
-	Gravity();
+	if(m_tInfo.fX < 0)
+		m_tInfo.fX = 0.f;
 
-	if(m_tInfo.fY < 0)
-		m_tInfo.fY = 0.f;
-
-	if(m_tInfo.fY > m_ptMapSize.y)
-		m_tInfo.fY = (float)m_ptMapSize.y;
+	if(m_tInfo.fX > m_ptMapSize.x)
+		m_tInfo.fX = (float)m_ptMapSize.x;
 
 	if (m_dwState != ST_HIT && m_dwState != ST_DEATH)
 	{
-		if ((m_cTimer.dwRemainTime[1] + 1100) >= GetTickCount())
+		if ((m_cTimer.fRemainTime[1] -= _delta) >= 0)
 		{			
-			m_tInfo.fX -= m_tStat.fSpeed;
+			m_tInfo.fX += m_tStat.fSpeed;
 		}
 		else
 		{
-			if (m_strKey == "PurpleMushRoom_LEFT")
-			{
-				m_strKey = "PurpleMushRoom_RIGHT";
-			}
-			else if (m_strKey == "PurpleMushRoom_RIGHT")
-			{
-				m_strKey = "PurpleMushRoom_LEFT";
-			}
-
-			if (m_strKey == "GreenMushRoom_LEFT")
-			{
-				m_strKey = "GreenMushRoom_RIGHT";
-			}
-			else if (m_strKey == "GreenMushRoom_RIGHT")
-			{
-				m_strKey = "GreenMushRoom_LEFT";
-			}
-
-			if (m_strKey == "BlueMushRoom_LEFT")
-			{
-				m_strKey = "BlueMushRoom_RIGHT";
-			}
-			else if (m_strKey == "BlueMushRoom_RIGHT")
-			{
-				m_strKey = "BlueMushRoom_LEFT";
-			}
-
-			if (m_strKey == "CoupleMushRoom_LEFT")
-			{
-				m_strKey = "CoupleMushRoom_RIGHT";
-			}
-			else if (m_strKey == "CoupleMushRoom_RIGHT")
-			{
-				m_strKey = "CoupleMushRoom_LEFT";
-			}
 			m_tStat.fSpeed *= -1.f;
-			m_cTimer.dwRemainTime[1] = GetTickCount();
+			m_cTimer.fRemainTime[1] = 800.f + float(rand() % 500);
 		}
+	}
+
+	if (m_tStat.fSpeed >= 0)
+	{
+		if (m_strKey == "GreenMushRoom_LEFT")
+			m_strKey = "GreenMushRoom_RIGHT";
+
+		else if (m_strKey == "CoupleMushRoom_LEFT")
+			m_strKey = "CoupleMushRoom_RIGHT";
+
+		else if (m_strKey == "BlueMushRoom_LEFT")
+			m_strKey = "BlueMushRoom_RIGHT";
+
+		else if (m_strKey == "PurpleMushRoom_LEFT")
+			m_strKey = "PurpleMushRoom_RIGHT";
+	}
+	else if (m_tStat.fSpeed <= 0)
+	{
+		if (m_strKey == "GreenMushRoom_RIGHT")
+			m_strKey = "GreenMushRoom_LEFT";
+
+		else if (m_strKey == "CoupleMushRoom_RIGHT")
+			m_strKey = "CoupleMushRoom_LEFT";
+
+		else if (m_strKey == "BlueMushRoom_RIGHT")
+			m_strKey = "BlueMushRoom_LEFT";
+
+		else if (m_strKey == "PurpleMushRoom_RIGHT")
+			m_strKey = "PurpleMushRoom_LEFT";
 	}
 
 	if (m_dwTime + m_tSprite.dwTime < GetTickCount())

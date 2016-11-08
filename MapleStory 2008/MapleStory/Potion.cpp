@@ -11,6 +11,11 @@ CPotion::CPotion(wstring _strName, int _iOption, int _iCount, int _iPrice, int _
 	Initialize();
 }
 
+CPotion::CPotion(const CItem &_Item) :CItem(_Item)
+{
+}
+
+
 CPotion::~CPotion(void)
 {
 	Release();

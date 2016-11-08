@@ -28,6 +28,7 @@ public:
 	void		SetOffset(float _fX, float _fY);
 	void		EquipItem(CItem* _pItem);
 	void		UnEquipItem(CItem* _pItem);
+	void		BuyItem(int _iGold);
 
 public:
 	virtual void Initialize(void);

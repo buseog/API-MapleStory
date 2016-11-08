@@ -15,6 +15,21 @@ CItem::CItem(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iTyp
 
 }
 
+CItem::CItem(const CItem &_Item)
+{
+	m_tItem.strName = _Item.m_tItem.strName;
+	m_tItem.iCount = 1;
+	m_tItem.iPrice = _Item.m_tItem.iPrice;
+	m_tItem.iType = _Item.m_tItem.iType;
+	m_tItem.iOption = _Item.m_tItem.iOption;
+
+	m_tInfo.fCX = _Item.m_tInfo.fCX;
+	m_tInfo.fCY = _Item.m_tInfo.fCY;
+
+	m_DrawId = _Item.m_DrawId;
+	m_DropId = 0;
+}
+
 CItem::~CItem(void)
 {
 }

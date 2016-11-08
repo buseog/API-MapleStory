@@ -26,6 +26,9 @@ void CNPC::Initialize(void)
 
 void CNPC::Progress(DWORD _delta)
 {
+	if (m_pStore->GetOnOff())
+		m_pStore->Progress(_delta);
+
 	if (m_dwTime + m_tSprite.dwTime < GetTickCount())
 	{
 		m_dwTime = GetTickCount();
@@ -45,10 +48,6 @@ void CNPC::Progress(DWORD _delta)
 			m_pStore->SetOnOff(true);
 		}
 	}
-
-
-	if (m_pStore->GetOnOff())
-		m_pStore->Progress(_delta);
 }
 
 void CNPC::Render(HDC hdc)
@@ -72,6 +71,7 @@ void CNPC::Render(HDC hdc)
 void CNPC::Release(void)
 {
 	::Safe_Delete(m_pBit);
+	::Safe_Delete(m_pStore);
 }
 
 RECT CNPC::GetRect(void)
@@ -83,4 +83,9 @@ RECT CNPC::GetRect(void)
 		long(m_tInfo.fY + CParent::m_ptScroll.y + 50)};
 
 	return rc;
+}
+
+void CNPC::SetInventory(CUI* _pInventory)
+{
+	((CStore*)m_pStore)->SetInventory(_pInventory);
 }

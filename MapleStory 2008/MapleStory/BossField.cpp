@@ -67,6 +67,11 @@ void CBossField::Progress(DWORD _delta)
 		}
 	}
 
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Progress(_delta);
+	}
+
 	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
@@ -76,11 +81,6 @@ void CBossField::Progress(DWORD _delta)
 				(*iter)->Progress(_delta);
 			}
 		}
-	}
-
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
-	{
-		m_vecPortal[i]->Progress(_delta);
 	}
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
@@ -100,7 +100,6 @@ void CBossField::Progress(DWORD _delta)
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
 	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
@@ -109,7 +108,6 @@ void CBossField::Progress(DWORD _delta)
 	{
 		m_vecParent[PAR_PLAYER].back()->SetLevel();
 		m_vecParent[PAR_EFFECT].push_back(CFactory<CSkillEffect>::CreateParent(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 150, "LevelUpEFFECT"));
-
 	}
 }
 
@@ -121,11 +119,6 @@ void CBossField::Render(HDC hdc)
 			1372, 1200, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
-
-	for (size_t i = 0; i < m_vecItem.size(); ++i)
-	{
-		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
@@ -141,6 +134,11 @@ void CBossField::Render(HDC hdc)
 		}
 	}
 
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
+	}
+
 	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
@@ -151,8 +149,6 @@ void CBossField::Render(HDC hdc)
 			}
 		}
 	}
-
-
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
@@ -193,6 +189,12 @@ void CBossField::Release(void)
 		::Safe_Delete(m_vecPortal[i]);
 	}
 	m_vecPortal.clear();
+	
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		::Safe_Delete(m_vecItem[i]);
+	}
+	m_vecItem.clear();
 
 	::Safe_Delete(m_pLoading);
 }

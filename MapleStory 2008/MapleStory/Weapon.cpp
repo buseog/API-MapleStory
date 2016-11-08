@@ -11,6 +11,10 @@ CWeapon::CWeapon(wstring _strName, int _iOption, int _iCount, int _iPrice, int _
 	Initialize();
 }
 
+CWeapon::CWeapon(const CItem &_Item) :CItem(_Item)
+{
+}
+
 CWeapon::~CWeapon(void)
 {
 	Release();
@@ -20,6 +24,7 @@ void CWeapon::Initialize(void)
 {
 	m_tInfo = INFO(0, 0, 32.f, 32.f);
 }
+
 void CWeapon::Progress(DWORD _delta)
 {
 	if (m_DropId == 1)

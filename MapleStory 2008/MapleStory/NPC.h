@@ -13,7 +13,8 @@ private:
 	CUI*		m_pStore;
 
 public:
-	RECT GetRect(void);
+	RECT	GetRect(void);
+	void	SetInventory(CUI* _pInventory);
 
 public:
 	void Initialize(void);

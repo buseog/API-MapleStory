@@ -32,12 +32,8 @@ CStage2::~CStage2(void)
 void CStage2::Initialize(void)
 {
 	ParentClear();
+	m_fRegenTime = 7000.f;
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1890, 941);
-
-	for (int i = 0; i < 10; ++i)
-	{
-		m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 1700), float(rand() % 1400), "CoupleMushRoom_LEFT"));
-	}
 
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
@@ -50,7 +46,13 @@ void CStage2::Progress(DWORD _delta)
 	KeyInput();
 	UIDrag();
 
-		for (size_t i = 0; i < PAR_END; ++i)
+	if ((m_fRegenTime -= _delta) <= 0)
+	{
+		Regen();
+		m_fRegenTime = float(7000 + rand() % 2000);
+	}
+
+	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
 		{
@@ -74,25 +76,20 @@ void CStage2::Progress(DWORD _delta)
 		}
 	}
 
-	CRenderMgr::GetInstance()->UIClear();
+	for (size_t i = 0; i < m_vecPortal.size(); ++i)
+	{
+		m_vecPortal[i]->Progress(_delta);
+	}
 
-	for (size_t i = 0; i < UI_END; ++i)
+	for (int i = 0; i < UI_END; ++i)
 	{
 		if (m_vecUI[i].back()->GetOnOff())
 		{
 			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 			{
 				(*iter)->Progress(_delta);
-
-				if (i != UI_MAIN)
-					CRenderMgr::GetInstance()->AddUI(*iter);
 			}
 		}
-	}
-
-	for (size_t i = 0; i < m_vecPortal.size(); ++i)
-	{
-		m_vecPortal[i]->Progress(_delta);
 	}
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
@@ -112,7 +109,6 @@ void CStage2::Progress(DWORD _delta)
 		CCollisionMgr::CollisionPortal(&m_vecParent[PAR_PLAYER], &m_vecPortal);
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
-	CCollisionMgr::CollisionMTile(&m_vecParent[PAR_MONSTER], &m_vecTile);
 	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
 	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_MONSTER]);
 	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_MONSTER]));
@@ -121,7 +117,6 @@ void CStage2::Progress(DWORD _delta)
 	{
 		m_vecParent[PAR_PLAYER].back()->SetLevel();
 		m_vecParent[PAR_EFFECT].push_back(CFactory<CSkillEffect>::CreateParent(m_vecParent[PAR_PLAYER].back()->GetInfo().fX, m_vecParent[PAR_PLAYER].back()->GetInfo().fY - 150, "LevelUpEFFECT"));
-
 	}
 }
 
@@ -133,11 +128,6 @@ void CStage2::Render(HDC hdc)
 			1890, 941, 
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
-
-	for (size_t i = 0; i < m_vecItem.size(); ++i)
-	{
-		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
-	}
 
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
@@ -151,6 +141,11 @@ void CStage2::Render(HDC hdc)
 		{
 			(*iter)->Render(m_BitMap["Back"]->GetMemdc());
 		}
+	}
+
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 	for (int i = 0; i < UI_END; ++i)
@@ -204,5 +199,36 @@ void CStage2::Release(void)
 	}
 	m_vecPortal.clear();
 
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
+	{
+		::Safe_Delete(m_vecItem[i]);
+	}
+	m_vecItem.clear();
+
 	::Safe_Delete(m_pLoading);
+}
+
+void CStage2::Regen(void)
+{
+	int Regen = 20 - m_vecParent[PAR_MONSTER].size();
+
+	for (int i = 0; i < Regen; ++i)
+	{
+		int iRandom = rand() % 3 + 1;
+
+		switch (iRandom)
+		{
+		case 1:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 500 + 1100), 460.f, "PurpleMushRoom_RIGHT"));
+			break;
+
+		case 2:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 500 + 1100), 700.f, "CoupleMushRoom_RIGHT"));
+			break;
+
+		case 3:
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 500 + 1100), 220.f, "CoupleMushRoom_RIGHT"));
+			break;
+		}
+	}
 }

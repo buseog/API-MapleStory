@@ -31,5 +31,6 @@ public:
 public:
 	CItem(void);
 	CItem(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType);
+	CItem(const CItem &_Item);
 	virtual ~CItem(void);
 };

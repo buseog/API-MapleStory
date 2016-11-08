@@ -14,5 +14,6 @@ public:
 public:
 	CWeapon(void);
 	CWeapon(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iType);
+	CWeapon(const CItem &_Item);
 	~CWeapon(void);
 };

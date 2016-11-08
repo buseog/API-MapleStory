@@ -10,6 +10,11 @@ CArmor::CArmor(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iT
 {
 	Initialize();
 }
+
+CArmor::CArmor(const CItem &_Item) :CItem(_Item)
+{
+}
+
 CArmor::~CArmor(void)
 {
 }

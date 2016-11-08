@@ -9,6 +9,7 @@ private:
 	DWORD		m_dwTime;
 	CBitBmp*	m_pBit;
 	string		m_strKey;
+	float		m_fCoolTime;
 	
 
 public:
@@ -16,6 +17,7 @@ public:
 	void	Picking(void);
 	RECT	GetRect(void);
 	string	GetStrKey(void);
+	void	SetCoolTime(float _fCool);
 
 public:
 	void	Initialize(void);

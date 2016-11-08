@@ -294,6 +294,14 @@
 			<Filter
 				Name="04. Boss"
 				>
+				<File
+					RelativePath=".\Boss.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Boss.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -681,10 +689,6 @@
 				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 				>
 				<File
-					RelativePath=".\Boss.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\MapleStory.cpp"
 					>
 				</File>
@@ -714,10 +718,6 @@
 				Filter="h;hpp;hxx;hm;inl;inc;xsd"
 				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 				>
-				<File
-					RelativePath=".\Boss.h"
-					>
-				</File>
 				<File
 					RelativePath=".\MapleStory.h"
 					>

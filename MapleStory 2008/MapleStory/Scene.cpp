@@ -324,6 +324,8 @@ void CScene::LoadBmp(void)
 	m_BitMap["CoupleMushRoom_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/CoupleMushRoom_LEFT.bmp");
 	m_BitMap["CoupleMushRoom_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/CoupleMushRoom_RIGHT.bmp");
 
+	m_BitMap["Boss"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss.bmp");
+
 	//ÀÌÆåÆ® Ãß°¡
 	m_BitMap["Bolt_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Bolt_EFFECT.bmp");
 	m_BitMap["Typhoon_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Typhoon_EFFECT.bmp");

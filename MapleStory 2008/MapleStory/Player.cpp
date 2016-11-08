@@ -178,17 +178,18 @@ void CPlayer::KeyInput(DWORD _delta)
 
 
 	//// ½ºÅ³
-	if ((m_cTimer.dwRemainTime[1] + 500) <= GetTickCount())
+	if ((m_cTimer.dwRemainTime[1] + 1200) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_Q)
 		{
 			m_dwState = ST_ATTACK;
 			m_pSkill->push_back(CreateSkill(0));
+			
 			m_cTimer.dwRemainTime[1] = GetTickCount();
 		}
 	}
 
-	if ((m_cTimer.dwRemainTime[2] + 500) <= GetTickCount())
+	if ((m_cTimer.dwRemainTime[2] + 1200) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_W)
 		{
@@ -198,7 +199,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.dwRemainTime[3] + 500) <= GetTickCount())
+	if ((m_cTimer.dwRemainTime[3] + 1200) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_E)
 		{
@@ -208,7 +209,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.dwRemainTime[4] + 400) <= GetTickCount())
+	if ((m_cTimer.dwRemainTime[4] + 1200) <= GetTickCount())
 	{
 		if (m_dwKey & KEY_R)
 		{
@@ -355,6 +356,10 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 		{	
 			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 80, m_tInfo.fY - 30, "Annihilation_LEFT");
 		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Range_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 30, m_tInfo.fY - 30, "Range");
+		}
 	}
 	else
 	{
@@ -374,7 +379,13 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 		{	
 			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 80, m_tInfo.fY - 30, "Annihilation_RIGHT");
 		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Range_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 30, m_tInfo.fY - 30, "Range");
+		}
 	}
+
+	((CQuickSlot*)m_pSlot)->SetCooltime(_iSlot, 0.f);
 
 	if (pSkill)
 		return pSkill;

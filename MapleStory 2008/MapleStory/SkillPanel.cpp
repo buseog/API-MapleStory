@@ -22,6 +22,8 @@ void CSkillPanel::Initialize(void)
 	m_pIcon[1] = new CIcon(IC_SKILL, "Bolt_ON");
 	m_pIcon[2] = new CIcon(IC_SKILL, "Beyond_ON");
 	m_pIcon[3] = new CIcon(IC_SKILL, "Annihilation_ON");
+	m_pIcon[4] = new CIcon(IC_SKILL, "Range_ON");
+
 
 	m_pCloseButton = CFactory<CUI>::CreateUI(0.f, 0.f, "Close");
 

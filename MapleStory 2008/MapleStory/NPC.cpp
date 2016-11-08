@@ -40,7 +40,7 @@ void CNPC::Progress(DWORD _delta)
 
 	if(PtInRect(&GetRect(), GetMouse()))
 	{
-		if (GetAsyncKeyState(VK_LBUTTON) )
+		if (GetAsyncKeyState(VK_LBUTTON))
 		{
 			m_pStore->SetOnOff(true);
 		}
@@ -77,10 +77,10 @@ void CNPC::Release(void)
 RECT CNPC::GetRect(void)
 {
 	RECT rc = {
-		long(m_tInfo.fX - 50),
-		long(m_tInfo.fY - 50),
-		long(m_tInfo.fX + 90),
-		long(m_tInfo.fY + 50)};
+		long(m_tInfo.fX + CParent::m_ptScroll.x - 50),
+		long(m_tInfo.fY + CParent::m_ptScroll.y - 50),
+		long(m_tInfo.fX + CParent::m_ptScroll.x + 90),
+		long(m_tInfo.fY + CParent::m_ptScroll.y + 50)};
 
 	return rc;
 }

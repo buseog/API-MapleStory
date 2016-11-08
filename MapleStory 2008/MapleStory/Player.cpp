@@ -187,7 +187,6 @@ void CPlayer::KeyInput(DWORD _delta)
 		{
 			m_dwState = ST_ATTACK;
 			m_pSkill->push_back(CreateSkill(0));
-			
 			m_cTimer.dwRemainTime[1] = GetTickCount();
 		}
 	}

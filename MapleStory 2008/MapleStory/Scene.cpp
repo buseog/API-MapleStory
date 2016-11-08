@@ -338,10 +338,18 @@ void CScene::LoadBmp(void)
 
 	//아이템 추가
 	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");
+	m_BitMap["Weapon2"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon2.bmp");
+
 	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor.bmp");
+	m_BitMap["Armor2"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor2.bmp");
+
+	m_BitMap["Glove"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Glove.bmp");
+	m_BitMap["Glove2"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Glove2.bmp");
+
 	m_BitMap["Gold"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold.bmp");
 	m_BitMap["Gold2"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold2.bmp");
 	m_BitMap["Gold3"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Gold3.bmp");
+
 	m_BitMap["HPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/HPPotion.bmp");
 	m_BitMap["MPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/MPPotion.bmp");
 

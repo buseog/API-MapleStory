@@ -8,7 +8,7 @@ private:
 	int		m_iPortal;
 
 public:
-	void	SetPortal(int _iPortal);
+	void		SetPortal(int _iPortal);
 	SCENEID		GetPortal(void);
 
 public:

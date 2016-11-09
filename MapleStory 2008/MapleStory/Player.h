@@ -12,7 +12,8 @@ private:
 	POINT				m_ptOffset;
 	int					m_iBeyond;
 	CUI*				m_pSlot;
-	int					m_iQeust;
+	int					m_iQuest;
+	int					m_iTile;
 
 
 private:
@@ -30,8 +31,11 @@ public:
 	void		EquipItem(CItem* _pItem);
 	void		UnEquipItem(CItem* _pItem);
 	void		BuyItem(int _iGold);
-	void		SetQUst(int _iQuest);
+	void		SetQuest(int _iQuest);
 	int			GetQuest(void);
+
+	void		SetTile(int _iTile);
+	int			GetTile(void);
 	
 
 public:

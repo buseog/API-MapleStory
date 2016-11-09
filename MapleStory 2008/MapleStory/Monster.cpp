@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Monster.h"
 #include "Gold.h"
+#include "Etc.h"
 
 CMonster::CMonster(void)
 {
@@ -190,12 +191,13 @@ CItem* CMonster::GetDropItem(void)
 	}
 	else if (Random < 1000)
 	{
-		pDropItem = new CGold(L"Gold2", Random, 1, 1, IT_GOLD);
+		pDropItem = new CEtc(L"DragonStone", 1, 1, 1, IT_ETC);
 	}
 	else
 	{
 		pDropItem = new CGold(L"Gold", Random, 1, 1, IT_GOLD);
 	}
+
 
 	pDropItem->SetPos(m_tInfo.fX, m_tInfo.fY - 15);
 	return pDropItem;

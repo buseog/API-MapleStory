@@ -61,7 +61,10 @@ void CScene::KeyInput(void)
 			m_vecUI[UI_INVENTORY].back()->SetOnOff(false);
 		
 		else
+		{
 			m_vecUI[UI_INVENTORY].back()->SetOnOff(true);
+			m_vecUI[UI_INVENTORY].back()->SetPos(600.f, 300.f);
+		}
 	}
 
 	if (m_dwKey & KEY_U)	// ÀåºñÃ¢
@@ -70,7 +73,10 @@ void CScene::KeyInput(void)
 			m_vecUI[UI_EQUIPMENT].back()->SetOnOff(false);
 		
 		else
+		{
 			m_vecUI[UI_EQUIPMENT].back()->SetOnOff(true);
+			m_vecUI[UI_EQUIPMENT].back()->SetPos(600.f, 400.f);
+		}
 	}
 
 	if (m_dwKey & KEY_K)	// ½ºÅ³Ã¢
@@ -79,7 +85,10 @@ void CScene::KeyInput(void)
 			m_vecUI[UI_SKILLPANEL].back()->SetOnOff(false);
 		
 		else
+		{
 			m_vecUI[UI_SKILLPANEL].back()->SetOnOff(true);
+			m_vecUI[UI_SKILLPANEL].back()->SetPos(500.f, 350.f);
+		}
 	}
 
 	if (m_dwKey & KEY_J)	// ½ºÅÝ
@@ -88,7 +97,10 @@ void CScene::KeyInput(void)
 			m_vecUI[UI_STATUS].back()->SetOnOff(false);
 		
 		else
+		{
 			m_vecUI[UI_STATUS].back()->SetOnOff(true);
+			m_vecUI[UI_SKILLPANEL].back()->SetPos(400.f, 450.f);
+		}
 	}
 
 	if (m_dwKey & KEY_P)	// Äü½½·Ô
@@ -360,6 +372,9 @@ void CScene::LoadBmp(void)
 
 	m_BitMap["HPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/HPPotion.bmp");
 	m_BitMap["MPPotion"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/MPPotion.bmp");
+
+	m_BitMap["DragonStone"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/DragonStone.bmp");
+	m_BitMap["FreePass"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/FreePass.bmp");
 
 }
 

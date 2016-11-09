@@ -1,37 +1,33 @@
 #include "StdAfx.h"
 #include "Qeust.h"
 #include "Factory.h"
+#include "Inventory.h"
+#include "ETC.h"
 
-CQeust::CQeust(void)
+CQuest::CQuest(void)
 {
 }
 
-CQeust::CQeust(string _strKey)
+CQuest::CQuest(string _strKey)
 {
+	m_pInventory = NULL;
 	m_strKey = _strKey;
 }
 
-CQeust::~CQeust(void)
+CQuest::~CQuest(void)
 {
 }
 
 
-void	CQeust::Initialize(void)
+void	CQuest::Initialize(void)
 {
 	m_bOnOff = false;
 	m_tInfo = INFO(300.f, 200.f, 517.f, 188.f);
 	m_dwTime = GetTickCount();
-	QeustStart();
 }
 
-void	CQeust::Progress(DWORD _dwDelta)
+void	CQuest::Progress(DWORD _dwDelta)
 {
-	if (m_dwTime + 60 <= GetTickCount())
-	{
-		UIPicking();
-		m_dwTime = GetTickCount();
-	}
-
 	if (GetAsyncKeyState(VK_RETURN))
 	{
 		m_bOnOff = false;
@@ -40,11 +36,24 @@ void	CQeust::Progress(DWORD _dwDelta)
 	switch (((CPlayer*)m_pPlayer)->GetQuest())
 	{
 	case 0:
+		QuestStart();
+		break;
+
+	case 1:
+		QuestBoss();
+		break;
+
+	case 2:
+		QuestEnding();
+		break;
+
+	case 3:
+		QuestBye();
 		break;
 	}
 }
 
-void CQeust::Render(HDC hdc)
+void CQuest::Render(HDC hdc)
 {
 	BitBlt(hdc, 
 	int(m_tInfo.fX - m_tInfo.fCX / 2.f), 
@@ -53,20 +62,22 @@ void CQeust::Render(HDC hdc)
 	int(m_tInfo.fCY), 
 	(*m_pBitMap)[m_strKey]->GetMemdc(), 
 	0, 0, SRCCOPY);
-
+	
+	TextOut(hdc, int(m_tInfo.fX - 100), int(m_tInfo.fY - 50),
+		szString, lstrlen(szString));
 }
 
-void CQeust::Release(void)
+void CQuest::Release(void)
 {
 	::Safe_Delete(m_pCloseButton);
 }
 
-void CQeust::UIPicking(void)
+void CQuest::UIPicking(void)
 {
 
 }
 
-RECT CQeust::GetRect(void)
+RECT CQuest::GetRect(void)
 {
 	RECT rc = {
 		long(m_tInfo.fX - m_tInfo.fCX / 2.f),
@@ -78,7 +89,86 @@ RECT CQeust::GetRect(void)
 	return rc;
 }
 
-void CQeust::QeustStart(void)
+void CQuest::QuestStart(void)
 {
-	
+	HANDLE hFile = NULL;
+	DWORD dwByte = 0;
+
+	hFile = CreateFile(L"../Data/Quest_Start.dat",
+							GENERIC_READ, 
+							0, 
+							NULL, 
+							OPEN_EXISTING, 
+							FILE_ATTRIBUTE_NORMAL, 
+							NULL);
+
+	ReadFile(hFile, szString, sizeof(szString), &dwByte, NULL);
+
+	CloseHandle(hFile);
+
+	if (((CInventory*)m_pInventory)->ScanItem(1))
+		((CPlayer*)m_pPlayer)->SetQuest(1);
+}
+
+void CQuest::QuestBoss(void)
+{
+	HANDLE hFile = NULL;
+	DWORD dwByte = 0;
+
+	hFile = CreateFile(L"../Data/Quest_Boss.dat",
+							GENERIC_READ, 
+							0, 
+							NULL, 
+							OPEN_EXISTING, 
+							FILE_ATTRIBUTE_NORMAL, 
+							NULL);
+
+	ReadFile(hFile, szString, sizeof(szString), &dwByte, NULL);
+
+	CloseHandle(hFile);
+}
+
+void CQuest::QuestEnding(void)
+{
+	HANDLE hFile = NULL;
+	DWORD dwByte = 0;
+
+	hFile = CreateFile(L"../Data/Quest_Ending.dat",
+							GENERIC_READ, 
+							0, 
+							NULL, 
+							OPEN_EXISTING, 
+							FILE_ATTRIBUTE_NORMAL, 
+							NULL);
+
+	ReadFile(hFile, szString, sizeof(szString), &dwByte, NULL);
+
+	CloseHandle(hFile);
+
+	((CPlayer*)m_pPlayer)->SetQuest(3);
+}
+
+void CQuest::QuestBye(void)
+{
+	HANDLE hFile = NULL;
+	DWORD dwByte = 0;
+
+	hFile = CreateFile(L"../Data/Quest_Bye.dat",
+							GENERIC_READ, 
+							0, 
+							NULL, 
+							OPEN_EXISTING, 
+							FILE_ATTRIBUTE_NORMAL, 
+							NULL);
+
+	ReadFile(hFile, szString, sizeof(szString), &dwByte, NULL);
+
+	CloseHandle(hFile);
+
+	((CPlayer*)m_pPlayer)->SetQuest(4);
+}
+
+void	CQuest::SetInventory(CUI*	_pInventory)
+{
+	m_pInventory = _pInventory;
 }

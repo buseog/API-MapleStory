@@ -44,6 +44,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 						pPlayer->SetState(ST_STAND);
 
 					pPlayer->SetLand(true);
+					((CPlayer*)pPlayer)->SetTile((*_pTile)[i]->iOption);
 					pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
 					break;
 
@@ -51,6 +52,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 					if (pPlayer->GetInfo().fY <= (*_pTile)[i]->GetRect().bottom && pPlayer->GetJumpPower() > 0.f)
 					{
 						pPlayer->SetLand(true);
+						((CPlayer*)pPlayer)->SetTile((*_pTile)[i]->iOption);
 						pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
 					}
 					break;
@@ -62,6 +64,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 						{
 							pPlayer->SetLand(true);
 							pPlayer->SetState(ST_UP);
+							((CPlayer*)pPlayer)->SetTile((*_pTile)[i]->iOption);
 							pPlayer->SetPos((*_pTile)[i]->fX, pPlayer->GetInfo().fY - 10.f);
 						}
 					}
@@ -82,11 +85,13 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 
 								pPlayer->SetLand(true);
 								pPlayer->SetState(ST_UP);
+								((CPlayer*)pPlayer)->SetTile((*_pTile)[i]->iOption);
 							}
 						}
 						else
 						{
 							pPlayer->SetPos(pPlayer->GetInfo().fX, pPlayer->GetInfo().fY - lHeight);
+							((CPlayer*)pPlayer)->SetTile((*_pTile)[i]->iOption);
 							pPlayer->SetState(ST_STAND);
 						}
 					}
@@ -190,6 +195,12 @@ void CCollisionMgr::CollisionBoss(CParent* _pBoss, CParent* _pPlayer)
 	{
 		_pBoss->SetState(ST_ATTACK3);
 	}
+
+	if (_pBoss->GetStat().fHp <= 0)
+	{	
+		_pBoss->SetState(ST_DEATH);
+		((CPlayer*)_pPlayer)->SetQuest(2);
+	}
 	//else
 	//	_pBoss->SetState(ST_ATTACK);
 
@@ -231,22 +242,25 @@ void CCollisionMgr::CollisionBodyButt(vector<CParent*>*	_pPlayer, vector<CParent
 
 	for (size_t i = 0; i < _pMonster->size(); ++i)
 	{
-		if (pPlayer->GetInfo().fX >= (*_pMonster)[i]->GetInfo().fX - 50.f && pPlayer->GetInfo().fX <= (*_pMonster)[i]->GetInfo().fX + 50.f &&
-					pPlayer->GetInfo().fY >= (*_pMonster)[i]->GetInfo().fY - 50.f && pPlayer->GetInfo().fY <= (*_pMonster)[i]->GetInfo().fY + 50.f)
+		if ((*_pMonster)[i]->GetState() != ST_DEATH)
 		{
-			if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pMonster)[i]->GetRect()))
+			if (pPlayer->GetInfo().fX >= (*_pMonster)[i]->GetInfo().fX - 50.f && pPlayer->GetInfo().fX <= (*_pMonster)[i]->GetInfo().fX + 50.f &&
+						pPlayer->GetInfo().fY >= (*_pMonster)[i]->GetInfo().fY - 50.f && pPlayer->GetInfo().fY <= (*_pMonster)[i]->GetInfo().fY + 50.f)
 			{
-				if(!pPlayer->GetUnbeatable())
+				if (IntersectRect(&rc, &pPlayer->GetRect(), &(*_pMonster)[i]->GetRect()))
 				{
-					pPlayer->SetState(ST_HIT);	
-					if ((*_pMonster)[i]->GetInfo().fX - pPlayer->GetInfo().fX >= 0)
-						pPlayer->SetPos(pPlayer->GetInfo().fX - 20, pPlayer->GetInfo().fY - 20);
+					if(!pPlayer->GetUnbeatable())
+					{
+						pPlayer->SetState(ST_HIT);	
+						if ((*_pMonster)[i]->GetInfo().fX - pPlayer->GetInfo().fX >= 0)
+							pPlayer->SetPos(pPlayer->GetInfo().fX - 20, pPlayer->GetInfo().fY - 20);
 
-					else
-						pPlayer->SetPos(pPlayer->GetInfo().fX + 20, pPlayer->GetInfo().fY - 20);
+						else
+							pPlayer->SetPos(pPlayer->GetInfo().fX + 20, pPlayer->GetInfo().fY - 20);
 
-					pPlayer->SetUnbeatable(true);
-					AddEffect((*_pMonster)[i], pPlayer, 1);
+						pPlayer->SetUnbeatable(true);
+						AddEffect((*_pMonster)[i], pPlayer, 1);
+					}
 				}
 			}
 		}

@@ -51,7 +51,7 @@ void CBossField::Progress(DWORD _delta)
 
 			if ((*iter)->GetDestroy())
 			{
-				if (i == PAR_MONSTER || i == PAR_BOSS)
+				if (i == PAR_BOSS)
 					if(((CMonster*)(*iter))->GetDrop())
 						m_vecItem.push_back(((CMonster*)(*iter))->GetDropItem());
 						
@@ -104,9 +104,15 @@ void CBossField::Progress(DWORD _delta)
 
 	CCollisionMgr::CollisionPTile(&m_vecParent[PAR_PLAYER], &m_vecTile);
 	CCollisionMgr::CollisionITile(&m_vecItem, &m_vecTile);
-	CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_BOSS]);
-	m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_BOSS]));
-	CCollisionMgr::CollisionBoss(m_vecParent[PAR_BOSS].back(), m_vecParent[PAR_PLAYER].back());
+	
+	
+	if(m_vecParent[PAR_BOSS].size())
+	{
+		CCollisionMgr::CollisionBodyButt(&m_vecParent[PAR_PLAYER], &m_vecParent[PAR_BOSS]);
+		CCollisionMgr::CollisionBoss(m_vecParent[PAR_BOSS].back(), m_vecParent[PAR_PLAYER].back());
+		m_vecParent[PAR_PLAYER].back()->SetExp(CCollisionMgr::CollisionSKill(&m_vecParent[PAR_SKILL], &m_vecParent[PAR_BOSS]));
+	}
+
 	if (m_vecParent[PAR_PLAYER].back()->GetStat().fExp >= (800.f * m_vecParent[PAR_PLAYER].back()->GetStat().iLevel))
 	{
 		m_vecParent[PAR_PLAYER].back()->SetLevel();

@@ -39,8 +39,7 @@ void CMainGame::Release(void)
 {
 	ReleaseDC(g_hWnd, m_hdc);
 	m_pSceneMgr->DestroyInstance();
+	m_pSceneMgr->DestroyInstance();
 	CKeyMgr::GetInstance()->DestroyInst();
-	CSceneMgr::GetInstance()->Release();
-	CSceneMgr::GetInstance()->DestroyInstance();
 	CRenderMgr::GetInstance()->DestroyInst();
 }

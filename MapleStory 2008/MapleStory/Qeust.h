@@ -1,14 +1,21 @@
 #pragma once
 #include "ui.h"
 
-class CQeust :
+class CQuest :
 	public CUI
 {
 private:
-	TCHAR szName[128];
+	TCHAR szString[128];
+	CUI*	m_pInventory;
 
 private:
-	void	QeustStart(void);
+	void	QuestStart(void);
+	void	QuestBoss(void);
+	void	QuestEnding(void);
+	void	QuestBye(void);
+
+public:
+	void	SetInventory(CUI*	_pInventory);
 
 public:
 	virtual void UIPicking(void);
@@ -19,7 +26,7 @@ public:
 	virtual void Release(void);
 
 public:
-	CQeust(void);
-	CQeust(string _strKey);
-	~CQeust(void);
+	CQuest(void);
+	CQuest(string _strKey);
+	~CQuest(void);
 };

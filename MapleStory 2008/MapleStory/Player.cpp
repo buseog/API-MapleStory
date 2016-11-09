@@ -11,7 +11,8 @@ CPlayer::CPlayer(void)
 :m_pSkill(NULL)
 ,m_iBeyond(0)
 ,m_pSlot(NULL)
-,m_iQeust(0)
+,m_iQuest(0)
+,m_iTile(0)
 {
 }
 
@@ -54,7 +55,7 @@ void CPlayer::Progress(DWORD _delta)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
- 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP) &&  (m_dwState != ST_HIT))
+ 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP) &&  (m_dwState != ST_HIT) && (m_dwState != ST_PROSTATTACK))
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
@@ -71,13 +72,16 @@ void CPlayer::Progress(DWORD _delta)
 
 
 	SetState(ST_STAND, 5, 0, 80);
-	SetState(ST_WALK, 3, 1, 100);
-	SetState(ST_JUMP, 1, 6, 100);
-	SetState(ST_ATTACK, 3, 2, 100);
-	SetState(ST_ATTACK2, 4, 3, 100);
-	SetState(ST_UP, 1, 8, 100);
+	SetState(ST_WALK, 3, 1, 150);
+	SetState(ST_ATTACK, 3, 2, 150);
+	SetState(ST_ATTACK2, 4, 3, 130);
+	SetState(ST_PROSTATTACK, 2, 4, 200);
 	SetState(ST_PROSTRATE, 1, 5, 100);
+	SetState(ST_JUMP, 1, 6, 100);
 	SetState(ST_HIT, 3, 7, 30);
+	SetState(ST_UP, 1, 8, 100);
+
+
 }
 
 void CPlayer::Render(HDC hdc)
@@ -120,7 +124,9 @@ void CPlayer::KeyInput(DWORD _delta)
    		m_dwState = ST_STAND;
 	}
 
-	if (m_dwKey && (m_dwKey != KEY_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_ATTACK2) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_UP) && (m_bLand == true))
+	if (m_dwKey && (m_dwKey != KEY_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_ATTACK2) && 
+		(m_dwState != ST_PROSTRATE) && (m_dwState != ST_UP) && (m_bLand == true) && (m_dwState != ST_PROSTATTACK) &&
+		(m_dwKey != KEY_Q) && (m_dwKey != KEY_W) && (m_dwKey != KEY_E) && (m_dwKey != KEY_R))
 	{
 		m_dwState = ST_WALK;
 	}
@@ -135,32 +141,40 @@ void CPlayer::KeyInput(DWORD _delta)
 		m_tInfo.fX += m_tStat.fSpeed;
 	}
 
-	if ((m_dwKey & KEY_UP) && (m_dwState & ST_UP))
+	if ((m_dwKey & KEY_UP) && (m_dwState & ST_UP) && (m_dwState != ST_HIT))
 	{
 		m_tInfo.fY -= m_tStat.fSpeed;
 	}
 
-	if (m_dwKey & KEY_DOWN)
+	if (m_dwKey & KEY_DOWN && m_dwState != ST_PROSTATTACK)
 	{
 		if (m_dwState & ST_UP)
 		{
 			m_tInfo.fY += m_tStat.fSpeed;
 		}
 
-		else if (m_dwKey & KEY_ALT && m_dwState != ST_JUMP)
+		if (m_dwKey & KEY_CONTROL)
 		{
-			m_dwState = ST_JUMP;
-			m_tInfo.fY += 25.f;
+			m_dwState = ST_PROSTATTACK;
+		}
 
-			if (m_bLand == true)
+		if (m_iTile == 2)
+		{
+			if (m_dwKey & KEY_ALT && m_dwState != ST_JUMP)
 			{
-				m_fJpower = 5.f;
-				m_bLand = false;
+				m_dwState = ST_JUMP;
+				m_tInfo.fY += 25.f;
+
+				if (m_bLand == true)
+				{
+					m_fJpower = 5.f;
+					m_bLand = false;
+				}
 			}
 		}
 	}
 
-	if (m_dwKey & KEY_CONTROL)
+	if (m_dwKey & KEY_CONTROL && m_dwState != ST_PROSTATTACK)
 	{
 		m_dwState = ST_ATTACK;
 	}
@@ -294,7 +308,7 @@ void CPlayer::Rotation(void)
 	{
 	}
 
-	if ((m_dwKey & KEY_DOWN) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP))
+	if ((m_dwKey & KEY_DOWN) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP) && (m_dwState != ST_PROSTATTACK))
 	{
 		m_dwState = ST_PROSTRATE;
 	}
@@ -516,12 +530,22 @@ void CPlayer::BuyItem(int _iGold)
 	m_tStat.iGold -= _iGold;
 }
 
-void CPlayer::SetQUst(int _iQuest)
+void CPlayer::SetQuest(int _iQuest)
 {
-	m_iQeust = _iQuest;
+	m_iQuest = _iQuest;
 }
 
 int CPlayer::GetQuest(void)
 {
-	return m_iQeust;
+	return m_iQuest;
+}
+
+void CPlayer::SetTile(int _iTile)
+{
+	m_iTile = _iTile;
+}
+
+int	CPlayer::GetTile(void)
+{
+	return m_iTile;
 }

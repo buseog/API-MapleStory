@@ -33,6 +33,11 @@ void CInventory::Initialize(void)
 	m_tInfo = INFO(0, 0, 172.f, 335.f);
 
 	m_pCloseButton = CFactory<CUI>::CreateUI(0.f, 0.f, "Close");
+
+	for (int i = 0; i <INVENSIZE; ++i)
+	{
+		m_vecItem[i] = new CItemEmpty();
+	}
 }
 
 void CInventory::Progress(DWORD _delta)
@@ -279,7 +284,7 @@ void CInventory::SellStore(void)
 		m_pPick->SetPos((float)GetMouse().x, (float)GetMouse().y);
 
 	
-	for(size_t i = 0; i < m_vecItem.size(); ++i)
+	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
 		if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
 		{
@@ -291,4 +296,41 @@ void CInventory::SellStore(void)
 			}
 		}
 	}
+}
+
+bool CInventory::ScanItem(int _iQuest)
+{
+	int iCount = 0;
+
+	if (_iQuest == 1)
+	{
+		for (int i = 0; i < INVENSIZE; ++i)
+		{
+			if (m_vecItem[i]->GetItem().iType != IT_EMPTY)
+			{
+				if (m_vecItem[i]->GetItem().strName == L"DragonStone")
+				{
+					++iCount;
+				}
+			}
+		}
+
+		if (iCount >= 5)
+			return true;
+	}
+	else if (_iQuest == 2)
+	{
+		for (int i = 0; i < INVENSIZE; ++i)
+		{
+			if (m_vecItem[i]->GetItem().strName == L"FreePass")
+			{
+				++iCount;
+			}
+		}
+
+		if (iCount >= 1)
+			return true;
+	}
+
+	return false;
 }

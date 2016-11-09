@@ -34,7 +34,7 @@ void CNPC::Initialize(void)
 	}
 	else if (m_strKey == "Quest_Npc")
 	{
-		m_pUI = CFactory<CQeust>::CreateUI(400.f, 250.f, "Quest");
+		m_pUI = CFactory<CQuest>::CreateUI(400.f, 250.f, "Quest");
 		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Quest_Npc.bmp");
 		m_tInfo = INFO(750.f, 550.f, 69.f, 89.f);
 		m_tSprite = SPRITE(0, 30, 0, 80);
@@ -44,7 +44,11 @@ void CNPC::Initialize(void)
 
 void CNPC::Progress(DWORD _delta)
 {
-	UIPicking();
+	if (m_dwTime + 30 <= GetTickCount())
+	{
+		UIPicking();
+		m_dwTime = GetTickCount();
+	}
 
 	if (m_pUI->GetOnOff())
 		m_pUI->Progress(_delta);
@@ -101,7 +105,11 @@ RECT CNPC::GetRect(void)
 
 void CNPC::SetInventory(CUI* _pInventory)
 {
-	((CStore*)m_pUI)->SetInventory(_pInventory);
+	if (m_strKey == "Store_NPC")
+		((CStore*)m_pUI)->SetInventory(_pInventory);
+
+	else
+		((CQuest*)m_pUI)->SetInventory(_pInventory);
 }
 
 void CNPC::UIPicking(void)

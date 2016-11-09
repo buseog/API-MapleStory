@@ -205,7 +205,7 @@ void CStage1::Release(void)
 
 void CStage1::Regen(void)
 {
-	int Regen = 30 - m_vecParent[PAR_MONSTER].size();
+	int Regen = 20 - m_vecParent[PAR_MONSTER].size();
 
 	for (int i = 0; i < Regen; ++i)
 	{
@@ -222,15 +222,15 @@ void CStage1::Regen(void)
 			break;
 
 		case 3:
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 730.f, "BlueMushRoom_RIGHT"));
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 700), 730.f, "BlueMushRoom_RIGHT"));
 			break;
 
 		case 4:
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 500.f, "BlueMushRoom_RIGHT"));
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 700), 500.f, "BlueMushRoom_RIGHT"));
 			break;
 
 		case 5:
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 255.f, "GreenMushRoom_RIGHT"));
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 700), 255.f, "GreenMushRoom_RIGHT"));
 			break;
 		}
 	}

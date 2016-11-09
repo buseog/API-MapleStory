@@ -816,7 +816,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="04. Empty"
+				Name="05. Empty"
 				>
 				<File
 					RelativePath=".\ItemEmpty.cpp"
@@ -824,6 +824,18 @@
 				</File>
 				<File
 					RelativePath=".\ItemEmpty.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="04. ETC"
+				>
+				<File
+					RelativePath=".\Etc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Etc.h"
 					>
 				</File>
 			</Filter>

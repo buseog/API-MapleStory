@@ -32,7 +32,7 @@ CVillage::CVillage(void)
 
 	m_vecUI[UI_INVENTORY].push_back(CFactory<CInventory>::CreateUI(600.f, 300.f));
 	m_vecUI[UI_EQUIPMENT].push_back(CFactory<CEquipment>::CreateUI(500.f, 300.f));
-	m_vecUI[UI_SKILLPANEL].push_back(CFactory<CSkillPanel>::CreateUI(600.f, 400.f));
+	m_vecUI[UI_SKILLPANEL].push_back(CFactory<CSkillPanel>::CreateUI(500.f, 350.f));
 	m_vecUI[UI_QUICKSLOT].push_back(CFactory<CQuickSlot>::CreateUI(730.f, 490.f));
 	m_vecUI[UI_STATUS].push_back(CFactory<CStatus>::CreateUI(400.f, 450.f));
 
@@ -44,6 +44,7 @@ CVillage::CVillage(void)
 	((CPortal*)m_vecPortal.back())->SetPortal(2);
 
 	m_pStoreNPC->SetInventory(m_vecUI[UI_INVENTORY].back());
+	m_pQuestNPC->SetInventory(m_vecUI[UI_INVENTORY].back());
 	((CQuickSlot*)m_vecUI[UI_QUICKSLOT].back())->SetPanel(m_vecUI[UI_SKILLPANEL].back());
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetQuickSlot(m_vecUI[UI_QUICKSLOT].back());
 
@@ -267,4 +268,6 @@ void CVillage::Release(void)
 	m_vecItem.clear();
 
 	::Safe_Delete(m_pLoading);
+	::Safe_Delete(m_pQuestNPC);
+	::Safe_Delete(m_pStoreNPC);
 }

@@ -20,6 +20,8 @@ public:
 	CItem*	GetDropItem(void);
 	void	SellStore(void);
 
+	bool	ScanItem(int _iQuest);
+
 public:
 	virtual void UIPicking(void);
 	virtual RECT GetRect(void);

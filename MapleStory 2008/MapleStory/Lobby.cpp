@@ -17,6 +17,8 @@ CLobby::~CLobby(void)
 void CLobby::Initialize(void)
 {
 	m_bPick = false;
+	m_tSprite = SPRITE(0, 5, 0, 80);
+	
 
 	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
 	m_BitMap["Lobby"] = (new CBitBmp)->LoadBmp(L"../Texture/Lobby.bmp");
@@ -26,7 +28,7 @@ void CLobby::Initialize(void)
 	m_BitMap["Character_DELETE"] = (new CBitBmp)->LoadBmp(L"../Texture/Character_DELETE.bmp");
 	m_BitMap["BackScene"] = (new CBitBmp)->LoadBmp(L"../Texture/BackScene.bmp");
 
-	m_BitMap["Fighter"] = (new CBitBmp)->LoadBmp(L"../Texture/Fighter.bmp");
+	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_LEFT.bmp");
 	m_BitMap["Sworder"] = (new CBitBmp)->LoadBmp(L"../Texture/Sworder.bmp");
 	m_BitMap["Archer"] = (new CBitBmp)->LoadBmp(L"../Texture/Archer.bmp");
 
@@ -42,12 +44,30 @@ void CLobby::Progress(DWORD _delta)
 {
 	int iSelect = 0;
 
-	RECT rc = {275, 265, 325, 335};
+	RECT rc = {265, 235, 335, 315};
+
+	if (m_bPick)
+	{	
+		if (m_dwTime + m_tSprite.dwTime < GetTickCount())
+		{
+			m_dwTime = GetTickCount();
+
+			++m_tSprite.iStart;
+		}
+
+		if (m_tSprite.iStart >= m_tSprite.iLast)
+		{
+ 			m_tSprite.iStart = 0;
+		}
+	}
 
 	if (PtInRect(&rc, GetMouse()))
 	{
 		if (GetAsyncKeyState(VK_LBUTTON))
+		{
 			m_bPick = true;
+			m_tSprite = SPRITE(0, 3, 1, 120);
+		}
 	}
 
 
@@ -117,10 +137,10 @@ void CLobby::Render(HDC hdc)
 
 	TransparentBlt(m_BitMap["Back"]->GetMemdc(),
 		300, 300, 
-		50, 70,
-		m_BitMap["Fighter"]->GetMemdc(),
-		0, 0,
-		50, 70,
+		70, 90,
+		m_BitMap["Player_LEFT"]->GetMemdc(),
+		70 * m_tSprite.iStart, 90 * m_tSprite.iMotion,
+		70, 90,
 		RGB(255, 255, 250));
 
 	BitBlt(hdc, 

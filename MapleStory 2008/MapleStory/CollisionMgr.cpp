@@ -185,7 +185,7 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 
 void CCollisionMgr::CollisionBoss(CParent* _pBoss, CParent* _pPlayer)
 {
-	if ((_pBoss->GetInfo().fX - _pPlayer->GetInfo().fX) >= 500.f)
+	if ((_pBoss->GetInfo().fX - _pPlayer->GetInfo().fX) >= 450.f)
 	{
 		_pBoss->SetState(ST_ATTACK2);
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Back"));
@@ -194,6 +194,7 @@ void CCollisionMgr::CollisionBoss(CParent* _pBoss, CParent* _pPlayer)
 	if (_pBoss->GetStat().fHp / _pBoss->GetStat().fFullHp <= 0.5)
 	{
 		_pBoss->SetState(ST_ATTACK3);
+		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Fire"));
 	}
 
 	if (_pBoss->GetStat().fHp <= 0)

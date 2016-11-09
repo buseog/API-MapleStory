@@ -301,6 +301,12 @@ void CScene::LoadBmp(void)
 	//플레이어 추가
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_LEFT.bmp");
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_RIGHT.bmp");
+
+	m_BitMap["Pet"] = (new CBitBmp)->LoadBmp(L"../Texture/Pet/Pet.bmp");
+	m_BitMap["RPet"] = (new CBitBmp)->LoadBmp(L"../Texture/Pet/RPet.bmp");
+
+	//펫
+	
 	
 	//스킬 추가
 	m_BitMap["Annihilation_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Annihilation_LEFT.bmp");

@@ -5,6 +5,7 @@
 #include "Skill.h"
 #include "QuickSlot.h"
 #include "Item.h"
+#include "Pet.h"
 
 
 CPlayer::CPlayer(void)
@@ -13,6 +14,7 @@ CPlayer::CPlayer(void)
 ,m_pSlot(NULL)
 ,m_iQuest(0)
 ,m_iTile(0)
+,m_pPet(NULL)
 {
 }
 
@@ -36,6 +38,9 @@ void CPlayer::Initialize(void)
 
 	m_ptOffset.x = WINCX / 2;
 	m_ptOffset.y = WINCY / 2;
+
+	m_pPet = CFactory<CPet>::CreateParent(m_tInfo.fX, m_tInfo.fY);
+	((CPet*)m_pPet)->SetPlayer(this);
 }
 
 void CPlayer::Progress(DWORD _delta)
@@ -70,6 +75,7 @@ void CPlayer::Progress(DWORD _delta)
 
 		}
 
+	m_pPet->Progress(_delta);
 
 	SetState(ST_STAND, 5, 0, 80);
 	SetState(ST_WALK, 3, 1, 150);
@@ -98,6 +104,8 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
 
+
+	m_pPet->Render(hdc);
 	
 		TCHAR szName[128] = L"";
 		wsprintf(szName, L"%d",(int) m_tInfo.fX);
@@ -113,6 +121,7 @@ void CPlayer::Render(HDC hdc)
 
 void CPlayer::Release(void)
 {
+	::Safe_Delete(m_pPet);
 }
 
 void CPlayer::KeyInput(DWORD _delta)
@@ -141,7 +150,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		m_tInfo.fX += m_tStat.fSpeed;
 	}
 
-	if ((m_dwKey & KEY_UP) && (m_dwState & ST_UP) && (m_dwState != ST_HIT))
+	if ((m_dwKey & KEY_UP) && (m_dwState & ST_UP) && (m_dwState != ST_HIT) && (m_dwKey != KEY_ALT))
 	{
 		m_tInfo.fY -= m_tStat.fSpeed;
 	}
@@ -177,6 +186,7 @@ void CPlayer::KeyInput(DWORD _delta)
 	if (m_dwKey & KEY_CONTROL && m_dwState != ST_PROSTATTACK)
 	{
 		m_dwState = ST_ATTACK;
+		m_pPet->SetState(ST_ATTACK);
 	}
 
 	if (m_dwKey & KEY_ALT && m_dwState != ST_PROSTRATE)
@@ -218,6 +228,7 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK;
 				m_pSkill->push_back(pSkill);
 				m_cTimer.fRemainTime[1] = 800.f;
+				m_pPet->SetState(ST_ATTACK2);
 			}
 		}
 	}
@@ -232,6 +243,7 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
 				m_cTimer.fRemainTime[2] = 800.f;
+				m_pPet->SetState(ST_ATTACK3);
 			}
 		}
 	}

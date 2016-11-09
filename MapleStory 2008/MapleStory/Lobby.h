@@ -7,6 +7,7 @@ class CLobby	:
 private:
 	vector<CUI*>	m_vecButton;
 	CUI* CreateButton(float _fX, float _fY, string _StrKey);
+	SPRITE		m_tSprite;
 	bool		m_bPick;
 
 public:

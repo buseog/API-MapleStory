@@ -128,7 +128,7 @@ void CMonster::Progress(DWORD _delta)
 		SetState(ST_STAND, 8, 0, 100);
 		SetState(ST_WALK, 14, 1, 80);
 		SetState(ST_HIT, 1, 2, 800);
-		SetState(ST_DEATH, 5, 3, 200);
+		SetState(ST_DEATH, 5, 3, 400);
 		
 	}
 

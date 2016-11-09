@@ -10,6 +10,7 @@ class CPlayer	:
 private:
 	vector<CParent*>*	m_pSkill;
 	POINT				m_ptOffset;
+	CParent*			m_pPet;
 	int					m_iBeyond;
 	CUI*				m_pSlot;
 	int					m_iQuest;

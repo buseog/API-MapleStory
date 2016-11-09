@@ -10,6 +10,7 @@ class CVillage	:
 {
 private:
 	CNPC*	m_pStoreNPC;
+	CNPC*	m_pQuestNPC;
 
 public:
 	virtual void Initialize(void);

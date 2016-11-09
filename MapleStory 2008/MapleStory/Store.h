@@ -12,8 +12,6 @@ class CStore	:
 private:
 	vector<CItem*>		m_vecItemList;
 	CUI*				m_pInventory;
-	bool				m_bDrag;
-	POINT				m_prevPT;
 
 public:
 	void	SetInventory(CUI*	_pInventory);

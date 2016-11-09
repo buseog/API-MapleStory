@@ -282,6 +282,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["Dead"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Dead.bmp");
 	m_BitMap["Close"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Close.bmp");
 	m_BitMap["Store"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Store.bmp");
+	m_BitMap["Quest"] = (new CBitBmp)->LoadBmp(L"../Texture/UI/Quest.bmp");
 	
 
 

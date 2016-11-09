@@ -149,6 +149,12 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 					{
 						if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
 						{
+							if (((*_pMonster)[j]->GetInfo().fX - (*_pSkill)[i]->GetInfo().fX)  >= 0)
+								(*_pMonster)[j]->SetPos((*_pMonster)[j]->GetInfo().fX + 25, (*_pMonster)[j]->GetInfo().fY);
+
+							else if (((*_pMonster)[j]->GetInfo().fX - (*_pSkill)[i]->GetInfo().fX)  <= 0)
+								(*_pMonster)[j]->SetPos((*_pMonster)[j]->GetInfo().fX - 25, (*_pMonster)[j]->GetInfo().fY);
+							
 							(*_pMonster)[j]->SetState(ST_HIT);
 
 							SkillDamage((*_pSkill)[i], (*_pMonster)[j]);

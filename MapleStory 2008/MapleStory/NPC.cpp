@@ -3,12 +3,20 @@
 #include "Parent.h"
 #include "Store.h"
 #include "Factory.h"
+#include "Qeust.h"
 
 CNPC::CNPC(void)
-:m_pStore(NULL)
+:m_pUI(NULL)
 {
 }
 
+CNPC::CNPC(string _strKey)
+:m_pUI(NULL)
+,m_strKey(_strKey)
+{
+	m_dwTime = GetTickCount();
+	m_bDrag = false;
+}
 
 CNPC::~CNPC(void)
 {
@@ -17,17 +25,29 @@ CNPC::~CNPC(void)
 
 void CNPC::Initialize(void)
 {
-	m_pStore = CFactory<CStore>::CreateUI(400.f, 300.f, "Store");
-	m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/NPC.bmp");
-	m_tInfo = INFO(580.f, 560.f, 68.f, 56.f);
-	m_tSprite = SPRITE(0, 16, 0, 80);
-	m_dwTime = GetTickCount();
+	if (m_strKey == "Store_NPC")
+	{
+		m_pUI = CFactory<CStore>::CreateUI(400.f, 270.f, "Store");
+		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Store_NPC.bmp");
+		m_tInfo = INFO(580.f, 560.f, 68.f, 56.f);
+		m_tSprite = SPRITE(0, 16, 0, 80);
+	}
+	else if (m_strKey == "Quest_Npc")
+	{
+		m_pUI = CFactory<CQeust>::CreateUI(400.f, 250.f, "Quest");
+		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Quest_Npc.bmp");
+		m_tInfo = INFO(750.f, 550.f, 69.f, 89.f);
+		m_tSprite = SPRITE(0, 30, 0, 80);
+	}
+	
 }
 
 void CNPC::Progress(DWORD _delta)
 {
-	if (m_pStore->GetOnOff())
-		m_pStore->Progress(_delta);
+	UIPicking();
+
+	if (m_pUI->GetOnOff())
+		m_pUI->Progress(_delta);
 
 	if (m_dwTime + m_tSprite.dwTime < GetTickCount())
 	{
@@ -41,13 +61,7 @@ void CNPC::Progress(DWORD _delta)
 		m_tSprite.iStart = 0;
 	}
 
-	if(PtInRect(&GetRect(), GetMouse()))
-	{
-		if (GetAsyncKeyState(VK_LBUTTON))
-		{
-			m_pStore->SetOnOff(true);
-		}
-	}
+
 }
 
 void CNPC::Render(HDC hdc)
@@ -64,28 +78,72 @@ void CNPC::Render(HDC hdc)
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
 
-	if (m_pStore->GetOnOff())
-		m_pStore->Render(hdc);
+	if (m_pUI->GetOnOff())
+		m_pUI->Render(hdc);
 }
 
 void CNPC::Release(void)
 {
 	::Safe_Delete(m_pBit);
-	::Safe_Delete(m_pStore);
+	::Safe_Delete(m_pUI);
 }
 
 RECT CNPC::GetRect(void)
 {
 	RECT rc = {
-		long(m_tInfo.fX + CParent::m_ptScroll.x - 50),
-		long(m_tInfo.fY + CParent::m_ptScroll.y - 50),
-		long(m_tInfo.fX + CParent::m_ptScroll.x + 90),
-		long(m_tInfo.fY + CParent::m_ptScroll.y + 50)};
+		long(m_tInfo.fX - m_tInfo.fCX / 2.f + CParent::m_ptScroll.x),
+		long(m_tInfo.fY - m_tInfo.fCY / 2.f + CParent::m_ptScroll.y),
+		long(m_tInfo.fX + m_tInfo.fCX / 2.f + CParent::m_ptScroll.x),
+		long(m_tInfo.fY + m_tInfo.fCY / 2.f + CParent::m_ptScroll.y)};
 
 	return rc;
 }
 
 void CNPC::SetInventory(CUI* _pInventory)
 {
-	((CStore*)m_pStore)->SetInventory(_pInventory);
+	((CStore*)m_pUI)->SetInventory(_pInventory);
+}
+
+void CNPC::UIPicking(void)
+{
+	float fX = float(GetMouse().x - m_prevPT.x);
+	float fY = float(GetMouse().y - m_prevPT.y);
+
+
+	if(m_bDrag)
+	{
+		m_pUI->SetPos(m_pUI->GetInfo().fX + fX, m_pUI->GetInfo().fY + fY);
+	}
+
+	if (m_pUI->GetOnOff())
+	{
+		if (GetAsyncKeyState(VK_LBUTTON))
+		{
+			if(PtInRect(&m_pUI->GetRect(), GetMouse()))
+			{
+				m_prevPT = GetMouse();
+				m_bDrag = true;
+			}
+		}
+		else
+		{
+			m_bDrag = false;
+		}
+	}
+
+	
+	if(PtInRect(&GetRect(), GetMouse()))
+	{
+		if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+		{
+			if (m_strKey == "Store_NPC")
+			{
+				m_pUI->SetOnOff(true);
+			}
+			else if (m_strKey == "Quest_Npc")
+			{
+				m_pUI->SetOnOff(true);
+			}	
+		}
+	}
 }

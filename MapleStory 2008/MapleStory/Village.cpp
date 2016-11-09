@@ -17,8 +17,11 @@ CVillage::CVillage(void)
 	LoadMap();
 	LoadBmp();
 
-	m_pStoreNPC = new CNPC;
+	m_pStoreNPC = new CNPC("Store_NPC");
 	m_pStoreNPC->Initialize();
+
+	m_pQuestNPC = new CNPC("Quest_Npc");
+	m_pQuestNPC->Initialize();
 
 	m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f));
 
@@ -99,6 +102,9 @@ void CVillage::Progress(DWORD _delta)
 	if (m_pStoreNPC)
 		m_pStoreNPC->Progress(_delta);
 
+	if (m_pQuestNPC)
+		m_pQuestNPC->Progress(_delta);
+
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Progress(_delta);
@@ -173,6 +179,9 @@ void CVillage::Render(HDC hdc)
 	
 	if (m_pStoreNPC)
 		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
+
+	if (m_pQuestNPC)
+		m_pQuestNPC->Render(m_BitMap["Back"]->GetMemdc());
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{

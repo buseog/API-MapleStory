@@ -23,11 +23,11 @@ protected:
 	DWORD	m_dwState;
 	DWORD	m_dwKey;
 	string	m_strKey;
+
 	static	POINT					m_ptMapSize;
 	static	map<string, CBitBmp*>*	m_pBitMap;
 
 public:
-	static  POINT m_ptScroll;
 	INFO	GetInfo(void);
 	STAT	GetStat(void);
 	SPRITE	GetSprite(void);
@@ -53,7 +53,8 @@ public:
 
 	
 public:
-	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
+	static	void	SetBitMap(map<string, CBitBmp*>* _pBitMap);
+	static	POINT	m_ptScroll;
 	void	SetScroll(float _fX, float _fY);
 	void	SetStrKey(string _strKey);
 	void	Gravity(void);

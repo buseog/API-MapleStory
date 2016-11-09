@@ -37,7 +37,11 @@ void CInventory::Initialize(void)
 
 void CInventory::Progress(DWORD _delta)
 {
-	UIPicking();
+	if (m_dwTime + 60 <= GetTickCount())
+	{
+		UIPicking();
+		m_dwTime = GetTickCount();
+	}
 	ItemPos();
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
@@ -197,7 +201,7 @@ void CInventory::UIPicking(void)
 		{
 			if(PtInRect(&m_vecItem[i]->GetRect(), GetMouse()))
 			{
-				if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
+				if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 				{
 					if (m_vecItem[i]->GetItem().iType == IT_POTION)
 					{
@@ -207,6 +211,7 @@ void CInventory::UIPicking(void)
 
 						if (m_vecItem[i]->GetItem().iCount <= 0)
 						{
+							::Safe_Delete(m_vecItem[i]);
 							m_vecItem[i] = new CItemEmpty();
 						}
 					}
@@ -218,7 +223,7 @@ void CInventory::UIPicking(void)
 					}
 				}
 
-				if (GetAsyncKeyState(VK_LBUTTON) & 0x0001)
+				if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 				{
 					if (m_pPick == NULL)
 					{
@@ -233,7 +238,6 @@ void CInventory::UIPicking(void)
 						m_pPick = NULL;
 					}
 				}
-				m_dwTime = GetTickCount();
 			}
 		}
 	}

@@ -9,12 +9,16 @@ private:
 	INFO		m_tInfo;
 	SPRITE		m_tSprite;
 	DWORD		m_dwTime;
+	string		m_strKey;
 	CBitBmp*	m_pBit;
-	CUI*		m_pStore;
+	CUI*		m_pUI;
+	bool		m_bDrag;
+	POINT		m_prevPT;
 
 public:
 	RECT	GetRect(void);
 	void	SetInventory(CUI* _pInventory);
+	void	UIPicking(void);
 
 public:
 	void Initialize(void);
@@ -23,5 +27,6 @@ public:
 	void Release(void);
 public:
 	CNPC(void);
+	CNPC(string _strKey);
 	~CNPC(void);
 };

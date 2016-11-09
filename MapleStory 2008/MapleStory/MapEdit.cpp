@@ -336,7 +336,6 @@ void CMapEdit::SaveMap(void)
 
 	for (size_t i = 0; i < m_vecTile.size(); ++i)
 	{
-		if (m_vecTile[i]->iOption)
 		WriteFile(hFile, m_vecTile[i], sizeof(TILE), &dwByte, NULL);
 	}
 

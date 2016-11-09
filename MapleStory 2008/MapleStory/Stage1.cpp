@@ -230,7 +230,7 @@ void CStage1::Regen(void)
 			break;
 
 		case 5:
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 240.f, "GreenMushRoom_RIGHT"));
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 255.f, "GreenMushRoom_RIGHT"));
 			break;
 		}
 	}

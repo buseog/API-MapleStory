@@ -665,6 +665,18 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="07. Quest"
+				>
+				<File
+					RelativePath=".\Qeust.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Qeust.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="99. ETC"

@@ -15,6 +15,7 @@ CStore::CStore(string _strKey)
 	m_strKey = _strKey;
 	m_pInventory = NULL;
 }
+
 CStore::~CStore(void)
 {
 	Release();
@@ -22,9 +23,9 @@ CStore::~CStore(void)
 
 void	CStore::Initialize(void)
 {
-	m_bDrag = false;
-	m_tInfo = INFO(300.f, 200.f, 271.f, 500.f);
 	m_bOnOff = false;
+	m_tInfo = INFO(300.f, 200.f, 271.f, 500.f);
+	m_dwTime = GetTickCount();
 
 	m_pCloseButton = CFactory<CUI>::CreateUI(0.f, 0.f, "Close");
 
@@ -36,7 +37,11 @@ void	CStore::Initialize(void)
 
 void	CStore::Progress(DWORD _dwDelta)
 {
-	UIPicking();
+	if (m_dwTime + 100 <= GetTickCount())
+	{
+		UIPicking();
+		m_dwTime = GetTickCount();
+	}
 
 	float fCloseX = m_tInfo.fX + m_tInfo.fCX / 2.f - 17;
 	float fCloseY = m_tInfo.fY - m_tInfo.fCY / 2.f + 17;
@@ -102,43 +107,20 @@ RECT CStore::GetRect(void)
 
 void CStore::UIPicking(void)
 {
-	float fX = float(GetMouse().x - m_prevPT.x);
-	float fY = float(GetMouse().y - m_prevPT.y);
-
 	if (PtInRect(&m_pCloseButton->GetRect(), GetMouse()))
 	{
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
-			m_bDrag = false;
 			m_bOnOff = false;
+			return;
 		}
 	}
-
-	if(m_bDrag)
-	{
-		m_tInfo.fX += fX;
-		m_tInfo.fY += fY;
-	}
-
-
-	if (GetAsyncKeyState(VK_LBUTTON))
-	{
-		if(PtInRect(&GetRect(), GetMouse()))
-		{
-			m_prevPT = GetMouse();
-			m_bDrag = true;
-		}
-	}
-	else
-	{
-		m_bDrag = false;
-	}
-
+	
 	for (size_t i = 0; i < m_vecItemList.size(); ++i)
 	{
 		if (PtInRect(&m_vecItemList[i]->GetRect(), GetMouse()))
 		{
-			if (GetAsyncKeyState(VK_RBUTTON) & 0x0001)
+			if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 			{
 				if (m_pPlayer->GetStat().iGold >= m_vecItemList[i]->GetItem().iPrice)
 				{
@@ -160,6 +142,7 @@ void CStore::UIPicking(void)
 						((CInventory*)m_pInventory)->AddItem(pBuyItem);
 					}
 				}
+				return;
 			}
 		}
 	}

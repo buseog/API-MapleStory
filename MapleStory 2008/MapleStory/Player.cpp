@@ -11,6 +11,7 @@ CPlayer::CPlayer(void)
 :m_pSkill(NULL)
 ,m_iBeyond(0)
 ,m_pSlot(NULL)
+,m_iQeust(0)
 {
 }
 
@@ -359,8 +360,8 @@ void CPlayer::ScrollY(void)
 			return;
 		}
 
-		m_ptScroll.y += (long)m_tStat.fSpeed + m_fJpower;
-		m_ptOffset.y -= (long)m_tStat.fSpeed + m_fJpower;
+		m_ptScroll.y += long(m_tStat.fSpeed);
+		m_ptOffset.y -= long(m_tStat.fSpeed);
 	}
 
 	// ÇÏ´Ü ³¡
@@ -374,8 +375,8 @@ void CPlayer::ScrollY(void)
 			return;
 		}
 
-		m_ptScroll.y -= (long)m_tStat.fSpeed + m_fJpower;
-		m_ptOffset.y += (long)m_tStat.fSpeed + m_fJpower;
+		m_ptScroll.y -= (long)m_tStat.fSpeed;
+		m_ptOffset.y += (long)m_tStat.fSpeed;
 	}
 }
 
@@ -513,4 +514,14 @@ void CPlayer::UnEquipItem(CItem* _pItem)
 void CPlayer::BuyItem(int _iGold)
 {
 	m_tStat.iGold -= _iGold;
+}
+
+void CPlayer::SetQUst(int _iQuest)
+{
+	m_iQeust = _iQuest;
+}
+
+int CPlayer::GetQuest(void)
+{
+	return m_iQeust;
 }

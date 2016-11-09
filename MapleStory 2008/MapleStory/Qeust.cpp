@@ -107,7 +107,12 @@ void CQuest::QuestStart(void)
 	CloseHandle(hFile);
 
 	if (((CInventory*)m_pInventory)->ScanItem(1))
+	{
 		((CPlayer*)m_pPlayer)->SetQuest(1);
+
+		CItem* pQuestItem = new CEtc(L"FreePass", 1, 1, 1, IT_ETC);	
+		((CInventory*)m_pInventory)->AddItem(pQuestItem);
+	}
 }
 
 void CQuest::QuestBoss(void)
@@ -164,8 +169,6 @@ void CQuest::QuestBye(void)
 	ReadFile(hFile, szString, sizeof(szString), &dwByte, NULL);
 
 	CloseHandle(hFile);
-
-	((CPlayer*)m_pPlayer)->SetQuest(4);
 }
 
 void	CQuest::SetInventory(CUI*	_pInventory)

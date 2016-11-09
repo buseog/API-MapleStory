@@ -175,6 +175,11 @@ void	CIcon::Picking(void)
 	
 }
 
+INFO	CIcon::GetInfo(void)
+{
+	return m_tInfo;
+}
+
 RECT CIcon::GetRect(void)
 {
 	RECT rc = {

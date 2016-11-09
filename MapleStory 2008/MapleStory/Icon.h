@@ -15,6 +15,7 @@ private:
 public:
 	void	SetPos(float _fX, float _fY);
 	void	Picking(void);
+	INFO	GetInfo(void);
 	RECT	GetRect(void);
 	string	GetStrKey(void);
 	void	SetCoolTime(float _fCool);

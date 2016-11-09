@@ -44,6 +44,7 @@ protected:
 public:
 	CParent*	GetPlayer(void);
 	void		SetDropItem(CItem* _pItem);
+	CUI*		GetInventory(void);
 	static void SetEffect(CParent* _Effect);
 
 public:

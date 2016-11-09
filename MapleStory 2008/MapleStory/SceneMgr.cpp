@@ -10,6 +10,7 @@
 #include "BossField.h"
 #include "MapEditor.h"
 #include "Parent.h"
+#include "Scene.h"
 #include "Player.h"
 
 CSceneMgr* CSceneMgr::m_pInstance = NULL;
@@ -128,22 +129,35 @@ void CSceneMgr::SetScene(SCENEID eScene)
 		break;
 
 	case SC_BOSS:
-		if (!m_pSaveScene[eScene])
+		if (((CInventory*)m_pScene->GetInventory())->ScanItem(2))
 		{
-			m_pScene = new CBossField;
-			m_pSaveScene[eScene] = m_pScene;
-		}
-		else
-		{
-			m_pScene = m_pSaveScene[SC_BOSS];
+			if (!m_pSaveScene[eScene])
+			{
+				m_pScene = new CBossField;
+				m_pSaveScene[eScene] = m_pScene;
+			}
+			else
+			{
+				m_pScene = m_pSaveScene[SC_BOSS];
+			}
 		}
 
 		// Æ÷Å» ÀÌµ¿ºÎ
 		if (m_eStage == SC_STAGE2)
 		{
-			m_pScene->GetPlayer()->SetPos(170.f, 900.f);
-			((CPlayer*)m_pScene->GetPlayer())->SetScroll(0.f, -600.f);
-			((CPlayer*)m_pScene->GetPlayer())->SetOffset(400.f, 900.f);
+			if (((CInventory*)m_pScene->GetInventory())->ScanItem(2))
+			{
+				m_pScene->GetPlayer()->SetPos(170.f, 900.f);
+				((CPlayer*)m_pScene->GetPlayer())->SetScroll(0.f, -600.f);
+				((CPlayer*)m_pScene->GetPlayer())->SetOffset(400.f, 900.f);
+			}
+			else
+			{
+				m_pScene = m_pSaveScene[SC_VILLAGE];
+				m_pScene->GetPlayer()->SetPos(50.f, 300.f);
+				((CPlayer*)m_pScene->GetPlayer())->SetScroll(0.f, -190.f);
+				((CPlayer*)m_pScene->GetPlayer())->SetOffset(400.f, 490.f);
+			}
 		}
 		break;
 

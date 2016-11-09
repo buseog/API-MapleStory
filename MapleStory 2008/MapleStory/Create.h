@@ -6,6 +6,10 @@ class CCreate :
 {
 private:
 	vector<CUI*>	m_vecButton;
+	SPRITE			m_tSprite;
+	bool			m_bPick;
+
+private:
 	CUI* CreateButton(float _fX, float _fY, string _StrKey);
 
 public:

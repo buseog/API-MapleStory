@@ -108,30 +108,30 @@ void CCollisionMgr::CollisionITile(vector<CItem*>* _pItem, vector<TILE*>* _pTile
 
 	for (size_t i = 0; i < _pItem->size(); ++i)
 	{
-		for (size_t j = 0; j < _pTile->size(); ++j)
+		for (size_t j = 0; j < _pTile->size();)
 		{
 			if ((*_pTile)[j]->iOption)
 			{
-				if ((*_pItem)[i]->GetInfo().fX >= (*_pTile)[j]->fX - 100.f && (*_pItem)[i]->GetInfo().fX <= (*_pTile)[j]->fX + 100.f &&
-					(*_pItem)[i]->GetInfo().fY >= (*_pTile)[j]->fY - 100.f && (*_pItem)[i]->GetInfo().fY <= (*_pTile)[j]->fY + 100.f)
+				if (IntersectRect(&rc, &(*_pItem)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
 				{
-					if (IntersectRect(&rc, &(*_pItem)[i]->GetRect(), &(*_pTile)[j]->GetRect()))
+					LONG lWidth = rc.right - rc.left;
+					LONG lHeight = rc.bottom - rc.top;
+
+					switch ((*_pTile)[j]->iOption)
 					{
-						LONG lWidth = rc.right - rc.left;
-						LONG lHeight = rc.bottom - rc.top;
+					case 1:
+						(*_pItem)[i]->SetPos((*_pItem)[i]->GetInfo().fX, (*_pItem)[i]->GetInfo().fY - lHeight);
+						break;	
 
-						switch ((*_pTile)[j]->iOption)
-						{
-						case 1:
-							(*_pItem)[i]->SetPos((*_pItem)[i]->GetInfo().fX, (*_pItem)[i]->GetInfo().fY - lHeight);
-							break;	
-
-						case 2:
-							(*_pItem)[i]->SetPos((*_pItem)[i]->GetInfo().fX, (*_pItem)[i]->GetInfo().fY - lHeight);
-							break;
-						}
+					case 2:
+						(*_pItem)[i]->SetPos((*_pItem)[i]->GetInfo().fX, (*_pItem)[i]->GetInfo().fY - lHeight);
+						break;
 					}
+
+					break;
 				}
+				else
+					++j;
 			}
 		}
 	}
@@ -194,7 +194,7 @@ void CCollisionMgr::CollisionBoss(CParent* _pBoss, CParent* _pPlayer)
 	if (_pBoss->GetStat().fHp / _pBoss->GetStat().fFullHp <= 0.5)
 	{
 		_pBoss->SetState(ST_ATTACK3);
-		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Fire"));
+		//CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Fire"));
 	}
 
 	if (_pBoss->GetStat().fHp <= 0)

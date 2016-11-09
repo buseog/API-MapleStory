@@ -47,6 +47,11 @@ void CUI::Initialize(void)
 	{
 		m_tInfo = INFO(100, 500, 310.f, 14.f);
 	}
+
+	if (m_strKey == "Scroll")
+	{
+		m_tInfo = INFO(0, 0, 9.f, 26.f);
+	}
 }
 
 void CUI::Progress(DWORD _delta)
@@ -112,6 +117,21 @@ void CUI::Render(HDC hdc)
 	}
 
 	if (m_strKey == "Close")
+	{
+		TransparentBlt(hdc,
+			int(m_tInfo.fX - m_tInfo.fCX / 2.f),
+			int(m_tInfo.fY - m_tInfo.fCY / 2.f),
+			int(m_tInfo.fCX),
+			int(m_tInfo.fCY),
+			(*m_pBitMap)[m_strKey]->GetMemdc(),
+			0,
+			0,
+			(int)m_tInfo.fCX,
+			(int)m_tInfo.fCY,
+			RGB(255, 255, 250));
+	}
+
+	if (m_strKey == "Scroll")
 	{
 		TransparentBlt(hdc,
 			int(m_tInfo.fX - m_tInfo.fCX / 2.f),

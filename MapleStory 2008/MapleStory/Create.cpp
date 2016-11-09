@@ -16,13 +16,15 @@ CCreate::~CCreate(void)
 
 void CCreate::Initialize(void)
 {
+	m_bPick = false;
+
 	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
 	m_BitMap["Create"] = (new CBitBmp)->LoadBmp(L"../Texture/Create.bmp");
 	m_BitMap["BackCreate"] = (new CBitBmp)->LoadBmp(L"../Texture/BackCreate.bmp");
 
-	m_BitMap["Fighter"] = (new CBitBmp)->LoadBmp(L"../Texture/Fighter.bmp");
+	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Fighter.bmp");
 	m_BitMap["Sworder"] = (new CBitBmp)->LoadBmp(L"../Texture/Sworder.bmp");
-	m_BitMap["Archer"] = (new CBitBmp)->LoadBmp(L"../Texture/Archer.bmp");
+	m_BitMap["Archer_Left"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Archer_Left.bmp");
 	m_BitMap["NameTag"] = (new CBitBmp)->LoadBmp(L"../Texture/NameTag.bmp");
 
 	m_vecButton.push_back(CreateButton(55.f, 450.f, "BackCreate"));
@@ -82,7 +84,7 @@ void CCreate::Render(HDC hdc)
 	TextOut(m_BitMap["Back"]->GetMemdc(), 185, 460,	Fight, lstrlen(Fight));
 
 	TransparentBlt(m_BitMap["Back"]->GetMemdc(), 180, 480, 50, 70,
-		m_BitMap["Fighter"]->GetMemdc(),
+		m_BitMap["Player_LEFT"]->GetMemdc(),
 		0, 	0,
 		50, 70,
 		RGB(255, 255, 250));
@@ -102,7 +104,7 @@ void CCreate::Render(HDC hdc)
 	TextOut(m_BitMap["Back"]->GetMemdc(), 660, 460,	Archer, lstrlen(Archer));
 
 	TransparentBlt(m_BitMap["Back"]->GetMemdc(), 650, 480, 47, 76,
-		m_BitMap["Archer"]->GetMemdc(),
+		m_BitMap["Archer_Left"]->GetMemdc(),
 		0, 	0,
 		47, 76,
 		RGB(255, 255, 250));

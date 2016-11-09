@@ -7,6 +7,7 @@
 
 CLobby::CLobby(void)
 {
+
 }
 
 CLobby::~CLobby(void)
@@ -16,13 +17,13 @@ CLobby::~CLobby(void)
 
 void CLobby::Initialize(void)
 {
+
 	m_bPick = false;
 	m_tSprite = SPRITE(0, 5, 0, 80);
-	
 
 	m_BitMap["Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Back.bmp");
 	m_BitMap["Lobby"] = (new CBitBmp)->LoadBmp(L"../Texture/Lobby.bmp");
-
+	
 	m_BitMap["Character_SELECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Character_SELECT.bmp");
 	m_BitMap["Character_CREATE"] = (new CBitBmp)->LoadBmp(L"../Texture/Character_CREATE.bmp");
 	m_BitMap["Character_DELETE"] = (new CBitBmp)->LoadBmp(L"../Texture/Character_DELETE.bmp");
@@ -30,13 +31,12 @@ void CLobby::Initialize(void)
 
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_LEFT.bmp");
 	m_BitMap["Sworder"] = (new CBitBmp)->LoadBmp(L"../Texture/Sworder.bmp");
-	m_BitMap["Archer"] = (new CBitBmp)->LoadBmp(L"../Texture/Archer.bmp");
+	m_BitMap["Archer_Left"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Archer_Left.bmp");
 
 	m_vecButton.push_back(CreateButton(628.f, 156.f, "Character_SELECT"));
 	m_vecButton.push_back(CreateButton(628.f, 205.f, "Character_CREATE"));
 	m_vecButton.push_back(CreateButton(628.f, 262.f, "Character_DELETE"));
 	m_vecButton.push_back(CreateButton(63.f, 450.f, "BackScene"));
-
 	CUI::SetBitMap(&m_BitMap);
 }
 

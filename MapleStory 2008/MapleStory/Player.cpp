@@ -33,7 +33,7 @@ void CPlayer::Initialize(void)
 	m_fOriginDefense = m_tStat.fDefense;
 
 	m_dwTime = GetTickCount();
-	m_strKey = "Player_LEFT";
+	//m_strKey = "Player_LEFT";
 	m_dwKey = 0;
 
 	m_ptOffset.x = WINCX / 2;

@@ -8,6 +8,9 @@ class CSkillPanel	:
 private:
 	CIcon*	m_pIcon[SKILLPANELSLOT];
 	CIcon*	m_pPick;
+	CUI*	m_pScrollbar;
+	POINT	m_SkillScroll;
+	bool	m_bDrag;
 
 public:
 	CIcon*	GetPickIcon(void);

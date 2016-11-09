@@ -23,8 +23,16 @@ CEtc::~CEtc(void)
 
 void CEtc::Initialize(void)
 {
-	m_tInfo = INFO(0, 0, 32.f, 32.f);
-	m_DropId = 1;
+	if (m_tItem.strName == L"DragonStone")
+	{
+		m_tInfo = INFO(0, 0, 32.f, 32.f);
+		m_DropId = 1;
+	}
+	else if (m_tItem.strName == L"FreePass")
+	{
+		m_tInfo = INFO(0, 0, 32.f, 32.f);
+		m_DropId = 0;
+	}
 }
 
 void CEtc::Progress(DWORD _delta)
@@ -99,7 +107,7 @@ void CEtc::Render(HDC hdc)
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
 						szString, lstrlen(szString));
 
-		wsprintf(szString, L"%s", L"동굴 입장에 필요한 재료");
+		wsprintf(szString, L"%s", L"퀘스트 재료");
 					TextOut(hdc, 
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 45),
 						szString, lstrlen(szString));

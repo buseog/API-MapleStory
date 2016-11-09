@@ -8,6 +8,8 @@ class CMenu	:
 {
 private:
 	vector<CUI*>	m_vecButton;
+
+private:
 	CUI* CreateButton(float _fX, float _fY, string _StrKey);
 
 public:

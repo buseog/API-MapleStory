@@ -39,6 +39,10 @@ void CStage2::Initialize(void)
 	CUI::SetBitMap(&m_BitMap);
 
 	m_pLoading = new CLoading();
+
+	CDevice::GetInstance()->SoundStop(2);
+	CDevice::GetInstance()->LoadWave(L"../Sound/Stage2.wav");	// 0
+	CDevice::GetInstance()->SoundPlay(3, 1);
 }
 
 void CStage2::Progress(DWORD _delta)
@@ -51,6 +55,9 @@ void CStage2::Progress(DWORD _delta)
 		Regen();
 		m_fRegenTime = float(7000 + rand() % 2000);
 	}
+	
+	if(GetAsyncKeyState(VK_SPACE))
+		CDevice::GetInstance()->SoundStop(3);
 
 	for (size_t i = 0; i < PAR_END; ++i)
 	{

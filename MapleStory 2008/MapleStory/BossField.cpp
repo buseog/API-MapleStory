@@ -33,15 +33,22 @@ void CBossField::Initialize(void)
 	ParentClear();
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetMapSize(1372, 1200);
 
-	m_vecParent[PAR_BOSS].push_back(CFactory<CBoss>::CreateParent(800.f, 800.f, "Boss"));
+	m_vecParent[PAR_BOSS].push_back(CFactory<CBoss>::CreateParent(800.f, 800.f, "Boss_LEFT"));
 
 	m_pLoading = new CLoading();
+
+	CDevice::GetInstance()->SoundStop(3);
+	CDevice::GetInstance()->LoadWave(L"../Sound/BossField.wav");	// 4
+	CDevice::GetInstance()->SoundPlay(4, 1);
 }
 
 void CBossField::Progress(DWORD _delta)
 {
 	KeyInput();
 	UIDrag();
+
+	if(GetAsyncKeyState(VK_SPACE))
+		CDevice::GetInstance()->SoundStop(4);
 
 	for (size_t i = 0; i < PAR_END; ++i)
 	{

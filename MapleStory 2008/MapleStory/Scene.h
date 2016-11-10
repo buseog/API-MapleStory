@@ -8,6 +8,7 @@
 #include "Status.h"
 #include "Item.h"
 #include "Loading.h"
+#include "Device.h"
 
 class CUI;
 class CParent;

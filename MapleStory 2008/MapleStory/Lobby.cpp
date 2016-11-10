@@ -38,6 +38,11 @@ void CLobby::Initialize(void)
 	m_vecButton.push_back(CreateButton(628.f, 262.f, "Character_DELETE"));
 	m_vecButton.push_back(CreateButton(63.f, 450.f, "BackScene"));
 	CUI::SetBitMap(&m_BitMap);
+
+	CDevice::GetInstance()->LoadWave(L"../Sound/Login.wav");	// 0
+
+	CDevice::GetInstance()->SoundPlay(0, 1);
+
 }
 
 void CLobby::Progress(DWORD _delta)

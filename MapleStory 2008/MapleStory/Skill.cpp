@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Skill.h"
+#include "device.h"
 
 CSkill::CSkill()
 :m_bHit(false)
@@ -135,4 +136,9 @@ void CSkill::SetHitCount(void)
 int CSkill::GetHitCount(void)
 {
 	return m_iHitCount;
+}
+
+void CSkill::SetDamage(float _fDamage)
+{
+	m_tStat.fAttack = _fDamage;
 }

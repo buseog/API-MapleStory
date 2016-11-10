@@ -33,7 +33,6 @@ void CPlayer::Initialize(void)
 	m_fOriginDefense = m_tStat.fDefense;
 
 	m_dwTime = GetTickCount();
-	//m_strKey = "Player_LEFT";
 	m_dwKey = 0;
 
 	m_ptOffset.x = WINCX / 2;
@@ -189,32 +188,33 @@ void CPlayer::KeyInput(DWORD _delta)
 		m_pPet->SetState(ST_ATTACK);
 	}
 
-	if (m_dwKey & KEY_ALT && m_dwState != ST_PROSTRATE)
+	if (m_dwKey & KEY_ALT && m_dwState != ST_UP)
 	{
-		if (m_dwState == ST_UP)
-		{
-			if (m_dwKey & KEY_LEFT || m_dwKey & KEY_RIGHT)
-			{
-				m_dwState = ST_JUMP;
+		m_dwState = ST_JUMP;
 
-				if (m_bLand)
-				{
-					m_fJpower = -6.f;
-					m_bLand = false;
-				}
-			}
-		}
-		else
+		if (m_bLand)
 		{
-			m_dwState = ST_JUMP;
-
-			if (m_bLand)
-			{
-				m_fJpower = -11.f;
-				m_bLand = false;
-			}
+			m_fJpower = -11.f;
+			m_bLand = false;
 		}
 	}
+
+	
+	if (m_dwKey & KEY_ALT && (m_dwKey & KEY_LEFT || m_dwKey & KEY_RIGHT) && (m_dwState & ST_UP))
+	{
+		if (m_dwKey & KEY_UP)
+			return;
+
+		else if(m_bLand)
+		{
+			m_dwState = ST_JUMP;
+			m_fJpower = -6.f;
+			m_bLand = false;
+		}
+	}
+
+
+
 
 
 	//// ½ºÅ³
@@ -443,7 +443,7 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 		}
 		else if ((*pIcon)[_iSlot]->GetStrKey() == "Annihilation_ON")
 		{	
-			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 80, m_tInfo.fY - 30, "Annihilation_LEFT");
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 110, m_tInfo.fY - 30, "Annihilation_LEFT");
 		}
 		else if ((*pIcon)[_iSlot]->GetStrKey() == "Range_ON")
 		{	
@@ -481,7 +481,7 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 		}
 		else if ((*pIcon)[_iSlot]->GetStrKey() == "Annihilation_ON")
 		{	
-			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 80, m_tInfo.fY - 30, "Annihilation_RIGHT");
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 110, m_tInfo.fY - 30, "Annihilation_RIGHT");
 		}
 		else if ((*pIcon)[_iSlot]->GetStrKey() == "Range_ON")
 		{	
@@ -492,8 +492,10 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 	((CQuickSlot*)m_pSlot)->SetCooltime(_iSlot, 0.f);
 
 	if (pSkill)
+	{
+		((CSkill*)pSkill)->SetDamage(m_tStat.fAttack);
 		return pSkill;
-
+	}
 	return 0;
 }
 

@@ -147,16 +147,17 @@ void CSceneMgr::SetScene(SCENEID eScene)
 		{
 			if (((CInventory*)m_pScene->GetInventory())->ScanItem(2))
 			{
-				m_pScene->GetPlayer()->SetPos(170.f, 900.f);
 				((CPlayer*)m_pScene->GetPlayer())->SetScroll(0.f, -600.f);
 				((CPlayer*)m_pScene->GetPlayer())->SetOffset(400.f, 900.f);
+				m_pScene->GetPlayer()->SetPos(170.f, 900.f);
 			}
 			else
 			{
-				m_pScene = m_pSaveScene[SC_VILLAGE];
+				eScene = SC_VILLAGE;
 				m_pScene->GetPlayer()->SetPos(50.f, 300.f);
 				((CPlayer*)m_pScene->GetPlayer())->SetScroll(0.f, -190.f);
 				((CPlayer*)m_pScene->GetPlayer())->SetOffset(400.f, 490.f);
+				m_pScene = m_pSaveScene[SC_VILLAGE];
 			}
 		}
 		break;

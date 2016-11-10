@@ -5,6 +5,7 @@
 #include "SceneMgr.h"
 #include "KeyMgr.h"
 #include "RenderMgr.h"
+#include "Device.h"
 
 CMainGame::CMainGame(void)
 :m_pSceneMgr(CSceneMgr::GetInstance())
@@ -21,6 +22,7 @@ void CMainGame::Initialize(void)
 {
 	m_hdc = GetDC(g_hWnd);
 	m_pSceneMgr->SetScene(SC_MENU);
+	CDevice::GetInstance()->Init();
 }
 
 void CMainGame::Progress(DWORD _delta)
@@ -39,7 +41,7 @@ void CMainGame::Release(void)
 {
 	ReleaseDC(g_hWnd, m_hdc);
 	m_pSceneMgr->DestroyInstance();
-	m_pSceneMgr->DestroyInstance();
 	CKeyMgr::GetInstance()->DestroyInst();
 	CRenderMgr::GetInstance()->DestroyInst();
+	CDevice::GetInstance()->DestroyInst();
 }

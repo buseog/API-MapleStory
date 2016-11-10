@@ -40,7 +40,9 @@ void CScene::KeyInput(void)
 
 	if (m_dwKey & KEY_F6)
 	{
-		CItem*	pArmor = new CArmor(L"Armor", 10, 1, 1, IT_ARMOR);
+		CItem*	pWeapon = new CWeapon(L"Weapon3", 10000, 1, 1, IT_WEAPON);
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
+		CItem*	pArmor = new CArmor(L"Armor2", 500, 1, 1, IT_ARMOR);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pArmor);
 	}
 
@@ -349,7 +351,9 @@ void CScene::LoadBmp(void)
 	m_BitMap["CoupleMushRoom_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/CoupleMushRoom_LEFT.bmp");
 	m_BitMap["CoupleMushRoom_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/CoupleMushRoom_RIGHT.bmp");
 
-	m_BitMap["Boss"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss.bmp");
+	//m_BitMap["Boss"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss.bmp");
+	m_BitMap["Boss_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss_LEFT.bmp");
+	m_BitMap["Boss_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss_RIGHT.bmp");
 
 	//이펙트 추가
 	m_BitMap["Bolt_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Bolt_EFFECT.bmp");
@@ -369,6 +373,7 @@ void CScene::LoadBmp(void)
 	//아이템 추가
 	m_BitMap["Weapon"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon.bmp");
 	m_BitMap["Weapon2"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon2.bmp");
+	m_BitMap["Weapon3"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Weapon3.bmp");
 
 	m_BitMap["Armor"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor.bmp");
 	m_BitMap["Armor2"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Armor2.bmp");

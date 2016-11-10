@@ -32,6 +32,8 @@
 #include "BitBmp.h"
 #include <algorithm>
 
+#include <MMSystem.h>
+#include <dsound.h>
 
 using namespace std;
 using namespace Gdiplus;
@@ -43,3 +45,5 @@ using namespace Gdiplus;
 
 #pragma comment(lib, "msimg32.lib")
 #pragma comment(lib, "gdiplus")
+#pragma comment (lib, "winmm.lib")
+#pragma comment (lib, "dsound.lib")

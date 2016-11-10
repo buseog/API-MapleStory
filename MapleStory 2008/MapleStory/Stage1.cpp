@@ -39,12 +39,21 @@ void CStage1::Initialize(void)
 	CUI::SetBitMap(&m_BitMap);
 
 	m_pLoading = new CLoading();
+
+
+	CDevice::GetInstance()->SoundStop(1);
+	CDevice::GetInstance()->LoadWave(L"../Sound/Stage.wav");	// 2
+	CDevice::GetInstance()->SoundPlay(2, 1);
 }
 
 void CStage1::Progress(DWORD _delta)
 {
 	KeyInput();
 	UIDrag();
+
+	
+	if(GetAsyncKeyState(VK_SPACE))
+		CDevice::GetInstance()->SoundStop(2);
 
 	if ((m_fRegenTime -= _delta) <= 0)
 	{

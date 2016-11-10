@@ -48,6 +48,10 @@ CVillage::CVillage(void)
 	((CQuickSlot*)m_vecUI[UI_QUICKSLOT].back())->SetPanel(m_vecUI[UI_SKILLPANEL].back());
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetQuickSlot(m_vecUI[UI_QUICKSLOT].back());
 
+	CDevice::GetInstance()->SoundStop(0);
+	CDevice::GetInstance()->LoadWave(L"../Sound/Village.wav");	// 1
+	CDevice::GetInstance()->SoundPlay(1, 1);
+
 
 }
 
@@ -75,6 +79,9 @@ void CVillage::Progress(DWORD _delta)
 {
 	KeyInput();
 	UIDrag();
+
+	if(GetAsyncKeyState(VK_SPACE))
+		CDevice::GetInstance()->SoundStop(1);
 
 	for (size_t i = 0; i < PAR_END; ++i)
 	{

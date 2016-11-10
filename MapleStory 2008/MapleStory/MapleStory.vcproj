@@ -60,6 +60,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				UseLibraryDependencyInputs="false"
+				AdditionalDependencies="dsound.lib winmm.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -522,14 +524,14 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="99. ObjMgr"
+				Name="05. Device"
 				>
 				<File
-					RelativePath=".\ObjMgr.cpp"
+					RelativePath=".\Device.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\ObjMgr.h"
+					RelativePath=".\Device.h"
 					>
 				</File>
 			</Filter>

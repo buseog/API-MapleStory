@@ -9,6 +9,7 @@ private:
 	int		m_iHitCount;
 
 public:
+	void	SetDamage(float _fDamage);
 	void	SetHit(bool _YN);
 	bool	GetHit(void);
 	void	SetHitCount(void);

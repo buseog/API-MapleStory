@@ -14,9 +14,9 @@ void CBoss::Initialize(void)
 	m_iPattern = 0;
 	m_cTimer.TimeSetting();
 
-	m_tInfo = INFO(0, 0, 300.f, 300.f);
+	m_tInfo = INFO(0, 0, 386.f, 385.f);
 	m_tStat = STAT(50000.f, 50000.f, 1500.f, 100.f, 10, 500.f, 1.f, 50000);
-	m_tSprite = SPRITE(0, 4, 1, 80);
+	m_tSprite = SPRITE(0, 8, 1, 80);
 
 	m_dwState = ST_STAND;
 	m_dwTime = GetTickCount();
@@ -43,11 +43,10 @@ void CBoss::Progress(DWORD _delta)
 	}
 
 	SetState(ST_STAND, 8, 0, 100);
-	SetState(ST_ATTACK, 8, 1, 200);
-	SetState(ST_ATTACK2, 8, 2, 200);
-	SetState(ST_ATTACK3, 8, 3, 300);
+	SetState(ST_ATTACK, 31, 0, 80);
+	SetState(ST_ATTACK2, 23, 5, 80);
 	SetState(ST_HIT, 1, 4, 900);
-	SetState(ST_DEATH, 6, 5, 300);
+	SetState(ST_DEATH, 7, 5, 300);
 
 }
 void CBoss::Render(HDC hdc)

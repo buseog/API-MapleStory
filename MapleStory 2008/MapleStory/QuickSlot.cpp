@@ -63,7 +63,7 @@ void CQuickSlot::Progress(DWORD _delta)
 		if(m_vecSlot[i]->GetStrKey() != "Empty")
 		{
 			m_fCoolTime[i] += _delta;
-			float fPercent = m_fCoolTime[i] / 1000.f;
+			float fPercent = m_fCoolTime[i] / m_vecSlot[i]->GetTime();
 
 			if (fPercent >= 1)
 				fPercent = 1.f;

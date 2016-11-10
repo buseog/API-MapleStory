@@ -32,22 +32,27 @@ CIcon::CIcon(const CIcon &_Icon)
 		if (m_strKey == "Typhoon_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Typhoon_ON.bmp");
+			m_fTime = 1500.f;
 		}
 		else if (m_strKey == "Bolt_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Bolt_ON.bmp");
+			m_fTime = 3000.f;
 		}
 		else if (m_strKey == "Beyond_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Beyond_ON.bmp");
+			m_fTime = 100.f;
 		}
 		else if (m_strKey == "Annihilation_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Annihilation_ON.bmp");
+			m_fTime = 800.f;
 		}
 		else if (m_strKey == "Range_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Range_ON.bmp");
+			m_fTime = 5000.f;
 		}
 
 		if (m_strKey == "Typhoon_OFF")
@@ -90,22 +95,27 @@ void	CIcon::Initialize(void)
 		if (m_strKey == "Typhoon_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Typhoon_ON.bmp");
+			m_fTime = 1500.f;
 		}
 		else if (m_strKey == "Bolt_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Bolt_ON.bmp");
+			m_fTime = 3000.f;
 		}
 		else if (m_strKey == "Beyond_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Beyond_ON.bmp");
+			m_fTime = 100.f;
 		}
 		else if (m_strKey == "Annihilation_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Annihilation_ON.bmp");
+			m_fTime = 800.f;
 		}
 		else if (m_strKey == "Range_ON")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Range_ON.bmp");
+			m_fTime = 5000.f;
 		}
 
 		if (m_strKey == "Typhoon_OFF")
@@ -200,4 +210,9 @@ string CIcon::GetStrKey(void)
 void CIcon::SetCoolTime(float _fCool)
 {
 	m_fCoolTime = _fCool;
+}
+
+float CIcon::GetTime(void)
+{
+	return m_fTime;
 }

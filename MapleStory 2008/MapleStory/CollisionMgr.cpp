@@ -154,11 +154,11 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 					{
 						if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
 						{
-							if (((*_pMonster)[j]->GetInfo().fX - (*_pSkill)[i]->GetInfo().fX)  >= 0)
-								(*_pMonster)[j]->SetPos((*_pMonster)[j]->GetInfo().fX + 25, (*_pMonster)[j]->GetInfo().fY);
+							//if (((*_pMonster)[j]->GetInfo().fX - (*_pSkill)[i]->GetInfo().fX)  >= 0)
+							//	(*_pMonster)[j]->SetPos((*_pMonster)[j]->GetInfo().fX + 25, (*_pMonster)[j]->GetInfo().fY);
 
-							else if (((*_pMonster)[j]->GetInfo().fX - (*_pSkill)[i]->GetInfo().fX)  <= 0)
-								(*_pMonster)[j]->SetPos((*_pMonster)[j]->GetInfo().fX - 25, (*_pMonster)[j]->GetInfo().fY);
+							//else if (((*_pMonster)[j]->GetInfo().fX - (*_pSkill)[i]->GetInfo().fX)  <= 0)
+							//	(*_pMonster)[j]->SetPos((*_pMonster)[j]->GetInfo().fX - 25, (*_pMonster)[j]->GetInfo().fY);
 							
 							(*_pMonster)[j]->SetState(ST_HIT);
 
@@ -288,21 +288,45 @@ void CCollisionMgr::AddSkillEffect(CParent* _pSkill, CParent* _pMonster)
 	if (_pSkill->GetStrKey() == "Annihilation_LEFT" || _pSkill->GetStrKey() == "Annihilation_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Annihilation_EFFECT"));
+
+		if (_pSkill->GetStrKey() == "Annihilation_LEFT")
+			_pMonster->SetPos(_pMonster->GetInfo().fX - 20, _pMonster->GetInfo().fY);
+
+		else
+			_pMonster->SetPos(_pMonster->GetInfo().fX + 20, _pMonster->GetInfo().fY);
 	}
 
 	if (_pSkill->GetStrKey() == "Ascend_LEFT" || _pSkill->GetStrKey() == "Ascend_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Ascend_EFFECT"));
+
+		if (_pSkill->GetStrKey() == "Ascend_LEFT")
+			_pMonster->SetPos(_pMonster->GetInfo().fX - 20, _pMonster->GetInfo().fY);
+
+		else
+			_pMonster->SetPos(_pMonster->GetInfo().fX + 20, _pMonster->GetInfo().fY);
 	}
 
 	if (_pSkill->GetStrKey() == "Typhoon_LEFT" ||_pSkill->GetStrKey() == "Typhoon_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX, _pMonster->GetInfo().fY, "Typhoon_EFFECT"));
+
+		if (_pSkill->GetStrKey() == "Typhoon_LEFT")
+			_pMonster->SetPos(_pMonster->GetInfo().fX - 20, _pMonster->GetInfo().fY);
+
+		else
+			_pMonster->SetPos(_pMonster->GetInfo().fX + 20, _pMonster->GetInfo().fY);
 	}
 
 	if (_pSkill->GetStrKey() == "Bolt_LEFT" || _pSkill->GetStrKey() == "Bolt_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Bolt_EFFECT"));
+
+		if (_pSkill->GetStrKey() == "Bolt_LEFT")
+			_pMonster->SetPos(_pMonster->GetInfo().fX - 20, _pMonster->GetInfo().fY);
+
+		else
+			_pMonster->SetPos(_pMonster->GetInfo().fX + 20, _pMonster->GetInfo().fY);
 	}
 
 	if (_pSkill->GetStrKey() == "Range")
@@ -313,16 +337,34 @@ void CCollisionMgr::AddSkillEffect(CParent* _pSkill, CParent* _pMonster)
 	if (_pSkill->GetStrKey() == "Beyond_LEFT" || _pSkill->GetStrKey() == "Beyond_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond_EFFECT"));
+
+		if (_pSkill->GetStrKey() == "Beyond_LEFT")
+			_pMonster->SetPos(_pMonster->GetInfo().fX - 20, _pMonster->GetInfo().fY);
+
+		else
+			_pMonster->SetPos(_pMonster->GetInfo().fX + 20, _pMonster->GetInfo().fY);
 	}
 
 	if (_pSkill->GetStrKey() == "Beyond2_LEFT" || _pSkill->GetStrKey() == "Beyond2_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond2_EFFECT"));
+
+		if (_pSkill->GetStrKey() == "Beyond2_LEFT")
+			_pMonster->SetPos(_pMonster->GetInfo().fX - 20, _pMonster->GetInfo().fY);
+
+		else
+			_pMonster->SetPos(_pMonster->GetInfo().fX + 20, _pMonster->GetInfo().fY);
 	}
 
 	if (_pSkill->GetStrKey() == "Beyond3_LEFT" || _pSkill->GetStrKey() == "Beyond3_RIGHT")
 	{
 		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pMonster->GetInfo().fX,_pMonster->GetInfo().fY, "Beyond3_EFFECT"));
+
+		if (_pSkill->GetStrKey() == "Beyond3_LEFT")
+			_pMonster->SetPos(_pMonster->GetInfo().fX - 20, _pMonster->GetInfo().fY);
+
+		else
+			_pMonster->SetPos(_pMonster->GetInfo().fX + 20, _pMonster->GetInfo().fY);
 	}
 }
 

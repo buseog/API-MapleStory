@@ -10,6 +10,7 @@ private:
 	CBitBmp*	m_pBit;
 	string		m_strKey;
 	float		m_fCoolTime;
+	float		m_fTime;
 	
 
 public:
@@ -19,6 +20,7 @@ public:
 	RECT	GetRect(void);
 	string	GetStrKey(void);
 	void	SetCoolTime(float _fCool);
+	float	GetTime(void);
 
 public:
 	void	Initialize(void);

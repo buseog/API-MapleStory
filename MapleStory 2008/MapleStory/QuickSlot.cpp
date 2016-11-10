@@ -199,28 +199,39 @@ void	CQuickSlot::SetSkillOff(void)
 			m_vecCool[i] = new CIcon(IC_SKILL, "Typhoon_OFF");
 			m_vecCool[i]->Initialize();
 		}
+
 		else if (m_vecSlot[i]->GetStrKey() == "Bolt_ON")
 		{
 			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Bolt_OFF");
 			m_vecCool[i]->Initialize();
 		}
+
 		else if (m_vecSlot[i]->GetStrKey() == "Beyond_ON")
 		{
 			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Beyond_OFF");
 			m_vecCool[i]->Initialize();
 		}
+
 		else if (m_vecSlot[i]->GetStrKey() == "Annihilation_ON")
 		{
 			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Annihilation_OFF");
 			m_vecCool[i]->Initialize();
 		}
+
 		else if (m_vecSlot[i]->GetStrKey() == "Range_ON")
 		{
 			::Safe_Delete(m_vecCool[i]);
 			m_vecCool[i] = new CIcon(IC_SKILL, "Range_OFF");
+			m_vecCool[i]->Initialize();
+		}
+
+		else if (m_vecSlot[i]->GetStrKey() == "Fire_ON")
+		{
+			::Safe_Delete(m_vecCool[i]);
+			m_vecCool[i] = new CIcon(IC_SKILL, "Fire_OFF");
 			m_vecCool[i]->Initialize();
 		}
 	}

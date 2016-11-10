@@ -50,6 +50,7 @@ void CLobby::Initialize(void)
 	CDevice::GetInstance()->LoadWave(L"../Sound/BoltSound.wav");// 6
 	CDevice::GetInstance()->LoadWave(L"../Sound/TyphoonSound.wav");// 7
 	CDevice::GetInstance()->LoadWave(L"../Sound/BeyondSound.wav");// 8
+	CDevice::GetInstance()->LoadWave(L"../Sound/TyphoonSound2.wav");// 9
 
 	CDevice::GetInstance()->SoundPlay(0, 1);
 

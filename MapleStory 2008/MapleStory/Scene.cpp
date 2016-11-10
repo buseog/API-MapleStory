@@ -340,6 +340,9 @@ void CScene::LoadBmp(void)
 	m_BitMap["Beyond3_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_LEFT.bmp");
 	m_BitMap["Beyond3_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_RIGHT.bmp");
 
+	m_BitMap["Fire_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Fire_LEFT.bmp");
+	m_BitMap["Fire_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Fire_RIGHT.bmp");
+
 	//몬스터 추가
 	m_BitMap["GreenMushRoom_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/GreenMushRoom_LEFT.bmp");
 	m_BitMap["GreenMushRoom_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/GreenMushRoom_RIGHT.bmp");
@@ -356,6 +359,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["Boss_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss_LEFT.bmp");
 	m_BitMap["Boss_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss_RIGHT.bmp");
 
+
 	//이펙트 추가
 	m_BitMap["Bolt_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Bolt_EFFECT.bmp");
 	m_BitMap["Typhoon_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Typhoon_EFFECT.bmp");
@@ -369,6 +373,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["Boss_Fire"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Fire.bmp");
 	m_BitMap["Boss_Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Back.bmp");
 	m_BitMap["Intensity_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Intensity_EFFECT.bmp");
+	m_BitMap["Fire_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Fire_EFFECT.bmp");
 
 
 

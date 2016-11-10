@@ -54,6 +54,11 @@ CIcon::CIcon(const CIcon &_Icon)
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Range_ON.bmp");
 			m_fTime = 5000.f;
 		}
+		else if (m_strKey == "Fire_ON")
+		{	
+			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Fire_ON.bmp");
+			m_fTime = 900.f;
+		}
 
 		if (m_strKey == "Typhoon_OFF")
 		{
@@ -74,6 +79,10 @@ CIcon::CIcon(const CIcon &_Icon)
 		else if (m_strKey == "Range_OFF")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Range_OFF.bmp");
+		}
+		else if (m_strKey == "Fire_OFF")
+		{	
+			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Fire_OFF.bmp");
 		}
 		break;
 
@@ -117,6 +126,11 @@ void	CIcon::Initialize(void)
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Range_ON.bmp");
 			m_fTime = 5000.f;
 		}
+		else if (m_strKey == "Fire_ON")
+		{	
+			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Fire_ON.bmp");
+			m_fTime = 900.f;
+		}
 
 		if (m_strKey == "Typhoon_OFF")
 		{
@@ -137,6 +151,10 @@ void	CIcon::Initialize(void)
 		else if (m_strKey == "Range_OFF")
 		{
 			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Range_OFF.bmp");
+		}
+		else if (m_strKey == "Fire_OFF")
+		{	
+			m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Icon/Fire_OFF.bmp");
 		}
 		break;
 

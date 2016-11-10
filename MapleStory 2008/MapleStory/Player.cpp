@@ -91,7 +91,7 @@ void CPlayer::Progress(DWORD _delta)
 		SetState(ST_PROSTATTACK, 2, 4, 200);
 		SetState(ST_PROSTRATE, 1, 5, 100);
 		SetState(ST_JUMP, 1, 6, 100);
-		SetState(ST_HIT, 3, 7, 30);
+		SetState(ST_HIT, 3, 7, 50);
 		SetState(ST_UP, 1, 8, 100);
 	}
 	else if (m_strKey == "Archer_LEFT" || m_strKey == "Archer_RIGHT")
@@ -148,7 +148,8 @@ void CPlayer::KeyInput(DWORD _delta)
 
 	if (m_dwKey && (m_dwKey != KEY_UP) && (m_dwState != ST_ATTACK) && (m_dwState != ST_ATTACK2) && 
 		(m_dwState != ST_PROSTRATE) && (m_dwState != ST_UP) && (m_bLand == true) && (m_dwState != ST_PROSTATTACK) &&
-		(m_dwKey != KEY_Q) && (m_dwKey != KEY_W) && (m_dwKey != KEY_E) && (m_dwKey != KEY_R))
+		(m_dwKey != KEY_Q) && (m_dwKey != KEY_W) && (m_dwKey != KEY_E) && (m_dwKey != KEY_R) &&
+		(m_dwKey != KEY_A) && (m_dwKey != KEY_S) && (m_dwKey != KEY_D) && (m_dwKey != KEY_F))
 	{
 		m_dwState = ST_WALK;
 	}
@@ -231,7 +232,7 @@ void CPlayer::KeyInput(DWORD _delta)
 
 
 	//// ½ºÅ³
-	if ((m_cTimer.fRemainTime[1] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
+	if ((m_cTimer.fRemainTime[1] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
 	{
 		if (m_dwKey & KEY_Q && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
 		{
@@ -245,7 +246,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[2] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
+	if ((m_cTimer.fRemainTime[2] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
 	{
 		if (m_dwKey & KEY_W)
 		{
@@ -259,7 +260,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[3] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
+	if ((m_cTimer.fRemainTime[3] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
 	{
 		if (m_dwKey & KEY_E)
 		{
@@ -273,7 +274,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[4] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
+	if ((m_cTimer.fRemainTime[4] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
 	{
 		if (m_dwKey & KEY_R)
 		{
@@ -287,7 +288,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[5] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
+	if ((m_cTimer.fRemainTime[5] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
 	{
 		if (m_dwKey & KEY_A)
 		{
@@ -302,7 +303,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if ((m_cTimer.fRemainTime[6] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE)
+	if ((m_cTimer.fRemainTime[6] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
 	{
 		if (m_dwKey & KEY_S)
 		{
@@ -312,6 +313,34 @@ void CPlayer::KeyInput(DWORD _delta)
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
 				m_cTimer.fRemainTime[6] = ((CSkill*)pSkill)->GetCoolTime();
+			}
+		}
+	}
+
+	if ((m_cTimer.fRemainTime[7] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
+	{
+		if (m_dwKey & KEY_D)
+		{
+			CParent* pSkill = CreateSkill(6);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK2;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[7] = ((CSkill*)pSkill)->GetCoolTime();
+			}
+		}
+	}
+
+	if ((m_cTimer.fRemainTime[8] -= _delta) <= 0 && m_dwState != ST_UP && m_dwState != ST_PROSTRATE && m_dwState != ST_ATTACK && m_dwState != ST_ATTACK2)
+	{
+		if (m_dwKey & KEY_F)
+		{
+			CParent* pSkill = CreateSkill(7);
+			if (pSkill)
+			{
+				m_dwState = ST_ATTACK2;
+				m_pSkill->push_back(pSkill);
+				m_cTimer.fRemainTime[8] = ((CSkill*)pSkill)->GetCoolTime();
 			}
 		}
 	}
@@ -474,6 +503,10 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 		{	
 			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 30, m_tInfo.fY - 30, "Range");
 		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Fire_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 30, m_tInfo.fY - 30, "Fire_LEFT");
+		}
 	}
 	else
 	{
@@ -511,6 +544,10 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 		else if ((*pIcon)[_iSlot]->GetStrKey() == "Range_ON")
 		{	
 			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX + 30, m_tInfo.fY - 30, "Range");
+		}
+		else if ((*pIcon)[_iSlot]->GetStrKey() == "Fire_ON")
+		{	
+			pSkill = CFactory<CSkill>::CreateParent(m_tInfo.fX - 30, m_tInfo.fY - 30, "Fire_RIGHT");
 		}
 	}
 

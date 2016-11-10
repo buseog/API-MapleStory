@@ -25,12 +25,15 @@ void CSkill::Initialize(void)
 		m_tSprite = SPRITE(0, 13, 0, 60);
 		m_iHitCount = 2;
 		m_fTime = 800.f;
+		CDevice::GetInstance()->SoundPlay(9, 0);
 	}
 
 	else if (m_strKey == "Ascend_LEFT" || m_strKey == "Ascend_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 250.f, 250.f);
 		m_tStat.fAttack = 500.f;
+		m_iHitCount = 5;
+		m_fTime = 4000.f;
 		m_tSprite = SPRITE(0, 10, 0, 60);
 	}
 
@@ -42,7 +45,7 @@ void CSkill::Initialize(void)
 		m_tSprite = SPRITE(0, 17, 0, 80);
 		m_iHitCount = 7;
 		m_fTime = 1500.f;
-		CDevice::GetInstance()->SoundPlay(6, 0);
+		CDevice::GetInstance()->SoundPlay(9, 0);
 	}
 
 	else if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")
@@ -92,6 +95,16 @@ void CSkill::Initialize(void)
 		m_tSprite = SPRITE(0, 13, 0, 60);
 		m_iHitCount = 1;
 		m_fTime = 100.f;
+		CDevice::GetInstance()->SoundPlay(8, 0);
+	}
+
+	else if (m_strKey == "Fire_LEFT" || m_strKey == "Fire_RIGHT")
+	{
+		m_tInfo = INFO(0, 0, 397.f, 240.f);
+		m_tStat.fAttack = 333.f;
+		m_tSprite = SPRITE(0, 22, 0, 60);
+		m_iHitCount = 5;
+		m_fTime = 900.f;
 		CDevice::GetInstance()->SoundPlay(8, 0);
 	}
 

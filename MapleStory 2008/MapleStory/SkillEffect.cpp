@@ -85,6 +85,12 @@ void CSkillEffect::Initialize(void)
 		m_tInfo = INFO(0, 0, 178.f, 244.f);
 		m_tSprite = SPRITE(0, 17, 0, 80);
 	}
+
+	if (m_strKey == "Fire_EFFECT")
+	{
+		m_tInfo = INFO(0, 0, 154.f, 152.f);
+		m_tSprite = SPRITE(0, 6, 0, 80);
+	}
 }
 void CSkillEffect::Progress(DWORD _delta)
 {

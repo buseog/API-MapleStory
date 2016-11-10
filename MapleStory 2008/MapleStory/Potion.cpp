@@ -123,18 +123,8 @@ void CPotion::Render(HDC hdc)
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 75),
 						szPrice, lstrlen(szPrice));
 
-		if (m_tItem.iType == IT_WEAPON)
-		{
-			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 90),	L"종류 : 무기", 7);
-		}
-		if (m_tItem.iType == IT_ARMOR)
-		{
-			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 90),	L"종류 : 방어구", 8);
-		}
-		if (m_tItem.iType == IT_POTION)
-		{
-			TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 90),	L"종류 : 포션", 7);
-		}
+		TextOut(hdc, int(m_tInfo.fX + 30), int(m_tInfo.fY + 90),	L"종류 : 포션", 7);
+
 	}
 }
 

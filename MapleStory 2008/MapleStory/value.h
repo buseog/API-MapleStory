@@ -8,7 +8,7 @@ const int TILECY = 30;
 
 const int INVENSIZE = 24;
 
-const int SKILLPANELSLOT = 5;
+const int SKILLPANELSLOT = 6;
 const int QUICKSLOT = 8;
 
 // Key °ª

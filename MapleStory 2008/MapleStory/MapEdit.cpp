@@ -36,7 +36,7 @@ void CMapEdit::Initialize(void)
 	m_iTILEX = int(m_tInfo.fCX / TILECX);
 	m_iTILEY = int(m_tInfo.fCY / TILECY);
 
-	LoadMap();
+	//LoadMap();
 
 	if (m_vecTile.size() == 0)
 	{

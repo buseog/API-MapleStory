@@ -94,6 +94,15 @@ void CPlayer::Progress(DWORD _delta)
 		SetState(ST_HIT, 3, 7, 30);
 		SetState(ST_UP, 1, 8, 100);
 	}
+	else if (m_strKey == "Archer_LEFT" || m_strKey == "Archer_RIGHT")
+	{
+		SetState(ST_STAND, 5, 0, 80);
+		SetState(ST_WALK, 4, 1, 80);
+		//SetState(ST_STAND, 5, 2, 80);
+		SetState(ST_ATTACK, 3, 3, 80);
+		SetState(ST_ATTACK2, 3, 4, 80);
+		SetState(ST_JUMP, 2, 5, 80);
+	}
 
 }
 
@@ -318,7 +327,7 @@ void CPlayer::Rotation(void)
 		{
 			m_strKey = "Player_LEFT";
 		}
-		else
+		else if (m_strKey == "Archer_RIGHT")
 			m_strKey = "Archer_LEFT";
 	}
 
@@ -328,7 +337,7 @@ void CPlayer::Rotation(void)
 		{
 			m_strKey = "Player_RIGHT";
 		}
-		else
+		else if (m_strKey == "Archer_LEFT")
 			m_strKey = "Archer_RIGHT";
 	}
 
@@ -428,7 +437,7 @@ CParent* CPlayer::CreateSkill(int _iSlot)
 	CParent* pSkill = NULL;
 	vector<CIcon*>* pIcon = ((CQuickSlot*)m_pSlot)->GetSlot();
 
-	if (m_strKey == "Player_LEFT")
+	if (m_strKey == "Player_LEFT" || m_strKey == "Archer_LEFT")
 	{
 		if ((*pIcon)[_iSlot]->GetStrKey() == "Beyond_ON")
 		{	

@@ -23,7 +23,7 @@ CVillage::CVillage(void)
 	m_pQuestNPC = new CNPC("Quest_Npc");
 	m_pQuestNPC->Initialize();
 
-	m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f, "Player_LEFT"));
+	//m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f, "Player_LEFT"));
 
 	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(250, 560, "HPBar"));
@@ -49,7 +49,6 @@ CVillage::CVillage(void)
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetQuickSlot(m_vecUI[UI_QUICKSLOT].back());
 
 	CDevice::GetInstance()->SoundStop(0);
-	CDevice::GetInstance()->LoadWave(L"../Sound/Village.wav");	// 1
 	CDevice::GetInstance()->SoundPlay(1, 1);
 
 

@@ -7,6 +7,7 @@ class CSkill	:
 private:
 	bool	m_bHit;
 	int		m_iHitCount;
+	float	m_fTime;
 
 public:
 	void	SetDamage(float _fDamage);
@@ -14,6 +15,7 @@ public:
 	bool	GetHit(void);
 	void	SetHitCount(void);
 	int		GetHitCount(void);
+	float	GetCoolTime(void);
 
 public:
 	virtual void Initialize(void);

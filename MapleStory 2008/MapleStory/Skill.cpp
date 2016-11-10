@@ -24,6 +24,7 @@ void CSkill::Initialize(void)
 		m_tStat.fAttack = 500.f;
 		m_tSprite = SPRITE(0, 13, 0, 60);
 		m_iHitCount = 2;
+		m_fTime = 800.f;
 	}
 
 	else if (m_strKey == "Ascend_LEFT" || m_strKey == "Ascend_RIGHT")
@@ -38,16 +39,20 @@ void CSkill::Initialize(void)
 	{
 		m_tInfo = INFO(0, 0, 300.f, 171.f);
 		m_tStat.fAttack = 700.f;
-		m_tSprite = SPRITE(0, 17, 0, 45);
+		m_tSprite = SPRITE(0, 17, 0, 80);
 		m_iHitCount = 7;
+		m_fTime = 1500.f;
+		CDevice::GetInstance()->SoundPlay(6, 0);
 	}
 
 	else if (m_strKey == "Bolt_LEFT" || m_strKey == "Bolt_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 400.f, 233.f);
 		m_tStat.fAttack = 200.f;
-		m_tSprite = SPRITE(0, 15, 0, 60);
+		m_tSprite = SPRITE(0, 15, 0, 90);
 		m_iHitCount = 4;
+		m_fTime = 3000.f;
+		CDevice::GetInstance()->SoundPlay(6, 0);
 	}
 
 	else if (m_strKey == "Range")
@@ -56,6 +61,8 @@ void CSkill::Initialize(void)
 		m_tStat.fAttack = 500.f;
 		m_tSprite = SPRITE(0, 10, 0, 60);
 		m_iHitCount = 3;
+		m_fTime = 5000.f;
+		CDevice::GetInstance()->SoundPlay(5, 0);
 	}
 
 	else if (m_strKey == "Beyond_LEFT" || m_strKey == "Beyond_RIGHT")
@@ -64,6 +71,8 @@ void CSkill::Initialize(void)
 		m_tStat.fAttack = 333.f;
 		m_tSprite = SPRITE(0, 12, 0, 90);
 		m_iHitCount = 1;
+		m_fTime = 100.f;
+		CDevice::GetInstance()->SoundPlay(8, 0);
 	}
 
 	else if (m_strKey == "Beyond2_LEFT" || m_strKey == "Beyond2_RIGHT")
@@ -72,6 +81,8 @@ void CSkill::Initialize(void)
 		m_tStat.fAttack = 333.f;
 		m_tSprite = SPRITE(0, 10, 0, 90);
 		m_iHitCount = 1;
+		m_fTime = 100.f;
+		CDevice::GetInstance()->SoundPlay(8, 0);
 	}
 
 	else if (m_strKey == "Beyond3_LEFT" || m_strKey == "Beyond3_RIGHT")
@@ -80,6 +91,8 @@ void CSkill::Initialize(void)
 		m_tStat.fAttack = 333.f;
 		m_tSprite = SPRITE(0, 13, 0, 60);
 		m_iHitCount = 1;
+		m_fTime = 100.f;
+		CDevice::GetInstance()->SoundPlay(8, 0);
 	}
 
 
@@ -141,4 +154,9 @@ int CSkill::GetHitCount(void)
 void CSkill::SetDamage(float _fDamage)
 {
 	m_tStat.fAttack = _fDamage;
+}
+
+float CSkill::GetCoolTime(void)
+{
+	return m_fTime;
 }

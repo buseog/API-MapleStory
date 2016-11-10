@@ -305,8 +305,8 @@ void CScene::LoadBmp(void)
 	m_BitMap["Player_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_LEFT.bmp");
 	m_BitMap["Player_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Player_RIGHT.bmp");
 
-	m_BitMap["Archer_Left"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Archer_Left.bmp");
-	m_BitMap["Archer_Right"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Archer_Right.bmp");
+	m_BitMap["Archer_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Archer_LEFT.bmp");
+	m_BitMap["Archer_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Player/Archer_RIGHT.bmp");
 
 	m_BitMap["Pet"] = (new CBitBmp)->LoadBmp(L"../Texture/Pet/Pet.bmp");
 	m_BitMap["RPet"] = (new CBitBmp)->LoadBmp(L"../Texture/Pet/RPet.bmp");

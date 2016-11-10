@@ -34,7 +34,7 @@ void CSceneMgr::SetScene(SCENEID eScene)
 {
 	if(m_pScene != NULL)
 	{
-		if (eScene == SC_MENU || eScene == SC_LOBBY || eScene == SC_CREATE)
+		if (eScene == SC_MENU || eScene == SC_LOBBY)
 			::Safe_Delete(m_pScene);
 	}
 

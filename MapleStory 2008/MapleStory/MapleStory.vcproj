@@ -305,18 +305,6 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="06. Pet"
-				>
-				<File
-					RelativePath=".\Pet.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Pet.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="97. Design"

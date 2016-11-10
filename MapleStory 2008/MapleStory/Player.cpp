@@ -5,8 +5,6 @@
 #include "Skill.h"
 #include "QuickSlot.h"
 #include "Item.h"
-#include "Pet.h"
-
 
 CPlayer::CPlayer(void)
 :m_pSkill(NULL)
@@ -14,7 +12,6 @@ CPlayer::CPlayer(void)
 ,m_pSlot(NULL)
 ,m_iQuest(0)
 ,m_iTile(0)
-,m_pPet(NULL)
 {
 }
 
@@ -26,9 +23,22 @@ CPlayer::~CPlayer(void)
 void CPlayer::Initialize(void)
 {
 	m_cTimer.TimeSetting();
-	m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-	m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 4.f, 1000);
-	m_tSprite = SPRITE(0, 5, 0, 80);
+
+	if (m_strKey == "Player_LEFT")
+	{
+		m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
+		m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 4.f, 1000);
+		m_tSprite = SPRITE(0, 5, 0, 80);
+	}
+
+	if (m_strKey == "Archer_LEFT")
+	{
+		m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 50.f, 75.f);
+		m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 4.f, 1000);
+		m_tSprite = SPRITE(0, 5, 0, 80);
+	}
+
+
 	m_fOriginAttack = m_tStat.fAttack;
 	m_fOriginDefense = m_tStat.fDefense;
 
@@ -37,9 +47,6 @@ void CPlayer::Initialize(void)
 
 	m_ptOffset.x = WINCX / 2;
 	m_ptOffset.y = WINCY / 2;
-
-	m_pPet = CFactory<CPet>::CreateParent(m_tInfo.fX, m_tInfo.fY);
-	((CPet*)m_pPet)->SetPlayer(this);
 }
 
 void CPlayer::Progress(DWORD _delta)
@@ -66,26 +73,27 @@ void CPlayer::Progress(DWORD _delta)
 	}
 
 	if(m_bUnbeatable)
+	{
 		if ((m_cTimer.fRemainTime[9] += _delta) >= 1100)
 		{
 			m_bUnbeatable = false;
 			m_dwState = ST_STAND;
 			m_cTimer.fRemainTime[9] = 0;
-
 		}
+	}
 
-	m_pPet->Progress(_delta);
-
-	SetState(ST_STAND, 5, 0, 80);
-	SetState(ST_WALK, 3, 1, 150);
-	SetState(ST_ATTACK, 3, 2, 150);
-	SetState(ST_ATTACK2, 4, 3, 130);
-	SetState(ST_PROSTATTACK, 2, 4, 200);
-	SetState(ST_PROSTRATE, 1, 5, 100);
-	SetState(ST_JUMP, 1, 6, 100);
-	SetState(ST_HIT, 3, 7, 30);
-	SetState(ST_UP, 1, 8, 100);
-
+	if (m_strKey == "Player_LEFT" || m_strKey == "Player_RIGHT")
+	{
+		SetState(ST_STAND, 5, 0, 80);
+		SetState(ST_WALK, 3, 1, 150);
+		SetState(ST_ATTACK, 3, 2, 150);
+		SetState(ST_ATTACK2, 4, 3, 130);
+		SetState(ST_PROSTATTACK, 2, 4, 200);
+		SetState(ST_PROSTRATE, 1, 5, 100);
+		SetState(ST_JUMP, 1, 6, 100);
+		SetState(ST_HIT, 3, 7, 30);
+		SetState(ST_UP, 1, 8, 100);
+	}
 
 }
 
@@ -103,8 +111,6 @@ void CPlayer::Render(HDC hdc)
 		(int)m_tInfo.fCY, 
 		RGB(255, 255, 250));
 
-
-	m_pPet->Render(hdc);
 	
 		TCHAR szName[128] = L"";
 		wsprintf(szName, L"%d",(int) m_tInfo.fX);
@@ -120,7 +126,6 @@ void CPlayer::Render(HDC hdc)
 
 void CPlayer::Release(void)
 {
-	::Safe_Delete(m_pPet);
 }
 
 void CPlayer::KeyInput(DWORD _delta)
@@ -182,10 +187,9 @@ void CPlayer::KeyInput(DWORD _delta)
 		}
 	}
 
-	if (m_dwKey & KEY_CONTROL && m_dwState != ST_PROSTATTACK)
+	if (m_dwKey & KEY_CONTROL && m_dwState != ST_PROSTATTACK && m_dwState != ST_UP)
 	{
 		m_dwState = ST_ATTACK;
-		m_pPet->SetState(ST_ATTACK);
 	}
 
 	if (m_dwKey & KEY_ALT && m_dwState != ST_UP)
@@ -227,8 +231,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[1] = 800.f;
-				m_pPet->SetState(ST_ATTACK2);
+				m_cTimer.fRemainTime[1] = ((CSkill*)pSkill)->GetCoolTime();
 			}
 		}
 	}
@@ -242,8 +245,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[2] = 800.f;
-				m_pPet->SetState(ST_ATTACK3);
+				m_cTimer.fRemainTime[2] = ((CSkill*)pSkill)->GetCoolTime();
 			}
 		}
 	}
@@ -255,9 +257,9 @@ void CPlayer::KeyInput(DWORD _delta)
 			CParent* pSkill = CreateSkill(2);
 			if (pSkill)
 			{
-				m_dwState = ST_ATTACK;
+				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[3] = 800.f;
+				m_cTimer.fRemainTime[3] = ((CSkill*)pSkill)->GetCoolTime();
 			}
 		}
 	}
@@ -271,7 +273,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[4] = 800.f;
+				m_cTimer.fRemainTime[4] = ((CSkill*)pSkill)->GetCoolTime();
 			}
 		}
 	}
@@ -285,7 +287,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[5] = 800.f;
+				m_cTimer.fRemainTime[5] = ((CSkill*)pSkill)->GetCoolTime();
 			}
 
 		}
@@ -300,7 +302,7 @@ void CPlayer::KeyInput(DWORD _delta)
 			{
 				m_dwState = ST_ATTACK2;
 				m_pSkill->push_back(pSkill);
-				m_cTimer.fRemainTime[6] = 800.f;
+				m_cTimer.fRemainTime[6] = ((CSkill*)pSkill)->GetCoolTime();
 			}
 		}
 	}
@@ -311,10 +313,24 @@ void CPlayer::Rotation(void)
 	m_dwKey = CKeyMgr::GetInstance()->GetKey();
 
 	if ((m_dwKey & KEY_LEFT) && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE))
-		m_strKey = "Player_LEFT";
+	{
+		if (m_strKey == "Player_RIGHT")
+		{
+			m_strKey = "Player_LEFT";
+		}
+		else
+			m_strKey = "Archer_LEFT";
+	}
 
 	if ((m_dwKey & KEY_RIGHT) && (m_dwState != ST_ATTACK) && (m_dwState != ST_PROSTRATE))
-		m_strKey = "Player_RIGHT";
+	{
+		if (m_strKey == "Player_LEFT")
+		{
+			m_strKey = "Player_RIGHT";
+		}
+		else
+			m_strKey = "Archer_RIGHT";
+	}
 
 	if (m_dwKey & KEY_UP)
 	{

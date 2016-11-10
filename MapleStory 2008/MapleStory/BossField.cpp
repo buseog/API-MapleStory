@@ -38,7 +38,6 @@ void CBossField::Initialize(void)
 	m_pLoading = new CLoading();
 
 	CDevice::GetInstance()->SoundStop(3);
-	CDevice::GetInstance()->LoadWave(L"../Sound/BossField.wav");	// 4
 	CDevice::GetInstance()->SoundPlay(4, 1);
 }
 

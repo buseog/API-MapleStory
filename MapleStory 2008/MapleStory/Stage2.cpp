@@ -41,7 +41,6 @@ void CStage2::Initialize(void)
 	m_pLoading = new CLoading();
 
 	CDevice::GetInstance()->SoundStop(2);
-	CDevice::GetInstance()->LoadWave(L"../Sound/Stage2.wav");	// 0
 	CDevice::GetInstance()->SoundPlay(3, 1);
 }
 

@@ -44,7 +44,7 @@ void CBoss::Progress(DWORD _delta)
 
 	SetState(ST_STAND, 8, 1, 100);
 	SetState(ST_ATTACK, 31, 0, 80);
-	SetState(ST_ATTACK2, 31, 0, 80);
+	SetState(ST_ATTACK2, 31, 0, 130);
 	SetState(ST_HIT, 1, 4, 900);
 	SetState(ST_DEATH, 7, 5, 300);
 

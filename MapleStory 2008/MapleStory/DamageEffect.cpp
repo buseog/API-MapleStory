@@ -14,7 +14,7 @@ CDamageEffect::~CDamageEffect(void)
 
 void CDamageEffect::Initialize(void)
 {
-	m_cTimer.fRemainTime[0] = 1000.f;
+	m_cTimer.fRemainTime[0] = 700.f;
 
 	int iPosition = 10000;
 
@@ -62,12 +62,14 @@ void CDamageEffect::Render(HDC hdc)
 	int iCount = 0;
 	bool bSkip = true;
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 5;)
 	{
 		if (m_iPrintDamage[i] == 0 && bSkip)
 		{
 			bSkip = true;
+			++i;
 		}
+
 		else
 		{
 			bSkip = false;
@@ -86,7 +88,7 @@ void CDamageEffect::Render(HDC hdc)
 			(int)m_tInfo.fCX,
 			(int)m_tInfo.fCY,
 			RGB(255, 255, 250));
-
+		++i;
 		++iCount;
 		}
 	}

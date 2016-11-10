@@ -370,8 +370,10 @@ void CScene::LoadBmp(void)
 	m_BitMap["Beyond2_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond2_EFFECT.bmp");
 	m_BitMap["Beyond3_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Beyond3_EFFECT.bmp");
 
-	m_BitMap["Boss_Fire"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Fire.bmp");
 	m_BitMap["Boss_Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Back.bmp");
+	m_BitMap["Boss_Skill"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Skill.bmp");
+	m_BitMap["Boss_Skill2"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Skill2.bmp");
+	m_BitMap["Boss_Skill3"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Skill3.bmp");
 	m_BitMap["Intensity_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Intensity_EFFECT.bmp");
 	m_BitMap["Fire_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Fire_EFFECT.bmp");
 

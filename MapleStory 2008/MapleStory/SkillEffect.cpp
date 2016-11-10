@@ -91,6 +91,24 @@ void CSkillEffect::Initialize(void)
 		m_tInfo = INFO(0, 0, 154.f, 152.f);
 		m_tSprite = SPRITE(0, 6, 0, 80);
 	}
+
+	if (m_strKey == "Boss_Skill")
+	{
+		m_tInfo = INFO(0, 0, 103.f, 103.f);
+		m_tSprite = SPRITE(0, 16, 0, 80);
+	}
+
+	if (m_strKey == "Boss_Skill2")
+	{
+		m_tInfo = INFO(0, 0, 220.f, 195.f);
+		m_tSprite = SPRITE(0, 6, 0, 80);
+	}
+
+	if (m_strKey == "Boss_Skill3")
+	{
+		m_tInfo = INFO(0, 0, 300.f, 271.f);
+		m_tSprite = SPRITE(0, 12, 0, 80);
+	}
 }
 void CSkillEffect::Progress(DWORD _delta)
 {

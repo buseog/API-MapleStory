@@ -133,7 +133,7 @@ void CQuickSlot::UIPicking(void)
 	{
 		if(PtInRect(&m_vecSlot[i]->GetRect(), GetMouse()))
 		{
-			if (GetAsyncKeyState(VK_LBUTTON))
+			if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 			{
 				if (m_pPick)
 				{
@@ -141,6 +141,18 @@ void CQuickSlot::UIPicking(void)
 					m_vecSlot[i] = new CIcon(*m_pPick);
 					((CSkillPanel*)m_pPanel)->SetPickIcon();
 				}
+			}
+
+			if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+			{
+				::Safe_Delete(m_vecSlot[i]);
+				::Safe_Delete(m_vecCool[i]);
+				m_vecSlot[i] = new CIcon(IC_SKILL, "Empty");
+				m_vecSlot[i]->Initialize();
+
+				m_vecCool[i] = new CIcon(IC_SKILL, "Empty");
+				m_vecCool[i]->Initialize();
+				m_fCoolTime[i] = 0.f;
 			}
 		}
 	}

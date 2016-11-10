@@ -49,7 +49,15 @@ void CSceneMgr::SetScene(SCENEID eScene)
 		break;
 
 	case SC_LOBBY:
-		m_pScene = new CLobby;
+		if (!m_pSaveScene[eScene])
+		{
+			m_pScene = new CLobby;
+			m_pSaveScene[eScene] = m_pScene;
+		}
+		else
+		{
+			m_pScene = m_pSaveScene[SC_LOBBY];
+		}
 		break;
 
 	case SC_CREATE:
@@ -187,7 +195,6 @@ void CSceneMgr::Release(void)
 {
 	for (int i = 0; i < SC_END; ++i)
 	{
-		if(m_pSaveScene[i])
-			::Safe_Delete(m_pSaveScene[i]);
+		::Safe_Delete(m_pSaveScene[i]);
 	}
 }

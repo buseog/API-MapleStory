@@ -27,14 +27,14 @@ void CPlayer::Initialize(void)
 	if (m_strKey == "Player_LEFT")
 	{
 		m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 70.f, 90.f);
-		m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 4.f, 1000);
+		m_tStat = STAT(20000.f, 20000.f, 500.f, 100.f, 1, 0.f, 4.f, 1000);
 		m_tSprite = SPRITE(0, 5, 0, 80);
 	}
 
 	if (m_strKey == "Archer_LEFT")
 	{
 		m_tInfo = INFO(WINCX / 2.f, WINCY / 2.f, 50.f, 75.f);
-		m_tStat = STAT(1000.f, 1000.f, 450.f, 0.f, 1, 0.f, 4.f, 1000);
+		m_tStat = STAT(20000.f, 20000.f, 500.f, 100.f, 1, 0.f, 4.f, 1000);
 		m_tSprite = SPRITE(0, 5, 0, 80);
 	}
 

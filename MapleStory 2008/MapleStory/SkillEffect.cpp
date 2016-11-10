@@ -7,6 +7,7 @@ CSkillEffect::CSkillEffect(void)
 
 CSkillEffect::~CSkillEffect(void)
 {
+	Release();
 }
 
 void CSkillEffect::Initialize(void)
@@ -32,7 +33,7 @@ void CSkillEffect::Initialize(void)
 
 	if (m_strKey == "Typhoon_EFFECT")
 	{
-		m_tInfo = INFO(0, 0, 130.f, 130.f);
+		m_tInfo = INFO(0, 0, 130.f, 110.f);
 		m_tSprite = SPRITE(0, 7, 0, 80);
 	}
 
@@ -77,6 +78,12 @@ void CSkillEffect::Initialize(void)
 		m_tInfo = INFO(0, 0, 154.f, 152.f);
 		m_tStat.fAttack = 600.f;
 		m_tSprite = SPRITE(0, 6, 0, 80);
+	}
+
+	if (m_strKey == "Intensity_EFFECT")
+	{
+		m_tInfo = INFO(0, 0, 178.f, 244.f);
+		m_tSprite = SPRITE(0, 17, 0, 80);
 	}
 }
 void CSkillEffect::Progress(DWORD _delta)

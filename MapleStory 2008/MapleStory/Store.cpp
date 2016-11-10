@@ -90,6 +90,7 @@ void	CStore::Release(void)
 	}
 	m_vecItemList.clear();
 
+	m_pInventory = NULL;
 	::Safe_Delete(m_pCloseButton);
 }
 
@@ -112,7 +113,6 @@ void CStore::UIPicking(void)
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
 			m_bOnOff = false;
-			return;
 		}
 	}
 	
@@ -142,7 +142,6 @@ void CStore::UIPicking(void)
 						((CInventory*)m_pInventory)->AddItem(pBuyItem);
 					}
 				}
-				return;
 			}
 		}
 	}

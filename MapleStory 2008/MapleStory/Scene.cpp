@@ -6,6 +6,7 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include "Potion.h"
+#include "Intensity.h"
 #include "CollisionMgr.h"
 
 
@@ -40,21 +41,22 @@ void CScene::KeyInput(void)
 
 	if (m_dwKey & KEY_F6)
 	{
-		CItem*	pWeapon = new CWeapon(L"Weapon3", 10000, 1, 1, IT_WEAPON);
+		CItem*	pWeapon = new CWeapon(L"Weapon3", 10000, 1, 100000, IT_WEAPON);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pWeapon);
-		CItem*	pArmor = new CArmor(L"Armor2", 500, 1, 1, IT_ARMOR);
+		CItem*	pArmor = new CArmor(L"Armor2", 500, 1, 100000, IT_ARMOR);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pArmor);
 	}
 
 	if (m_dwKey & KEY_F7)
 	{
-		CItem*	pPotion = new CPotion(L"HPPotion", 1000, 1, 1, IT_POTION);
+		CItem*	pPotion = new CPotion(L"HPPotion", 1000, 1, 100, IT_POTION);
 		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pPotion);
 	}
 
 	if (m_dwKey & KEY_F8)
 	{
-
+		CItem*	pIntensity = new CIntensity(L"Intensity", rand() % 700 + 200, 1, 1, IT_INTENSITY);
+		((CInventory*)m_vecUI[UI_INVENTORY].back())->AddItem(pIntensity);
 	}
 
 	if (m_dwKey & KEY_I)	// 인벤토리
@@ -351,7 +353,6 @@ void CScene::LoadBmp(void)
 	m_BitMap["CoupleMushRoom_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/CoupleMushRoom_LEFT.bmp");
 	m_BitMap["CoupleMushRoom_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/CoupleMushRoom_RIGHT.bmp");
 
-	//m_BitMap["Boss"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss.bmp");
 	m_BitMap["Boss_LEFT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss_LEFT.bmp");
 	m_BitMap["Boss_RIGHT"] = (new CBitBmp)->LoadBmp(L"../Texture/Monster/Boss_RIGHT.bmp");
 
@@ -367,6 +368,7 @@ void CScene::LoadBmp(void)
 
 	m_BitMap["Boss_Fire"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Fire.bmp");
 	m_BitMap["Boss_Back"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Back.bmp");
+	m_BitMap["Intensity_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Intensity_EFFECT.bmp");
 
 
 
@@ -390,6 +392,7 @@ void CScene::LoadBmp(void)
 
 	m_BitMap["DragonStone"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/DragonStone.bmp");
 	m_BitMap["FreePass"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/FreePass.bmp");
+	m_BitMap["Intensity"] = (new CBitBmp)->LoadBmp(L"../Texture/Item/Intensity.bmp");
 
 }
 
@@ -400,24 +403,11 @@ void CScene::SetEffect(CParent*	_Effect)
 
 void CScene::ParentClear(void)
 {
-	for (int i = 0; i < PAR_END; ++i)
+	for (size_t i = 0; i < m_vecParent[PAR_MONSTER].size(); ++i)
 	{
-		if (i != PAR_PLAYER)
-		{
-			for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
-			{
-				::Safe_Delete(*iter);
-				iter = m_vecParent[i].erase(iter);
-
-				if (iter == m_vecParent[i].end())
-					break;
-
-				else
-					++iter;
-			}
-			m_vecParent[i].clear();
-		}
+		::Safe_Delete(m_vecParent[PAR_MONSTER][i]);		
 	}
+	m_vecParent[PAR_MONSTER].clear();
 }
 
 CParent* CScene::GetPlayer(void)

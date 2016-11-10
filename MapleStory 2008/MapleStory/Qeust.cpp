@@ -16,6 +16,7 @@ CQuest::CQuest(string _strKey)
 
 CQuest::~CQuest(void)
 {
+	Release();
 }
 
 
@@ -69,7 +70,7 @@ void CQuest::Render(HDC hdc)
 
 void CQuest::Release(void)
 {
-	::Safe_Delete(m_pCloseButton);
+	m_pInventory = NULL;
 }
 
 void CQuest::UIPicking(void)

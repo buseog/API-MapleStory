@@ -11,6 +11,7 @@ CItem::CItem(wstring _strName, int _iOption, int _iCount, int _iPrice, int _iTyp
 :m_tItem(_strName, _iOption, _iCount, _iPrice, _iType)
 ,m_DrawId(0)
 ,m_DropId(0)
+,m_iIntensity(0)
 {
 
 }
@@ -28,6 +29,7 @@ CItem::CItem(const CItem &_Item)
 
 	m_DrawId = _Item.m_DrawId;
 	m_DropId = 0;
+	m_iIntensity = 0;
 }
 
 CItem::~CItem(void)
@@ -82,4 +84,10 @@ void CItem::SetDrawID(int _Draw)
 void CItem::SetDropID(int _Draw)
 {
 	m_DropId = _Draw;
+}
+
+void CItem::SetIntensity(int _iOption)
+{
+	m_tItem.iOption += _iOption;
+	++m_iIntensity;
 }

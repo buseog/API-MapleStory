@@ -23,8 +23,6 @@ CVillage::CVillage(void)
 	m_pQuestNPC = new CNPC("Quest_Npc");
 	m_pQuestNPC->Initialize();
 
-	//m_vecParent[PAR_PLAYER].push_back(CFactory<CPlayer>::CreateParent(50.0f, 300.f, "Player_LEFT"));
-
 	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(WINCX / 2.f, WINCY / 2.f, "UI"));
 	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(250, 560, "HPBar"));
 	m_vecUI[UI_MAIN].push_back(CFactory<CUI>::CreateUI(420, 560, "MPBar"));
@@ -50,8 +48,6 @@ CVillage::CVillage(void)
 
 	CDevice::GetInstance()->SoundStop(0);
 	CDevice::GetInstance()->SoundPlay(1, 1);
-
-
 }
 
 CVillage::~CVillage(void)
@@ -82,6 +78,12 @@ void CVillage::Progress(DWORD _delta)
 	if(GetAsyncKeyState(VK_SPACE))
 		CDevice::GetInstance()->SoundStop(1);
 
+	if (m_pStoreNPC)
+		m_pStoreNPC->Progress(_delta);
+
+	if (m_pQuestNPC)
+		m_pQuestNPC->Progress(_delta);
+
 	for (size_t i = 0; i < PAR_END; ++i)
 	{
 		for (vector<CParent*>::iterator iter = m_vecParent[i].begin(); iter != m_vecParent[i].end();)
@@ -106,12 +108,6 @@ void CVillage::Progress(DWORD _delta)
 		}
 	}
 
-	if (m_pStoreNPC)
-		m_pStoreNPC->Progress(_delta);
-
-	if (m_pQuestNPC)
-		m_pQuestNPC->Progress(_delta);
-
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Progress(_delta);
@@ -121,12 +117,11 @@ void CVillage::Progress(DWORD _delta)
 
 	for (int i = 0; i < UI_END; ++i)
 	{
-		if (m_vecUI[i].back()->GetOnOff())
+		for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
 		{
-			for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
+			if ((*iter)->GetOnOff())
 			{
 				(*iter)->Progress(_delta);
-
 				CRenderMgr::GetInstance()->AddUI(*iter);
 			}
 		}
@@ -169,11 +164,16 @@ void CVillage::Render(HDC hdc)
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
 
+	if (m_pStoreNPC)
+		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
+
+	if (m_pQuestNPC)
+		m_pQuestNPC->Render(m_BitMap["Back"]->GetMemdc());
+
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
-
 
 	for (int i = 0; i < PAR_END; ++i)
 	{
@@ -183,20 +183,12 @@ void CVillage::Render(HDC hdc)
 		}
 	}
 
-	
-	if (m_pStoreNPC)
-		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
-
-	if (m_pQuestNPC)
-		m_pQuestNPC->Render(m_BitMap["Back"]->GetMemdc());
-
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
 		m_vecItem[i]->Render(m_BitMap["Back"]->GetMemdc());
 	}
 
 	CRenderMgr::GetInstance()->RenderUI(m_BitMap["Back"]->GetMemdc());
-
 
 	if (m_pLoading)
 		m_pLoading->Render(m_BitMap["Back"]->GetMemdc());
@@ -255,17 +247,6 @@ void CVillage::Release(void)
 		::Safe_Delete(m_vecPortal[i]);
 	}
 	m_vecPortal.clear();
-
-	::Safe_Delete(m_pStoreNPC);
-
-	for (size_t i = 0; i < UI_END; ++i)
-	{
-		for (vector<CUI*>::iterator iter = m_vecUI[i].begin(); iter != m_vecUI[i].end(); ++iter)
-		{
-			::Safe_Delete(*iter);
-		}
-		m_vecUI[i].clear();
-	}
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{

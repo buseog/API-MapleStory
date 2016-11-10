@@ -91,10 +91,20 @@ void CWeapon::Render(HDC hdc)
 		TCHAR szOption[128] = L"";
 		TCHAR szPrice[128] = L"";
 
-		wsprintf(szName, L"이름 : %s", m_tItem.strName.c_str());
+		if (!m_iIntensity)
+		{
+			wsprintf(szName, L"이름 : %s", m_tItem.strName.c_str());
+			TextOut(hdc,
+				int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
+				szName, lstrlen(szName));
+		}
+		else
+		{
+		wsprintf(szName, L"이름 : %s +%d", m_tItem.strName.c_str(), m_iIntensity);
 					TextOut(hdc,
 						int(m_tInfo.fX + 30), int(m_tInfo.fY + 30),
 						szName, lstrlen(szName));
+		}
 
 		wsprintf(szOption, L"공격력 : %d", (int)m_tItem.iOption);
 					TextOut(hdc, 

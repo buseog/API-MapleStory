@@ -4,6 +4,10 @@
 #include "Factory.h"
 #include "ItemEmpty.h"
 #include "Potion.h"
+#include "Intensity.h"
+#include "Scene.h"
+#include "SkillEffect.h"
+#include "Player.h"
 
 CInventory::CInventory(void)
 {
@@ -104,6 +108,12 @@ void CInventory::Release(void)
 	m_vecItem.clear();
 
 	::Safe_Delete(m_pCloseButton);
+
+	for (map<string, CBitBmp*>::iterator iter = m_pBitMap->begin(); iter != m_pBitMap->end(); ++iter)
+	{
+		::Safe_Delete(iter->second);
+	}
+	m_pBitMap->clear();
 }
 
 void CInventory::AddItem(CItem*	_pItem)
@@ -112,11 +122,27 @@ void CInventory::AddItem(CItem*	_pItem)
 	{
 		for (size_t i = 0; i < m_vecItem.size();)
 		{
-			if (m_vecItem[i]->GetItem().iType == IT_POTION && m_vecItem[i]->GetItem().iCount < 10)
+			if (m_vecItem[i]->GetItem().iType == IT_POTION)
 			{
-				((CPotion*)m_vecItem[i])->SetCount(_pItem->GetItem().iCount);
-				::Safe_Delete(_pItem);
-				return;
+				if (m_vecItem[i]->GetItem().iCount + _pItem->GetItem().iCount <= 10)
+				{
+					((CPotion*)m_vecItem[i])->SetCount(_pItem->GetItem().iCount);
+					::Safe_Delete(_pItem);
+					return;
+				}
+				else if (m_vecItem[i]->GetItem().iCount + _pItem->GetItem().iCount > 10)
+				{
+					int Max = 10 - m_vecItem[i]->GetItem().iCount;
+
+					if (m_vecItem[i]->GetItem().iCount < 10)
+					{
+						((CPotion*)m_vecItem[i])->SetCount(Max);
+						((CPotion*)_pItem)->SetCount(-Max);
+						break;
+					}
+					else
+						++i;
+				}
 			}
 			else
 				++i;
@@ -220,7 +246,7 @@ void CInventory::UIPicking(void)
 							m_vecItem[i] = new CItemEmpty();
 						}
 					}
-					else
+					else if (m_vecItem[i]->GetItem().iType == IT_WEAPON || m_vecItem[i]->GetItem().iType == IT_ARMOR)
 					{
 						m_ReturnItem = m_vecItem[i];
 						m_vecItem[i]->SetDrawID(0);
@@ -235,12 +261,36 @@ void CInventory::UIPicking(void)
 						m_pPick = m_vecItem[i];
 						m_vecItem[i] = new CItemEmpty();
 						m_iSwap = i;
+						m_pPick->SetDrawID(0);
 					}
 					else
 					{
-						m_vecItem[m_iSwap] = m_vecItem[i];
-						m_vecItem[i] = m_pPick;
-						m_pPick = NULL;
+						if (m_pPick->GetItem().iType == IT_INTENSITY && 
+							(m_vecItem[i]->GetItem().iType == IT_WEAPON ||
+							m_vecItem[i]->GetItem().iType == IT_ARMOR))
+						{
+							CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(m_pPlayer->GetInfo().fX, m_pPlayer->GetInfo().fY - 30, "Intensity_EFFECT"));
+
+							((CIntensity*)m_pPick)->IntensityItem(m_vecItem[i]);
+							::Safe_Delete(m_pPick);
+							m_pPick = NULL;
+						}
+						else
+						{
+							if (m_vecItem[i]->GetItem().iType == IT_EMPTY)
+							{
+								::Safe_Delete(m_vecItem[i]);
+								m_vecItem[i] = m_pPick;
+								m_pPick = NULL;
+							}
+							else
+							{
+								::Safe_Delete(m_vecItem[m_iSwap]);
+								m_vecItem[m_iSwap] = m_vecItem[i];
+								m_vecItem[i] = m_pPick;
+								m_pPick = NULL;
+							}
+						}
 					}
 				}
 			}
@@ -268,7 +318,7 @@ void CInventory::SellStore(void)
 	
 	ItemPos();
 
-	DWORD _delta = 0.f;
+	DWORD _delta = 0;
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{
@@ -301,6 +351,7 @@ void CInventory::SellStore(void)
 bool CInventory::ScanItem(int _iQuest)
 {
 	int iCount = 0;
+	int iPos[5] = {};
 
 	if (_iQuest == 1)
 	{
@@ -310,26 +361,32 @@ bool CInventory::ScanItem(int _iQuest)
 			{
 				if (m_vecItem[i]->GetItem().strName == L"DragonStone")
 				{
+					iPos[iCount] = i;
 					++iCount;
 				}
 			}
+			
+			if (iCount >= 5)
+			{
+				for (int j = 0; j < 5; ++j)
+				{
+					::Safe_Delete(m_vecItem[iPos[j]]);
+					m_vecItem[iPos[j]] = new CItemEmpty();
+				}
+				return true;
+			}
 		}
-
-		if (iCount >= 5)
-			return true;
 	}
+
 	else if (_iQuest == 2)
 	{
 		for (int i = 0; i < INVENSIZE; ++i)
 		{
 			if (m_vecItem[i]->GetItem().strName == L"FreePass")
 			{
-				++iCount;
+				return true;
 			}
 		}
-
-		if (iCount >= 1)
-			return true;
 	}
 
 	return false;

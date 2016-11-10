@@ -208,6 +208,12 @@ void CStage1::Release(void)
 	}
 	m_vecItem.clear();
 
+	for (size_t i = 0; i < m_vecParent[PAR_MONSTER].size(); ++i)
+	{
+		::Safe_Delete(m_vecParent[PAR_MONSTER][i]);		
+	}
+	m_vecParent[PAR_MONSTER].clear();
+
 	::Safe_Delete(m_pLoading);
 }
 
@@ -238,7 +244,7 @@ void CStage1::Regen(void)
 			break;
 
 		case 5:
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 700), 255.f, "GreenMushRoom_RIGHT"));
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 600 + 700), 255.f, "GreenMushRoom_RIGHT"));
 			break;
 		}
 	}

@@ -109,6 +109,7 @@ void CSkillPanel::Release(void)
 	}
 
 	::Safe_Delete(m_pCloseButton);
+	::Safe_Delete(m_pScrollbar);
 
 	if (m_pPick)
 		::Safe_Delete(m_pPick);

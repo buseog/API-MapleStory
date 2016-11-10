@@ -8,6 +8,7 @@ CDamageEffect::CDamageEffect(void)
 
 CDamageEffect::~CDamageEffect(void)
 {
+	Release();
 }
 
 

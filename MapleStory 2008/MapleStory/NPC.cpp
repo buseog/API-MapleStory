@@ -36,7 +36,7 @@ void CNPC::Initialize(void)
 	{
 		m_pUI = CFactory<CQuest>::CreateUI(400.f, 250.f, "Quest");
 		m_pBit = (new CBitBmp)->LoadBmp(L"../Texture/Quest_Npc.bmp");
-		m_tInfo = INFO(750.f, 550.f, 69.f, 89.f);
+		m_tInfo = INFO(950.f, 550.f, 69.f, 89.f);
 		m_tSprite = SPRITE(0, 30, 0, 80);
 	}
 	
@@ -44,7 +44,7 @@ void CNPC::Initialize(void)
 
 void CNPC::Progress(DWORD _delta)
 {
-	if (m_dwTime + 30 <= GetTickCount())
+	if (m_dwTime + 50 <= GetTickCount())
 	{
 		UIPicking();
 		m_dwTime = GetTickCount();
@@ -137,6 +137,10 @@ void CNPC::UIPicking(void)
 		{
 			m_bDrag = false;
 		}
+	}
+	else
+	{
+		m_bDrag = false;
 	}
 
 	

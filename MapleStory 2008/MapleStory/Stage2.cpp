@@ -205,12 +205,19 @@ void CStage2::Release(void)
 	}
 	m_vecItem.clear();
 
+	for (size_t i = 0; i < m_vecParent[PAR_MONSTER].size(); ++i)
+	{
+		::Safe_Delete(m_vecParent[PAR_MONSTER][i]);		
+	}
+	m_vecParent[PAR_MONSTER].clear();
+
+
 	::Safe_Delete(m_pLoading);
 }
 
 void CStage2::Regen(void)
 {
-	int Regen = 20 - m_vecParent[PAR_MONSTER].size();
+	int Regen = 15 - m_vecParent[PAR_MONSTER].size();
 
 	for (int i = 0; i < Regen; ++i)
 	{

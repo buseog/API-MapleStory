@@ -23,6 +23,7 @@ CUI::CUI(string _strKey)
 
 CUI::~CUI(void)
 {
+	Release();
 }
 
 void CUI::Initialize(void)

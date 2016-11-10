@@ -181,15 +181,17 @@ void	CCreate::UIPicking(DWORD _delta)
 {
 	int iSelect = 0;
 
-	RECT rc = {m_tInfo[0].fX - m_tInfo[0].fCX / 2.f,
-		m_tInfo[0].fY - m_tInfo[0].fCY / 2.f,
-		m_tInfo[0].fX + m_tInfo[0].fCX / 2.f,
-		m_tInfo[0].fY + m_tInfo[0].fCY / 2.f};
+	RECT rc = {
+		long(m_tInfo[0].fX - m_tInfo[0].fCX / 2.f),
+		long(m_tInfo[0].fY - m_tInfo[0].fCY / 2.f),
+		long(m_tInfo[0].fX + m_tInfo[0].fCX / 2.f),
+		long(m_tInfo[0].fY + m_tInfo[0].fCY / 2.f)};
 
-	RECT rc2 = {m_tInfo[1].fX - m_tInfo[1].fCX / 2.f,
-		m_tInfo[1].fY - m_tInfo[1].fCY / 2.f,
-		m_tInfo[1].fX + m_tInfo[1].fCX / 2.f,
-		m_tInfo[1].fY + m_tInfo[1].fCY / 2.f};
+	RECT rc2 = {
+		long(m_tInfo[1].fX - m_tInfo[1].fCX / 2.f),
+		long(m_tInfo[1].fY - m_tInfo[1].fCY / 2.f),
+		long(m_tInfo[1].fX + m_tInfo[1].fCX / 2.f),
+		long(m_tInfo[1].fY + m_tInfo[1].fCY / 2.f)};
 
 	if (PtInRect(&rc, GetMouse()))
 	{

@@ -9,6 +9,7 @@ protected:
 	ITEM						m_tItem;
 	DWORD						m_DrawId;
 	DWORD						m_DropId;
+	int							m_iIntensity;
 
 	static	map<string, CBitBmp*>*		m_pBitMap;
 
@@ -20,6 +21,7 @@ public:
 	void	SetPos(float _fX, float _fY);
 	void	SetDrawID(int _Draw);
 	void	SetDropID(int _Draw);
+	void	SetIntensity(int _iOption);
 	static void SetBitMap(map<string, CBitBmp*>* _pBitMap);
 
 public:

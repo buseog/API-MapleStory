@@ -18,28 +18,28 @@ void CMonster::Initialize(void)
 	if (m_strKey == "GreenMushRoom_LEFT" || m_strKey == "GreenMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 60.f, 60.f);
-		m_tStat = STAT(5000.f, 5000.f, 500.f, 0.f, 1, 50.f, 2.f, 500);
+		m_tStat = STAT(10000.f, 10000.f, 500.f, 0.f, 1, 50.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 4, 1, 80);
 	}
 
 	if (m_strKey == "CoupleMushRoom_LEFT" || m_strKey == "CoupleMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 170.f, 110.f);
-		m_tStat = STAT(20000.f, 20000.f, 500.f, 0.f, 1, 500.f, 2.f, 500);
+		m_tStat = STAT(40000.f, 40000.f, 1500.f, 0.f, 1, 500.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 8, 0, 80);
 	}
 
 	if (m_strKey == "BlueMushRoom_LEFT" || m_strKey == "BlueMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 70.f, 70.f);
-		m_tStat = STAT(5000.f, 5000.f, 500.f, 0.f, 1, 150.f, 2.f, 500);
+		m_tStat = STAT(10000.f, 10000.f, 1000.f, 0.f, 1, 150.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 3, 3, 80);
 	}
 
 	if (m_strKey == "PurpleMushRoom_LEFT" || m_strKey == "PurpleMushRoom_RIGHT")
 	{
 		m_tInfo = INFO(0, 0, 80.f, 80.f);
-		m_tStat = STAT(1000.f, 1000.f, 500.f, 0.f, 1, 300.f, 2.f, 500);
+		m_tStat = STAT(15000.f, 15000.f, 1000.f, 100.f, 1, 300.f, 2.f, 500);
 		m_tSprite = SPRITE(0, 4, 1, 80);
 	}
 

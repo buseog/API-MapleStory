@@ -40,7 +40,10 @@ void CStage2::Initialize(void)
 
 	m_pLoading = new CLoading();
 
-	CDevice::GetInstance()->SoundStop(2);
+	for (int i = 0; i < 9; ++i)
+	{
+		CDevice::GetInstance()->SoundStop(i);
+	}
 	CDevice::GetInstance()->SoundPlay(3, 1);
 }
 

@@ -151,7 +151,12 @@ void CQuest::QuestEnding(void)
 
 	CloseHandle(hFile);
 
-	((CPlayer*)m_pPlayer)->SetQuest(3);
+	if (((CInventory*)m_pInventory)->ScanItem(2))
+	{
+	}
+	else
+		((CPlayer*)m_pPlayer)->SetQuest(3);
+
 }
 
 void CQuest::QuestBye(void)

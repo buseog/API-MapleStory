@@ -376,6 +376,7 @@ void CScene::LoadBmp(void)
 	m_BitMap["Boss_Skill3"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Boss_Skill3.bmp");
 	m_BitMap["Intensity_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Intensity_EFFECT.bmp");
 	m_BitMap["Fire_EFFECT"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/Fire_EFFECT.bmp");
+	m_BitMap["MissionClear"] = (new CBitBmp)->LoadBmp(L"../Texture/Skill/MissionClear.bmp");
 
 
 

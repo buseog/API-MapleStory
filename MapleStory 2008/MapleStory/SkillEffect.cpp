@@ -109,6 +109,12 @@ void CSkillEffect::Initialize(void)
 		m_tInfo = INFO(0, 0, 300.f, 271.f);
 		m_tSprite = SPRITE(0, 12, 0, 80);
 	}
+
+	if (m_strKey == "MissionClear")
+	{
+		m_tInfo = INFO(0, 0, 87.f, 113.f);
+		m_tSprite = SPRITE(0, 9, 0, 80);
+	}
 }
 void CSkillEffect::Progress(DWORD _delta)
 {

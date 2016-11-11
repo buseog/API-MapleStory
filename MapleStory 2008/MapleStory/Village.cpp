@@ -46,8 +46,6 @@ CVillage::CVillage(void)
 	((CQuickSlot*)m_vecUI[UI_QUICKSLOT].back())->SetPanel(m_vecUI[UI_SKILLPANEL].back());
 	((CPlayer*)m_vecParent[PAR_PLAYER].back())->SetQuickSlot(m_vecUI[UI_QUICKSLOT].back());
 
-	CDevice::GetInstance()->SoundStop(0);
-	CDevice::GetInstance()->SoundPlay(1, 1);
 }
 
 CVillage::~CVillage(void)
@@ -67,6 +65,12 @@ void CVillage::Initialize(void)
 	CParent::SetBitMap(&m_BitMap);
 	CUI::SetBitMap(&m_BitMap);
 	CItem::SetBitMap(&m_BitMap);
+
+	for (int i = 0; i < 9; ++i)
+	{
+		CDevice::GetInstance()->SoundStop(i);
+	}
+	CDevice::GetInstance()->SoundPlay(1, 1);
 
 }
 

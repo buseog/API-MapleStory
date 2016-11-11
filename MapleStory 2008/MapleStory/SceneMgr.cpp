@@ -149,6 +149,8 @@ void CSceneMgr::SetScene(SCENEID eScene)
 				m_pScene = m_pSaveScene[SC_BOSS];
 			}
 		}
+		else
+			m_pScene = m_pSaveScene[SC_VILLAGE];
 
 		// Æ÷Å» ÀÌµ¿ºÎ
 		if (m_eStage == SC_STAGE2)
@@ -165,7 +167,6 @@ void CSceneMgr::SetScene(SCENEID eScene)
 				m_pScene->GetPlayer()->SetPos(50.f, 300.f);
 				((CPlayer*)m_pScene->GetPlayer())->SetScroll(0.f, -190.f);
 				((CPlayer*)m_pScene->GetPlayer())->SetOffset(400.f, 490.f);
-				m_pScene = m_pSaveScene[SC_VILLAGE];
 			}
 		}
 		break;

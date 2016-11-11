@@ -41,7 +41,10 @@ void CStage1::Initialize(void)
 	m_pLoading = new CLoading();
 
 
-	CDevice::GetInstance()->SoundStop(1);
+	for (int i = 0; i < 9; ++i)
+	{
+		CDevice::GetInstance()->SoundStop(i);
+	}
 	CDevice::GetInstance()->SoundPlay(2, 1);
 }
 
@@ -232,7 +235,7 @@ void CStage1::Regen(void)
 			break;
 
 		case 2:
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 500), 980.f, "GreenMushRoom_RIGHT"));
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 700), 980.f, "GreenMushRoom_RIGHT"));
 			break;
 
 		case 3:
@@ -240,7 +243,7 @@ void CStage1::Regen(void)
 			break;
 
 		case 4:
-			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 700 + 700), 500.f, "BlueMushRoom_RIGHT"));
+			m_vecParent[PAR_MONSTER].push_back(CFactory<CMonster>::CreateParent(float(rand() % 600 + 700), 500.f, "BlueMushRoom_RIGHT"));
 			break;
 
 		case 5:

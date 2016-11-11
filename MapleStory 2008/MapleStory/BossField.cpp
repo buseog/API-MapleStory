@@ -37,7 +37,10 @@ void CBossField::Initialize(void)
 
 	m_pLoading = new CLoading();
 
-	CDevice::GetInstance()->SoundStop(3);
+	for (int i = 0; i < 9; ++i)
+	{
+		CDevice::GetInstance()->SoundStop(i);
+	}
 	CDevice::GetInstance()->SoundPlay(4, 1);
 }
 

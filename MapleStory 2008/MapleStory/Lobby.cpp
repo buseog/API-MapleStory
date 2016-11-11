@@ -51,6 +51,7 @@ void CLobby::Initialize(void)
 	CDevice::GetInstance()->LoadWave(L"../Sound/TyphoonSound.wav");// 7
 	CDevice::GetInstance()->LoadWave(L"../Sound/BeyondSound.wav");// 8
 	CDevice::GetInstance()->LoadWave(L"../Sound/TyphoonSound2.wav");// 9
+	CDevice::GetInstance()->LoadWave(L"../Sound/Hit.wav");// 10
 
 	CDevice::GetInstance()->SoundPlay(0, 1);
 
@@ -110,12 +111,6 @@ void CLobby::Progress(DWORD _delta)
 
 			switch (iSelect)
 			{
-				case SC_CREATE:
-				{
-					CSceneMgr::GetInstance()->SetScene(SC_CREATE);
-				}
-				break;
-
 				case SC_VILLAGE:
 				{
 					if (m_iPick == 0)
@@ -138,16 +133,6 @@ void CLobby::Progress(DWORD _delta)
 		{
 			m_vecButton[i]->Progress(_delta);
 			iSelect = ((CMyButton*)m_vecButton[i])->GetSelect();
-
-			switch (iSelect)
-			{
-				case SC_CREATE:
-				{
-					iSelect = 0;
-					CSceneMgr::GetInstance()->SetScene(SC_CREATE);
-				}
-				break;
-			}
 		}
 	}
 }

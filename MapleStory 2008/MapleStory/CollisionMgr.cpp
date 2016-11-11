@@ -162,6 +162,7 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 						if (IntersectRect(&rc, &(*_pSkill)[i]->GetRect(), &(*_pMonster)[j]->GetRect()))
 						{
 							(*_pMonster)[j]->SetState(ST_HIT);
+							CDevice::GetInstance()->SoundPlay(10, 0);
 
 							SkillDamage((*_pSkill)[i], (*_pMonster)[j]);
 							AddSkillEffect((*_pSkill)[i], (*_pMonster)[j]);
@@ -188,47 +189,71 @@ void CCollisionMgr::CollisionBoss(CParent* _pBoss, CParent* _pPlayer)
 {
 	int iRandom = rand() % 3 + 1;
 
-	if (((_pBoss->GetInfo().fX - _pPlayer->GetInfo().fX) >= 450.f) && (_pBoss->GetState() != ST_ATTACK))
-	{
-		_pBoss->SetState(ST_ATTACK);
-	}
+	if (_pBoss->GetInfo().fX > _pPlayer->GetInfo().fX)
+		_pBoss->SetStrKey("Boss_LEFT");
+	else
+		_pBoss->SetStrKey("Boss_RIGHT");
 
-	if (_pBoss->GetState() == ST_ATTACK)
+	if (_pBoss->GetState() != ST_DEATH)
 	{
-		CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Back"));
-		_pPlayer->SetPos(_pPlayer->GetInfo().fX + 4.f, _pPlayer->GetInfo().fY);
-	}
-
-	if (_pBoss->GetSprite().iStart >= _pBoss->GetSprite().iLast - 1 && _pBoss->GetState() != ST_ATTACK2)
-	{
-		_pBoss->SetState(ST_ATTACK2);
-
-		switch (iRandom)
+		if (((_pBoss->GetInfo().fX - _pPlayer->GetInfo().fX) >= 350.f) && (_pBoss->GetState() != ST_ATTACK))
 		{
-		case 1:
-			_pPlayer->SetUnbeatable(true);
-			_pPlayer->SetDamage(_pBoss->GetStat().fAttack * (iRandom * 5));
-			CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Skill"));
-			CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY - 30, int(_pBoss->GetStat().fAttack), "HitEffect"));
-			break;
-		case 2:
-			_pPlayer->SetUnbeatable(true);
-			_pPlayer->SetDamage(_pBoss->GetStat().fAttack * (iRandom * 5));
-			CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Skill2"));
-			CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY - 30, int(_pBoss->GetStat().fAttack), "HitEffect"));
-			break;
-		case 3:
-			_pPlayer->SetUnbeatable(true);
-			_pPlayer->SetDamage(_pBoss->GetStat().fAttack * (iRandom * 5));
-			CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Skill3"));
-			CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY - 30, int(_pBoss->GetStat().fAttack), "HitEffect"));
-			break;
+			_pBoss->SetState(ST_ATTACK);
+			CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Back"));
+		}
+		else if (((_pBoss->GetInfo().fX - _pPlayer->GetInfo().fX) <= -350.f) && (_pBoss->GetState() != ST_ATTACK3))
+		{
+			_pBoss->SetState(ST_ATTACK3);
+			CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Back"));
+		}
+
+		if (_pBoss->GetState() == ST_ATTACK)
+		{
+			_pPlayer->SetState(ST_WALK);
+			_pPlayer->SetPos(_pPlayer->GetInfo().fX + 3.f, _pPlayer->GetInfo().fY);
+		}
+		if (_pBoss->GetState() == ST_ATTACK3)
+		{
+			_pPlayer->SetState(ST_WALK);
+			_pPlayer->SetPos(_pPlayer->GetInfo().fX - 3.f, _pPlayer->GetInfo().fY);
+		}
+
+		if (_pBoss->GetSprite().iStart >= _pBoss->GetSprite().iLast - 1 && _pBoss->GetState() != ST_ATTACK2)
+		{
+			_pBoss->SetState(ST_ATTACK2);
+
+			switch (iRandom)
+			{
+			case 1:
+				_pPlayer->SetUnbeatable(true);
+				_pPlayer->SetDamage(_pBoss->GetStat().fAttack * (iRandom * 5));
+				CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Skill"));
+				CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY - 30, int(_pBoss->GetStat().fAttack), "HitEffect"));
+				break;
+			case 2:
+				_pPlayer->SetUnbeatable(true);
+				_pPlayer->SetDamage(_pBoss->GetStat().fAttack * (iRandom * 5));
+				CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Skill2"));
+				CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY - 30, int(_pBoss->GetStat().fAttack), "HitEffect"));
+				break;
+			case 3:
+				_pPlayer->SetUnbeatable(true);
+				_pPlayer->SetDamage(_pBoss->GetStat().fAttack * (iRandom * 5));
+				CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY, "Boss_Skill3"));
+				CScene::SetEffect(CFactory<CDamageEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY - 30, int(_pBoss->GetStat().fAttack), "HitEffect"));
+				break;
+			}
 		}
 	}
 
 	if (_pBoss->GetStat().fHp <= 0)
 	{
-		_pBoss->SetState(ST_DEATH);
+		if (!_pBoss->GetDestroy())
+		{
+			_pBoss->SetState(ST_DEATH);
+			((CPlayer*)_pPlayer)->SetQuest(2);
+			CScene::SetEffect(CFactory<CSkillEffect>::CreateParent(_pPlayer->GetInfo().fX, _pPlayer->GetInfo().fY - 50, "MissionClear"));
+		}
 	}
 
 }

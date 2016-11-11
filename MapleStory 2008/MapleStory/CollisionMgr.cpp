@@ -150,10 +150,13 @@ float CCollisionMgr::CollisionSKill(vector<CParent*>* _pSkill, vector<CParent*>*
 
 	for (size_t i = 0; i < _pSkill->size(); ++i)
 	{
-		if (!((CSkill*)(*_pSkill)[i])->GetHit() && ((CSkill*)(*_pSkill)[i])->GetHitCount() > 0)
+		if (!((CSkill*)(*_pSkill)[i])->GetHit())
 		{
 			for (size_t j = 0; j < _pMonster->size(); ++j)
 			{
+				if (((CSkill*)(*_pSkill)[i])->GetHitCount() <= 0)
+					break;
+
 				if ((*_pMonster)[j]->GetState() != ST_DEATH)
 				{
 					if ((*_pSkill)[i]->GetInfo().fX >= (*_pMonster)[j]->GetInfo().fX - 300.f && (*_pSkill)[i]->GetInfo().fX <= (*_pMonster)[j]->GetInfo().fX + 200.f &&

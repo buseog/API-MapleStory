@@ -168,12 +168,6 @@ void CVillage::Render(HDC hdc)
 			m_BitMap[m_strKey]->GetMemdc(),
 			0, 0, SRCCOPY);
 
-	if (m_pStoreNPC)
-		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
-
-	if (m_pQuestNPC)
-		m_pQuestNPC->Render(m_BitMap["Back"]->GetMemdc());
-
 	for (size_t i = 0; i < m_vecPortal.size(); ++i)
 	{
 		m_vecPortal[i]->Render(m_BitMap["Back"]->GetMemdc());
@@ -186,6 +180,12 @@ void CVillage::Render(HDC hdc)
 			(*iter)->Render(m_BitMap["Back"]->GetMemdc());
 		}
 	}
+
+	if (m_pStoreNPC)
+		m_pStoreNPC->Render(m_BitMap["Back"]->GetMemdc());
+
+	if (m_pQuestNPC)
+		m_pQuestNPC->Render(m_BitMap["Back"]->GetMemdc());
 
 	for (size_t i = 0; i < m_vecItem.size(); ++i)
 	{

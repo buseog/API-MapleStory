@@ -66,7 +66,7 @@ void CPlayer::Progress(DWORD _delta)
 
 	if (m_tSprite.iStart >= m_tSprite.iLast)
 	{
- 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP) &&  (m_dwState != ST_HIT) && (m_dwState != ST_PROSTATTACK))
+ 		if ((m_dwState != ST_STAND) && (m_dwState != ST_PROSTRATE) && (m_dwState != ST_JUMP) && (m_dwState != ST_DOWNJUMP) && (m_dwState != ST_UP) &&  (m_dwState != ST_HIT) && (m_dwState != ST_PROSTATTACK))
 			m_dwState = ST_STAND;
 
 		m_tSprite.iStart = 0;
@@ -91,6 +91,7 @@ void CPlayer::Progress(DWORD _delta)
 		SetState(ST_PROSTATTACK, 2, 4, 200);
 		SetState(ST_PROSTRATE, 1, 5, 100);
 		SetState(ST_JUMP, 1, 6, 100);
+		SetState(ST_DOWNJUMP, 1, 6, 100);
 		SetState(ST_HIT, 3, 7, 50);
 		SetState(ST_UP, 1, 8, 100);
 	}
@@ -183,14 +184,14 @@ void CPlayer::KeyInput(DWORD _delta)
 
 		if (m_iTile == 2)
 		{
-			if (m_dwKey & KEY_ALT && m_dwState != ST_JUMP)
+			if (m_dwKey & KEY_ALT && m_dwState != ST_DOWNJUMP)
 			{
-				m_dwState = ST_JUMP;
-				m_tInfo.fY += 25.f;
+				m_dwState = ST_DOWNJUMP;
+				//m_tInfo.fY += 25.f;
 
 				if (m_bLand == true)
 				{
-					m_fJpower = 5.f;
+					m_fJpower = -5.f;
 					m_bLand = false;
 				}
 			}
@@ -202,7 +203,7 @@ void CPlayer::KeyInput(DWORD _delta)
 		m_dwState = ST_ATTACK;
 	}
 
-	if (m_dwKey & KEY_ALT && m_dwState != ST_UP)
+	if (m_dwKey & KEY_ALT && m_dwState != ST_UP && m_dwState != ST_DOWNJUMP)
 	{
 		m_dwState = ST_JUMP;
 
@@ -374,7 +375,7 @@ void CPlayer::Rotation(void)
 	{
 	}
 
-	if ((m_dwKey & KEY_DOWN) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP) && (m_dwState != ST_PROSTATTACK))
+	if ((m_dwKey & KEY_DOWN) && (m_dwState != ST_JUMP) && (m_dwState != ST_UP) && (m_dwState != ST_PROSTATTACK) && (m_dwState != ST_DOWNJUMP))
 	{
 		m_dwState = ST_PROSTRATE;
 	}

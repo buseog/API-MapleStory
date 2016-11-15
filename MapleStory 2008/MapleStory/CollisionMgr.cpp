@@ -49,7 +49,7 @@ void CCollisionMgr::CollisionPTile(vector<CParent*>* _pPlayer, vector<TILE*>* _p
 					break;
 
 				case 2:
-					if (pPlayer->GetInfo().fY <= (*_pTile)[i]->GetRect().bottom && pPlayer->GetJumpPower() > 0.f)
+					if (pPlayer->GetInfo().fY <= (*_pTile)[i]->GetRect().bottom && pPlayer->GetJumpPower() > 0.f && pPlayer->GetState() != ST_DOWNJUMP)
 					{
 						pPlayer->SetLand(true);
 						((CPlayer*)pPlayer)->SetTile((*_pTile)[i]->iOption);
